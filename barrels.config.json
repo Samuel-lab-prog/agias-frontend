@@ -7,10 +7,7 @@
 		"./src/core/stores",
 		"./src/core/pages",
 		"./src/features/auth/public",
-		"./src/features/interactions/public",
-		"./src/features/poems/public",
-		"./src/features/users/public",
-		"./src/features/friends/public"
+		"./src/features/users/public"
 	],
 	"delete": true,
 	"location": "top",

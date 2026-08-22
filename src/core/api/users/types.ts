@@ -1,21 +1,12 @@
-import type { PoemPreview } from '@Api/poems/types';
-
 export type UsersSearchParams = {
 	limit?: number;
 	cursor?: string;
-	orderBy: 'nickname' | 'createdAt' | 'id';
-	orderDirection: 'asc' | 'desc';
-	searchNickname?: string;
-};
-
-export type PublicUsersSearchParams = {
-	limit?: number;
-	searchNickname?: string;
-};
-
-export type UsersPreviewParams = {
-	limit?: number;
-	searchNickname?: string;
+	orderBy?: 'nickname' | 'createdAt' | 'id';
+	orderDirection?: 'asc' | 'desc';
+	searchTerm?: string;
+	role?: string;
+	status?: string;
+	deleted?: boolean;
 };
 
 export type UserPreview = {
@@ -36,41 +27,35 @@ export type UserPublicProfile = {
 	id: number;
 	nickname: string;
 	name: string;
-	bio: string | null;
+	rg?: string;
+	cpf?: string;
+	email?: string;
+	bio?: string | null;
 	avatarUrl: string | null;
 	role: string;
 	status: string;
-	poems: PoemPreview[];
-	stats: {
-		poemsCount: number;
-		commentsCount: number;
-		friendsCount: number;
-	};
-	isFriend: boolean;
-	hasBlockedRequester: boolean;
-	isBlockedByRequester: boolean;
-	isFriendRequester: boolean;
-	hasIncomingFriendRequest: boolean;
+	createdAt?: string;
+	updatedAt?: string;
+	deletedAt?: string | null;
+	emailVerifiedAt?: string | null;
 };
 
 export type UserPrivateProfile = {
 	id: number;
 	nickname: string;
 	name: string;
-	bio: string;
+	rg?: string;
+	cpf?: string;
+	bio?: string;
 	avatarUrl: string | null;
 	role: string;
 	status: string;
 	email: string;
 	emailVerifiedAt: string | null;
 	unreadNotificationsCount: number;
-	poems: PoemPreview[];
-	stats: {
-		poems: { id: number; title: string }[];
-		commentsIds: number[];
-		friends: { id: number }[];
-	};
-	blockedUsersIds: number[];
+	createdAt?: string;
+	updatedAt?: string;
+	deletedAt?: string | null;
 };
 
 export type UserProfile = UserPublicProfile | UserPrivateProfile;
@@ -80,16 +65,22 @@ export type CreateUserBody = {
 	nickname: string;
 	email: string;
 	password: string;
-	bio: string;
-	avatarUrl?: string;
+	rg: string;
+	cpf: string;
+	avatarUrl?: string | null;
 };
 
 export type UpdateUserBody = {
 	id: string;
 	name?: string;
 	nickname?: string;
+	email?: string;
+	rg?: string;
+	cpf?: string;
+	role?: string;
+	status?: string;
 	bio?: string;
-	avatarUrl?: string;
+	avatarUrl?: string | null;
 };
 
 export type AvatarUploadUrlRequest = {
@@ -103,5 +94,5 @@ export type AvatarUploadUrlResponse = {
 	fileUrl: string;
 };
 
-export type UserRole = 'author' | 'admin' | 'moderator';
-export type UserStatus = 'active' | 'banned' | 'suspended';
+export type UserRole = 'student' | 'professor' | 'staff' | 'admin' | string;
+export type UserStatus = 'active' | 'blocked' | 'suspended' | 'banned' | string;

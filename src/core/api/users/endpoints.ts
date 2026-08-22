@@ -2,11 +2,9 @@ import type {
 	AvatarUploadUrlRequest,
 	AvatarUploadUrlResponse,
 	CreateUserBody,
-	PublicUsersSearchParams,
 	UpdateUserBody,
 	UserProfile,
 	UsersPage,
-	UsersPreviewParams,
 	UsersSearchParams,
 } from '@Api/users/types';
 import { createMutationEndpoint, createQueryEndpoint } from '@Api/utils';
@@ -18,22 +16,17 @@ const checkNickname = createQueryEndpoint<[string], boolean>({
 	key: userKeys.checkNickname,
 
 	fn: (nickname) =>
-		createHTTPRequest<boolean>({
+		createHTTPRequest<UsersPage>({
 			method: 'GET',
-			path: `/users/check-nickname`,
-			query: { nickname },
-		}),
+			path: `/users`,
+			query: { limit: 1, searchTerm: nickname },
+		}).then((result) => result.users.length > 0),
 });
 
 const checkEmail = createQueryEndpoint<[string], boolean>({
 	key: userKeys.checkEmail,
 
-	fn: (email) =>
-		createHTTPRequest<boolean>({
-			method: 'GET',
-			path: `/users/check-email`,
-			query: { email },
-		}),
+	fn: async () => false,
 });
 
 const getUsers = createQueryEndpoint<[UsersSearchParams], UsersPage>({
@@ -47,27 +40,21 @@ const getUsers = createQueryEndpoint<[UsersSearchParams], UsersPage>({
 		}),
 });
 
-const getPublicUsers = createQueryEndpoint<[PublicUsersSearchParams], UsersPage>({
-	key: userKeys.publicSearch,
+const getUsersPreview = createQueryEndpoint<[Pick<UsersSearchParams, 'limit' | 'searchTerm'>?], UsersPage>({
+	key: userKeys.anySearch,
 
 	fn: (params) =>
 		createHTTPRequest<UsersPage>({
 			method: 'GET',
-			path: `/users/public`,
-			query: params,
+			path: `/users`,
+			query: {
+				limit: params?.limit ?? 10,
+				searchTerm: params?.searchTerm,
+			},
 		}),
 });
 
-const getUsersPreview = createQueryEndpoint<[UsersPreviewParams], UsersPage>({
-	key: userKeys.preview,
-
-	fn: (params) =>
-		createHTTPRequest<UsersPage>({
-			method: 'GET',
-			path: `/users/preview`,
-			query: params,
-		}),
-});
+const getPublicUsers = getUsersPreview;
 
 const getProfile = createQueryEndpoint<[string], UserProfile>({
 	key: userKeys.profile,
@@ -75,7 +62,7 @@ const getProfile = createQueryEndpoint<[string], UserProfile>({
 	fn: (id) =>
 		createHTTPRequest<UserProfile>({
 			method: 'GET',
-			path: `/users/${id}/profile`,
+			path: `/users/${id}`,
 		}),
 });
 
@@ -83,21 +70,26 @@ const createUser = createMutationEndpoint<CreateUserBody, UserProfile>({
 	fn: (data) =>
 		createHTTPRequest<UserProfile, CreateUserBody>({
 			method: 'POST',
-			path: `/users`,
+			path: `/users/`,
 			body: data,
 		}),
 
 	invalidate: [userKeys.all],
 });
 
-const updateUser = createMutationEndpoint<UpdateUserBody, void>({
+const updateUser = createMutationEndpoint<UpdateUserBody, UserProfile>({
 	fn: (data) =>
-		createHTTPRequest<void, Omit<UpdateUserBody, 'id'>>({
-			method: 'PATCH',
-			path: `/users/${data.id}`,
+		createHTTPRequest<UserProfile, Omit<UpdateUserBody, 'id'>>({
+			method: 'PUT',
+			path: `/users/me`,
 			body: {
 				name: data.name,
 				nickname: data.nickname,
+				email: data.email,
+				rg: data.rg,
+				cpf: data.cpf,
+				role: data.role,
+				status: data.status,
 				bio: data.bio,
 				avatarUrl: data.avatarUrl,
 			},
@@ -113,8 +105,45 @@ const requestAvatarUploadUrl = createMutationEndpoint<
 	fn: (data) =>
 		createHTTPRequest<AvatarUploadUrlResponse, AvatarUploadUrlRequest>({
 			method: 'POST',
-			path: `/users/avatar/upload-url`,
+			path: `/users/me/avatar/upload-url`,
 			body: data,
+		}),
+});
+
+const setAvatar = createMutationEndpoint<{ avatarUrl: string }, UserProfile>({
+	fn: (data) =>
+		createHTTPRequest<UserProfile, { avatarUrl: string }>({
+			method: 'PUT',
+			path: `/users/me/avatar`,
+			body: data,
+		}),
+});
+
+const changePassword = createMutationEndpoint<
+	{ currentPassword: string; newPassword: string },
+	UserProfile
+>({
+	fn: (data) =>
+		createHTTPRequest<UserProfile, { currentPassword: string; newPassword: string }>({
+			method: 'PUT',
+			path: `/users/me/password`,
+			body: data,
+		}),
+});
+
+const deleteUser = createMutationEndpoint<string, UserProfile>({
+	fn: (id) =>
+		createHTTPRequest<UserProfile>({
+			method: 'DELETE',
+			path: `/users/${id}`,
+		}),
+});
+
+const restoreUser = createMutationEndpoint<string, UserProfile>({
+	fn: (id) =>
+		createHTTPRequest<UserProfile>({
+			method: 'POST',
+			path: `/users/${id}/restore`,
 		}),
 });
 
@@ -122,10 +151,14 @@ export const users = {
 	checkNickname,
 	checkEmail,
 	getUsers,
-	getPublicUsers,
 	getUsersPreview,
+	getPublicUsers,
 	getProfile,
 	createUser,
 	updateUser,
 	requestAvatarUploadUrl,
+	setAvatar,
+	changePassword,
+	deleteUser,
+	restoreUser,
 };

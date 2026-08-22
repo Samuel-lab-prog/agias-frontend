@@ -6,4 +6,3 @@ export * from './appError';
 export * from './create-http-request/createHttpRequest';
 export * from './forbidden-words/forbiddenWordsUtils';
 export * from './format-date/dateFormat';
-export * from './translate/translate';

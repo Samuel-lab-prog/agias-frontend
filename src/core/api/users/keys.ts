@@ -7,12 +7,11 @@ export const userKeys = createQueryKeys({
 		cursor?: string;
 		orderBy?: 'nickname' | 'createdAt' | 'id';
 		orderDirection?: 'asc' | 'desc';
-		searchNickname?: string;
+		searchTerm?: string;
+		role?: string;
+		status?: string;
+		deleted?: boolean;
 	}) => ['users', 'search', params] as const,
-	publicSearch: (params: { limit?: number; searchNickname?: string }) =>
-		['users', 'public', params] as const,
-	preview: (params: { limit?: number; searchNickname?: string }) =>
-		['users', 'preview', params] as const,
 	profile: (id: string) => ['users', 'profile', id] as const,
 	checkNickname: (nickname: string) => ['users', 'check-nickname', nickname] as const,
 	checkEmail: (email: string) => ['users', 'check-email', email] as const,

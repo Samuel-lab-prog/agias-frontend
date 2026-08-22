@@ -10,28 +10,6 @@ export interface AppEvents {
 		reason: 'manual' | 'sessionExpired' | 'unauthorized';
 		loggedOutAt: string;
 	};
-	commentCreated: {
-		poemId: number;
-		parentId?: number;
-		createdAt: string;
-	};
-	poemCreated: {
-		poemId: number;
-		createdAt: string;
-	};
-	poemLiked: {
-		poemId: number;
-		liked: boolean;
-		likedAt: string;
-	};
-	friendRequestCanceled: {
-		authorId: number;
-		occurredAt: string;
-	};
-	friendRequestCancelSettled: {
-		authorId: number;
-		occurredAt: string;
-	};
 }
 
 type EventMap = object;

@@ -12,6 +12,15 @@ const login = createMutationEndpoint<LoginBody, AuthClient>({
 		}),
 });
 
+const refresh = createMutationEndpoint<void, AuthClient>({
+	fn: () =>
+		createHTTPRequest<AuthClient>({
+			method: 'POST',
+			path: `/auth/refresh`,
+		}),
+});
+
 export const auth = {
 	login,
+	refresh,
 };

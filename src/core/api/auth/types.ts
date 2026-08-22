@@ -10,3 +10,5 @@ export type LoginBody = {
 	email: string;
 	password: string;
 };
+
+export type RefreshBody = Record<string, never>;
