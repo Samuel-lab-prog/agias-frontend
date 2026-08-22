@@ -1,0 +1,304 @@
+import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
+import {
+	getAccessDeniedMessage,
+	getBannedPrivilegeMessage,
+	getSuspendedPrivilegeMessage,
+	useAuthClientStore,
+} from '@features/auth/public';
+import { eventBus } from '@root/core/events/eventBus';
+import { useEffect } from 'react';
+import { isRouteErrorResponse, NavLink, useLocation, useRouteError } from 'react-router-dom';
+
+type ErrorInfo = {
+	status?: number;
+	code?: string;
+	message: string;
+	description: string;
+	recoveryTo: string;
+	recoveryLabel: string;
+};
+
+type RouteErrorTelemetry = {
+	kind: 'route_error_page';
+	path: string;
+	status?: number;
+	code?: string;
+	message: string;
+	description: string;
+	timestamp: string;
+	rawError?: unknown;
+};
+
+function isLikelyExpiredSessionValidationError({
+	status,
+	code,
+	message,
+}: {
+	status?: number;
+	code?: string;
+	message?: string;
+}) {
+	if (status !== 422) return false;
+	if (code !== 'VALIDATION') return false;
+	if (!message) return false;
+	return message.toLowerCase().includes('validation failed');
+}
+
+function sendErrorTelemetry(payload: RouteErrorTelemetry) {
+	console.error('[route-error]', payload);
+
+	const endpoint = import.meta.env.VITE_ERROR_TELEMETRY_URL;
+	if (!endpoint) return;
+
+	try {
+		const body = JSON.stringify(payload);
+
+		if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
+			const blob = new Blob([body], { type: 'application/json' });
+			navigator.sendBeacon(endpoint, blob);
+			return;
+		}
+
+		void fetch(endpoint, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body,
+			keepalive: true,
+		});
+	} catch {
+		// Never break the UI due to telemetry transport errors.
+	}
+}
+
+function getErrorInfo(error: unknown): ErrorInfo {
+	if (isRouteErrorResponse(error)) {
+		const routeData = error.data as { code?: string; message?: string } | undefined;
+		const routeCode = routeData?.code;
+		const routeMessage = routeData?.message;
+
+		if (error.status === 401) {
+			if (routeMessage?.toLowerCase().includes('banned')) {
+				return {
+					status: 401,
+					code: routeCode,
+					message: getBannedPrivilegeMessage(),
+					description: 'Please use a different account or contact support if this seems incorrect.',
+					recoveryTo: '/login',
+					recoveryLabel: 'Go to sign in',
+				};
+			}
+
+			return {
+				status: 401,
+				message: 'Your session has expired.',
+				description: 'Please sign in again to continue.',
+				recoveryTo: '/login',
+				recoveryLabel: 'Sign in again',
+			};
+		}
+
+		if (
+			isLikelyExpiredSessionValidationError({
+				status: error.status,
+				code: routeCode,
+				message: routeMessage,
+			})
+		) {
+			return {
+				status: 401,
+				code: routeCode,
+				message: 'Your session has expired.',
+				description: 'Please sign in again to continue.',
+				recoveryTo: '/login',
+				recoveryLabel: 'Sign in again',
+			};
+		}
+
+		if (error.status === 403) {
+			return {
+				status: 403,
+				message: getAccessDeniedMessage({
+					fallback: 'You do not have permission to access this page.',
+					bannedMessage: getBannedPrivilegeMessage(),
+					suspendedMessage: getSuspendedPrivilegeMessage(),
+				}),
+				description: getAccessDeniedMessage({
+					fallback: 'Try with another account or go back to the home page.',
+					bannedMessage:
+						'This account cannot use authenticated areas. Please use a different account or contact support if this seems incorrect.',
+					suspendedMessage:
+						'You can still use available areas, such as notifications, while restricted privileges remain unavailable.',
+				}),
+				recoveryTo: '/',
+				recoveryLabel: 'Go to home',
+			};
+		}
+
+		if (error.status === 404) {
+			return {
+				status: 404,
+				message: 'This page does not exist.',
+				description: 'Check the URL or go back to the home page.',
+				recoveryTo: '/',
+				recoveryLabel: 'Go to home',
+			};
+		}
+
+		return {
+			status: error.status,
+			message: 'We could not load this page.',
+			description: 'Please try again in a moment.',
+			recoveryTo: '/',
+			recoveryLabel: 'Go to home',
+		};
+	}
+
+	if (error && typeof error === 'object') {
+		const maybeError = error as { statusCode?: number; code?: string; message?: string };
+		const status = maybeError.statusCode;
+
+		if (status === 401) {
+			if (maybeError.message?.toLowerCase().includes('banned')) {
+				return {
+					status: 401,
+					code: maybeError.code,
+					message: getBannedPrivilegeMessage(),
+					description: 'Please use a different account or contact support if this seems incorrect.',
+					recoveryTo: '/login',
+					recoveryLabel: 'Go to sign in',
+				};
+			}
+
+			return {
+				status: 401,
+				code: maybeError.code,
+				message: 'Your session has expired.',
+				description: 'Please sign in again to continue.',
+				recoveryTo: '/login',
+				recoveryLabel: 'Sign in again',
+			};
+		}
+
+		if (
+			isLikelyExpiredSessionValidationError({
+				status,
+				code: maybeError.code,
+				message: maybeError.message,
+			})
+		) {
+			return {
+				status: 401,
+				code: maybeError.code,
+				message: 'Your session has expired.',
+				description: 'Please sign in again to continue.',
+				recoveryTo: '/login',
+				recoveryLabel: 'Sign in again',
+			};
+		}
+
+		if (status === 403) {
+			return {
+				status: 403,
+				code: maybeError.code,
+				message: getAccessDeniedMessage({
+					fallback: 'Access denied for this action.',
+					bannedMessage: getBannedPrivilegeMessage(),
+					suspendedMessage: getSuspendedPrivilegeMessage(),
+				}),
+				description: getAccessDeniedMessage({
+					fallback: 'Try again with a different account.',
+					bannedMessage:
+						'This account cannot use authenticated areas. Please use a different account or contact support if this seems incorrect.',
+					suspendedMessage:
+						'You can still use available areas, such as notifications, while restricted privileges remain unavailable.',
+				}),
+				recoveryTo: '/',
+				recoveryLabel: 'Go to home',
+			};
+		}
+
+		if (typeof maybeError.message === 'string' && maybeError.message.length > 0) {
+			return {
+				status,
+				code: maybeError.code,
+				message: 'Something went wrong.',
+				description: maybeError.message,
+				recoveryTo: '/',
+				recoveryLabel: 'Go to home',
+			};
+		}
+	}
+
+	return {
+		message: 'Something went wrong or this page does not exist.',
+		description: 'Try going back to the home page or checking the URL.',
+		recoveryTo: '/',
+		recoveryLabel: 'Go back to the home page',
+	};
+}
+
+export function ErrorPage() {
+	const error = useRouteError();
+	const location = useLocation();
+	const clearAuthClient = useAuthClientStore((state) => state.clearAuthClient);
+	const info = getErrorInfo(error);
+	const shouldClearSession = info.status === 401;
+
+	useEffect(() => {
+		sendErrorTelemetry({
+			kind: 'route_error_page',
+			path: location.pathname,
+			status: info.status,
+			code: info.code,
+			message: info.message,
+			description: info.description,
+			timestamp: new Date().toISOString(),
+			rawError: error,
+		});
+	}, [error, info.code, info.description, info.message, info.status, location.pathname]);
+
+	return (
+		<Flex minH='100vh' align='center' justify='center' px={6} py={20} textAlign='center'>
+			<Box maxW='md'>
+				<Heading as='h1' textStyle='h2'>
+					Ops!
+				</Heading>
+
+				<Heading as='h2' textStyle='h5' mt={3}>
+					{info.message}
+				</Heading>
+
+				<Text textStyle='small' mt={1}>
+					{info.description}
+				</Text>
+
+				{info.status && (
+					<Text textStyle='smaller' mt={2} color='pink.200'>
+						Error {info.status}
+						{info.code ? ` (${info.code})` : ''}
+					</Text>
+				)}
+
+				<Box mt={6}>
+					<Button asChild variant='solidPink'>
+						<NavLink
+							to={info.recoveryTo}
+							onClick={() => {
+								if (!shouldClearSession) return;
+								const userId = useAuthClientStore.getState().authClient?.id ?? null;
+								clearAuthClient();
+								void eventBus.publish('userLoggedOut', {
+									userId,
+									reason: 'sessionExpired',
+									loggedOutAt: new Date().toISOString(),
+								});
+							}}
+						>
+							{info.recoveryLabel}
+						</NavLink>
+					</Button>
+				</Box>
+			</Box>
+		</Flex>
+	);
+}

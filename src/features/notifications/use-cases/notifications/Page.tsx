@@ -1,0 +1,222 @@
+import { AsyncState, EmptyStateCard, ErrorStateCard } from '@BaseComponents';
+import {
+	Box,
+	Button,
+	Flex,
+	Heading,
+	HStack,
+	Icon,
+	IconButton,
+	Menu,
+	Portal,
+	Text,
+} from '@chakra-ui/react';
+import {
+	AuthRequiredCard,
+	getBannedPrivilegeMessage,
+	isBannedAccessError,
+	useAuthClientStore,
+} from '@features/auth/public';
+import { BellOff, EllipsisVertical, RefreshCw } from 'lucide-react';
+import { useState } from 'react';
+
+import { LoadingNotificationsSkeletons } from './components/LoadingNotificationsSkeletons';
+import { NotificationCard } from './components/NotificationCard';
+import { useNotificationsPanel } from './hooks/useNotificationsPanel';
+
+export function NotificationsPage() {
+	const [removingIds, setRemovingIds] = useState<Set<number>>(new Set());
+	const authClient = useAuthClientStore((state) => state.authClient);
+	const {
+		notifications,
+		isLoading,
+		isError,
+		error,
+		hasMoreNotifications,
+		isLoadingMoreNotifications,
+		loadMoreNotifications,
+		markAsRead,
+		markAllAsRead,
+		isMarkingAllAsRead,
+		deleteNotification,
+	} = useNotificationsPanel(false);
+	const notificationItems = Array.isArray(notifications) ? notifications : [];
+	const hasNotifications = notificationItems.length > 0;
+	const isBannedError = isBannedAccessError(error);
+
+	if (!authClient?.id) {
+		return (
+			<Flex as='main' layerStyle='mainPadded' direction='column' align='center' w='full'>
+				<AuthRequiredCard
+					maxW='2xl'
+					eyebrow='NOTIFICATIONS UNAVAILABLE'
+					title='Sign in to view notifications'
+					description='This page is available only after sign in. Sign in to view likes, comments, replies, friend requests, and moderation updates.'
+				/>
+			</Flex>
+		);
+	}
+
+	const isRemoving = (id: number) => removingIds.has(id);
+	const scheduleRemove = async (id: number): Promise<void> => {
+		if (removingIds.has(id)) return;
+		setRemovingIds((prev) => new Set(prev).add(id));
+		await new Promise<void>((resolve) => {
+			window.setTimeout(resolve, 220);
+		});
+		await deleteNotification(id);
+		setRemovingIds((prev) => {
+			const next = new Set(prev);
+			next.delete(id);
+			return next;
+		});
+	};
+
+	return (
+		<Flex
+			as='main'
+			layerStyle='mainPadded'
+			direction='column'
+			align='center'
+			w='full'
+			maxW='2xl'
+			mx='auto'
+			overflowY='auto'
+			scrollbarGutter='stable'
+		>
+			<Box as='section' w='full' mb={6}>
+				<Flex
+					align={{ base: 'start', md: 'center' }}
+					justify='space-between'
+					gap={3}
+					mb={3}
+					flexWrap='wrap'
+				>
+					<Heading as='h1' textStyle='h3'>
+						Notifications
+					</Heading>
+					<Menu.Root positioning={{ placement: 'bottom-end' }}>
+						<Menu.Trigger asChild>
+							<IconButton
+								aria-label='Open notification actions'
+								size={{ base: 'xs', md: 'sm' }}
+								variant='solidPink'
+								disabled={!hasNotifications || isMarkingAllAsRead}
+							>
+								<EllipsisVertical size={16} />
+							</IconButton>
+						</Menu.Trigger>
+						<Portal>
+							<Menu.Positioner>
+								<Menu.Content
+									bg='rgba(27, 0, 25, 0.98)'
+									border='1px solid'
+									borderColor='purple.700'
+									borderRadius='lg'
+									backdropFilter='blur(6px)'
+									minW='220px'
+									p={1}
+								>
+									<Menu.Item
+										value='mark-all-read'
+										color='pink.100'
+										_hover={{ bg: 'rgba(255, 255, 255, 0.06)' }}
+										onClick={() => {
+											void markAllAsRead();
+										}}
+										disabled={!hasNotifications}
+									>
+										Mark all as read
+									</Menu.Item>
+								</Menu.Content>
+							</Menu.Positioner>
+						</Portal>
+					</Menu.Root>
+				</Flex>
+
+				<AsyncState
+					isLoading={isLoading}
+					isError={isError || isBannedError}
+					isEmpty={!hasNotifications}
+					loadingElement={LoadingNotificationsSkeletons}
+					errorElement={
+						<ErrorStateCard
+							mt={4}
+							eyebrow='NOTIFICATIONS UNAVAILABLE'
+							title={
+								isBannedError
+									? 'Notifications are unavailable for this account'
+									: 'We could not load your notifications right now.'
+							}
+							description={
+								isBannedError
+									? getBannedPrivilegeMessage('read notifications')
+									: 'Nothing was lost. Please try again in a moment, or refresh the page to reconnect.'
+							}
+							actionLabel={isBannedError ? undefined : 'Refresh notifications'}
+							onAction={isBannedError ? undefined : () => window.location.reload()}
+						/>
+					}
+					emptyElement={
+						<EmptyStateCard
+							mt={4}
+							eyebrow='No notifications'
+							eyebrowIcon={BellOff}
+							title="You're all caught up"
+							description='New likes, comments, and follow activity will appear here. If you expected something, try refreshing the page.'
+							action={
+								<Button size='sm' variant='solidPink' onClick={() => window.location.reload()}>
+									<HStack gap={2}>
+										<Icon as={RefreshCw} boxSize={3.5} />
+										<Text as='span'>Refresh</Text>
+									</HStack>
+								</Button>
+							}
+							actionAlign='end'
+						/>
+					}
+				>
+					<Flex direction='column' gap={1} mb={4}>
+						{notificationItems.map((item, index) => (
+							<Box
+								key={item.id}
+								overflow='hidden'
+								maxH={isRemoving(item.id) ? '0px' : '320px'}
+								opacity={isRemoving(item.id) ? 0 : 1}
+								transform={isRemoving(item.id) ? 'translateY(-6px)' : 'translateY(0)'}
+								transition='max-height 0.22s ease, opacity 0.18s ease, transform 0.22s ease'
+								pointerEvents={isRemoving(item.id) ? 'none' : 'auto'}
+								animationName='slide-from-bottom, fade-in'
+								animationDuration='320ms'
+								animationTimingFunction='ease-out'
+								animationFillMode='backwards'
+								animationDelay={`${30 + index * 30}ms`}
+							>
+								<NotificationCard
+									item={item}
+									onMarkAsRead={(id) => markAsRead(id).then(() => {})}
+									onDelete={(id) => scheduleRemove(id)}
+									hideTopBorder={index === 0}
+								/>
+							</Box>
+						))}
+					</Flex>
+					{hasMoreNotifications && (
+						<Flex justify='center' mt={4}>
+							<Button
+								variant='outlinePurple'
+								size='xs'
+								loading={isLoadingMoreNotifications}
+								onClick={() => {
+									void loadMoreNotifications();
+								}}
+							>
+								Load more notifications
+							</Button>
+						</Flex>
+					)}
+				</AsyncState>
+			</Box>
+		</Flex>
+	);
+}

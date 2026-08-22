@@ -1,0 +1,21 @@
+{
+	"directory": [
+		"./src/core/components",
+		"./src/core/api",
+		"./src/core/events",
+		"./src/core/utils",
+		"./src/core/stores",
+		"./src/core/pages",
+		"./src/features/auth/public",
+		"./src/features/interactions/public",
+		"./src/features/poems/public",
+		"./src/features/users/public",
+		"./src/features/friends/public"
+	],
+	"delete": true,
+	"location": "top",
+	"name": "index",
+	"singleQuotes": true,
+	"structure": "flat",
+	"exclude": [".*\\.test\\.ts$"]
+}

@@ -1,0 +1,15 @@
+node_modules
+/dist
+*.local
+.eslintcache
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.env
+.vscode
+api-1.json
+
+cloc.json
+depcruise.json

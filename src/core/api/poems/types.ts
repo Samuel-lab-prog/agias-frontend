@@ -1,0 +1,193 @@
+export type PoemVisibility = 'public' | 'friends' | 'private' | 'unlisted';
+export type PoemStatus = 'draft' | 'published';
+
+export type PoemTag = {
+	id: number;
+	name: string;
+};
+
+export type PoemAuthor = {
+	id: number;
+	name: string;
+	nickname: string;
+	avatarUrl: string | null;
+	status?: 'active' | 'banned' | 'suspended';
+};
+
+export type PoemDedicationUser = {
+	id: number;
+	name: string;
+	nickname: string;
+	avatarUrl: string | null;
+	status?: 'active' | 'banned' | 'suspended';
+	friendIds?: number[];
+};
+
+export type PoemStats = {
+	likesCount: number;
+	commentsCount: number;
+	likedByCurrentUser: boolean;
+};
+
+export type FullPoem = {
+	tags: PoemTag[];
+	title: string;
+	slug: string;
+	excerpt: string | null;
+	id: number;
+	createdAt: Date;
+	content: string;
+	audioUrl: string | null;
+	status: PoemStatus;
+	visibility: PoemVisibility;
+	moderationStatus: 'rejected' | 'removed' | 'approved' | 'pending';
+	rejectionReason?: string | null;
+	isCommentable: boolean;
+	author: PoemAuthor;
+	toUsers?: PoemDedicationUser[];
+	stats: PoemStats;
+	updatedAt: Date;
+};
+
+export type PoemPreview = {
+	title: string;
+	slug: string;
+	excerpt?: string | null;
+	id: number;
+	createdAt?: string | Date;
+	status?: PoemStatus;
+	moderationStatus?: 'rejected' | 'removed' | 'approved' | 'pending';
+	likesCount?: number;
+	commentsCount?: number;
+	stats?: {
+		likesCount?: number;
+		commentsCount?: number;
+	};
+	tags: PoemTag[];
+	author: PoemAuthor;
+};
+
+export type PaginatedPoems = {
+	nextCursor?: number | null;
+	poems: PoemPreview[];
+	hasMore: boolean;
+};
+
+export type SavedPoem = {
+	id: number;
+	title: string;
+	slug: string;
+	savedAt: string;
+	author: PoemAuthor;
+};
+
+export type PoemCollection = {
+	id: number;
+	poemIds: number[];
+	name: string;
+	description: string | null;
+	createdAt: string;
+	updatedAt: string;
+};
+
+export type CreatePoemBody = {
+	title: string;
+	content: string;
+	excerpt: string;
+	tags?: string[];
+	visibility: PoemVisibility;
+	status: PoemStatus;
+	isCommentable: boolean;
+	toUserIds?: number[];
+	mentionedUserIds?: number[];
+};
+
+export type UpdatePoemBody = {
+	id: string;
+	title: string;
+	content: string;
+	excerpt: string;
+	tags?: string[];
+	visibility: PoemVisibility;
+	status: PoemStatus;
+	isCommentable: boolean;
+	toUserIds?: number[];
+	mentionedUserIds?: number[];
+};
+
+export type SearchPoemsParams = {
+	limit?: number;
+	cursor?: number;
+	searchTitle?: string;
+	tags?: string[];
+	orderBy?: 'createdAt' | 'title';
+	orderDirection?: 'asc' | 'desc';
+};
+
+export type CreateCollectionBody = {
+	userId: number;
+	name: string;
+	description?: string;
+};
+
+export type CollectionItemBody = {
+	collectionId: number;
+	poemId: number;
+};
+
+export type CreatePoemResult = {
+	id: number;
+	title: string;
+	slug: string;
+	excerpt: string | null;
+	tags: PoemTag[];
+	content: string;
+	visibility: PoemVisibility;
+	status: PoemStatus;
+	moderationStatus: 'rejected' | 'removed' | 'approved' | 'pending';
+	rejectionReason?: string | null;
+	createdAt: Date;
+	updatedAt: Date;
+	isCommentable: boolean;
+	audioUrl: string | null;
+	toUserIds: number[];
+	mentionedUserIds: number[];
+};
+
+export type UpdatePoemResult = {
+	id: number;
+	title: string;
+	slug: string;
+	content: string;
+	excerpt: string;
+	tags: PoemTag[];
+	visibility: PoemVisibility;
+	status: PoemStatus;
+	isCommentable: boolean;
+	createdAt: Date;
+	updatedAt: Date;
+	toUserIds: number[];
+	mentionedUserIds: number[];
+	audioUrl: string | null;
+};
+
+export type PoemAudioUploadUrlRequest = {
+	poemId: string;
+	contentType: string;
+	contentLength?: number;
+};
+
+export type PoemAudioUploadUrlResponse = {
+	uploadUrl: string;
+	fields: Record<string, string>;
+	fileUrl: string;
+};
+
+export type UpdatePoemAudioBody = {
+	poemId: string;
+	audioUrl: string | null;
+};
+
+export type UpdatePoemAudioResponse = {
+	audioUrl: string | null;
+};

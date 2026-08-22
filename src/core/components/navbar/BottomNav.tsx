@@ -1,0 +1,113 @@
+import { Badge, Box, Flex, HStack, Icon, Link } from '@chakra-ui/react';
+import { NavLink } from 'react-router-dom';
+
+import { getLinkIcon, type NavbarLink } from './utils';
+
+type NavbarBottomNavProps = {
+	links: NavbarLink[];
+	currentPath: string;
+	unreadCount: number;
+	moderationCount: number;
+	onSameRouteClick: () => void;
+	onPrefetchRoute?: (to: string) => void;
+	isHidden?: boolean;
+};
+
+export function NavbarBottomNav({
+	links,
+	currentPath,
+	unreadCount,
+	moderationCount,
+	onSameRouteClick,
+	onPrefetchRoute,
+	isHidden,
+}: NavbarBottomNavProps) {
+	return (
+		<Box
+			as='nav'
+			display={{ base: 'block', lg: 'none' }}
+			position='fixed'
+			left={0}
+			right={0}
+			bottom={0}
+			zIndex={20}
+			borderTop='1px solid'
+			borderColor='border'
+			bg='rgba(18, 0, 17, 0.95)'
+			backdropFilter='blur(8px)'
+			pb='calc(env(safe-area-inset-bottom, 0px))'
+			transition='transform 0.2s ease, opacity 0.2s ease'
+			transform={isHidden ? 'translateY(100%)' : 'translateY(0)'}
+			opacity={isHidden ? 0 : 1}
+		>
+			<HStack px={2} py={2} gap={1} overflowX='auto' scrollbar='hidden' justify='center'>
+				{links
+					.filter((link) => link.to !== '/my-profile')
+					.map((link) => (
+						<Link key={link.label} asChild variant='navIcon' size='sm'>
+							<NavLink
+								to={link.to}
+								aria-label={link.label}
+								style={{ display: 'block' }}
+								onClick={() => {
+									if (currentPath === link.to) {
+										onSameRouteClick();
+									}
+								}}
+								onMouseEnter={() => onPrefetchRoute?.(link.to)}
+								onFocus={() => onPrefetchRoute?.(link.to)}
+							>
+								<Flex
+									direction='column'
+									align='center'
+									justifyContent='center'
+									gap={0}
+									position='relative'
+								>
+									<Icon as={getLinkIcon(link.to)} boxSize={4} strokeWidth={2.2} />
+									{link.to === '/notifications' && unreadCount > 0 && (
+										<Badge
+											position='absolute'
+											top='-2'
+											right='-2'
+											minW='1.1rem'
+											h='1.1rem'
+											px='1'
+											display='inline-flex'
+											alignItems='center'
+											justifyContent='center'
+											borderRadius='full'
+											colorPalette='pink'
+											variant='solid'
+											fontSize='2xs'
+										>
+											{unreadCount > 9 ? '9+' : unreadCount}
+										</Badge>
+									)}
+									{link.to === '/admin/moderation' && moderationCount > 0 && (
+										<Badge
+											position='absolute'
+											top='-2'
+											right='-2'
+											minW='1.1rem'
+											h='1.1rem'
+											px='1'
+											display='inline-flex'
+											alignItems='center'
+											justifyContent='center'
+											borderRadius='full'
+											colorPalette='pink'
+											variant='solid'
+											fontSize='2xs'
+										>
+											{moderationCount > 9 ? '9+' : moderationCount}
+										</Badge>
+									)}
+								</Flex>
+							</NavLink>
+						</Link>
+					))}
+			</HStack>
+		</Box>
+	);
+}

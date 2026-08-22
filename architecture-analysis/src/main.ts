@@ -1,0 +1,45 @@
+import { loadClocData, loadDepcruiseData } from './Loaders';
+import { section } from './ConsoleFormatUtils';
+
+import {
+	printChangeAmplification,
+	printDomainIsolation,
+	printDomainCodeStats,
+	printDomainStatistics,
+	printEndpointAndUseCaseTotals,
+	printTopFanIn,
+	printHotspotModules,
+	printTopFanOut,
+	printNoCrossDomainCalls,
+	printNoUntestedUsecase,
+	printNoInvalidRootNamespaces,
+	printNoRootSourceCode,
+	printNoInvalidDirectionalDependencies,
+	printNoMissingDirectories,
+	printUseCaseStructureViolations,
+} from './metrics/Index';
+
+function metrics(): void {
+	const depcruise = loadDepcruiseData();
+	const cloc = loadClocData();
+
+	printTopFanOut(depcruise);
+	printTopFanIn(depcruise);
+	printHotspotModules(depcruise, cloc);
+	printDomainStatistics(cloc);
+	printDomainIsolation(depcruise);
+	printChangeAmplification();
+	printDomainCodeStats(cloc);
+	printEndpointAndUseCaseTotals(cloc);
+
+	section('Rules');
+	printNoCrossDomainCalls(depcruise);
+	printNoInvalidRootNamespaces(depcruise);
+	printNoRootSourceCode(depcruise);
+	printNoInvalidDirectionalDependencies(depcruise);
+	printNoUntestedUsecase(cloc);
+	printNoMissingDirectories(cloc);
+	printUseCaseStructureViolations(cloc);
+}
+
+metrics();
