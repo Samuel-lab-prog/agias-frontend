@@ -2,6 +2,7 @@ import { createQueryKeys } from '@Api/utils';
 
 export const academicKeys = createQueryKeys({
 	myStudentProfile: () => ['academic', 'students', 'profile', 'me'] as const,
+	myStudentDashboard: () => ['academic', 'students', 'dashboard', 'me'] as const,
 	myProfessorProfile: () => ['academic', 'professors', 'profile', 'me'] as const,
 	myStaffProfile: () => ['academic', 'staff', 'profile', 'me'] as const,
 	studentProfileByUserId: (userId: string) => ['academic', 'students', 'profile', userId] as const,

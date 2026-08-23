@@ -17,7 +17,7 @@ export function NavigationPageShell({
 	sidebarWidth = '260px',
 }: NavigationPageShellProps) {
 	return (
-		<Flex as='main' layerStyle='main' minH='100%' direction='column'>
+		<Flex as='main' layerStyle='main' minH='100%' direction='column' >
 			<Flex
 				position='sticky'
 				top={0}
@@ -36,7 +36,7 @@ export function NavigationPageShell({
 					<NavigationSidebar links={preset.links} />
 				</Flex>
 
-				<Flex flex='1' minW={0} direction='column' gap={4} mt={4}>
+				<Flex flex='1' minW={0} direction='column' gap={4} mt={4} align='center'>
 					{children}
 				</Flex>
 			</Flex>

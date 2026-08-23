@@ -37,6 +37,53 @@ export type AcademicActivitySubmission = {
 	submittedAt: string;
 };
 
+export type StudentDashboard = {
+	profile: StudentProfile;
+	enrollments: StudentEnrollment[];
+	submissions: StudentDashboardSubmission[];
+};
+
+export type StudentEnrollment = {
+	id: number;
+	status: string;
+	classOffering: StudentDashboardClassOffering;
+	activities: StudentDashboardActivity[];
+	sessions: StudentDashboardSession[];
+};
+
+export type StudentDashboardClassOffering = {
+	id: number;
+	title: string;
+	code: string;
+	year: number;
+	term: string;
+	shift: 'morning' | 'afternoon' | 'evening' | 'integral';
+	courseId: number;
+};
+
+export type StudentDashboardActivity = {
+	id: number;
+	title: string;
+	description: string | null;
+	dueAt: string | null;
+	createdAt: string;
+};
+
+export type StudentDashboardSession = {
+	id: number;
+	startsAt: string;
+	endsAt: string | null;
+	topic: string | null;
+};
+
+export type StudentDashboardSubmission = {
+	id: number;
+	activityId: number;
+	submittedAt: string | null;
+	grade: string | null;
+	feedback: string | null;
+};
+
 export type CreateStudentProfileBody = Record<string, unknown>;
 export type CreateProfessorProfileBody = Record<string, unknown>;
 export type CreateStaffProfileBody = Record<string, unknown>;

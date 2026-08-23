@@ -14,6 +14,7 @@ import type {
 	LinkStudentToCourseBody,
 	ProfessorProfile,
 	StaffProfile,
+	StudentDashboard,
 	StudentProfile,
 	UnlinkProfessorFromDepartmentBody,
 	UnlinkStudentFromCourseBody,
@@ -26,6 +27,15 @@ const getMyStudentProfile = createQueryEndpoint<[], StudentProfile>({
 	key: academicKeys.myStudentProfile,
 	fn: () =>
 		createHTTPRequest<StudentProfile>({ method: 'GET', path: '/academic/students/profile/me' }),
+});
+
+const getMyStudentDashboard = createQueryEndpoint<[], StudentDashboard>({
+	key: academicKeys.myStudentDashboard,
+	fn: () =>
+		createHTTPRequest<StudentDashboard>({
+			method: 'GET',
+			path: '/academic/students/dashboard/me',
+		}),
 });
 
 const getMyProfessorProfile = createQueryEndpoint<[], ProfessorProfile>({
@@ -210,6 +220,7 @@ const createAcademicActivityAttachmentUploadUrl = createMutationEndpoint<
 
 export const academic = {
 	getMyStudentProfile,
+	getMyStudentDashboard,
 	getMyProfessorProfile,
 	getMyStaffProfile,
 	getStudentProfileByUserId,
