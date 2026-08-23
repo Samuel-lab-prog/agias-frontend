@@ -1,7 +1,7 @@
 import { auth } from '@Api/auth/endpoints';
 import { type AuthClient } from '@Api/auth/types';
 import { eventBus } from '@core/events/eventBus';
-import { getBannedPrivilegeMessage } from '@features/auth/public';
+import { getBannedPrivilegeMessage, getPostLoginRoute } from '@features/auth/public';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import type { AppErrorType } from '@Utils';
@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthClientStore } from '../../../public/stores/useAuthClientStore';
 import { type LoginDataType, loginSchema } from '../schemas/loginSchema';
 
-const HOME_ROUTE = '/';
 const INVALID_CREDENTIALS_MESSAGE = 'Credenciais incorretas';
 
 type LoginErrorDisplay = { kind: 'field'; message: string } | { kind: 'general'; message: string };
@@ -42,7 +41,7 @@ export function useLoginForm() {
 				status: client.status,
 				loggedInAt: new Date().toISOString(),
 			});
-			navigate(HOME_ROUTE, { replace: true });
+			navigate(getPostLoginRoute(client), { replace: true });
 		},
 
 		onError: (err: unknown) => {

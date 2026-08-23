@@ -1,8 +1,9 @@
 import { Toaster } from '@BaseComponents';
-import { ErrorPage } from '@BasePages';
 import { Flex, Spinner } from '@chakra-ui/react';
+import { RoleGate } from '@features/auth/public/components/RoleGate';
+import { ErrorPage } from '@features/system/public';
 import { type ComponentType, lazy, Suspense } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 
 function lazyPage<TModule extends object>(
 	load: () => Promise<TModule>,
@@ -34,24 +35,67 @@ function renderLazyPage(Component: ComponentType) {
 	);
 }
 
-const HomePage = lazyPage(
-	() => import('./core/pages/Home'),
-	(module) => module.HomePage,
-);
 const LoginPage = lazyPage(
 	() => import('./features/auth/use-cases/login/Page'),
 	(module) => module.LoginPage,
+);
+const StudentHomePage = lazyPage(
+	() => import('./features/student/use-cases/home/Page'),
+	(module) => module.StudentHomePage,
+);
+const ProfessorHomePage = lazyPage(
+	() => import('./features/professor/use-cases/home/Page'),
+	(module) => module.ProfessorHomePage,
+);
+const AdminHomePage = lazyPage(
+	() => import('./features/admin/use-cases/home/Page'),
+	(module) => module.AdminHomePage,
+);
+const StaffMyProfilePage = lazyPage(
+	() => import('./features/staff/use-cases/my-profile/Page'),
+	(module) => module.StaffMyProfilePage,
+);
+const StaffHomePage = lazyPage(
+	() => import('./features/staff/use-cases/home/Page'),
+	(module) => module.StaffHomePage,
 );
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: renderLazyPage(HomePage),
+		element: <Navigate to='/login' replace />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/student',
+		element: <RoleGate allowedRoles={['student']}>{renderLazyPage(StudentHomePage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/professor',
+		element: <RoleGate allowedRoles={['professor']}>{renderLazyPage(ProfessorHomePage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/admin',
+		element: <RoleGate allowedRoles={['admin']}>{renderLazyPage(AdminHomePage)}</RoleGate>,
 		errorElement: <ErrorPage />,
 	},
 	{
 		path: '/login',
 		element: renderLazyPage(LoginPage),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/staff/my-profile',
+		element: (
+			<RoleGate allowedRoles={['staff', 'admin']}>{renderLazyPage(StaffMyProfilePage)}</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/staff',
+		element: <RoleGate allowedRoles={['staff']}>{renderLazyPage(StaffHomePage)}</RoleGate>,
 		errorElement: <ErrorPage />,
 	},
 ]);

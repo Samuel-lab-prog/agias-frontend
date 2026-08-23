@@ -28,7 +28,7 @@ describe('FEATURE HOOK - Auth - useLoginForm', () => {
 		vi.restoreAllMocks();
 	});
 
-	it('stores the authenticated client, publishes login event, and navigates home', async () => {
+	it('stores the authenticated client, publishes login event, and navigates home for unknown roles', async () => {
 		const scenario = makeLoginFormScenario().withLoginSuccess();
 
 		const { result } = scenario.render();
@@ -47,6 +47,27 @@ describe('FEATURE HOOK - Auth - useLoginForm', () => {
 			}),
 		);
 		expect(navigateMock).toHaveBeenCalledWith('/', { replace: true });
+	});
+
+	it('navigates staff users to the staff home', async () => {
+		const scenario = makeLoginFormScenario().withLoginSuccess({
+			...authClient,
+			role: 'staff',
+		});
+
+		const { result } = scenario.render();
+
+		act(() => {
+			result.current.onSubmit(loginData);
+		});
+
+		await waitFor(() =>
+			expect(useAuthClientStore.getState().authClient).toEqual({
+				...authClient,
+				role: 'staff',
+			}),
+		);
+		expect(navigateMock).toHaveBeenCalledWith('/staff', { replace: true });
 	});
 
 	it('shows banned login failures as a general error', async () => {

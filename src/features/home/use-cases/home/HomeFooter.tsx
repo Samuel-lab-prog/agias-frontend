@@ -1,0 +1,30 @@
+import { Surface } from '@BaseComponents';
+import { Flex, HStack, Link, Text } from '@chakra-ui/react';
+import { NavLink } from 'react-router-dom';
+
+import type { NavbarLink } from './types';
+
+type HomeFooterProps = {
+	links: NavbarLink[];
+};
+
+export function HomeFooter({ links }: HomeFooterProps) {
+	return (
+		<Surface variant='panel' p={{ base: 3.5, md: 4 }}>
+			<Flex direction='column' gap={3}>
+				<HStack justify='space-between' wrap='wrap' gap={3}>
+					<Text textStyle='smaller' color='pink.100'>
+						AGIAS
+					</Text>
+					<HStack gap={4} wrap='wrap'>
+						{links.map((link) => (
+							<Link key={link.to} asChild color='pink.100' textStyle='smaller'>
+								<NavLink to={link.to}>{link.label}</NavLink>
+							</Link>
+						))}
+					</HStack>
+				</HStack>
+			</Flex>
+		</Surface>
+	);
+}

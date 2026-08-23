@@ -1,3 +1,4 @@
+import { ErrorPage } from '@features/system/public/pages/ErrorPage';
 import {
 	clearTestAuthClient,
 	setTestAuthClient,
@@ -8,7 +9,6 @@ import { useLocation, useRouteError } from 'react-router-dom';
 import { vi } from 'vitest';
 
 import { eventBus } from '../../events/eventBus';
-import { ErrorPage } from '../Error';
 
 type AppError = {
 	statusCode?: number;
