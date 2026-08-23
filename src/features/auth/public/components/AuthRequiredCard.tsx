@@ -1,6 +1,6 @@
 import { ErrorStateCard } from '@BaseComponents';
 import { type BoxProps, Button, HStack, Icon, Text } from '@chakra-ui/react';
-import { LogIn, UserPlus } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 type AuthRequiredCardProps = Omit<BoxProps, 'title'> & {
@@ -11,10 +11,10 @@ type AuthRequiredCardProps = Omit<BoxProps, 'title'> & {
 };
 
 export function AuthRequiredCard({
-	eyebrow = 'SIGN IN REQUIRED',
+	eyebrow = 'ENTRADA OBRIGATÓRIA',
 	title,
 	description,
-	showCreateAccount = true,
+	showCreateAccount = false,
 	...boxProps
 }: AuthRequiredCardProps) {
 	return (
@@ -28,26 +28,10 @@ export function AuthRequiredCard({
 						<NavLink to='/login'>
 							<HStack gap={2}>
 								<Icon as={LogIn} boxSize={3.5} />
-								<Text as='span'>Sign in</Text>
+								<Text as='span'>Entrar</Text>
 							</HStack>
 						</NavLink>
 					</Button>
-					{showCreateAccount ? (
-						<Button
-							size='sm'
-							variant='solidPink'
-							colorPalette='gray'
-							w={{ base: 'full', md: 'auto' }}
-							asChild
-						>
-							<NavLink to='/register'>
-								<HStack gap={2}>
-									<Icon as={UserPlus} boxSize={3.5} />
-									<Text as='span'>Create account</Text>
-								</HStack>
-							</NavLink>
-						</Button>
-					) : null}
 				</HStack>
 			}
 			{...boxProps}

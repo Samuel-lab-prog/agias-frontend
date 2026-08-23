@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Box } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
 import type { FieldValues } from 'react-hook-form';
 
@@ -138,9 +139,18 @@ export function renderDynamicField<T extends FieldValues>({
 			);
 	}
 
+	const shouldSpanFullWidth =
+		field.kind === 'file' ||
+		field.kind === 'audio' ||
+		field.kind === 'dedication' ||
+		field.kind === 'custom' ||
+		('type' in field && field.type === 'textarea');
+
 	return (
-		<FieldContainer key={key} delay={delay} hasError={hasError}>
-			{content}
-		</FieldContainer>
+		<Box key={key} gridColumn={shouldSpanFullWidth ? '1 / -1' : 'auto'}>
+			<FieldContainer delay={delay} hasError={hasError}>
+				{content}
+			</FieldContainer>
+		</Box>
 	);
 }

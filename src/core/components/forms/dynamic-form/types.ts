@@ -137,6 +137,7 @@ export interface DynamicFormProps<T extends FieldValues> {
 	errors: any;
 	isValid: boolean;
 	loading: boolean;
+	columns?: number;
 	generalError?: string;
 	onSubmit: SubmitHandler<T>;
 	buttonLabel: string;

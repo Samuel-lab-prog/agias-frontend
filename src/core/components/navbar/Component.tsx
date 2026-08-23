@@ -5,7 +5,7 @@ import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientSt
 import { canUseModerationTools } from '@features/moderation/public';
 import { useMyProfile } from '@features/users/public/hooks/useMyProfile';
 import { useQuery } from '@tanstack/react-query';
-import { Bell, LogIn, PenSquare, UserPlus } from 'lucide-react';
+import { Bell, LogIn, PenSquare } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
@@ -273,43 +273,6 @@ export function Navbar({ links, onPrefetchRoute }: NavbarProps) {
 											whiteSpace='nowrap'
 										>
 											Sign in
-										</Text>
-									</NavLink>
-								</Link>
-								<Link
-									asChild
-									display='inline-flex'
-									alignItems='center'
-									justifyContent='center'
-									flexShrink={0}
-									minW='fit-content'
-									h={{ base: 7, md: 9 }}
-									px={{ base: 2, md: 3 }}
-									gap={{ base: 1.5, md: 2 }}
-									borderRadius='full'
-									border='1px solid'
-									borderColor='pink.400'
-									color='pink.50'
-									bg='rgba(255, 143, 189, 0.14)'
-									_hover={{
-										color: 'pink.50',
-										borderColor: 'pink.300',
-										bg: 'rgba(255, 143, 189, 0.22)',
-									}}
-								>
-									<NavLink
-										to='/register'
-										aria-label='Criar conta'
-										onMouseEnter={() => onPrefetchRoute?.('/register')}
-										onFocus={() => onPrefetchRoute?.('/register')}
-									>
-										<Icon as={UserPlus} boxSize={{ base: 3, md: 4 }} />
-										<Text
-											fontSize={{ base: '2xs', md: 'sm' }}
-											fontWeight='medium'
-											whiteSpace='nowrap'
-										>
-											Sign up
 										</Text>
 									</NavLink>
 								</Link>

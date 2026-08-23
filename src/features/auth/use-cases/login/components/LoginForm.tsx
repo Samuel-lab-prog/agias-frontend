@@ -4,8 +4,15 @@ import { useLoginForm } from '../hooks/useLoginForm';
 import type { LoginDataType } from '../schemas/loginSchema';
 
 const loginFields: Field<LoginDataType>[] = [
-	{ name: 'email', label: 'Email', required: true, autoFocus: true },
-	{ name: 'password', label: 'Password', required: true, type: 'password' },
+	{
+		name: 'cpf',
+		label: 'CPF',
+		required: true,
+		autoFocus: true,
+		maxLength: 11,
+		transformValue: (value: string) => value.replace(/\D/g, '').slice(0, 11),
+	},
+	{ name: 'password', label: 'Senha', required: true, type: 'password' },
 ];
 
 export function LoginForm() {
@@ -21,7 +28,7 @@ export function LoginForm() {
 			generalError={generalError}
 			onSubmit={onSubmit}
 			handleSubmitFn={handleSubmit}
-			buttonLabel='Sign in'
+			buttonLabel='Entrar'
 			buttonVariant='surface'
 		/>
 	);

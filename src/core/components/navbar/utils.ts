@@ -11,7 +11,6 @@ import {
 	PenSquare,
 	Shield,
 	User,
-	UserPlus,
 	Users,
 } from 'lucide-react';
 
@@ -31,8 +30,6 @@ export function getLinkIcon(to: string): React.ComponentType<React.SVGProps<SVGS
 			return Bell;
 		case '/admin/moderation':
 			return Shield;
-		case '/register':
-			return UserPlus;
 		case '/login':
 			return LogIn;
 		default:

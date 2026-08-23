@@ -2,7 +2,7 @@ import { Toaster } from '@BaseComponents';
 import { ErrorPage } from '@BasePages';
 import { Flex, Spinner } from '@chakra-ui/react';
 import { type ComponentType, lazy, Suspense } from 'react';
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 function lazyPage<TModule extends object>(
 	load: () => Promise<TModule>,
@@ -27,12 +27,13 @@ function renderLazyPage(Component: ComponentType) {
 	);
 }
 
+const HomePage = lazyPage(() => import('./core/pages/Home'), (module) => module.HomePage);
 const LoginPage = lazyPage(() => import('./features/auth/use-cases/login/Page'), (module) => module.LoginPage);
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <Navigate to='/login' replace />,
+		element: renderLazyPage(HomePage),
 		errorElement: <ErrorPage />,
 	},
 	{

@@ -12,8 +12,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthClientStore } from '../../../public/stores/useAuthClientStore';
 import { type LoginDataType, loginSchema } from '../schemas/loginSchema';
 
-const FEED_ROUTE = '/';
-const INVALID_CREDENTIALS_MESSAGE = 'Incorrect credentials';
+const HOME_ROUTE = '/';
+const INVALID_CREDENTIALS_MESSAGE = 'Credenciais incorretas';
 
 type LoginErrorDisplay = { kind: 'field'; message: string } | { kind: 'general'; message: string };
 
@@ -42,7 +42,7 @@ export function useLoginForm() {
 				status: client.status,
 				loggedInAt: new Date().toISOString(),
 			});
-			navigate(FEED_ROUTE, { replace: true });
+			navigate(HOME_ROUTE, { replace: true });
 		},
 
 		onError: (err: unknown) => {
@@ -52,7 +52,7 @@ export function useLoginForm() {
 
 	function onSubmit(data: LoginDataType) {
 		setGeneralError('');
-		form.clearErrors(['email', 'password']);
+		form.clearErrors(['cpf', 'password']);
 		if (loginMutation.isPending) return;
 		loginMutation.mutate(data);
 	}
@@ -78,7 +78,7 @@ function handleLoginError(
 	const display = getLoginErrorDisplay(err);
 
 	if (display.kind === 'field') {
-		setError('email', {
+		setError('cpf', {
 			type: 'manual',
 			message: display.message,
 		});
@@ -89,7 +89,7 @@ function handleLoginError(
 		return;
 	}
 
-	clearErrors(['email', 'password']);
+	clearErrors(['cpf', 'password']);
 	setGeneralError(display.message);
 }
 
@@ -104,6 +104,13 @@ function getLoginErrorDisplay(err: unknown): LoginErrorDisplay {
 	const message = rawMessage.toLowerCase();
 
 	if (status === 401) {
+		if (message.includes('pending') || message.includes('approval')) {
+			return {
+				kind: 'general',
+				message: 'Sua conta está pendente de aprovação. Aguarde o staff liberar o acesso.',
+			};
+		}
+
 		if (isBannedLoginMessage(message)) {
 			return { kind: 'general', message: getBannedPrivilegeMessage('sign in') };
 		}
@@ -111,7 +118,7 @@ function getLoginErrorDisplay(err: unknown): LoginErrorDisplay {
 		if (message.includes('too many')) {
 			return {
 				kind: 'general',
-				message: 'Too many login attempts. Please wait a moment and try again.',
+				message: 'Muitas tentativas de login. Aguarde um momento e tente novamente.',
 			};
 		}
 
@@ -121,37 +128,37 @@ function getLoginErrorDisplay(err: unknown): LoginErrorDisplay {
 
 		return {
 			kind: 'general',
-			message: "We couldn't sign you in. Please try again.",
+			message: 'Não foi possível entrar. Tente novamente.',
 		};
 	}
 
 	if (status === 403) {
 		if (message.includes('not active') || message.includes('inactive')) {
-			return { kind: 'general', message: 'Your account is not active.' };
+			return { kind: 'general', message: 'Sua conta não está ativa.' };
 		}
 
 		return {
 			kind: 'general',
-			message: "You don't have permission to sign in.",
+			message: 'Você não tem permissão para entrar.',
 		};
 	}
 
 	if (status === 422) {
 		return {
 			kind: 'general',
-			message: 'Review your login details and try again.',
+			message: 'Revise seus dados de acesso e tente novamente.',
 		};
 	}
 
 	if (status === 429) {
 		return {
 			kind: 'general',
-			message: 'Too many attempts. Please try again later.',
+			message: 'Muitas tentativas. Tente novamente mais tarde.',
 		};
 	}
 
 	return {
 		kind: 'general',
-		message: "We couldn't reach the server. Check your connection and try again.",
+		message: 'Não foi possível alcançar o servidor. Verifique sua conexão e tente novamente.',
 	};
 }

@@ -67,7 +67,11 @@ export type CreateUserBody = {
 	password: string;
 	rg: string;
 	cpf: string;
-	avatarUrl?: string | null;
+	avatarUrl: string | null;
+};
+
+export type CreateStudentRegistrationBody = CreateUserBody & {
+	academicId: string;
 };
 
 export type UpdateUserBody = {

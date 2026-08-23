@@ -7,7 +7,7 @@ export type AuthClient = {
 };
 
 export type LoginBody = {
-	email: string;
+	cpf: string;
 	password: string;
 };
 

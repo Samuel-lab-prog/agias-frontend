@@ -13,9 +13,10 @@ export const MAX_AVATAR_SIZE_MB = 5;
 export const MAX_AVATAR_SIZE_BYTES = MAX_AVATAR_SIZE_MB * MAX_AVATAR_SIZE_BYTES_PER_MB;
 
 const AVATAR_UPLOAD_ERROR_MESSAGE =
-	"We couldn't upload your avatar. Check your connection and try again.";
-const AVATAR_TOO_LARGE_MESSAGE = `Choose an image up to ${MAX_AVATAR_SIZE_MB}MB.`;
-const AVATAR_UNSUPPORTED_TYPE_MESSAGE = 'Unsupported image format. Use JPG, PNG, WEBP, or GIF.';
+	'Não foi possível enviar seu avatar. Verifique sua conexão e tente novamente.';
+const AVATAR_TOO_LARGE_MESSAGE = `Escolha uma imagem de até ${MAX_AVATAR_SIZE_MB}MB.`;
+const AVATAR_UNSUPPORTED_TYPE_MESSAGE =
+	'Formato de imagem não suportado. Use JPG, PNG, WEBP ou GIF.';
 
 export function getAvatarFileError(file: File): string | null {
 	if (!allowedImageTypes.has(file.type.toLowerCase())) return AVATAR_UNSUPPORTED_TYPE_MESSAGE;

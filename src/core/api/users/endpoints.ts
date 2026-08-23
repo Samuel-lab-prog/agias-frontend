@@ -1,6 +1,7 @@
 import type {
 	AvatarUploadUrlRequest,
 	AvatarUploadUrlResponse,
+	CreateStudentRegistrationBody,
 	CreateUserBody,
 	UpdateUserBody,
 	UserProfile,
@@ -71,6 +72,31 @@ const createUser = createMutationEndpoint<CreateUserBody, UserProfile>({
 		createHTTPRequest<UserProfile, CreateUserBody>({
 			method: 'POST',
 			path: `/users/`,
+			body: data,
+		}),
+
+	invalidate: [userKeys.all],
+});
+
+const createProfessorRequest = createMutationEndpoint<CreateUserBody, UserProfile>({
+	fn: (data) =>
+		createHTTPRequest<UserProfile, CreateUserBody>({
+			method: 'POST',
+			path: `/users/professor-requests`,
+			body: data,
+		}),
+
+	invalidate: [userKeys.all],
+});
+
+const createStudentRegistration = createMutationEndpoint<
+	CreateStudentRegistrationBody,
+	UserProfile
+>({
+	fn: (data) =>
+		createHTTPRequest<UserProfile, CreateStudentRegistrationBody>({
+			method: 'POST',
+			path: `/users/student-registrations`,
 			body: data,
 		}),
 
@@ -155,6 +181,8 @@ export const users = {
 	getPublicUsers,
 	getProfile,
 	createUser,
+	createStudentRegistration,
+	createProfessorRequest,
 	updateUser,
 	requestAvatarUploadUrl,
 	setAvatar,

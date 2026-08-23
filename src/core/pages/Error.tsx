@@ -82,18 +82,19 @@ function getErrorInfo(error: unknown): ErrorInfo {
 					status: 401,
 					code: routeCode,
 					message: getBannedPrivilegeMessage(),
-					description: 'Please use a different account or contact support if this seems incorrect.',
+					description:
+						'Use uma conta diferente ou entre em contato com o suporte se isso parecer incorreto.',
 					recoveryTo: '/login',
-					recoveryLabel: 'Go to sign in',
+					recoveryLabel: 'Ir para o login',
 				};
 			}
 
 			return {
 				status: 401,
-				message: 'Your session has expired.',
-				description: 'Please sign in again to continue.',
+				message: 'Sua sessão expirou.',
+				description: 'Entre novamente para continuar.',
 				recoveryTo: '/login',
-				recoveryLabel: 'Sign in again',
+				recoveryLabel: 'Entrar novamente',
 			};
 		}
 
@@ -107,10 +108,10 @@ function getErrorInfo(error: unknown): ErrorInfo {
 			return {
 				status: 401,
 				code: routeCode,
-				message: 'Your session has expired.',
-				description: 'Please sign in again to continue.',
+				message: 'Sua sessão expirou.',
+				description: 'Entre novamente para continuar.',
 				recoveryTo: '/login',
-				recoveryLabel: 'Sign in again',
+				recoveryLabel: 'Entrar novamente',
 			};
 		}
 
@@ -118,38 +119,38 @@ function getErrorInfo(error: unknown): ErrorInfo {
 			return {
 				status: 403,
 				message: getAccessDeniedMessage({
-					fallback: 'You do not have permission to access this page.',
+					fallback: 'Você não tem permissão para acessar esta página.',
 					bannedMessage: getBannedPrivilegeMessage(),
 					suspendedMessage: getSuspendedPrivilegeMessage(),
 				}),
 				description: getAccessDeniedMessage({
-					fallback: 'Try with another account or go back to the home page.',
+					fallback: 'Tente com outra conta ou volte para a página inicial.',
 					bannedMessage:
-						'This account cannot use authenticated areas. Please use a different account or contact support if this seems incorrect.',
+						'Esta conta não pode usar áreas autenticadas. Use outra conta ou entre em contato com o suporte se isso parecer incorreto.',
 					suspendedMessage:
-						'You can still use available areas, such as notifications, while restricted privileges remain unavailable.',
+						'Você ainda pode usar áreas disponíveis, como notificações, enquanto os privilégios restritos permanecem indisponíveis.',
 				}),
 				recoveryTo: '/',
-				recoveryLabel: 'Go to home',
+				recoveryLabel: 'Ir para a página inicial',
 			};
 		}
 
 		if (error.status === 404) {
 			return {
 				status: 404,
-				message: 'This page does not exist.',
-				description: 'Check the URL or go back to the home page.',
+				message: 'Esta página não existe.',
+				description: 'Verifique a URL ou volte para a página inicial.',
 				recoveryTo: '/',
-				recoveryLabel: 'Go to home',
+				recoveryLabel: 'Ir para a página inicial',
 			};
 		}
 
 		return {
 			status: error.status,
-			message: 'We could not load this page.',
-			description: 'Please try again in a moment.',
+			message: 'Não foi possível carregar esta página.',
+			description: 'Tente novamente em instantes.',
 			recoveryTo: '/',
-			recoveryLabel: 'Go to home',
+			recoveryLabel: 'Ir para a página inicial',
 		};
 	}
 
@@ -159,23 +160,24 @@ function getErrorInfo(error: unknown): ErrorInfo {
 
 		if (status === 401) {
 			if (maybeError.message?.toLowerCase().includes('banned')) {
-				return {
-					status: 401,
-					code: maybeError.code,
-					message: getBannedPrivilegeMessage(),
-					description: 'Please use a different account or contact support if this seems incorrect.',
-					recoveryTo: '/login',
-					recoveryLabel: 'Go to sign in',
-				};
+			return {
+				status: 401,
+				code: maybeError.code,
+				message: getBannedPrivilegeMessage(),
+				description:
+					'Use uma conta diferente ou entre em contato com o suporte se isso parecer incorreto.',
+				recoveryTo: '/login',
+				recoveryLabel: 'Ir para o login',
+			};
 			}
 
 			return {
 				status: 401,
 				code: maybeError.code,
-				message: 'Your session has expired.',
-				description: 'Please sign in again to continue.',
+				message: 'Sua sessão expirou.',
+				description: 'Entre novamente para continuar.',
 				recoveryTo: '/login',
-				recoveryLabel: 'Sign in again',
+				recoveryLabel: 'Entrar novamente',
 			};
 		}
 
@@ -189,10 +191,10 @@ function getErrorInfo(error: unknown): ErrorInfo {
 			return {
 				status: 401,
 				code: maybeError.code,
-				message: 'Your session has expired.',
-				description: 'Please sign in again to continue.',
+				message: 'Sua sessão expirou.',
+				description: 'Entre novamente para continuar.',
 				recoveryTo: '/login',
-				recoveryLabel: 'Sign in again',
+				recoveryLabel: 'Entrar novamente',
 			};
 		}
 
@@ -201,19 +203,19 @@ function getErrorInfo(error: unknown): ErrorInfo {
 				status: 403,
 				code: maybeError.code,
 				message: getAccessDeniedMessage({
-					fallback: 'Access denied for this action.',
+					fallback: 'Acesso negado para esta ação.',
 					bannedMessage: getBannedPrivilegeMessage(),
 					suspendedMessage: getSuspendedPrivilegeMessage(),
 				}),
 				description: getAccessDeniedMessage({
-					fallback: 'Try again with a different account.',
+					fallback: 'Tente novamente com outra conta.',
 					bannedMessage:
-						'This account cannot use authenticated areas. Please use a different account or contact support if this seems incorrect.',
+						'Esta conta não pode usar áreas autenticadas. Use outra conta ou entre em contato com o suporte se isso parecer incorreto.',
 					suspendedMessage:
-						'You can still use available areas, such as notifications, while restricted privileges remain unavailable.',
+						'Você ainda pode usar áreas disponíveis, como notificações, enquanto os privilégios restritos permanecem indisponíveis.',
 				}),
 				recoveryTo: '/',
-				recoveryLabel: 'Go to home',
+				recoveryLabel: 'Ir para a página inicial',
 			};
 		}
 
@@ -221,19 +223,19 @@ function getErrorInfo(error: unknown): ErrorInfo {
 			return {
 				status,
 				code: maybeError.code,
-				message: 'Something went wrong.',
+				message: 'Algo deu errado.',
 				description: maybeError.message,
 				recoveryTo: '/',
-				recoveryLabel: 'Go to home',
+				recoveryLabel: 'Ir para a página inicial',
 			};
 		}
 	}
 
 	return {
-		message: 'Something went wrong or this page does not exist.',
-		description: 'Try going back to the home page or checking the URL.',
+		message: 'Algo deu errado ou esta página não existe.',
+		description: 'Tente voltar para a página inicial ou verificar a URL.',
 		recoveryTo: '/',
-		recoveryLabel: 'Go back to the home page',
+		recoveryLabel: 'Voltar para a página inicial',
 	};
 }
 
@@ -274,7 +276,7 @@ export function ErrorPage() {
 
 				{info.status && (
 					<Text textStyle='smaller' mt={2} color='pink.200'>
-						Error {info.status}
+					Erro {info.status}
 						{info.code ? ` (${info.code})` : ''}
 					</Text>
 				)}

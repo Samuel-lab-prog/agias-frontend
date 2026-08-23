@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { AuthRequiredCard } from '../AuthRequiredCard';
 
 describe('FEATURE COMPONENT - Auth - AuthRequiredCard', () => {
-	it('renders sign-in and account creation actions by default', () => {
+	it('renders sign-in action by default', () => {
 		renderWithProviders(
 			<AuthRequiredCard
 				title='Sign in to continue'
@@ -19,9 +19,7 @@ describe('FEATURE COMPONENT - Auth - AuthRequiredCard', () => {
 		expect(screen.getByText('Sign in to continue')).toBeTruthy();
 		expect(screen.getByText('This page is available only after sign in.')).toBeTruthy();
 		expect(screen.getByRole('link', { name: 'Sign in' }).getAttribute('href')).toBe('/login');
-		expect(screen.getByRole('link', { name: 'Create account' }).getAttribute('href')).toBe(
-			'/register',
-		);
+		expect(screen.queryByRole('link', { name: 'Create account' })).toBeNull();
 	});
 
 	it('can hide the create-account action and use contextual eyebrow copy', () => {

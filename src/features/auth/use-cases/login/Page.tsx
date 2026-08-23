@@ -12,7 +12,7 @@ function HeaderCard() {
 						AGIAS - Aplicação de Gestão Integrada Acadêmica e de Serviços
 					</Text>
 					<Heading as='h1' textStyle={{ base: 'h3', md: 'h2' }} color='accent' mt={1}>
-						Acesso ao Sistema
+						Acesso ao sistema
 					</Heading>
 					<Text mt={2} textStyle='small' color='pink.100'>
 						Entre com seu usuário e senha para acessar o sistema.
@@ -25,18 +25,19 @@ function HeaderCard() {
 
 function LoginPanel() {
 	return (
-		<Surface variant='elevated' p={{ base: 4, md: 6 }} w='full' maxW='md' mx='auto'>
-			<VStack align='stretch' gap={4}>
+		<Surface variant='elevated' p={{ base: 4, md: 6 }} w='full' display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
+			<VStack align='stretch' gap={4} w='full' alignItems='center' justifyContent='center'>
 				<Box>
-					<Heading as='h2' textStyle='h4'>
-						Entrar no Sistema
+					<Heading as='h2' textStyle='h4' textAlign='center'>
+						Entrar no sistema
 					</Heading>
-					<Text mt={1} textStyle='small' color='pink.100'>
+					<Text mt={1} textStyle='small' color='pink.100' textAlign='center'>
 						Digite seu usuário e senha para continuar.
 					</Text>
 				</Box>
 
 				<LoginForm />
+
 			</VStack>
 		</Surface>
 	);
@@ -51,11 +52,8 @@ export function LoginPage() {
 			minH='100%'
 			direction='column'
 			align='center'
-			justify='center'
 			overflowY='auto'
 			scrollbarGutter='stable'
-			px={{ base: 4, md: 8 }}
-			py={{ base: 4, md: 8 }}
 		>
 			<Flex as='section' direction='column' align='stretch' gap={5} w='full' maxW='2xl' mx='auto'>
 				<HeaderCard />

@@ -1,4 +1,4 @@
-import { Flex, Icon, Text } from '@chakra-ui/react';
+import { Flex, Icon, SimpleGrid, Text } from '@chakra-ui/react';
 import { CircleAlert } from 'lucide-react';
 import type { FieldValues } from 'react-hook-form';
 
@@ -17,6 +17,7 @@ export function DynamicForm<T extends FieldValues>({
 	errors,
 	isValid,
 	loading,
+	columns = 1,
 	generalError,
 	onSubmit,
 	buttonLabel,
@@ -71,19 +72,21 @@ export function DynamicForm<T extends FieldValues>({
 				</Flex>
 			)}
 
-			{fields.map((field, index) =>
-				renderDynamicField({
-					field,
-					index,
-					control,
-					errors,
-					isValid,
-					loading,
-					setError,
-					clearErrors,
-					renderers,
-				}),
-			)}
+			<SimpleGrid w='full' columns={columns} gap={4}>
+				{fields.map((field, index) =>
+					renderDynamicField({
+						field,
+						index,
+						control,
+						errors,
+						isValid,
+						loading,
+						setError,
+						clearErrors,
+						renderers,
+					}),
+				)}
+			</SimpleGrid>
 
 			{extraContent}
 
