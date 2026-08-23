@@ -1,4 +1,4 @@
-import { findForbiddenWords } from '../../../utils/forbidden-words/forbiddenWordsUtils';
+import { findForbiddenWords } from '../../../utils/forbidden-words/util';
 
 type SanitizeConfig = {
 	maxTags: number;

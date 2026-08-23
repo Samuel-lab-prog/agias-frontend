@@ -16,7 +16,6 @@ export * from './auth/types';
 export * from './curriculum/endpoints';
 export * from './curriculum/keys';
 export * from './curriculum/types';
-export * from './optimistic';
 export * from './schedule/endpoints';
 export * from './schedule/keys';
 export * from './schedule/types';

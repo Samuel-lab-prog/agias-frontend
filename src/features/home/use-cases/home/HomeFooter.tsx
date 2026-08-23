@@ -1,11 +1,10 @@
 import { Surface } from '@BaseComponents';
 import { Flex, HStack, Link, Text } from '@chakra-ui/react';
+import type { NavigationLink } from '@core/components/navigation';
 import { NavLink } from 'react-router-dom';
 
-import type { NavbarLink } from './types';
-
 type HomeFooterProps = {
-	links: NavbarLink[];
+	links: NavigationLink[];
 };
 
 export function HomeFooter({ links }: HomeFooterProps) {

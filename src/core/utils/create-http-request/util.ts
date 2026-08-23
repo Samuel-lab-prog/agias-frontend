@@ -1,7 +1,7 @@
 ﻿import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
 import { eventBus } from '@root/core/events/eventBus';
 
-import type { AppErrorType } from '../appError';
+import type { AppErrorType } from '../app-error/util';
 
 type QueryPrimitive = string | number | boolean;
 type QueryValue = QueryPrimitive | QueryPrimitive[] | undefined;

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { FetchQueryOptions } from '@tanstack/react-query';
+import type { FetchQueryOptions, QueryClient, QueryKey } from '@tanstack/react-query';
 
-import { queryClient } from '../queryClient';
+import { queryClient } from '../utils/query-client/util';
 
 /**
  * Helper for defining query keys with type safety and autocompletion.
@@ -199,3 +199,50 @@ export function createMutationEndpoint<TInput, TResult>(
 export async function invalidateMany(...keys: Array<readonly unknown[]>) {
 	await Promise.all(keys.map((key) => queryClient.invalidateQueries({ queryKey: key })));
 }
+
+export type OptimisticSnapshot<TData = unknown> = {
+	queryKey: QueryKey;
+	data: TData | undefined;
+};
+
+export async function snapshotQueryData<TData>(
+	queryClient: QueryClient,
+	queryKey: QueryKey,
+): Promise<OptimisticSnapshot<TData>> {
+	await queryClient.cancelQueries({ queryKey });
+
+	return {
+		queryKey,
+		data: queryClient.getQueryData<TData>(queryKey),
+	};
+}
+
+export async function snapshotQueriesData<TData>(
+	queryClient: QueryClient,
+	queryKey: QueryKey,
+): Promise<Array<OptimisticSnapshot<TData>>> {
+	await queryClient.cancelQueries({ queryKey });
+
+	return queryClient.getQueriesData<TData>({ queryKey }).map(([resolvedKey, data]) => ({
+		queryKey: resolvedKey,
+		data,
+	}));
+}
+
+export function restoreSnapshot<TData>(
+	queryClient: QueryClient,
+	snapshot?: OptimisticSnapshot<TData>,
+) {
+	if (!snapshot) return;
+	queryClient.setQueryData(snapshot.queryKey, snapshot.data);
+}
+
+export function restoreSnapshots(
+	queryClient: QueryClient,
+	snapshots: Array<OptimisticSnapshot<unknown>> = [],
+) {
+	snapshots.forEach((snapshot) => {
+		queryClient.setQueryData(snapshot.queryKey, snapshot.data);
+	});
+}
+	
