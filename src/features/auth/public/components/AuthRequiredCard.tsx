@@ -7,14 +7,12 @@ type AuthRequiredCardProps = Omit<BoxProps, 'title'> & {
 	eyebrow?: string;
 	title: string;
 	description: string;
-	showCreateAccount?: boolean;
 };
 
 export function AuthRequiredCard({
 	eyebrow = 'ENTRADA OBRIGATÓRIA',
 	title,
 	description,
-	showCreateAccount = false,
 	...boxProps
 }: AuthRequiredCardProps) {
 	return (

@@ -25,7 +25,15 @@ function HeaderCard() {
 
 function LoginPanel() {
 	return (
-		<Surface variant='elevated' p={{ base: 4, md: 6 }} w='full' display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
+		<Surface
+			variant='elevated'
+			p={{ base: 4, md: 6 }}
+			w='full'
+			display='flex'
+			flexDirection='column'
+			alignItems='center'
+			justifyContent='center'
+		>
 			<VStack align='stretch' gap={4} w='full' alignItems='center' justifyContent='center'>
 				<Box>
 					<Heading as='h2' textStyle='h4' textAlign='center'>
@@ -37,7 +45,6 @@ function LoginPanel() {
 				</Box>
 
 				<LoginForm />
-
 			</VStack>
 		</Surface>
 	);

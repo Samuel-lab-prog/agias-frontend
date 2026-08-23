@@ -41,7 +41,10 @@ const getUsers = createQueryEndpoint<[UsersSearchParams], UsersPage>({
 		}),
 });
 
-const getUsersPreview = createQueryEndpoint<[Pick<UsersSearchParams, 'limit' | 'searchTerm'>?], UsersPage>({
+const getUsersPreview = createQueryEndpoint<
+	[Pick<UsersSearchParams, 'limit' | 'searchTerm'>?],
+	UsersPage
+>({
 	key: userKeys.anySearch,
 
 	fn: (params) =>

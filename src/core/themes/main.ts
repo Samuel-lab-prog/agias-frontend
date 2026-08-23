@@ -118,7 +118,7 @@ const globalCss = defineGlobalStyles({
 	html: {
 		scrollBehavior: 'smooth',
 		scrollbarGutter: 'stable',
-		fontSize: '20px',
+		fontSize: '18px',
 	},
 
 	'h1, h2, h3, h4, h5, h6': {
@@ -131,7 +131,8 @@ const globalCss = defineGlobalStyles({
 		display: 'flex',
 		margin: '0',
 		boxSizing: 'border-box',
-		overflow: 'hidden',
+		overflowX: 'hidden',
+		overflowY: 'auto',
 		minHeight: '100dvh',
 	},
 
@@ -140,8 +141,8 @@ const globalCss = defineGlobalStyles({
 		flexDirection: 'column',
 		alignItems: 'stretch',
 		width: '100%',
-		height: '100dvh',
 		minHeight: '100dvh',
+		height: 'auto',
 	},
 });
 

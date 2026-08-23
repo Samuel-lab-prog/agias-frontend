@@ -2,7 +2,12 @@ import { createMutationEndpoint, createQueryEndpoint } from '@Api/utils';
 import { createHTTPRequest } from '@Utils';
 
 import { curriculumKeys } from './keys';
-import type { AcademicPeriod, ClassOffering, CreateAcademicPeriodBody, CreateClassOfferingBody } from './types';
+import type {
+	AcademicPeriod,
+	ClassOffering,
+	CreateAcademicPeriodBody,
+	CreateClassOfferingBody,
+} from './types';
 
 const getCurriculum = createQueryEndpoint<[], never>({
 	key: curriculumKeys.all,

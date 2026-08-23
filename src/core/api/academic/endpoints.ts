@@ -24,7 +24,8 @@ import type {
 
 const getMyStudentProfile = createQueryEndpoint<[], StudentProfile>({
 	key: academicKeys.myStudentProfile,
-	fn: () => createHTTPRequest<StudentProfile>({ method: 'GET', path: '/academic/students/profile/me' }),
+	fn: () =>
+		createHTTPRequest<StudentProfile>({ method: 'GET', path: '/academic/students/profile/me' }),
 });
 
 const getMyProfessorProfile = createQueryEndpoint<[], ProfessorProfile>({
@@ -101,14 +102,16 @@ const createStudentProfile = createMutationEndpoint<CreateStudentProfileBody, St
 		}),
 });
 
-const createProfessorProfile = createMutationEndpoint<CreateProfessorProfileBody, ProfessorProfile>({
-	fn: (data) =>
-		createHTTPRequest<ProfessorProfile, CreateProfessorProfileBody>({
-			method: 'POST',
-			path: '/academic/professors/profile',
-			body: data,
-		}),
-});
+const createProfessorProfile = createMutationEndpoint<CreateProfessorProfileBody, ProfessorProfile>(
+	{
+		fn: (data) =>
+			createHTTPRequest<ProfessorProfile, CreateProfessorProfileBody>({
+				method: 'POST',
+				path: '/academic/professors/profile',
+				body: data,
+			}),
+	},
+);
 
 const createStaffProfile = createMutationEndpoint<CreateStaffProfileBody, StaffProfile>({
 	fn: (data) =>
@@ -128,14 +131,16 @@ const updateStudentProfile = createMutationEndpoint<UpdateStudentProfileBody, St
 		}),
 });
 
-const updateProfessorProfile = createMutationEndpoint<UpdateProfessorProfileBody, ProfessorProfile>({
-	fn: (data) =>
-		createHTTPRequest<ProfessorProfile, UpdateProfessorProfileBody>({
-			method: 'PUT',
-			path: '/academic/professors/profile/me',
-			body: data,
-		}),
-});
+const updateProfessorProfile = createMutationEndpoint<UpdateProfessorProfileBody, ProfessorProfile>(
+	{
+		fn: (data) =>
+			createHTTPRequest<ProfessorProfile, UpdateProfessorProfileBody>({
+				method: 'PUT',
+				path: '/academic/professors/profile/me',
+				body: data,
+			}),
+	},
+);
 
 const updateStaffProfile = createMutationEndpoint<UpdateStaffProfileBody, StaffProfile>({
 	fn: (data) =>
@@ -167,13 +172,15 @@ const linkProfessorToDepartment = createMutationEndpoint<
 		}),
 });
 
-const unlinkStudentFromCourse = createMutationEndpoint<UnlinkStudentFromCourseBody, StudentProfile>({
-	fn: () =>
-		createHTTPRequest<StudentProfile>({
-			method: 'PUT',
-			path: '/academic/students/profile/me/course/unlink',
-		}),
-});
+const unlinkStudentFromCourse = createMutationEndpoint<UnlinkStudentFromCourseBody, StudentProfile>(
+	{
+		fn: () =>
+			createHTTPRequest<StudentProfile>({
+				method: 'PUT',
+				path: '/academic/students/profile/me/course/unlink',
+			}),
+	},
+);
 
 const unlinkProfessorFromDepartment = createMutationEndpoint<
 	UnlinkProfessorFromDepartmentBody,

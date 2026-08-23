@@ -27,14 +27,16 @@ const getSubmissionsByStudentProfile = createQueryEndpoint<[string], AcademicAct
 		}),
 });
 
-const createAcademicActivity = createMutationEndpoint<CreateAcademicActivityBody, AcademicActivity>({
-	fn: (data) =>
-		createHTTPRequest<AcademicActivity, CreateAcademicActivityBody>({
-			method: 'POST',
-			path: '/activities/',
-			body: data,
-		}),
-});
+const createAcademicActivity = createMutationEndpoint<CreateAcademicActivityBody, AcademicActivity>(
+	{
+		fn: (data) =>
+			createHTTPRequest<AcademicActivity, CreateAcademicActivityBody>({
+				method: 'POST',
+				path: '/activities/',
+				body: data,
+			}),
+	},
+);
 
 const createAcademicActivitySubmission = createMutationEndpoint<
 	CreateAcademicActivitySubmissionBody,

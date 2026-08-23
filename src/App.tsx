@@ -13,7 +13,14 @@ function lazyPage<TModule extends object>(
 
 function PageLoader() {
 	return (
-		<Flex as='main' layerStyle='mainPadded' direction='column' align='center' minH='32vh' justify='center'>
+		<Flex
+			as='main'
+			layerStyle='mainPadded'
+			direction='column'
+			align='center'
+			minH='32vh'
+			justify='center'
+		>
 			<Spinner size='lg' color='pink.300' />
 		</Flex>
 	);
@@ -27,8 +34,14 @@ function renderLazyPage(Component: ComponentType) {
 	);
 }
 
-const HomePage = lazyPage(() => import('./core/pages/Home'), (module) => module.HomePage);
-const LoginPage = lazyPage(() => import('./features/auth/use-cases/login/Page'), (module) => module.LoginPage);
+const HomePage = lazyPage(
+	() => import('./core/pages/Home'),
+	(module) => module.HomePage,
+);
+const LoginPage = lazyPage(
+	() => import('./features/auth/use-cases/login/Page'),
+	(module) => module.LoginPage,
+);
 
 const router = createBrowserRouter([
 	{

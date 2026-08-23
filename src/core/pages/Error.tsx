@@ -160,15 +160,15 @@ function getErrorInfo(error: unknown): ErrorInfo {
 
 		if (status === 401) {
 			if (maybeError.message?.toLowerCase().includes('banned')) {
-			return {
-				status: 401,
-				code: maybeError.code,
-				message: getBannedPrivilegeMessage(),
-				description:
-					'Use uma conta diferente ou entre em contato com o suporte se isso parecer incorreto.',
-				recoveryTo: '/login',
-				recoveryLabel: 'Ir para o login',
-			};
+				return {
+					status: 401,
+					code: maybeError.code,
+					message: getBannedPrivilegeMessage(),
+					description:
+						'Use uma conta diferente ou entre em contato com o suporte se isso parecer incorreto.',
+					recoveryTo: '/login',
+					recoveryLabel: 'Ir para o login',
+				};
 			}
 
 			return {
@@ -276,7 +276,7 @@ export function ErrorPage() {
 
 				{info.status && (
 					<Text textStyle='smaller' mt={2} color='pink.200'>
-					Erro {info.status}
+						Erro {info.status}
 						{info.code ? ` (${info.code})` : ''}
 					</Text>
 				)}
