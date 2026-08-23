@@ -1,18 +1,25 @@
 import type { StudentProfile } from '@Api/academic/types';
 import { Surface } from '@BaseComponents';
 import { Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import { translateBackendStatus } from '@core/utils/backend-labels';
 
 type StudentInstitutionCardProps = {
 	profile?: StudentProfile;
+	courseLevel?: string | null;
+	attendanceSummary?: {
+		percentage: number;
+	};
 };
 
-export function StudentInstitutionCard({ profile }: StudentInstitutionCardProps) {
+export function StudentInstitutionCard({ profile, courseLevel, attendanceSummary }: StudentInstitutionCardProps) {
+	const courseLabel = profile?.courseId !== null && profile?.courseId !== undefined ? `Curso ${profile.courseId}` : 'Curso não vinculado';
 	const institutionData = [
-		['Matrícula', profile?.academicId ?? '...'],
-		['Curso', profile?.courseId ? String(profile.courseId) : 'Não vinculado'],
-		['Nível', 'TÉCNICO INTEGRADO'],
-		['Status', profile?.status ?? '...'],
-		['Entrada', profile?.admissionYear ? String(profile.admissionYear) : '...'],
+		['Matrícula', profile?.academicId ?? 'Não informado'],
+		['Curso', courseLabel],
+		['Nível', courseLevel ?? 'Não informado pelo backend'],
+		['Frequência', attendanceSummary ? `${attendanceSummary.percentage}%` : 'Sem dados'],
+		['Status', translateBackendStatus(profile?.status)],
+		['Entrada', profile?.admissionYear ? String(profile.admissionYear) : 'Não informado'],
 	];
 
 	return (

@@ -1,11 +1,10 @@
 import { Surface } from '@BaseComponents';
 import { Badge, Box, Button, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+import { communications } from '@Api/communications/endpoints';
+import { communicationsKeys } from '@Api/communications/keys';
+import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
+import { useQuery } from '@tanstack/react-query';
 import { Bell, BookOpen, FileText } from 'lucide-react';
-
-const notices = [
-	'Não há notícias cadastradas.',
-	'Fique atento aos avisos e comunicados da sua instituição.',
-];
 
 const updates = [
 	{
@@ -72,6 +71,17 @@ const activities = [
 ];
 
 export function HomeMainColumn() {
+	const clientId = useAuthClientStore((state) => state.authClient?.id ?? null);
+	const query = useQuery({
+		queryKey: communicationsKeys.myAnnouncements(),
+		enabled: !!clientId,
+		staleTime: 60_000,
+		queryFn: () => communications.getMyAnnouncements.query().queryFn(),
+	});
+
+	const visibleAnnouncements = (query.data ?? []).slice(0, 3);
+	const remainingAnnouncements = Math.max(0, (query.data?.length ?? 0) - visibleAnnouncements.length);
+
 	return (
 		<VStack align='stretch' gap={4}>
 			<Surface variant='panel' p={{ base: 3.5, md: 4 }}>
@@ -87,11 +97,30 @@ export function HomeMainColumn() {
 					</Box>
 					<Box flex='1'>
 						<Heading as='h3' textStyle='h6'>
-							{notices[0]}
+							{visibleAnnouncements.length > 0 ? 'Comunicados recentes' : 'Nenhum comunicado publicado'}
 						</Heading>
-						<Text textStyle='smaller' color='pink.100' mt={1.5}>
-							{notices[1]}
-						</Text>
+						<VStack align='stretch' gap={1} mt={1.5}>
+							{visibleAnnouncements.map((announcement) => (
+								<Box key={announcement.id}>
+									<Text textStyle='smaller' fontWeight='semibold'>
+										{announcement.title}
+									</Text>
+									<Text textStyle='smaller' color='pink.100'>
+										{announcement.body}
+									</Text>
+								</Box>
+							))}
+							{visibleAnnouncements.length === 0 ? (
+								<Text textStyle='smaller' color='pink.100'>
+									Os comunicados publicados pela staff aparecerão aqui.
+								</Text>
+							) : null}
+							{remainingAnnouncements > 0 ? (
+								<Text textStyle='smaller' color='pink.100'>
+									Mais {remainingAnnouncements} comunicado{remainingAnnouncements > 1 ? 's' : ''}.
+								</Text>
+							) : null}
+						</VStack>
 					</Box>
 					<Button size='sm' variant='outline' color='pink.100' borderColor='border'>
 						Ver todas as notícias

@@ -22,13 +22,13 @@ function getActivityStatus(
 		return {
 			label: 'Pendente',
 			colorPalette: 'orange',
-			description: 'Não entregue',
+			description: 'Ainda não enviada',
 		};
 	}
 
 	if (submission.grade !== null) {
-		return {
-			label: 'Avaliada',
+	return {
+		label: 'Avaliada',
 			colorPalette: 'green',
 			description: '',
 		};
@@ -42,6 +42,8 @@ function getActivityStatus(
 }
 
 export function StudentActivitiesCard({ enrollments, submissions }: StudentActivitiesCardProps) {
+	const dateFormatter = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit' });
+	const timeFormatter = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' });
 	const activities = enrollments
 		.flatMap((enrollment) =>
 			enrollment.activities.map((activity) => ({
@@ -57,6 +59,19 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 		})
 		.slice(0, 4);
 
+	const getDaysLeft = (dueAt: string) => {
+		const dueDate = new Date(dueAt);
+		const today = new Date();
+		const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+		const startOfDueDate = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
+		const diffMs = startOfDueDate.getTime() - startOfToday.getTime();
+		const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+		if (diffDays <= 0) return 'Entrega hoje';
+		if (diffDays === 1) return 'Falta 1 dia';
+		return `Faltam ${diffDays} dias`;
+	};
+
 	return (
 		<Surface variant='panel' p={{ base: 4, md: 5 }}>
 			<Flex justify='space-between' align='center' gap={3} wrap='wrap' mb={4}>
@@ -67,7 +82,14 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 					</Heading>
 				</HStack>
 
-				<Button size='sm' variant='ghost' color='pink.100'>
+				<Button
+					size='sm'
+					variant='outline'
+					color='pink.100'
+					borderColor='border'
+					bg='transparent'
+					_hover={{ bg: 'rgba(255,255,255,0.06)', borderColor: 'borderHover', color: 'pink.50' }}
+				>
 					Ver todas as atividades
 				</Button>
 			</Flex>
@@ -76,7 +98,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 				{activities.length === 0 ? (
 					<Box px={2} py={3}>
 						<Text textStyle='smaller' color='pink.100'>
-							Nenhuma atividade encontrada para suas turmas.
+							Nenhuma atividade disponível no momento.
 						</Text>
 					</Box>
 				) : (
@@ -99,10 +121,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 										{activity.title} - {activity.classTitle}
 									</Text>
 									<Text textStyle='smaller' color='pink.100'>
-										
-									</Text>
-									<Text textStyle='smaller' color='pink.100'>
-										Postada em {new Intl.DateTimeFormat('pt-BR').format(new Date(activity.createdAt))}
+										Postada em {dateFormatter.format(new Date(activity.createdAt))}
 									</Text>
 									
 								</Box>
@@ -112,9 +131,16 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 								<Badge colorPalette={getActivityStatus(activity, submissions).colorPalette}>
 									{getActivityStatus(activity, submissions).label}
 								</Badge>
-								<Text textStyle='smaller' color='pink.100'>
-										Entrega em {activity.dueAt ? new Intl.DateTimeFormat('pt-BR').format(new Date(activity.dueAt)) : 'sem prazo'}
+								{activity.dueAt ? (
+									<Text textStyle='smaller' color='pink.100' textAlign='right'>
+										Entrega em {dateFormatter.format(new Date(activity.dueAt))} às{' '}
+										{timeFormatter.format(new Date(activity.dueAt))} · {getDaysLeft(activity.dueAt)}
 									</Text>
+								) : (
+									<Text textStyle='smaller' color='pink.100'>
+										Sem prazo definido
+									</Text>
+								)}
 							</VStack>
 						</Flex>
 					))

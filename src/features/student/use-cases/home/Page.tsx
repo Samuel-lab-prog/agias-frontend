@@ -24,8 +24,12 @@ export function StudentHomePage() {
 				</VStack>
 
 				<VStack align='stretch' gap={4}>
-					<StudentProfileCard profile={dashboard?.profile} />
-					<StudentInstitutionCard profile={dashboard?.profile} />
+					<StudentProfileCard profile={dashboard?.profile} userName={dashboard?.userName} />
+					<StudentInstitutionCard
+						profile={dashboard?.profile}
+						courseLevel={dashboard?.courseLevel}
+						attendanceSummary={dashboard?.attendanceSummary}
+					/>
 				</VStack>
 			</Grid>
 		</NavigationPageShell>

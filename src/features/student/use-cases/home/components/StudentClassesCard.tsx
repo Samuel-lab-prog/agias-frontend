@@ -34,7 +34,14 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 					</Heading>
 				</HStack>
 
-				<Button size='sm' variant='ghost' color='pink.100'>
+				<Button
+					size='sm'
+					variant='outline'
+					color='pink.100'
+					borderColor='border'
+					bg='transparent'
+					_hover={{ bg: 'rgba(255,255,255,0.06)', borderColor: 'borderHover', color: 'pink.50' }}
+				>
 					Ver grade do semestre
 				</Button>
 			</Flex>
@@ -60,7 +67,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 				{rows.length === 0 ? (
 					<VStack px={3} py={6} align='stretch'>
 						<Text textStyle='smaller' color='pink.100'>
-							Nenhuma turma ativa encontrada.
+							Nenhuma matéria disponível para exibição.
 						</Text>
 					</VStack>
 				) : (
