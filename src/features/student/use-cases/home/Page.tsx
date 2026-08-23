@@ -1,5 +1,7 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
-import { NavigationPageShell, studentNavigationPreset } from '@core/components/navigation';
+import { NavigationPageShell } from '@core/components/navigation';
+
+import { studentNavigationPreset } from './navigation';
 
 export function StudentHomePage() {
 	return (

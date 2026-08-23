@@ -1,14 +1,14 @@
 import { Grid, GridItem } from '@chakra-ui/react';
-import { homeNavigationPreset, NavigationPageShell } from '@core/components/navigation';
+import { NavigationPageShell } from '@core/components/navigation';
 import { useAuthClientStore } from '@features/auth/public';
 
 import { HomeFooter } from './HomeFooter';
 import { HomeHeader } from './HomeHeader';
 import { HomeMainColumn } from './HomeMainColumn';
 import { HomeSidebar } from './HomeSidebar';
+import { homeNavigationPreset } from './navigation';
 
 const footerLinks = [
-	{ label: 'Página inicial', to: '/' },
 	{ label: 'Login', to: '/login' },
 ];
 

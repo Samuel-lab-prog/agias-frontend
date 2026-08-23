@@ -20,7 +20,7 @@ export function NavigationSidebar({ links, initialActive }: NavigationSidebarPro
 			variant='panel'
 			h='full'
 			px={{ base: 4, md: 5 }}
-			py={0}
+			py={4}
 			overflow='hidden'
 			borderRadius={0}
 			borderColor='purple.500'

@@ -18,7 +18,7 @@ export function NavigationTopBar({
 	return (
 		<Surface
 			variant='panel'
-			px={{ base: 4, md: 5 }}
+			px={{ base: 4, md: 8 }}
 			py={{ base: 3.5, md: 4 }}
 			w='full'
 			borderRadius={0}

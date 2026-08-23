@@ -1,9 +1,9 @@
 import { Flex } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
 
-import type { NavigationPreset } from './presets';
 import { NavigationSidebar } from './Sidebar';
 import { NavigationTopBar } from './TopBar';
+import type { NavigationPreset } from './types';
 
 type NavigationPageShellProps = {
 	preset: NavigationPreset;
@@ -32,7 +32,7 @@ export function NavigationPageShell({
 			</Flex>
 
 			<Flex layerStyle='main' gap={4} direction={{ base: 'column', xl: 'row' }} flex='1'>
-				<Flex display={{ base: 'none', xl: 'block' }} flexShrink={0} w={sidebarWidth} pt={4}>
+				<Flex display={{ base: 'none', xl: 'block' }} flexShrink={0} w={sidebarWidth} >
 					<NavigationSidebar links={preset.links} />
 				</Flex>
 

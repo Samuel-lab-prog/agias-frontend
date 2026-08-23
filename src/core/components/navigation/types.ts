@@ -12,3 +12,10 @@ export type NavigationAction = {
 	to: string;
 	icon?: ElementType;
 };
+
+export type NavigationPreset = {
+	title: string;
+	subtitle?: string;
+	action: NavigationAction;
+	links: NavigationLink[];
+};

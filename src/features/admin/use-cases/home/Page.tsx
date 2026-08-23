@@ -1,5 +1,7 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
-import { adminNavigationPreset, NavigationPageShell } from '@core/components/navigation';
+import { NavigationPageShell } from '@core/components/navigation';
+
+import { adminNavigationPreset } from './navigation';
 
 export function AdminHomePage() {
 	return (
