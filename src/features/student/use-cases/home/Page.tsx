@@ -1,6 +1,6 @@
 import { Grid, Link, Text, VStack } from '@chakra-ui/react';
-import { NavigationPageShell } from '@core/components/navigation';
 import { Box } from '@chakra-ui/react';
+import { NavigationPageShell } from '@core/components/navigation';
 
 import { studentNavigationPreset } from '../../utils/navigation-routes';
 import { useMyStudentDashboard } from '../hooks/useMyStudentDashboard';
