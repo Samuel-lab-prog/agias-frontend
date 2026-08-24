@@ -48,18 +48,23 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 
 			<Box borderColor='border' overflow='hidden'>
 				<Grid
-					templateColumns={{ base: 'minmax(0, 1fr)', md: 'minmax(0, 2fr) minmax(120px, 1fr) minmax(110px, 0.9fr)' }}
+					templateColumns={{
+						base: 'minmax(0, 1fr)',
+						md: 'minmax(220px, 2fr) minmax(120px, 1fr) minmax(110px, 0.9fr)',
+					}}
 					bg='rgba(255,255,255,0.03)'
 					fontSize='sm'
 					fontWeight='semibold'
 					px={3}
 					py={2}
 				>
-					<Box textAlign='center'>Componente Curricular</Box>
-					<Box display={{ base: 'none', md: 'block' }} textAlign='center'>
+					<Box textAlign='center' whiteSpace='nowrap'>
+						Componente Curricular
+					</Box>
+					<Box display={{ base: 'none', md: 'block' }} textAlign='center' whiteSpace='nowrap'>
 						Local
 					</Box>
-					<Box display={{ base: 'none', md: 'block' }} textAlign='center'>
+					<Box display={{ base: 'none', md: 'block' }} textAlign='center' whiteSpace='nowrap'>
 						Horário
 					</Box>
 				</Grid>
@@ -76,7 +81,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 							key={item.key}
 							templateColumns={{
 								base: 'minmax(0, 1fr)',
-								md: 'minmax(0, 2fr) minmax(160px, 1fr) minmax(110px, 0.9fr)',
+								md: 'minmax(220px, 2fr) minmax(160px, 1fr) minmax(110px, 0.9fr)',
 							}}
 							px={3}
 							py={2.5}
@@ -86,14 +91,26 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 							_hover={{ bg: 'rgba(255,255,255,0.03)', transform: 'translateX(2px)' }}
 						>
 							<Box textAlign='left'>
-								<Text fontWeight='bold' color='pink.50' textTransform='uppercase' fontSize='xs'>
+								<Text fontWeight='bold' color='pink.50' textTransform='uppercase' fontSize='xs' whiteSpace='nowrap'>
 									{item.title}
 								</Text>
 							</Box>
-							<Box display={{ base: 'none', md: 'block' }} color='pink.100' fontSize='xs' textAlign='center'>
+							<Box
+								display={{ base: 'none', md: 'block' }}
+								color='pink.100'
+								fontSize='xs'
+								textAlign='center'
+								whiteSpace='nowrap'
+							>
 								{item.location}
 							</Box>
-							<Box display={{ base: 'none', md: 'block' }} color='pink.100' fontSize='xs' textAlign='center'>
+							<Box
+								display={{ base: 'none', md: 'block' }}
+								color='pink.100'
+								fontSize='xs'
+								textAlign='center'
+								whiteSpace='nowrap'
+							>
 								{item.time}
 							</Box>
 						</Grid>

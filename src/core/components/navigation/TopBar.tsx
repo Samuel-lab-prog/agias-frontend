@@ -1,30 +1,31 @@
 import { Surface } from '@BaseComponents';
-import { Flex, Heading, HStack, Icon, Text } from '@chakra-ui/react';
-import { NavLink } from 'react-router-dom';
-
-import type { NavigationAction } from './types';
+import { Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/react';
+import type { ReactNode } from 'react';
+import { Menu } from 'lucide-react';
 
 type NavigationTopBarProps = {
 	title?: string;
-	action?: NavigationAction;
 	subtitle?: string;
+	onMenuClick?: () => void;
+	rightContent?: ReactNode;
 };
 
 export function NavigationTopBar({
 	title = 'AGIAS',
 	subtitle,
-	action = { label: 'Sair', to: '/login' },
+	onMenuClick,
+	rightContent,
 }: NavigationTopBarProps) {
 	return (
 		<Surface
 			variant='panel'
-			px={{ base: 4, md: 8 }}
-			py={{ base: 3.5, md: 4 }}
+			px={{ base: 3, md: 4, xl: 6 }}
+			py={{ base: 3, md: 4 }}
 			w='full'
 			borderRadius={0}
 		>
-			<Flex align='center' justify='space-between' gap={3} wrap='wrap'>
-				<HStack gap={3} align='center'>
+			<Flex align='center' justify='space-between' gap={3} wrap='nowrap'>
+				<HStack gap={2} align='center' minW={0}>
 					<Heading as='h1' textStyle='h6'>
 						{title}
 					</Heading>
@@ -35,19 +36,22 @@ export function NavigationTopBar({
 					) : null}
 				</HStack>
 
-				<NavLink to={action.to}>
-					<HStack
-						px={3}
-						py={2}
-						borderRadius='full'
-						border='1px solid'
-						borderColor='border'
-						_hover={{ bg: 'rgba(255,255,255,0.05)' }}
-					>
-						{action.icon ? <Icon as={action.icon} boxSize={4} /> : null}
-						<Text textStyle='xs'>{action.label}</Text>
-					</HStack>
-				</NavLink>
+				<HStack gap={2} ml='auto'>
+					{rightContent}
+					{onMenuClick ? (
+						<IconButton
+							aria-label='Abrir navegação'
+							variant='ghost'
+							size='sm'
+							display={{ base: 'inline-flex', xl: 'none' }}
+							onClick={onMenuClick}
+							color='pink.100'
+							_hover={{ bg: 'rgba(255,255,255,0.05)', color: 'pink.50' }}
+						>
+							<Menu />
+						</IconButton>
+					) : null}
+				</HStack>
 			</Flex>
 		</Surface>
 	);

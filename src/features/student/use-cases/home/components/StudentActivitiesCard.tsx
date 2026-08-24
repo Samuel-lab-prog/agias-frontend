@@ -107,15 +107,16 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 							key={`${activity.classOfferingId}-${activity.id}`}
 							px={2}
 							py={3}
-							align='center'
+							align='start'
 							justify='space-between'
+							direction={{ base: 'column', md: 'row' }}
 							borderTop={index === 0 ? '0' : '1px solid'}
 							borderColor='border'
 							transition='all 0.2s ease'
 							cursor='pointer'
 							_hover={{ bg: 'rgba(255,255,255,0.03)', transform: 'translateX(2px)' }}
 						>
-							<HStack align='start' gap={3} flex='1' minW={0}>
+							<HStack align='start' gap={3} flex='1' minW={0} w='full'>
 								<Box minW={0}>
 									<Text textStyle='smaller' fontWeight='bold'>
 										{activity.title} - {activity.classTitle}
@@ -127,14 +128,16 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 								</Box>
 							</HStack>
 
-							<VStack align='end' gap={1} flexShrink={0}>
+							<VStack align={{ base: 'start', md: 'end' }} gap={1} flexShrink={0} w={{ base: 'full', md: 'auto' }} mt={{ base: 2, md: 0 }}>
 								<Badge colorPalette={getActivityStatus(activity, submissions).colorPalette}>
 									{getActivityStatus(activity, submissions).label}
 								</Badge>
 								{activity.dueAt ? (
-									<Text textStyle='smaller' color='pink.100' textAlign='right'>
+									<Text textStyle='smaller' color='pink.100' textAlign={{ base: 'left', md: 'right' }}>
 										Entrega em {dateFormatter.format(new Date(activity.dueAt))} às{' '}
-										{timeFormatter.format(new Date(activity.dueAt))} · {getDaysLeft(activity.dueAt)}
+										{timeFormatter.format(new Date(activity.dueAt))}
+										<br />
+										{getDaysLeft(activity.dueAt)}
 									</Text>
 								) : (
 									<Text textStyle='smaller' color='pink.100'>

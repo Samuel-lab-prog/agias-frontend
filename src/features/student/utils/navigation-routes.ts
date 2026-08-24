@@ -3,7 +3,6 @@ import { BookOpen, CalendarDays, ClipboardList, Home, UserRound } from 'lucide-r
 
 export const studentNavigationPreset: NavigationPreset = {
 	title: 'AGIAS',
-	subtitle: 'Home student',
 	action: { label: 'Sair', to: '/login' },
 	links: [
 		{ label: 'Início', to: '/student', icon: Home },

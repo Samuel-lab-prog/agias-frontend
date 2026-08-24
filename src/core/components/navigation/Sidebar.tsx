@@ -9,9 +9,10 @@ import type { NavigationLink } from './types';
 type NavigationSidebarProps = {
 	links: NavigationLink[];
 	initialActive?: string;
+	onLinkClick?: () => void;
 };
 
-export function NavigationSidebar({ links, initialActive }: NavigationSidebarProps) {
+export function NavigationSidebar({ links, initialActive, onLinkClick }: NavigationSidebarProps) {
 	const firstVisible = links.find((link) => !link.hidden)?.label ?? '';
 	const [activeItem, setActiveItem] = useState(initialActive ?? firstVisible);
 
@@ -43,9 +44,12 @@ export function NavigationSidebar({ links, initialActive }: NavigationSidebarPro
 								borderRadius={0}
 								_hover={{ textDecoration: 'none' }}
 							>
-								<NavLink
+									<NavLink
 									to={to}
-									onClick={() => setActiveItem(label)}
+									onClick={() => {
+										setActiveItem(label);
+										onLinkClick?.();
+									}}
 									style={{
 										display: 'block',
 										textDecoration: 'none',
@@ -59,24 +63,23 @@ export function NavigationSidebar({ links, initialActive }: NavigationSidebarPro
 										borderRadius='sm'
 										bg='transparent'
 										border='1px solid'
-										borderColor={isActive ? 'rgba(255,255,255,0.16)' : 'transparent'}
-										color={isActive ? 'pink.50' : 'pink.100'}
+										borderColor='transparent'
+										color='pink.100'
 										cursor='pointer'
 										transition='all 0.2s ease'
 										transform='translateX(0)'
 										_hover={{
 											bg: 'transparent',
 											color: 'pink.50',
-											borderColor: 'rgba(255,255,255,0.12)',
 										}}
 									>
 										<HStack gap={2}>
 											{icon ? <Icon as={icon} boxSize={3.5} opacity={0.85} /> : null}
-											<Text textStyle='smaller' fontWeight={isActive ? 'medium' : 'normal'}>
+											<Text textStyle='smaller' fontWeight={isActive ? 'medium' : 'normal'} color='inherit'>
 												{label}
 											</Text>
 										</HStack>
-										<Box as={ChevronRight} boxSize={3} opacity={0.65} />
+										<Box as={ChevronRight} boxSize={3} opacity={0.65} color='inherit' />
 									</HStack>
 								</NavLink>
 							</Link>

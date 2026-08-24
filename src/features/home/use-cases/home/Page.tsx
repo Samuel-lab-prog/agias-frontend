@@ -1,8 +1,8 @@
 import { Grid, GridItem } from '@chakra-ui/react';
+import { Footer } from '@BaseComponents';
 import { NavigationPageShell } from '@core/components/navigation';
 import { useAuthClientStore } from '@features/auth/public';
 
-import { HomeFooter } from './HomeFooter';
 import { HomeHeader } from './HomeHeader';
 import { HomeMainColumn } from './HomeMainColumn';
 import { HomeSidebar } from './HomeSidebar';
@@ -32,7 +32,7 @@ export function HomePage() {
 				</GridItem>
 			</Grid>
 
-			<HomeFooter links={footerLinks} />
+			<Footer links={footerLinks} />
 		</NavigationPageShell>
 	);
 }

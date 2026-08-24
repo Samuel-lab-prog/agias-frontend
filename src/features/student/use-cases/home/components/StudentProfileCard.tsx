@@ -1,8 +1,9 @@
 import type { StudentProfile } from '@Api/academic/types';
 import { Surface } from '@BaseComponents';
-import { Badge, Box, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+import { Badge, Box, Button, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { translateBackendStatus } from '@core/utils/backend-labels';
-import { FileText, GraduationCap, MessageSquare } from 'lucide-react';
+import { FileText, GraduationCap, LogOut, MessageSquare } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 
 type StudentProfileCardProps = {
 	profile?: StudentProfile;
@@ -21,7 +22,7 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 	const status = translateBackendStatus(profile?.status);
 
 	return (
-		<Surface variant='panel' p={0} overflow='hidden'>
+		<Surface id='student-profile' variant='panel' p={0} overflow='hidden'>
 			<Box
 				p={4}
 				bg='linear-gradient(180deg, rgba(81, 53, 79, 0.98), rgba(58, 33, 56, 0.98))'
@@ -101,6 +102,27 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 						Meus Dados Pessoais
 					</Text>
 				</HStack>
+				<Box px={4} py={3}>
+					<Button
+						asChild
+						w='full'
+						variant='outline'
+						size='sm'
+						color='pink.100'
+						borderColor='border'
+						bg='transparent'
+						_hover={{ bg: 'rgba(255,255,255,0.05)', borderColor: 'borderHover', color: 'pink.50' }}
+					>
+						<NavLink to='/login'>
+							<HStack gap={2}>
+								<LogOut size={16} />
+								<Text textStyle='smaller' fontWeight='semibold'>
+									Sair
+								</Text>
+							</HStack>
+						</NavLink>
+					</Button>
+				</Box>
 
 			</VStack>
 		</Surface>
