@@ -14,20 +14,20 @@ export const textRecipe = defineRecipe({
 			},
 			muted: {
 				textStyle: 'small',
-				color: 'pink.100',
+				color: 'textMuted',
 			},
 			caption: {
 				textStyle: 'smaller',
-				color: 'pink.200',
+				color: 'textMuted',
 				opacity: '0.9',
 			},
 			emphasis: {
 				textStyle: 'small',
-				color: 'pink.300',
+				color: 'accent',
 			},
 			lead: {
 				textStyle: 'lead',
-				color: 'pink.100',
+				color: 'textMuted',
 			},
 			error: {
 				textStyle: 'small',

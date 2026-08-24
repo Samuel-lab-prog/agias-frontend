@@ -25,7 +25,7 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 		<Surface id='student-profile' variant='panel' p={0} overflow='hidden'>
 			<Box
 				p={4}
-				bg='linear-gradient(180deg, rgba(81, 53, 79, 0.98), rgba(58, 33, 56, 0.98))'
+				bg='surface'
 				borderBottom='1px solid'
 				borderColor='border'
 			>
@@ -33,13 +33,13 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 					<Box
 						boxSize={16}
 						borderRadius='full'
-						bg='rgba(18, 0, 17, 0.7)'
+						bg='gray.900'
 						display='grid'
 						placeItems='center'
 						color='white'
 						fontWeight='bold'
 						border='1px solid'
-						borderColor='rgba(255,255,255,0.08)'
+						borderColor='border'
 					>
 						{initials ?? '?'}
 					</Box>
@@ -50,7 +50,7 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 						</Heading>
 						<Text textStyle='smaller'>{academicId ?? 'Matrícula não informada'}</Text>
 						<Text textStyle='smaller'>{courseId ? `Curso ${courseId}` : 'Curso não vinculado'}</Text>
-						<Badge colorPalette='pink' variant='subtle'>
+						<Badge colorPalette='gray' variant='subtle'>
 							{status}
 						</Badge>
 					</VStack>
@@ -72,7 +72,7 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 							Mensagens
 						</Text>
 					</HStack>
-					<Text textStyle='smaller' color='pink.100'>
+					<Text textStyle='smaller' color='textMuted'>
 						Dado não disponível
 					</Text>
 				</HStack>
@@ -111,7 +111,7 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 						color='pink.100'
 						borderColor='border'
 						bg='transparent'
-						_hover={{ bg: 'rgba(255,255,255,0.05)', borderColor: 'borderHover', color: 'pink.50' }}
+						_hover={{ bg: 'surface', borderColor: 'borderHover', color: 'text' }}
 					>
 						<NavLink to='/login'>
 							<HStack gap={2}>

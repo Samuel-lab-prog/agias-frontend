@@ -24,7 +24,7 @@ export const cardSlotRecipe = defineSlotRecipe({
 		},
 		description: {
 			textStyle: 'small',
-			color: 'pink.200',
+			color: 'textMuted',
 		},
 		header: {
 			display: 'flex',
@@ -67,41 +67,42 @@ export const cardSlotRecipe = defineSlotRecipe({
 		variant: {
 			surface: {
 				root: {
-					bg: 'rgba(255, 255, 255, 0.02)',
-					borderColor: 'purple.700',
-					backdropFilter: 'blur(4px)',
+					bg: 'rgba(255, 255, 255, 0.96)',
+					borderColor: 'border',
+					backdropFilter: 'blur(8px)',
+					boxShadow: '0 10px 30px rgba(15, 23, 42, 0.06)',
 				},
 			},
 			interactive: {
 				root: {
-					bg: 'rgba(255, 255, 255, 0.02)',
-					borderColor: 'purple.700',
-					backdropFilter: 'blur(4px)',
+					bg: 'rgba(255, 255, 255, 0.96)',
+					borderColor: 'border',
+					backdropFilter: 'blur(8px)',
 					_hover: {
-						borderColor: 'purple.500',
-						bg: 'rgba(255, 255, 255, 0.04)',
+						borderColor: 'borderHover',
+						bg: 'rgba(255, 255, 255, 1)',
 						transform: 'translateY(-2px)',
-						boxShadow: '0 10px 28px rgba(58, 33, 56, 0.35)',
+						boxShadow: '0 12px 30px rgba(37, 99, 235, 0.08)',
 					},
 					_focusWithin: {
-						borderColor: 'pink.400',
-						bg: 'rgba(255, 255, 255, 0.06)',
-						boxShadow: '0 10px 28px rgba(58, 33, 56, 0.35)',
+						borderColor: 'borderHover',
+						bg: 'rgba(255, 255, 255, 1)',
+						boxShadow: '0 12px 30px rgba(37, 99, 235, 0.1)',
 					},
 				},
 			},
 			elevated: {
 				root: {
-					bg: 'rgba(255, 255, 255, 0.03)',
-					borderColor: 'purple.600',
-					backdropFilter: 'blur(6px)',
-					boxShadow: '0 12px 32px rgba(18, 0, 17, 0.3)',
+					bg: 'rgba(255, 255, 255, 0.98)',
+					borderColor: 'border',
+					backdropFilter: 'blur(10px)',
+					boxShadow: '0 14px 34px rgba(15, 23, 42, 0.07)',
 				},
 			},
 			subtle: {
 				root: {
-					bg: 'rgba(255, 255, 255, 0.01)',
-					borderColor: 'purple.800',
+					bg: 'rgba(255, 255, 255, 0.9)',
+					borderColor: 'border',
 				},
 			},
 			danger: {

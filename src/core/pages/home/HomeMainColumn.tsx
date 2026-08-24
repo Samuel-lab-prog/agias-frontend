@@ -91,7 +91,7 @@ export function HomeMainColumn() {
 						borderRadius='xl'
 						display='grid'
 						placeItems='center'
-						bg='rgba(255,255,255,0.05)'
+						bg='surface'
 					>
 						<Bell size={20} />
 					</Box>
@@ -105,24 +105,24 @@ export function HomeMainColumn() {
 									<Text textStyle='smaller' fontWeight='semibold'>
 										{announcement.title}
 									</Text>
-									<Text textStyle='smaller' color='pink.100'>
+									<Text textStyle='smaller' color='textMuted'>
 										{announcement.body}
 									</Text>
 								</Box>
 							))}
 							{visibleAnnouncements.length === 0 ? (
-								<Text textStyle='smaller' color='pink.100'>
+								<Text textStyle='smaller' color='textMuted'>
 									Os comunicados publicados pela staff aparecerão aqui.
 								</Text>
 							) : null}
 							{remainingAnnouncements > 0 ? (
-								<Text textStyle='smaller' color='pink.100'>
+								<Text textStyle='smaller' color='textMuted'>
 									Mais {remainingAnnouncements} comunicado{remainingAnnouncements > 1 ? 's' : ''}.
 								</Text>
 							) : null}
 						</VStack>
 					</Box>
-					<Button size='sm' variant='outline' color='pink.100' borderColor='border'>
+					<Button size='sm' variant='outline' color='textMuted' borderColor='border'>
 						Ver todas as notícias
 					</Button>
 				</Flex>
@@ -136,7 +136,7 @@ export function HomeMainColumn() {
 							Atualizações
 						</Heading>
 					</HStack>
-					<Button size='sm' variant='ghost' color='pink.100'>
+					<Button size='sm' variant='ghost' color='textMuted'>
 						Ver todas as atualizações
 					</Button>
 				</Flex>
@@ -156,7 +156,7 @@ export function HomeMainColumn() {
 							_hover={{ bg: 'rgba(255,255,255,0.05)', transform: 'translateX(2px)' }}
 						>
 							<Box>
-								<Text textStyle='smaller' color='pink.100'>
+								<Text textStyle='smaller' color='textMuted'>
 									{update.title}
 								</Text>
 								<Text textStyle='smaller' fontWeight='semibold'>
@@ -179,7 +179,7 @@ export function HomeMainColumn() {
 							Componentes de hoje
 						</Heading>
 					</HStack>
-					<Button size='sm' variant='ghost' color='pink.100'>
+					<Button size='sm' variant='ghost' color='textMuted'>
 						Ver toda a agenda
 					</Button>
 				</Flex>
@@ -203,7 +203,7 @@ export function HomeMainColumn() {
 									{component.name}
 								</Text>
 							</Box>
-							<Badge colorPalette='purple' variant='subtle'>
+							<Badge colorPalette='gray' variant='subtle'>
 								{component.time}
 							</Badge>
 						</Flex>
@@ -219,7 +219,7 @@ export function HomeMainColumn() {
 							Minhas atividades
 						</Heading>
 					</HStack>
-					<Button size='sm' variant='ghost' color='pink.100'>
+					<Button size='sm' variant='ghost' color='textMuted'>
 						Ver todas as atividades
 					</Button>
 				</Flex>
@@ -240,7 +240,7 @@ export function HomeMainColumn() {
 						>
 							<Box>
 								<HStack gap={1} wrap='wrap' align='baseline'>
-									<Text textStyle='smaller' color='pink.100'>
+									<Text textStyle='smaller' color='textMuted'>
 										{activity.subject} :
 									</Text>
 									<Text textStyle='smaller' fontWeight='semibold'>
@@ -262,7 +262,7 @@ export function HomeMainColumn() {
 								</Badge>
 							</Box>
 							<VStack align='end' gap={0}>
-								<Text textStyle='smaller' color='pink.100'>
+								<Text textStyle='smaller' color='textMuted'>
 									{activity.date}
 								</Text>
 								<Text textStyle='smaller' color='orange.300'>

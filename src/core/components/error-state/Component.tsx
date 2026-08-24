@@ -34,13 +34,13 @@ export function ErrorStateCard({
 	return (
 		<Box role='alert' w='full' {...stateCardSurfaceStyles} {...boxProps}>
 			<VStack align='start' gap={3} position='relative' zIndex={1}>
-				<Text fontSize='sm' fontWeight='bold' color='pink.200' letterSpacing='0.06em'>
+				<Text fontSize='sm' fontWeight='bold' color='accent' letterSpacing='0.06em'>
 					{eyebrow}
 				</Text>
 				<Text fontSize={{ base: 'lg', md: 'xl' }} fontWeight='semibold' color='white'>
 					{title}
 				</Text>
-				<Text textStyle='small' color='pink.100'>
+				<Text textStyle='small' color='textMuted'>
 					{description}
 				</Text>
 				{renderedAction ? (

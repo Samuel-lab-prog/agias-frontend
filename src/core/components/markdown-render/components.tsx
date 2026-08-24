@@ -44,7 +44,7 @@ export const components: Components = {
 	),
 
 	strong: ({ children }) => (
-		<Text as='strong' fontWeight='700' display='inline' color='pink.400'>
+		<Text as='strong' fontWeight='700' display='inline' color='accent'>
 			{children}
 		</Text>
 	),
@@ -55,7 +55,7 @@ export const components: Components = {
 	),
 
 	mark: ({ children }) => (
-		<Mark as='mark' bg='pink.200' color='purple.900' textStyle='body'>
+		<Mark as='mark' bg='accentSoft' color='gray.900' textStyle='body'>
 			{children}
 		</Mark>
 	),
@@ -90,7 +90,7 @@ export const components: Components = {
 			borderRadius='md'
 			bg='rgba(255, 255, 255, 0.04)'
 			border='1px solid'
-			borderColor='purple.700'
+			borderColor='gray.700'
 			overflowX='auto'
 		>
 			{children}
@@ -114,7 +114,7 @@ export const components: Components = {
 				py={0.5}
 				borderRadius='sm'
 				bg='rgba(255, 255, 255, 0.08)'
-				color='pink.100'
+				color='textMuted'
 			>
 				{children}
 			</Box>
@@ -127,7 +127,7 @@ export const components: Components = {
 			pl={4}
 			py={1}
 			borderLeft='3px solid'
-			borderColor='pink.400'
+			borderColor='borderHover'
 			bg='rgba(255, 255, 255, 0.03)'
 			borderRadius='sm'
 			textStyle='body'
@@ -136,5 +136,5 @@ export const components: Components = {
 			{children}
 		</Box>
 	),
-	hr: () => <Box as='hr' my={6} borderColor='purple.700' />,
+		hr: () => <Box as='hr' my={6} borderColor='gray.700' />,
 };

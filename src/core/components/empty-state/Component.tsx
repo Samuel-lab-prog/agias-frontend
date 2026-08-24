@@ -21,7 +21,7 @@ export function EmptyStateCard({
 	ariaLive = 'polite',
 	eyebrow,
 	eyebrowIcon,
-	eyebrowIconColor = 'pink.200',
+	eyebrowIconColor = 'accent',
 	title,
 	description,
 	action,
@@ -45,7 +45,7 @@ export function EmptyStateCard({
 						{eyebrowIcon ? <Icon as={eyebrowIcon} boxSize={4.5} color={eyebrowIconColor} /> : null}
 						<Text
 							textStyle='smaller'
-							color='pink.200'
+							color='accent'
 							letterSpacing='0.08em'
 							textTransform='uppercase'
 						>
@@ -58,7 +58,7 @@ export function EmptyStateCard({
 					<Heading as='h2' textStyle='h4' color='white' mb={0}>
 						{title}
 					</Heading>
-					<Text textStyle='smaller' color='pink.100'>
+					<Text textStyle='smaller' color='textMuted'>
 						{description}
 					</Text>
 				</VStack>

@@ -81,10 +81,10 @@ export function SelectField<T extends FieldValues>({
 								bg: 'rgba(255, 255, 255, 0.03)',
 							}}
 							_focusVisible={{
-								borderColor: hasError ? 'error' : 'pink.300',
+								borderColor: hasError ? 'error' : 'borderHover',
 								boxShadow: hasError
 									? '0 0 0 5px rgba(239, 68, 68, 0.25)'
-									: '0 0 0 5px rgba(255, 143, 189, 0.25)',
+									: '0 0 0 5px rgba(0, 0, 0, 0.18)',
 								bg: 'rgba(255, 255, 255, 0.04)',
 							}}
 							_disabled={{
@@ -127,8 +127,8 @@ export function SelectField<T extends FieldValues>({
 							borderRadius='md'
 							bg={hasError ? 'rgba(239,68,68,0.14)' : 'rgba(255, 255, 255, 0.05)'}
 							border='1px solid'
-							borderColor={hasError ? 'red.400' : 'purple.600'}
-							color={hasError ? 'red.300' : isFocused ? 'pink.200' : 'pink.300'}
+							borderColor={hasError ? 'red.400' : 'gray.600'}
+							color={hasError ? 'red.300' : isFocused ? 'text' : 'textMuted'}
 							transition='transform 0.24s ease, color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease'
 							transform={isFocused ? 'translateY(-1px)' : 'translateY(0)'}
 						>

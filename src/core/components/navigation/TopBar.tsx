@@ -2,6 +2,7 @@ import { Surface } from '@BaseComponents';
 import { Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
 import { Menu } from 'lucide-react';
+import { useColorModeValue } from '../ui/color-mode';
 
 type NavigationTopBarProps = {
 	title?: string;
@@ -16,6 +17,7 @@ export function NavigationTopBar({
 	onMenuClick,
 	rightContent,
 }: NavigationTopBarProps) {
+	const bg = useColorModeValue('rgba(255,255,255,0.96)', 'surface');
 	return (
 		<Surface
 			variant='panel'
@@ -23,6 +25,7 @@ export function NavigationTopBar({
 			py={{ base: 3, md: 4 }}
 			w='full'
 			borderRadius={0}
+			bg={bg}
 		>
 			<Flex align='center' justify='space-between' gap={3} wrap='nowrap'>
 				<HStack gap={2} align='center' minW={0}>
@@ -30,7 +33,7 @@ export function NavigationTopBar({
 						{title}
 					</Heading>
 					{subtitle ? (
-						<Text textStyle='xs' color='pink.200' display={{ base: 'none', md: 'block' }}>
+						<Text textStyle='xs' color='textMuted' display={{ base: 'none', md: 'block' }}>
 							{subtitle}
 						</Text>
 					) : null}
@@ -45,8 +48,8 @@ export function NavigationTopBar({
 							size='sm'
 							display={{ base: 'inline-flex', xl: 'none' }}
 							onClick={onMenuClick}
-							color='pink.100'
-							_hover={{ bg: 'rgba(255,255,255,0.05)', color: 'pink.50' }}
+							color='textMuted'
+							_hover={{ bg: 'surface', color: 'text' }}
 						>
 							<Menu />
 						</IconButton>

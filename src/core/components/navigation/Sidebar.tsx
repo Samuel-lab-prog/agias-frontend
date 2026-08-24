@@ -3,6 +3,7 @@ import { Box, HStack, Icon, Link, Text, VStack } from '@chakra-ui/react';
 import { ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useColorModeValue } from '../ui/color-mode';
 
 import type { NavigationLink } from './types';
 
@@ -15,6 +16,10 @@ type NavigationSidebarProps = {
 export function NavigationSidebar({ links, initialActive, onLinkClick }: NavigationSidebarProps) {
 	const firstVisible = links.find((link) => !link.hidden)?.label ?? '';
 	const [activeItem, setActiveItem] = useState(initialActive ?? firstVisible);
+	const panelBg = useColorModeValue('rgba(255,255,255,0.98)', 'surface');
+	const itemActiveBg = useColorModeValue('rgba(37,99,235,0.12)', 'transparent');
+	const itemHoverBg = useColorModeValue('rgba(37,99,235,0.08)', 'transparent');
+	const itemActiveColor = useColorModeValue('blue.700', 'text');
 
 	return (
 		<Surface
@@ -24,8 +29,9 @@ export function NavigationSidebar({ links, initialActive, onLinkClick }: Navigat
 			py={4}
 			overflow='hidden'
 			borderRadius={0}
-			borderColor='rgba(255,255,255,0.08)'
+			borderColor='border'
 			borderTop='0'
+			bg={panelBg}
 		>
 			<VStack align='stretch' gap={1} h='full' p={0}>
 				{links
@@ -55,22 +61,22 @@ export function NavigationSidebar({ links, initialActive, onLinkClick }: Navigat
 										textDecoration: 'none',
 									}}
 								>
-										<HStack
+								<HStack
 										justify='space-between'
 										align='center'
 										px={4}
 										py={3}
 										borderRadius='sm'
-										bg='transparent'
+										bg={isActive ? itemActiveBg : 'transparent'}
 										border='1px solid'
-										borderColor='transparent'
-										color='pink.100'
+										borderColor={isActive ? 'borderHover' : 'transparent'}
+										color={isActive ? itemActiveColor : 'textMuted'}
 										cursor='pointer'
 										transition='all 0.2s ease'
 										transform='translateX(0)'
 										_hover={{
-											bg: 'transparent',
-											color: 'pink.50',
+											bg: itemHoverBg,
+											color: itemActiveColor,
 										}}
 									>
 										<HStack gap={2}>
@@ -79,7 +85,7 @@ export function NavigationSidebar({ links, initialActive, onLinkClick }: Navigat
 												{label}
 											</Text>
 										</HStack>
-										<Box as={ChevronRight} boxSize={3} opacity={0.65} color='inherit' />
+										<Box as={ChevronRight} boxSize={3} opacity={0.55} color='inherit' />
 									</HStack>
 								</NavLink>
 							</Link>

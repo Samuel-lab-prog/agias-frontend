@@ -82,13 +82,13 @@ export function FileField<T extends FieldValues>({
 									/>
 								</VisuallyHidden>
 							</Button>
-							<Text textStyle='smaller' color='pink.200'>
+							<Text textStyle='smaller' color='textMuted'>
 								{file ? file.name : 'File not selected'}
 							</Text>
 						</Flex>
 
 						{helpText && (
-							<Text textStyle='smaller' color='pink.200' mt={2}>
+							<Text textStyle='smaller' color='textMuted' mt={2}>
 								{helpText}
 							</Text>
 						)}

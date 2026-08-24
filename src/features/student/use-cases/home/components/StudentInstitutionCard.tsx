@@ -30,7 +30,7 @@ export function StudentInstitutionCard({ profile, courseLevel, attendanceSummary
 			<VStack align='stretch' gap={2}>
 				{institutionData.map(([label, value]) => (
 					<Flex key={label} justify='space-between' gap={3}>
-						<Text textStyle='smaller' color='pink.100'>
+						<Text textStyle='smaller' color='textMuted'>
 							{label}
 						</Text>
 						<Text textStyle='smaller' fontWeight='semibold' textAlign='right'>

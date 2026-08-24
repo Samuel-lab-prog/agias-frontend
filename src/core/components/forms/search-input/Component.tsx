@@ -48,12 +48,12 @@ export function SearchInput({
 					bg: 'rgba(255, 255, 255, 0.05)',
 				}}
 				_focusVisible={{
-					borderColor: 'pink.300',
-					boxShadow: '0 0 0 3px rgba(255, 143, 189, 1)',
+					borderColor: 'gray.500',
+					boxShadow: '0 0 0 3px rgba(0, 0, 0, 0.18)',
 					bg: 'rgba(255, 255, 255, 0.06)',
 				}}
 				_focus={{
-					borderColor: 'pink.300',
+					borderColor: 'gray.500',
 					bg: 'rgba(255, 255, 255, 0.06)',
 				}}
 			/>

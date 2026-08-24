@@ -275,7 +275,7 @@ export function ErrorPage() {
 				</Text>
 
 				{info.status && (
-					<Text textStyle='smaller' mt={2} color='pink.200'>
+					<Text textStyle='smaller' mt={2} color='textMuted'>
 						Erro {info.status}
 						{info.code ? ` (${info.code})` : ''}
 					</Text>

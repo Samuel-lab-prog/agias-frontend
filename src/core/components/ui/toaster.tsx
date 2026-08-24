@@ -29,7 +29,7 @@ export const Toaster = () => (
 						color={colorPalette ? `${colorPalette}.50` : undefined}
 					>
 						{toast.type === 'loading' ? (
-							<Spinner size='sm' color='blue.solid' />
+							<Spinner size='sm' color='gray.700' />
 						) : (
 							<Toast.Indicator />
 						)}

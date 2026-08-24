@@ -89,14 +89,14 @@ export function FormField<T extends FieldValues>({
 								bg: 'rgba(255, 255, 255, 0.05)',
 							}}
 							_focusVisible={{
-								borderColor: hasError ? 'error' : 'pink.300',
+								borderColor: hasError ? 'error' : 'borderHover',
 								boxShadow: hasError
 									? '0 0 0 3px rgba(239, 68, 68, 1)'
-									: '0 0 0 3px rgba(255, 143, 189, 1)',
+									: '0 0 0 3px rgba(0, 0, 0, 0.18)',
 								bg: 'rgba(255, 255, 255, 0.06)',
 							}}
 							_focus={{
-								borderColor: hasError ? 'error' : 'pink.300',
+								borderColor: hasError ? 'error' : 'borderHover',
 								bg: 'rgba(255, 255, 255, 0.06)',
 							}}
 							autoFocus={autoFocus}
@@ -137,7 +137,7 @@ export function FormField<T extends FieldValues>({
 						{shouldShowCharacterCount && (
 							<Text
 								textStyle='smaller'
-								color={isBelowMinLength ? 'error' : 'pink.300'}
+								color={isBelowMinLength ? 'error' : 'textMuted'}
 								w='full'
 								textAlign='right'
 							>

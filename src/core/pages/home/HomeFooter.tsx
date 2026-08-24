@@ -19,12 +19,12 @@ export function HomeFooter({ links }: HomeFooterProps) {
 				borderColor='border'
 				direction={{ base: 'column', md: 'row' }}
 			>
-				<Text textStyle='xs' color='pink.200'>
+				<Text textStyle='xs' color='textMuted'>
 					AGIAS | Diretoria de Tecnologia da Informação
 				</Text>
 				<Flex gap={4} wrap='wrap' justify='center'>
 					{links.map((link) => (
-						<Text key={link.label} textStyle='xs' color='pink.200'>
+						<Text key={link.label} textStyle='xs' color='textMuted'>
 							{link.label}
 						</Text>
 					))}

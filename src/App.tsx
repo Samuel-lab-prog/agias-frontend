@@ -1,4 +1,4 @@
-import { Toaster } from '@BaseComponents';
+import { ColorModeButton, Toaster } from '@BaseComponents';
 import { Flex, Spinner } from '@chakra-ui/react';
 import { RoleGate } from '@features/auth/public/components/RoleGate';
 import { ErrorPage } from '@features/system/public';
@@ -22,7 +22,7 @@ function PageLoader() {
 			minH='32vh'
 			justify='center'
 		>
-			<Spinner size='lg' color='pink.300' />
+			<Spinner size='lg' color='gray.600' />
 		</Flex>
 	);
 }
@@ -104,6 +104,21 @@ export default function App() {
 	return (
 		<>
 			<RouterProvider router={router} />
+			<Flex
+				position='fixed'
+				right={6}
+				top={6}
+				zIndex={9999}
+				p={1.5}
+				border='1px solid'
+				borderColor='border'
+				borderRadius='full'
+				bg='rgba(255, 255, 255, 0.9)'
+				boxShadow='0 12px 28px rgba(15, 23, 42, 0.12)'
+				backdropFilter='blur(12px)'
+			>
+				<ColorModeButton />
+			</Flex>
 			<Toaster />
 		</>
 	);

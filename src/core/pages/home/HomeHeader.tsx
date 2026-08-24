@@ -24,28 +24,28 @@ export function HomeHeader({ authClient }: HomeProps) {
 			>
 				<VStack align='start' gap={3} maxW='xl'>
 					<Box>
-						<Badge colorPalette='pink' variant='subtle'>
+						<Badge colorPalette='blue' variant='subtle'>
 							{getRoleLabel(authClient)}
 						</Badge>
 						<Heading as='h2' textStyle={{ base: 'h5', md: 'h4' }} mt={2}>
 							Bem-vindo ao sistema acadêmico
 						</Heading>
-						<Text mt={2} textStyle='smaller' color='pink.100' maxW='lg'>
+						<Text mt={2} textStyle='smaller' color='textMuted' maxW='lg'>
 							Aqui você encontra os principais atalhos da sua rotina institucional, com acesso
 							rápido aos módulos que fazem parte do seu perfil.
 						</Text>
 					</Box>
 
 					<HStack gap={3} flexWrap='wrap'>
-						<Button variant='solidPink'>
+						<Button variant='solid'>
 							<Bell />
 							Avisos
 						</Button>
 						<Button
 							variant='outline'
-							color='pink.100'
-							borderColor='purple.500'
-							_hover={{ bg: 'rgba(255,255,255,0.05)' }}
+							color='textMuted'
+							borderColor='border'
+							_hover={{ bg: 'surface' }}
 						>
 							<ArrowRight />
 							Ver módulo principal

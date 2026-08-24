@@ -11,7 +11,7 @@ const links: Link[] = [
 export function FooterCommunity() {
 	return (
 		<VStack align='start' gap={2}>
-			<Text textStyle='small' color='pink.200'>
+			<Text textStyle='small' color='textMuted'>
 				Development
 			</Text>
 			{links.map((link) => (

@@ -18,7 +18,7 @@ export function ProfessorHomePage() {
 				<Heading as='h2' textStyle='h4'>
 					Você fez login como professor
 				</Heading>
-				<Text textStyle='body' color='pink.100'>
+				<Text textStyle='body' color='textMuted'>
 					Esta página está vazia por enquanto.
 				</Text>
 			</Box>

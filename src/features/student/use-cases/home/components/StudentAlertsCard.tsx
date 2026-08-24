@@ -34,10 +34,10 @@ export function StudentAlertsCard() {
 					<Button
 						size='sm'
 						variant='outline'
-						color='pink.100'
+						color='textMuted'
 						borderColor='border'
 						bg='transparent'
-						_hover={{ bg: 'rgba(255,255,255,0.06)', borderColor: 'borderHover', color: 'pink.50' }}
+						_hover={{ bg: 'surface', borderColor: 'borderHover', color: 'text' }}
 					>
 					Ver todas as notícias
 					</Button>
@@ -46,7 +46,7 @@ export function StudentAlertsCard() {
 			<VStack align='stretch' gap={0}>
 				{visibleAnnouncements.length === 0 ? (
 					<Box px={2} py={3}>
-						<Text textStyle='smaller' color='pink.100'>
+						<Text textStyle='smaller' color='textMuted'>
 							Os comunicados publicados pela staff aparecerão aqui.
 						</Text>
 					</Box>
@@ -66,7 +66,7 @@ export function StudentAlertsCard() {
 							_hover={{
 								bg: 'rgba(255,255,255,0.03)',
 								transform: 'translateX(2px)',
-								'& .announcement-accent': { bg: 'pink.300' },
+								'& .announcement-accent': { bg: 'gray.400' },
 							}}
 						>
 							<HStack align='start' gap={3} flex='1' minW={0}>
@@ -76,7 +76,7 @@ export function StudentAlertsCard() {
 									minW='3px'
 									alignSelf='stretch'
 									borderRadius='full'
-									bg={announcement.isPinned ? 'pink.400' : 'borderHover'}
+									bg={announcement.isPinned ? 'gray.500' : 'borderHover'}
 									transition='background-color 0.2s ease'
 								/>
 
@@ -86,7 +86,7 @@ export function StudentAlertsCard() {
 											{announcement.title}
 										</Text>
 										{announcement.isPinned ? (
-											<Box color='pink.200' display='inline-flex' alignItems='center' gap={1}>
+											<Box color='accent' display='inline-flex' alignItems='center' gap={1}>
 												<Pin size={12} />
 												<Text textStyle='smaller' fontWeight='semibold'>
 													Fixado
@@ -94,10 +94,10 @@ export function StudentAlertsCard() {
 											</Box>
 										) : null}
 									</HStack>
-									<Text textStyle='smaller' color='pink.100'>
+									<Text textStyle='smaller' color='textMuted'>
 										{announcement.body}
 									</Text>
-									<Text textStyle='smaller' color='pink.100' mt={1}>
+									<Text textStyle='smaller' color='textMuted' mt={1}>
 										{announcement.publishedAt
 											? `Publicado em ${new Intl.DateTimeFormat('pt-BR', {
 													day: '2-digit',
@@ -108,7 +108,7 @@ export function StudentAlertsCard() {
 								</Box>
 							</HStack>
 
-							<Text textStyle='smaller' color='pink.100' flexShrink={0}>
+							<Text textStyle='smaller' color='textMuted' flexShrink={0}>
 								{translateBackendAudience(announcement.audience)}
 							</Text>
 						</Flex>
@@ -117,7 +117,7 @@ export function StudentAlertsCard() {
 			</VStack>
 
 			{remainingAnnouncements > 0 ? (
-				<Text textStyle='smaller' color='pink.100' mt={3}>
+				<Text textStyle='smaller' color='textMuted' mt={3}>
 					Mais {remainingAnnouncements} comunicado{remainingAnnouncements > 1 ? 's' : ''}.
 				</Text>
 			) : null}

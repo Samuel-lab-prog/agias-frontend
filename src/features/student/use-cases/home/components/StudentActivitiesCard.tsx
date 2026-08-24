@@ -21,22 +21,22 @@ function getActivityStatus(
 	if (!submission) {
 		return {
 			label: 'Pendente',
-			colorPalette: 'orange',
+			colorPalette: 'gray',
 			description: 'Ainda não enviada',
 		};
 	}
 
 	if (submission.grade !== null) {
-	return {
-		label: 'Avaliada',
-			colorPalette: 'green',
+		return {
+			label: 'Avaliada',
+			colorPalette: 'gray',
 			description: '',
 		};
 	}
 
 	return {
 		label: 'Entregue',
-		colorPalette: 'blue',
+		colorPalette: 'gray',
 		description: '',
 	};
 }
@@ -85,10 +85,10 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 				<Button
 					size='sm'
 					variant='outline'
-					color='pink.100'
+					color='textMuted'
 					borderColor='border'
 					bg='transparent'
-					_hover={{ bg: 'rgba(255,255,255,0.06)', borderColor: 'borderHover', color: 'pink.50' }}
+					_hover={{ bg: 'surface', borderColor: 'borderHover', color: 'text' }}
 				>
 					Ver todas as atividades
 				</Button>
@@ -97,7 +97,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 			<VStack align='stretch' gap={0}>
 				{activities.length === 0 ? (
 					<Box px={2} py={3}>
-						<Text textStyle='smaller' color='pink.100'>
+						<Text textStyle='smaller' color='textMuted'>
 							Nenhuma atividade disponível no momento.
 						</Text>
 					</Box>
@@ -114,14 +114,14 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 							borderColor='border'
 							transition='all 0.2s ease'
 							cursor='pointer'
-							_hover={{ bg: 'rgba(255,255,255,0.03)', transform: 'translateX(2px)' }}
+							_hover={{ bg: 'surface', transform: 'translateX(2px)' }}
 						>
 							<HStack align='start' gap={3} flex='1' minW={0} w='full'>
 								<Box minW={0}>
 									<Text textStyle='smaller' fontWeight='bold'>
 										{activity.title} - {activity.classTitle}
 									</Text>
-									<Text textStyle='smaller' color='pink.100'>
+									<Text textStyle='smaller' color='textMuted'>
 										Postada em {dateFormatter.format(new Date(activity.createdAt))}
 									</Text>
 									
@@ -133,14 +133,14 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 									{getActivityStatus(activity, submissions).label}
 								</Badge>
 								{activity.dueAt ? (
-									<Text textStyle='smaller' color='pink.100' textAlign={{ base: 'left', md: 'right' }}>
+									<Text textStyle='smaller' color='textMuted' textAlign={{ base: 'left', md: 'right' }}>
 										Entrega em {dateFormatter.format(new Date(activity.dueAt))} às{' '}
 										{timeFormatter.format(new Date(activity.dueAt))}
 										<br />
 										{getDaysLeft(activity.dueAt)}
 									</Text>
 								) : (
-									<Text textStyle='smaller' color='pink.100'>
+									<Text textStyle='smaller' color='textMuted'>
 										Sem prazo definido
 									</Text>
 								)}

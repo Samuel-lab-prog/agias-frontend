@@ -10,7 +10,7 @@ export function FooterBrand() {
 					display='grid'
 					placeItems='center'
 					borderRadius='full'
-					bg='linear-gradient(135deg, {colors.purple.600}, {colors.pink.400})'
+					bg='linear-gradient(135deg, {colors.gray.900}, {colors.gray.600})'
 					color='white'
 					fontWeight='700'
 					fontSize='sm'
@@ -18,16 +18,16 @@ export function FooterBrand() {
 					OP
 				</Box>
 				<VStack align='start' gap={0}>
-					<Heading as='h3' textStyle='h4' color='pink.100'>
+					<Heading as='h3' textStyle='h4' color='text'>
 						HelloPoetry
 					</Heading>
-					<Badge size='sm' colorPalette='pink' variant='subtle'>
+					<Badge size='sm' colorPalette='gray' variant='subtle'>
 						Poetry Platform
 					</Badge>
 				</VStack>
 			</HStack>
 
-			<Text textStyle='smaller' color='pink.200' maxW='sm'>
+			<Text textStyle='smaller' color='textMuted' maxW='sm'>
 				Publish poems, save favorites, comment, and build connections with other authors.
 			</Text>
 		</VStack>

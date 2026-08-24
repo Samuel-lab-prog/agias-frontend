@@ -43,7 +43,7 @@ export function TagsInputControl({
 		<>
 			<TagsInput.Root
 				w='full'
-				colorPalette='pink'
+				colorPalette='gray'
 				animationName='fade-in'
 				animationDuration='260ms'
 				animationTimingFunction='ease-out'
@@ -51,13 +51,13 @@ export function TagsInputControl({
 				disabled={disabled}
 				css={{
 					"& [data-scope='tags-input'][data-part='item']": {
-						background: 'rgba(122, 19, 66, 0.7) !important',
-						color: 'var(--chakra-colors-pink-50) !important',
-						borderColor: 'var(--chakra-colors-pink-400) !important',
+						background: 'rgba(0, 0, 0, 0.08) !important',
+						color: 'var(--chakra-colors-gray-900) !important',
+						borderColor: 'var(--chakra-colors-gray-400) !important',
 					},
 					"& [data-scope='tags-input'][data-part='itemPreview']": {
 						background: 'transparent !important',
-						color: 'var(--chakra-colors-pink-50) !important',
+						color: 'var(--chakra-colors-gray-900) !important',
 					},
 				}}
 				onValueChange={(details) => onValueChange(details.value)}
@@ -66,7 +66,7 @@ export function TagsInputControl({
 					bg='rgba(255, 255, 255, 0.03)'
 					color='text'
 					border='1px solid'
-					borderColor={hasError ? 'error' : isFocused ? 'pink.300' : 'border'}
+					borderColor={hasError ? 'error' : isFocused ? 'borderHover' : 'border'}
 					borderRadius='md'
 					px={2}
 					textStyle='smaller'
@@ -78,10 +78,10 @@ export function TagsInputControl({
 						bg: 'rgba(255, 255, 255, 0.03)',
 					}}
 					_focusWithin={{
-						borderColor: hasError ? 'error' : 'pink.300',
+						borderColor: hasError ? 'error' : 'borderHover',
 						boxShadow: hasError
 							? '0 0 0 5px rgba(239, 68, 68, 0.25)'
-							: '0 0 0 5px rgba(255, 143, 189, 0.25)',
+							: '0 0 0 5px rgba(0, 0, 0, 0.18)',
 						bg: 'rgba(255, 255, 255, 0.04)',
 					}}
 				>
@@ -91,33 +91,33 @@ export function TagsInputControl({
 								key={index}
 								index={index}
 								value={tag}
-								bg='rgba(122, 19, 66, 0.7)'
-								color='pink.50'
+								bg='rgba(0, 0, 0, 0.08)'
+								color='gray.900'
 								border='1px solid'
-								borderColor='pink.400'
+								borderColor='gray.400'
 								borderRadius='full'
 								animationName='fade-in'
 								animationDuration='180ms'
 								_highlighted={{
-									bg: 'rgba(154, 26, 83, 0.82)',
-									color: 'pink.50',
+									bg: 'rgba(0, 0, 0, 0.14)',
+									color: 'gray.900',
 								}}
 								_selected={{
-									bg: 'rgba(154, 26, 83, 0.82)',
-									color: 'pink.50',
+									bg: 'rgba(0, 0, 0, 0.14)',
+									color: 'gray.900',
 								}}
 							>
 								<TagsInput.ItemPreview
 									bg='transparent'
-									color='pink.50'
+									color='gray.900'
 									_highlighted={{
-										color: 'pink.50',
+										color: 'gray.900',
 									}}
 								>
-									<TagsInput.ItemText color='pink.50'>{tag}</TagsInput.ItemText>
-									<TagsInput.ItemDeleteTrigger color='pink.200' _hover={{ color: 'pink.50' }} />
+									<TagsInput.ItemText color='gray.900'>{tag}</TagsInput.ItemText>
+									<TagsInput.ItemDeleteTrigger color='gray.600' _hover={{ color: 'gray.900' }} />
 								</TagsInput.ItemPreview>
-								<TagsInput.ItemInput bg='transparent' color='pink.50' />
+								<TagsInput.ItemInput bg='transparent' color='gray.900' />
 							</TagsInput.Item>
 						))}
 					</TagsInput.Items>
@@ -130,7 +130,7 @@ export function TagsInputControl({
 						color='text'
 						disabled={disabled || limitReached}
 						maxLength={maxTagLength}
-						_placeholder={{ color: 'pink.200' }}
+						_placeholder={{ color: 'gray.500' }}
 						onFocus={() => setIsFocused(true)}
 						onBlur={(event) => {
 							setIsFocused(false);
@@ -141,14 +141,14 @@ export function TagsInputControl({
 						}}
 					/>
 					<TagsInput.ClearTrigger
-						color='pink.200'
+						color='gray.500'
 						transition='color 0.2s ease'
-						_hover={{ color: 'pink.50' }}
+						_hover={{ color: 'gray.900' }}
 					/>
 				</TagsInput.Control>
 			</TagsInput.Root>
 
-			<Field.HelperText textStyle='smaller' color='pink.200' mt={1}>
+			<Field.HelperText textStyle='smaller' color='textMuted' mt={1}>
 				{tagsCount}/{maxTags} tags
 			</Field.HelperText>
 		</>

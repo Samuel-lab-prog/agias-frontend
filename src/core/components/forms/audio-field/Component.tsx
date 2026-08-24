@@ -131,7 +131,7 @@ export function AudioField<T extends FieldValues>({
 
 			{previewUrl && (
 				<Box mb={3} mt={1}>
-					<Text textStyle='smaller' color='pink.200' mb={2}>
+					<Text textStyle='smaller' color='textMuted' mb={2}>
 						{previewSource === 'recorded'
 							? labelsResolved.previewRecorded
 							: labelsResolved.previewUploaded}
@@ -201,7 +201,7 @@ export function AudioField<T extends FieldValues>({
 			/>
 
 			{file && (
-				<Text textStyle='smaller' color='pink.200' mt={2}>
+				<Text textStyle='smaller' color='textMuted' mt={2}>
 					Selected file: {file.name}
 				</Text>
 			)}

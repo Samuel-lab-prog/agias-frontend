@@ -14,42 +14,40 @@ import { textStyles } from './textStyles';
 
 const tokens = defineTokens({
 	colors: {
-		pink: {
-			50: { value: '#fff0f6' },
-			100: { value: '#ffd6e7' },
-			200: { value: '#ffb3d2' },
-			300: { value: '#ff8fbd' },
-			400: { value: '#ff6aa8' },
-			500: { value: '#f0448e' },
-			600: { value: '#cc2f72' },
-			700: { value: '#a61f59' },
-			800: { value: '#7a1342' },
-			900: { value: '#520a2b' },
-			950: { value: '#3a0619' },
+		white: { value: '#ffffff' },
+		black: { value: '#000000' },
+		slate: {
+			50: { value: '#f8fafc' },
+			100: { value: '#f1f5f9' },
+			200: { value: '#e2e8f0' },
+			300: { value: '#cbd5e1' },
+			400: { value: '#94a3b8' },
+			500: { value: '#64748b' },
+			600: { value: '#475569' },
+			700: { value: '#334155' },
+			800: { value: '#1e293b' },
+			900: { value: '#0f172a' },
+			950: { value: '#020617' },
 		},
-		purple: {
-			50: { value: '#f6f0f6' },
-			100: { value: '#e3d6e2' },
-			200: { value: '#cbb8ca' },
-			300: { value: '#b19bb0' },
-			400: { value: '#8e6f8c' },
-			500: { value: '#6e4f6c' },
-			600: { value: '#51354f' },
-			700: { value: '#3a2138' },
-			800: { value: '#2a0f27' },
-			900: { value: '#1B0019' },
-			950: { value: '#120011' },
+		rose: {
+			50: { value: '#fff1f2' },
+			100: { value: '#ffe4e6' },
+			200: { value: '#fecdd3' },
+			300: { value: '#fda4af' },
+			400: { value: '#fb7185' },
+			500: { value: '#f43f5e' },
+			600: { value: '#e11d48' },
+			700: { value: '#be123c' },
+			800: { value: '#9f1239' },
+			900: { value: '#881337' },
+			950: { value: '#4c0519' },
 		},
 		neutral: {
-			50: { value: '#fffdfa' },
-			100: { value: '#fff7f5' },
-			200: { value: '#f4f1f0' },
-			800: { value: '#2a2528' },
-			900: { value: '#1f1a1d' },
-		},
-		red: {
-			400: { value: '#f87171' },
-			500: { value: '#ef4444' },
+			50: { value: '#fcfcfd' },
+			100: { value: '#f7f8fa' },
+			200: { value: '#eceff3' },
+			800: { value: '#1f2933' },
+			900: { value: '#111827' },
 		},
 	},
 });
@@ -58,57 +56,85 @@ const semanticTokens = defineSemanticTokens({
 	colors: {
 		background: {
 			value: {
-				DEFAULT: '{colors.purple.950}',
-				_dark: '{colors.purple.950}',
+				DEFAULT: '{colors.white}',
+				_dark: '{colors.slate.950}',
 			},
 		},
 
 		border: {
 			value: {
-				DEFAULT: '{colors.purple.700}',
-				_dark: '{colors.purple.500}',
+				DEFAULT: '{colors.slate.200}',
+				_dark: '{colors.slate.800}',
 			},
 		},
 
 		borderHover: {
 			value: {
-				DEFAULT: '{colors.purple.500}',
-				_dark: '{colors.pink.300}',
+				DEFAULT: '{colors.slate.300}',
+				_dark: '{colors.slate.500}',
 			},
 		},
 
 		shadow: {
 			value: {
-				DEFAULT: '{colors.purple.200}',
-				_dark: '{colors.pink.300}',
+				DEFAULT: '{colors.slate.200}',
+				_dark: '{colors.slate.700}',
 			},
 		},
 
 		surface: {
 			value: {
 				base: '{colors.white}',
-				_dark: '{colors.neutral.800}',
+				_dark: '{colors.slate.900}',
 			},
 		},
 
 		accent: {
 			value: {
-				base: '{colors.purple.500}',
-				_dark: '{colors.pink.300}',
+				base: '#1d4ed8',
+				_dark: '{colors.slate.100}',
+			},
+		},
+
+		accentStrong: {
+			value: {
+				base: '#172554',
+				_dark: '{colors.slate.50}',
+			},
+		},
+
+		accentSoft: {
+			value: {
+				base: '#dbeafe',
+				_dark: '{colors.slate.800}',
 			},
 		},
 
 		text: {
 			value: {
-				base: '#4a4a4a',
-				_dark: '#f2f2f2',
+				base: '#1f2a44',
+				_dark: '{colors.slate.100}',
+			},
+		},
+
+		textMuted: {
+			value: {
+				base: '#5f6b85',
+				_dark: '{colors.slate.300}',
 			},
 		},
 
 		error: {
 			value: {
-				base: '{colors.red.500}',
-				_dark: '{colors.red.400}',
+				base: '{colors.rose.600}',
+				_dark: '{colors.rose.400}',
+			},
+		},
+
+		focusRing: {
+			value: {
+				base: '#93c5fd',
+				_dark: '{colors.slate.300}',
 			},
 		},
 	},
@@ -128,6 +154,8 @@ const globalCss = defineGlobalStyles({
 	body: {
 		background: '{colors.background}',
 		color: '{colors.text}',
+		backgroundImage:
+			'linear-gradient(180deg, rgba(255,255,255,1), rgba(248,250,252,1))',
 		display: 'flex',
 		margin: '0',
 		boxSizing: 'border-box',
@@ -143,6 +171,10 @@ const globalCss = defineGlobalStyles({
 		width: '100%',
 		minHeight: '100dvh',
 		height: 'auto',
+	},
+
+	'.dark body': {
+		backgroundImage: 'linear-gradient(180deg, rgba(2,6,23,0.98), rgba(15,23,42,1))',
 	},
 });
 

@@ -30,9 +30,9 @@ export function HomeSidebar({ authClient }: HomeProps) {
 	return (
 		<VStack align='stretch' gap={4}>
 			<Surface variant='panel' p={0} overflow='hidden'>
-				<Box p={4} bg='rgba(255,255,255,0.03)'>
+				<Box p={4} bg='surface'>
 					<HStack align='start' gap={4}>
-						<Avatar.Root size='2xl' bg='purple.700' color='pink.50'>
+						<Avatar.Root size='2xl' bg='gray.900' color='white'>
 							<Avatar.Fallback name='Usuário' />
 						</Avatar.Root>
 
@@ -40,13 +40,13 @@ export function HomeSidebar({ authClient }: HomeProps) {
 							<Heading as='h3' textStyle='h6'>
 								Samuel Gomes Monni
 							</Heading>
-							<Text textStyle='smaller' color='pink.100'>
+							<Text textStyle='smaller' color='textMuted'>
 								2023326456
 							</Text>
-							<Text textStyle='smaller' color='pink.100'>
+							<Text textStyle='smaller' color='textMuted'>
 								{label}
 							</Text>
-							<Badge colorPalette='green' variant='subtle'>
+							<Badge colorPalette='gray' variant='subtle'>
 								Ativo
 							</Badge>
 						</VStack>
@@ -70,7 +70,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 								Mensagens
 							</Text>
 						</HStack>
-						<Badge colorPalette='pink' variant='solid'>
+						<Badge colorPalette='gray' variant='solid'>
 							2
 						</Badge>
 					</Button>
@@ -116,7 +116,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 				<Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={3}>
 					<GridItem>
 						<Box>
-							<Text textStyle='smaller' color='pink.100'>
+							<Text textStyle='smaller' color='textMuted'>
 								Matrícula
 							</Text>
 							<Text textStyle='smaller' fontWeight='semibold'>
@@ -126,7 +126,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 					</GridItem>
 					<GridItem>
 						<Box>
-							<Text textStyle='smaller' color='pink.100'>
+							<Text textStyle='smaller' color='textMuted'>
 								Curso
 							</Text>
 							<Text textStyle='smaller' fontWeight='semibold'>
@@ -136,7 +136,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 					</GridItem>
 					<GridItem>
 						<Box>
-							<Text textStyle='smaller' color='pink.100'>
+							<Text textStyle='smaller' color='textMuted'>
 								Status
 							</Text>
 							<Text textStyle='smaller' fontWeight='semibold'>
@@ -146,7 +146,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 					</GridItem>
 					<GridItem>
 						<Box>
-							<Text textStyle='smaller' color='pink.100'>
+							<Text textStyle='smaller' color='textMuted'>
 								Frequência global
 							</Text>
 							<Text textStyle='smaller' fontWeight='semibold'>
@@ -156,7 +156,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 					</GridItem>
 					<GridItem>
 						<Box>
-							<Text textStyle='smaller' color='pink.100'>
+							<Text textStyle='smaller' color='textMuted'>
 								Ano de entrada
 							</Text>
 							<Text textStyle='smaller' fontWeight='semibold'>
@@ -166,7 +166,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 					</GridItem>
 					<GridItem colSpan={{ base: 1, md: 2 }}>
 						<Box>
-							<Text textStyle='smaller' color='pink.100'>
+							<Text textStyle='smaller' color='textMuted'>
 								E-mail institucional
 							</Text>
 							<Text textStyle='smaller' fontWeight='semibold'>
@@ -197,7 +197,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 							transition='all 0.2s ease'
 							_hover={{ bg: 'rgba(255,255,255,0.05)', transform: 'translateX(2px)' }}
 						>
-							<Text textStyle='smaller' color='pink.100'>
+							<Text textStyle='smaller' color='textMuted'>
 								{event.date}
 							</Text>
 							<Text textStyle='smaller' fontWeight='semibold'>

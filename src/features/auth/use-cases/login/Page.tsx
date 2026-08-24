@@ -8,13 +8,13 @@ function HeaderCard() {
 		<Surface variant='elevated' p={{ base: 4, md: 6 }}>
 			<VStack align='stretch' gap={3}>
 				<Box>
-					<Text textStyle='small' color='pink.200' fontWeight='semibold' letterSpacing='0.08em'>
+					<Text textStyle='small' color='accent' fontWeight='semibold' letterSpacing='0.08em'>
 						AGIAS - Aplicação de Gestão Integrada Acadêmica e de Serviços
 					</Text>
 					<Heading as='h1' textStyle={{ base: 'h3', md: 'h2' }} color='accent' mt={1}>
 						Acesso ao sistema
 					</Heading>
-					<Text mt={2} textStyle='small' color='pink.100'>
+					<Text mt={2} textStyle='small' color='textMuted'>
 						Entre com seu usuário e senha para acessar o sistema.
 					</Text>
 				</Box>
@@ -39,7 +39,7 @@ function LoginPanel() {
 					<Heading as='h2' textStyle='h4' textAlign='center'>
 						Entrar no sistema
 					</Heading>
-					<Text mt={1} textStyle='small' color='pink.100' textAlign='center'>
+					<Text mt={1} textStyle='small' color='textMuted' textAlign='center'>
 						Digite seu usuário e senha para continuar.
 					</Text>
 				</Box>

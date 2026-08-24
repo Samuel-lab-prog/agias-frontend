@@ -29,6 +29,7 @@ export function NavigationPageShell({
 			direction='column'
 			px={{ base: 0, md: 0 }}
 			pb={{ base: 'calc(24px + env(safe-area-inset-bottom, 0px))', md: 10 }}
+			bg='linear-gradient(180deg, #ffffff 0%, #f7f9ff 100%)'
 		>
 			<Flex
 				position='sticky'
@@ -36,9 +37,9 @@ export function NavigationPageShell({
 				zIndex={20}
 				w='full'
 				borderBottom='1px solid'
-				borderColor='purple.500'
-				bg='rgba(18, 0, 17, 0.92)'
-				backdropFilter='blur(8px)'
+				borderColor='border'
+				bg='rgba(255, 255, 255, 0.88)'
+				backdropFilter='blur(14px)'
 			>
 				<NavigationTopBar
 					title={preset.title}

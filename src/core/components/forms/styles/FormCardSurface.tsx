@@ -10,19 +10,19 @@ export function FormCard(props: FlexProps) {
 			w='full'
 			maxW='md'
 			border='1px solid'
-			borderColor='purple.700'
+			borderColor='gray.700'
 			borderRadius='xl'
 			bg='rgba(255, 255, 255, 0.02)'
 			backdropFilter='blur(4px)'
 			transition='background-color 0.26s ease, border-color 0.26s ease, box-shadow 0.26s ease'
 			_hover={{
-				borderColor: 'purple.500',
+				borderColor: 'borderHover',
 				bg: 'rgba(255, 255, 255, 0.04)',
 			}}
 			_focusWithin={{
-				borderColor: 'pink.400',
+				borderColor: 'borderHover',
 				bg: 'rgba(255, 255, 255, 0.06)',
-				boxShadow: '0 10px 28px rgba(58, 33, 56, 0.35)',
+				boxShadow: '0 10px 28px rgba(0, 0, 0, 0.18)',
 			}}
 			animationName='fade-in'
 			animationDuration='420ms'

@@ -37,10 +37,10 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 				<Button
 					size='sm'
 					variant='outline'
-					color='pink.100'
+					color='textMuted'
 					borderColor='border'
 					bg='transparent'
-					_hover={{ bg: 'rgba(255,255,255,0.06)', borderColor: 'borderHover', color: 'pink.50' }}
+					_hover={{ bg: 'surface', borderColor: 'borderHover', color: 'text' }}
 				>
 					Ver grade do semestre
 				</Button>
@@ -52,7 +52,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 						base: 'minmax(0, 1fr)',
 						md: 'minmax(220px, 2fr) minmax(120px, 1fr) minmax(110px, 0.9fr)',
 					}}
-					bg='rgba(255,255,255,0.03)'
+					bg='surface'
 					fontSize='sm'
 					fontWeight='semibold'
 					px={3}
@@ -71,7 +71,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 
 				{rows.length === 0 ? (
 					<VStack px={3} py={6} align='stretch'>
-						<Text textStyle='smaller' color='pink.100'>
+						<Text textStyle='smaller' color='textMuted'>
 							Nenhuma matéria disponível para exibição.
 						</Text>
 					</VStack>
@@ -88,16 +88,16 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 							alignItems='center'
 							cursor='pointer'
 							transition='all 0.2s ease'
-							_hover={{ bg: 'rgba(255,255,255,0.03)', transform: 'translateX(2px)' }}
+							_hover={{ bg: 'surface', transform: 'translateX(2px)' }}
 						>
 							<Box textAlign='left'>
-								<Text fontWeight='bold' color='pink.50' textTransform='uppercase' fontSize='xs' whiteSpace='nowrap'>
+								<Text fontWeight='bold' color='text' textTransform='uppercase' fontSize='xs' whiteSpace='nowrap'>
 									{item.title}
 								</Text>
 							</Box>
 							<Box
 								display={{ base: 'none', md: 'block' }}
-								color='pink.100'
+								color='textMuted'
 								fontSize='xs'
 								textAlign='center'
 								whiteSpace='nowrap'
@@ -106,7 +106,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 							</Box>
 							<Box
 								display={{ base: 'none', md: 'block' }}
-								color='pink.100'
+								color='textMuted'
 								fontSize='xs'
 								textAlign='center'
 								whiteSpace='nowrap'

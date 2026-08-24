@@ -36,8 +36,8 @@ export function StudentHomePage() {
 					borderRadius='full'
 					border='1px solid'
 					borderColor='border'
-					color='pink.100'
-					_hover={{ bg: 'rgba(255,255,255,0.05)', color: 'pink.50', textDecoration: 'none' }}
+					color='textMuted'
+					_hover={{ bg: 'rgba(255,255,255,0.05)', color: 'accent', textDecoration: 'none' }}
 				>
 					<Box
 						boxSize={7}

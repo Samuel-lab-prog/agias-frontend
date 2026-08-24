@@ -17,7 +17,7 @@ export function Footer({ links }: FooterProps) {
 			px={{ base: 4, md: 4 }}
 			pb={{ base: 'calc(92px + env(safe-area-inset-bottom, 0px))', md: 8 }}
 			pt={0}
-			borderColor='purple.700'
+			borderColor='gray.700'
 			bg='linear-gradient(180deg, rgba(18,0,17,0.75) 0%, rgba(18,0,17,0.92) 100%)'
 		>
 			<Grid templateColumns={{ base: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }} gap={8}>
@@ -40,16 +40,16 @@ export function Footer({ links }: FooterProps) {
 				mt={8}
 				pt={4}
 				borderTop='1px solid'
-				borderColor='purple.700'
+				borderColor='gray.700'
 				justify='space-between'
 				align={{ base: 'start', md: 'center' }}
 				direction={{ base: 'column', md: 'row' }}
 				gap={2}
 			>
-				<Text textStyle='smaller' color='pink.200'>
+				<Text textStyle='smaller' color='textMuted'>
 					© {new Date().getFullYear()} HelloPoetry.
 				</Text>
-				<Text textStyle='smaller' color='pink.200'>
+				<Text textStyle='smaller' color='textMuted'>
 					Published for readers and authors.
 				</Text>
 			</Flex>
