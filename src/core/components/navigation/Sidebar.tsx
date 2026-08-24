@@ -19,11 +19,11 @@ export function NavigationSidebar({ links, initialActive }: NavigationSidebarPro
 		<Surface
 			variant='panel'
 			h='full'
-			px={{ base: 4, md: 5 }}
+			px={{ base: 3, md: 4 }}
 			py={4}
 			overflow='hidden'
 			borderRadius={0}
-			borderColor='purple.500'
+			borderColor='rgba(255,255,255,0.08)'
 			borderTop='0'
 		>
 			<VStack align='stretch' gap={1} h='full' p={0}>
@@ -51,32 +51,32 @@ export function NavigationSidebar({ links, initialActive }: NavigationSidebarPro
 										textDecoration: 'none',
 									}}
 								>
-									<HStack
+										<HStack
 										justify='space-between'
 										align='center'
-										px={3}
-										py={2.5}
-										borderRadius={0}
-										bg={isActive ? 'rgba(255,255,255,0.06)' : 'transparent'}
+										px={4}
+										py={3}
+										borderRadius='sm'
+										bg='transparent'
 										border='1px solid'
-										borderColor={isActive ? 'borderHover' : 'transparent'}
+										borderColor={isActive ? 'rgba(255,255,255,0.16)' : 'transparent'}
 										color={isActive ? 'pink.50' : 'pink.100'}
 										cursor='pointer'
 										transition='all 0.2s ease'
-										transform={isActive ? 'translateX(2px)' : 'translateX(0)'}
+										transform='translateX(0)'
 										_hover={{
-											bg: 'rgba(255,255,255,0.05)',
+											bg: 'transparent',
 											color: 'pink.50',
-											transform: 'translateX(2px)',
+											borderColor: 'rgba(255,255,255,0.12)',
 										}}
 									>
 										<HStack gap={2}>
-											{icon ? <Icon as={icon} boxSize={4} /> : null}
-											<Text textStyle='smaller' fontWeight={isActive ? 'semibold' : 'normal'}>
+											{icon ? <Icon as={icon} boxSize={3.5} opacity={0.85} /> : null}
+											<Text textStyle='smaller' fontWeight={isActive ? 'medium' : 'normal'}>
 												{label}
 											</Text>
 										</HStack>
-										<Box as={ChevronRight} boxSize={3.5} />
+										<Box as={ChevronRight} boxSize={3} opacity={0.65} />
 									</HStack>
 								</NavLink>
 							</Link>
