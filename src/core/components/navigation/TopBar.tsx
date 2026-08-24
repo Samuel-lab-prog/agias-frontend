@@ -21,6 +21,7 @@ export function NavigationTopBar({
 	return (
 		<Surface
 			variant='panel'
+			color='surface'
 			px={{ base: 3, md: 4, xl: 6 }}
 			py={{ base: 3, md: 4 }}
 			w='full'
