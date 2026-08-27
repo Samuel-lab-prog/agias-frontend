@@ -1,5 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 
 import { NavigationSidebar } from './Sidebar';
 import { NavigationTopBar } from './TopBar';
@@ -19,8 +19,16 @@ export function NavigationPageShell({
 	rightContent,
 }: NavigationPageShellProps) {
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
-	const desktopNavTop = { base: 0, xl: '67px' };
+	const [mobileNavHeight, setMobileNavHeight] = useState(0);
+	const mobileNavRef = useRef<HTMLDivElement | null>(null);
+	const desktopNavTop = { base: 0, xl: '65px' };
 	const desktopNavLeft = { xl: 0 };
+
+	useEffect(() => {
+		if (!mobileNavRef.current) return;
+
+		setMobileNavHeight(mobileNavRef.current.scrollHeight);
+	}, [preset.links, mobileNavOpen]);
 
 	return (
 		<Flex
@@ -46,17 +54,19 @@ export function NavigationPageShell({
 				px={{ base: 3, md: 4, xl: 0 }}
 				pt={3}
 				overflow='hidden'
-				maxH={mobileNavOpen ? '420px' : '0px'}
+				maxH={mobileNavOpen ? `${mobileNavHeight}px` : '0px'}
 				opacity={mobileNavOpen ? 1 : 0}
 				transform={mobileNavOpen ? 'translateY(0)' : 'translateY(-8px)'}
 				transition='max-height 0.28s ease, opacity 0.2s ease, transform 0.2s ease'
 				pointerEvents={mobileNavOpen ? 'auto' : 'none'}
 			>
-				<NavigationSidebar
-					links={preset.links}
-					onLinkClick={() => setMobileNavOpen(false)}
-					showThemeControl
-				/>
+				<Box ref={mobileNavRef}>
+					<NavigationSidebar
+						links={preset.links}
+						onLinkClick={() => setMobileNavOpen(false)}
+						showThemeControl
+					/>
+				</Box>
 			</Box>
 
 			<Flex
@@ -79,7 +89,7 @@ export function NavigationPageShell({
 						position='fixed'
 						top={desktopNavTop}
 						left={desktopNavLeft}
-						h='calc(100dvh - 72px)'
+						h='calc(100dvh - 64px)'
 						w={sidebarWidth}
 						overflow='hidden'
 					>
