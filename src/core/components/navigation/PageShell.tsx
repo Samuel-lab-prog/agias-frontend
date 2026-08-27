@@ -16,7 +16,7 @@ type NavigationPageShellProps = {
 export function NavigationPageShell({
 	preset,
 	children,
-	sidebarWidth = '260px',
+	sidebarWidth = '312px',
 	rightContent,
 }: NavigationPageShellProps) {
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -32,15 +32,13 @@ export function NavigationPageShell({
 				pb={{ base: 'calc(24px + env(safe-area-inset-bottom, 0px))', md: 10 }}
 				bg='background'
 			>
-				<Flex
-					position='sticky'
-					top={0}
-					zIndex={20}
-					w='full'
-					borderBottom='1px solid'
-					borderColor='border'
-					backdropFilter='blur(14px)'
-				>
+			<Flex
+				position='sticky'
+				top={0}
+				zIndex={20}
+				w='full'
+				backdropFilter='blur(14px)'
+			>
 				<NavigationTopBar
 					title={preset.title}
 					subtitle={preset.subtitle}
@@ -60,7 +58,11 @@ export function NavigationPageShell({
 				transition='max-height 0.28s ease, opacity 0.2s ease, transform 0.2s ease'
 				pointerEvents={mobileNavOpen ? 'auto' : 'none'}
 			>
-				<NavigationSidebar links={preset.links} onLinkClick={() => setMobileNavOpen(false)} />
+				<NavigationSidebar
+					links={preset.links}
+					onLinkClick={() => setMobileNavOpen(false)}
+					showThemeControl
+				/>
 			</Box>
 
 			<Flex
@@ -79,7 +81,11 @@ export function NavigationPageShell({
 						h='calc(100dvh - 72px)'
 						w='full'
 					>
-						<NavigationSidebar links={preset.links} onLinkClick={() => setMobileNavOpen(false)} />
+						<NavigationSidebar
+							links={preset.links}
+							onLinkClick={() => setMobileNavOpen(false)}
+							showThemeControl
+						/>
 					</Box>
 				</Box>
 

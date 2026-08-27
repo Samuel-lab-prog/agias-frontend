@@ -82,21 +82,21 @@ const semanticTokens = defineSemanticTokens({
 	colors: {
 		background: {
 			value: {
-				DEFAULT: '{colors.white}',
+				DEFAULT: '{colors.neutral.100}',
 				_dark: '{colors.slate.950}',
 			},
 		},
 
 		border: {
 			value: {
-				DEFAULT: '{colors.slate.200}',
+				DEFAULT: 'rgba(15, 23, 42, 0.03)',
 				_dark: '{colors.slate.800}',
 			},
 		},
 
 		borderHover: {
 			value: {
-				DEFAULT: '{colors.slate.300}',
+				DEFAULT: 'rgba(15, 23, 42, 0.05)',
 				_dark: '{colors.slate.500}',
 			},
 		},
@@ -131,7 +131,7 @@ const semanticTokens = defineSemanticTokens({
 
 		surface: {
 			value: {
-				base: '{colors.neutral.50}',
+				base: '{colors.white}',
 				_dark: '{colors.slate.900}',
 			},
 		},
@@ -152,21 +152,21 @@ const semanticTokens = defineSemanticTokens({
 
 		accentSoft: {
 			value: {
-				base: '{colors.blue.100}',
+				base: 'rgba(37, 99, 235, 0.06)',
 				_dark: '{colors.blue.900}',
 			},
 		},
 
 		text: {
 			value: {
-				base: '#1f2a44',
+				base: '#182235',
 				_dark: '{colors.slate.100}',
 			},
 		},
 
 		textMuted: {
 			value: {
-				base: '#5f6b85',
+				base: '#526074',
 				_dark: '{colors.slate.300}',
 			},
 		},
