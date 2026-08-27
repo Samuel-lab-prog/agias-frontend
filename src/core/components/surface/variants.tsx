@@ -48,7 +48,7 @@ export const surfaceVariants = {
 		...baseStyle,
 		px: { base: 3, md: 4, xl: 6 },
 		py: { base: 3, md: 4 },
-		border: '1px solid',
+		border: '0',
 		borderColor: 'border',
 		borderRadius: 0,
 		borderBottom: '1px solid',

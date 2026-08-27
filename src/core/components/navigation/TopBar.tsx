@@ -1,4 +1,3 @@
-/* eslint-disable simple-import-sort/imports */
 import { Surface } from '@BaseComponents';
 import { Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/react';
 import { Menu } from 'lucide-react';
@@ -21,11 +20,7 @@ export function NavigationTopBar({
 }: NavigationTopBarProps) {
 	const buttonMotion = hoverSubtle();
 	return (
-		<Surface
-			variant='topBar'
-			w='full'
-			borderRadius={0}
-		>
+		<Surface variant='topBar' w='full' borderRadius={0}>
 			<Flex align='center' justify='space-between' gap={3} wrap='nowrap'>
 				<HStack gap={2} align='center' minW={0}>
 					<Heading as='h1' textStyle='h6'>

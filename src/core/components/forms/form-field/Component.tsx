@@ -2,9 +2,9 @@ import { Box, Field, Input, Text, Textarea } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 import { Controller, type FieldValues } from 'react-hook-form';
 
+import { hoverSubtle } from '../../../utils/interaction';
 import { useAsyncValidation } from './hooks';
 import type { FormFieldProps } from './types';
-import { hoverSubtle } from '../../../utils/interaction';
 
 const subtleMotion = hoverSubtle();
 
@@ -135,15 +135,15 @@ export function FormField<T extends FieldValues>({
 							gridTemplateRows={hasError ? '1fr' : '0fr'}
 							transition='grid-template-rows 0.24s ease'
 						>
-						<Field.ErrorText
-							textStyle='smaller'
-							color='error'
-							opacity={hasError ? 1 : 0}
-							transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}
-							overflow='hidden'
-							minH={0}
-							transition={subtleMotion.transition}
-						>
+							<Field.ErrorText
+								textStyle='smaller'
+								color='error'
+								opacity={hasError ? 1 : 0}
+								transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}
+								overflow='hidden'
+								minH={0}
+								transition={subtleMotion.transition}
+							>
 								{errorMessage}
 							</Field.ErrorText>
 						</Box>

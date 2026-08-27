@@ -6,8 +6,8 @@ const liftMotion = hoverLift();
 const subtleMotion = hoverSubtle();
 
 export const buttonRecipe = defineRecipe({
-		base: {
-			display: 'inline-flex',
+	base: {
+		display: 'inline-flex',
 		alignItems: 'center',
 		justifyContent: 'center',
 		gap: '2',
@@ -15,18 +15,18 @@ export const buttonRecipe = defineRecipe({
 		borderRadius: 'md',
 		border: '1px solid transparent',
 		userSelect: 'none',
-			transform: 'translateY(0)',
-			willChange: 'transform, box-shadow, filter',
-			transition: liftMotion.transition,
-			_focusVisible: liftMotion.focusVisible,
-			_disabled: {
-				...liftMotion.disabled,
-				opacity: '0.78',
-				cursor: 'not-allowed',
-				boxShadow: 'none',
-				filter: 'saturate(0.92)',
-			},
+		transform: 'translateY(0)',
+		willChange: 'transform, box-shadow, filter',
+		transition: liftMotion.transition,
+		_focusVisible: liftMotion.focusVisible,
+		_disabled: {
+			...liftMotion.disabled,
+			opacity: '0.78',
+			cursor: 'not-allowed',
+			boxShadow: 'none',
+			filter: 'saturate(0.92)',
 		},
+	},
 	variants: {
 		size: {
 			sm: {

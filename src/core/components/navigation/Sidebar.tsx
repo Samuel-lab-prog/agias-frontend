@@ -2,7 +2,7 @@ import { Surface } from '@BaseComponents';
 import { Box, ClientOnly, HStack, Icon, Link, Switch, Text, VStack } from '@chakra-ui/react';
 import { ChevronRight } from 'lucide-react';
 import { useState } from 'react';
-import { LuMoon, LuSun } from 'react-icons/lu';
+import { LuMoon } from 'react-icons/lu';
 import { NavLink } from 'react-router-dom';
 
 import { hoverNav } from '../../utils/interaction';
@@ -21,14 +21,11 @@ function SidebarThemeControl() {
 	const isDark = colorMode === 'dark';
 
 	return (
-		<Box
-			mt='auto'
-			pt={4}
-		>
-				<Box
-					display='flex'
-					alignItems='center'
-					justifyContent='space-between'
+		<Box mt='auto' pt={4}>
+			<Box
+				display='flex'
+				alignItems='center'
+				justifyContent='space-between'
 				gap={3}
 				px={4}
 				py={3}
@@ -36,28 +33,28 @@ function SidebarThemeControl() {
 				borderColor='border'
 				borderRadius='xl'
 				bg='surface'
-				>
-					<HStack gap={3} minW={0}>
-						<Icon as={LuMoon} boxSize={4} opacity={0.9} />
-						<Text textStyle='smaller' color='text'>
-							Tema escuro
-						</Text>
-					</HStack>
-					<HStack gap={3}>
-						<Switch.Root
-							checked={isDark}
-							onCheckedChange={(details) => {
-								if (details.checked !== isDark) {
-									toggleColorMode();
-								}
-							}}
-						>
-							<Switch.HiddenInput />
-							<Switch.Control>
-								<Switch.Thumb />
-							</Switch.Control>
-						</Switch.Root>
-					</HStack>
+			>
+				<HStack gap={3} minW={0}>
+					<Icon as={LuMoon} boxSize={4} opacity={0.9} />
+					<Text textStyle='smaller' color='text'>
+						Tema escuro
+					</Text>
+				</HStack>
+				<HStack gap={3}>
+					<Switch.Root
+						checked={isDark}
+						onCheckedChange={(details) => {
+							if (details.checked !== isDark) {
+								toggleColorMode();
+							}
+						}}
+					>
+						<Switch.HiddenInput />
+						<Switch.Control>
+							<Switch.Thumb />
+						</Switch.Control>
+					</Switch.Root>
+				</HStack>
 			</Box>
 		</Box>
 	);
@@ -80,13 +77,7 @@ export function NavigationSidebar({
 	const hoverBg = isDark ? 'rgba(255, 255, 255, 0.04)' : 'transparent';
 
 	return (
-		<Surface
-			variant='sidebar'
-			h='full'
-			overflow='hidden'
-			borderRadius={0}
-			borderTop='0'
-		>
+		<Surface variant='sidebar' h='full' overflow='hidden' borderRadius={0} borderTop='0'>
 			<VStack align='stretch' gap={1} h='full' p={0}>
 				{links
 					.filter((link) => !link.hidden)

@@ -1,8 +1,8 @@
 import type { StudentProfile } from '@Api/academic/types';
 import { Surface } from '@BaseComponents';
 import { Badge, Box, Button, Heading, HStack, Text, VStack } from '@chakra-ui/react';
-import { translateBackendStatus } from '@core/utils/backend-labels';
 import { useColorModeValue } from '@core/components/ui/color-mode';
+import { translateBackendStatus } from '@core/utils/backend-labels';
 import { FileText, GraduationCap, LogOut, MessageSquare } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 

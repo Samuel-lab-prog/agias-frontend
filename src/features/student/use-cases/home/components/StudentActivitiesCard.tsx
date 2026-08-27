@@ -175,6 +175,12 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 					</Box>
 				) : (
 					activities.map((activity, index) => (
+						// Read once so TypeScript can narrow the optional subtitle cleanly.
+						(() => {
+							const activityStatus = getActivityStatus(activity, submissions);
+							const subtitle = activityStatus.subtitle;
+
+							return (
 						<Flex
 							key={`${activity.classOfferingId}-${activity.id}`}
 							px={3}
@@ -217,43 +223,47 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 								w={{ base: 'full', md: 'auto' }}
 								mt={{ base: 2, md: 0 }}
 							>
-									<Badge
-									bg={getActivityStatus(activity, submissions).bg}
-									color={getActivityStatus(activity, submissions).color}
+								<Badge
+									bg={activityStatus.bg}
+									color={activityStatus.color}
 									borderRadius='full'
 									px={3}
 									py={1}
 								>
-									{getActivityStatus(activity, submissions).label}
+									{activityStatus.label}
 								</Badge>
 								{isPendingActivity(activity, submissions) && activity.dueAt ? (
-									<Text textStyle='smaller' color='textMuted' textAlign={{ base: 'left', md: 'right' }}>
-										{getTimeRemaining(activity.dueAt) !== 'Atrasada'
-											? getTimeRemaining(activity.dueAt)
-											: null}
-									</Text>
-								) : null}
-								{getActivityStatus(activity, submissions).label === 'Atrasada' && activity.dueAt ? (
-									<Text textStyle='smaller' color='error' textAlign={{ base: 'left', md: 'right' }}>
-										{getOverdueTime(activity.dueAt)}
-									</Text>
-								) : null}
-								{getActivityStatus(activity, submissions).subtitle ? (
 									<Text
 										textStyle='smaller'
 										color='textMuted'
 										textAlign={{ base: 'left', md: 'right' }}
 									>
-										{getActivityStatus(activity, submissions).label === 'Avaliada'
+										{getTimeRemaining(activity.dueAt) !== 'Atrasada'
+											? getTimeRemaining(activity.dueAt)
+											: null}
+									</Text>
+								) : null}
+								{activityStatus.label === 'Atrasada' && activity.dueAt ? (
+									<Text textStyle='smaller' color='error' textAlign={{ base: 'left', md: 'right' }}>
+										{getOverdueTime(activity.dueAt)}
+									</Text>
+								) : null}
+								{subtitle ? (
+									<Text
+										textStyle='smaller'
+										color='textMuted'
+										textAlign={{ base: 'left', md: 'right' }}
+									>
+										{activityStatus.label === 'Avaliada'
 											? 'Avaliada em'
 											: 'Entregue em'}{' '}
-										{dateTimeFormatter.format(
-											new Date(getActivityStatus(activity, submissions).subtitle),
-										)}
+										{dateTimeFormatter.format(new Date(subtitle))}
 									</Text>
 								) : null}
 							</VStack>
 						</Flex>
+							);
+						})()
 					))
 				)}
 			</VStack>

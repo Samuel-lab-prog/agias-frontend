@@ -1,4 +1,3 @@
-/* eslint-disable simple-import-sort/imports */
 import { Box, Flex } from '@chakra-ui/react';
 import { type ReactNode, useState } from 'react';
 
@@ -20,25 +19,20 @@ export function NavigationPageShell({
 	rightContent,
 }: NavigationPageShellProps) {
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
-	const desktopNavTop = { base: 0, xl: '72px' };
+	const desktopNavTop = { base: 0, xl: '67px' };
+	const desktopNavLeft = { xl: 0 };
 
 	return (
-			<Flex
-				as='main'
-				layerStyle='main'
-				minH='100%'
-				direction='column'
-				px={{ base: 0, md: 0 }}
-				pb={{ base: 'calc(24px + env(safe-area-inset-bottom, 0px))', md: 10 }}
-				bg='background'
-			>
-			<Flex
-				position='sticky'
-				top={0}
-				zIndex={20}
-				w='full'
-				backdropFilter='blur(14px)'
-			>
+		<Flex
+			as='main'
+			layerStyle='main'
+			minH='100%'
+			direction='column'
+			px={{ base: 0, md: 0, xl: 0 }}
+			pb={{ base: 'calc(24px + env(safe-area-inset-bottom, 0px))', md: 10 }}
+			bg='background'
+		>
+			<Flex position='sticky' top={0} zIndex={20} w='full' backdropFilter='blur(14px)'>
 				<NavigationTopBar
 					title={preset.title}
 					subtitle={preset.subtitle}
@@ -69,17 +63,25 @@ export function NavigationPageShell({
 				layerStyle='main'
 				flex='1'
 				direction='column'
-				display={{ base: 'flex', xl: 'grid' }}
-				gridTemplateColumns={{ xl: `${sidebarWidth} minmax(0, 1fr)` }}
-				gap={4}
+				display='flex'
+				gap={0}
+				px={{ base: 0, xl: 0 }}
 				align='stretch'
 			>
-				<Box display={{ base: 'none', xl: 'block' }} alignSelf='start'>
+				<Box
+					display={{ base: 'none', xl: 'block' }}
+					position='relative'
+					h={0}
+					w={0}
+					overflow='visible'
+				>
 					<Box
-						position='sticky'
+						position='fixed'
 						top={desktopNavTop}
+						left={desktopNavLeft}
 						h='calc(100dvh - 72px)'
-						w='full'
+						w={sidebarWidth}
+						overflow='hidden'
 					>
 						<NavigationSidebar
 							links={preset.links}
@@ -89,14 +91,21 @@ export function NavigationPageShell({
 					</Box>
 				</Box>
 
-				<Flex flex='1' minW={0} w='full' justify='center'>
+				<Flex
+					flex='1'
+					minW={0}
+					w='full'
+					justify='center'
+					pl={{ xl: `calc(${sidebarWidth} + 24px)` }}
+					pt={{ xl: 0 }}
+				>
 					<Flex
 						w='full'
-						maxW={{ base: '100%', xl: '1380px' }}
+						maxW={{ base: '100%', xl: '1280px' }}
 						direction='column'
 						gap={{ base: 3, md: 4 }}
 						mt={4}
-						px={{ base: 3, md: 4, xl: 0 }}
+						px={{ base: 4, md: 6, xl: 6 }}
 						align='stretch'
 					>
 						{children}

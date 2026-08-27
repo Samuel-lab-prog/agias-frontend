@@ -2,10 +2,10 @@ import { Avatar, Box, Button, Field, Flex, Input, Text, VisuallyHidden } from '@
 import { useMemo, useRef } from 'react';
 import { Controller, type FieldValues, useWatch } from 'react-hook-form';
 
+import { hoverSubtle } from '../../../utils/interaction';
 import { useFilePreview } from './hooks';
 import type { FileFieldProps } from './types';
 import { buildFileValidationRules } from './utils';
-import { hoverSubtle } from '../../../utils/interaction';
 
 const subtleMotion = hoverSubtle();
 
