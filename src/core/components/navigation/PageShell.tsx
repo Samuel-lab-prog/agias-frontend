@@ -92,7 +92,7 @@ export function NavigationPageShell({
 				<Flex flex='1' minW={0} w='full' justify='center'>
 					<Flex
 						w='full'
-						maxW={{ base: '100%', xl: '1080px' }}
+						maxW={{ base: '100%', xl: '1380px' }}
 						direction='column'
 						gap={{ base: 3, md: 4 }}
 						mt={4}

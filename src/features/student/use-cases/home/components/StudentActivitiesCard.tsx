@@ -17,11 +17,23 @@ function getActivityStatus(
 	submissions: StudentDashboardSubmission[],
 ) {
 	const submission = submissions.find((item) => item.activityId === activity.id);
+	const dueDate = activity.dueAt ? new Date(activity.dueAt).getTime() : null;
+	const isOverdue = Boolean(!submission && dueDate !== null && dueDate < Date.now());
 
 	if (!submission) {
+		if (isOverdue) {
+			return {
+				label: 'Atrasada',
+				bg: 'rgba(239, 68, 68, 0.16)',
+				color: 'error',
+				description: 'Prazo expirado',
+			};
+		}
+
 		return {
 			label: 'Pendente',
-			colorPalette: 'gray',
+			bg: 'rgba(234, 179, 8, 0.16)',
+			color: 'warning',
 			description: 'Ainda não enviada',
 		};
 	}
@@ -29,21 +41,90 @@ function getActivityStatus(
 	if (submission.grade !== null) {
 		return {
 			label: 'Avaliada',
-			colorPalette: 'gray',
+			bg: 'rgba(34, 197, 94, 0.14)',
+			color: 'accent',
+			subtitle: submission.submittedAt,
 			description: '',
 		};
 	}
 
 	return {
 		label: 'Entregue',
-		colorPalette: 'gray',
+		bg: 'rgba(37, 99, 235, 0.16)',
+		color: 'accentStrong',
+		subtitle: submission.submittedAt,
 		description: '',
 	};
+}
+
+function getTimeRemaining(dueAt: string) {
+	const dueDate = new Date(dueAt).getTime();
+	const now = Date.now();
+	const diffMs = dueDate - now;
+
+	if (diffMs <= 0) {
+		return 'Entrega hoje';
+	}
+
+	const totalMinutes = Math.ceil(diffMs / (1000 * 60));
+	const days = Math.floor(totalMinutes / (60 * 24));
+	const remainingAfterDays = totalMinutes % (60 * 24);
+	const hours = Math.floor(remainingAfterDays / 60);
+	const minutes = remainingAfterDays % 60;
+
+	const parts: string[] = [];
+
+	if (days > 0) parts.push(`${days}d`);
+	if (hours > 0) parts.push(`${hours}h`);
+	if (minutes > 0) parts.push(`${minutes}m`);
+
+	if (parts.length === 0) {
+		return 'Agora';
+	}
+
+	return `Em ${parts.join(' ')}`;
+}
+
+function getOverdueTime(dueAt: string) {
+	const dueDate = new Date(dueAt).getTime();
+	const now = Date.now();
+	const diffMs = now - dueDate;
+
+	if (diffMs <= 0) {
+		return 'Vence hoje';
+	}
+
+	const totalMinutes = Math.ceil(diffMs / (1000 * 60));
+	const days = Math.floor(totalMinutes / (60 * 24));
+	const remainingAfterDays = totalMinutes % (60 * 24);
+	const hours = Math.floor(remainingAfterDays / 60);
+	const minutes = remainingAfterDays % 60;
+
+	const parts: string[] = [];
+
+	if (days > 0) parts.push(`${days}d`);
+	if (hours > 0) parts.push(`${hours}h`);
+	if (minutes > 0) parts.push(`${minutes}m`);
+
+	return parts.length > 0 ? `Atrasada há ${parts.join(' ')}` : 'Atrasada há poucos instantes';
+}
+
+function isPendingActivity(
+	activity: StudentDashboardActivity & { classOfferingId: number },
+	submissions: StudentDashboardSubmission[],
+) {
+	return !submissions.some((item) => item.activityId === activity.id);
 }
 
 export function StudentActivitiesCard({ enrollments, submissions }: StudentActivitiesCardProps) {
 	const dateFormatter = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit' });
 	const timeFormatter = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' });
+	const dateTimeFormatter = new Intl.DateTimeFormat('pt-BR', {
+		day: '2-digit',
+		month: '2-digit',
+		hour: '2-digit',
+		minute: '2-digit',
+	});
 	const activities = enrollments
 		.flatMap((enrollment) =>
 			enrollment.activities.map((activity) => ({
@@ -105,16 +186,16 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 					activities.map((activity, index) => (
 						<Flex
 							key={`${activity.classOfferingId}-${activity.id}`}
-							px={2}
+							px={3}
 							py={3}
 							align='start'
 							justify='space-between'
 							direction={{ base: 'column', md: 'row' }}
-							borderTop={index === 0 ? '0' : '1px solid'}
-							borderColor='border'
-							transition='all 0.2s ease'
+							borderRadius='lg'
+							bg={index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'}
+							transition='background-color 0.18s ease, transform 0.18s ease'
 							cursor='pointer'
-							_hover={{ bg: 'surface', transform: 'translateX(2px)' }}
+							_hover={{ bg: 'rgba(37, 99, 235, 0.08)', transform: 'translateX(2px)' }}
 						>
 							<HStack align='start' gap={3} flex='1' minW={0} w='full'>
 								<Box minW={0}>
@@ -122,8 +203,19 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 										{activity.title} - {activity.classTitle}
 									</Text>
 									<Text textStyle='smaller' color='textMuted'>
-										Postada em {dateFormatter.format(new Date(activity.createdAt))}
+										Postada em {dateFormatter.format(new Date(activity.createdAt))} às{' '}
+										{timeFormatter.format(new Date(activity.createdAt))}
 									</Text>
+									{activity.dueAt ? (
+										<Text textStyle='smaller' color='textMuted' mt={1}>
+											Entregar em {dateFormatter.format(new Date(activity.dueAt))} às{' '}
+											{timeFormatter.format(new Date(activity.dueAt))}
+										</Text>
+									) : (
+										<Text textStyle='smaller' color='textMuted' mt={1}>
+											Sem prazo definido
+										</Text>
+									)}
 								</Box>
 							</HStack>
 
@@ -134,25 +226,39 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 								w={{ base: 'full', md: 'auto' }}
 								mt={{ base: 2, md: 0 }}
 							>
-								<Badge colorPalette={getActivityStatus(activity, submissions).colorPalette}>
+									<Badge
+									bg={getActivityStatus(activity, submissions).bg}
+									color={getActivityStatus(activity, submissions).color}
+									borderRadius='full'
+									px={3}
+									py={1}
+								>
 									{getActivityStatus(activity, submissions).label}
 								</Badge>
-								{activity.dueAt ? (
+								{isPendingActivity(activity, submissions) && activity.dueAt ? (
+									<Text textStyle='smaller' color='textMuted' textAlign={{ base: 'left', md: 'right' }}>
+										{getTimeRemaining(activity.dueAt)}
+									</Text>
+								) : null}
+								{getActivityStatus(activity, submissions).label === 'Atrasada' && activity.dueAt ? (
+									<Text textStyle='smaller' color='error' textAlign={{ base: 'left', md: 'right' }}>
+										{getOverdueTime(activity.dueAt)}
+									</Text>
+								) : null}
+								{getActivityStatus(activity, submissions).subtitle ? (
 									<Text
 										textStyle='smaller'
 										color='textMuted'
 										textAlign={{ base: 'left', md: 'right' }}
 									>
-										Entrega em {dateFormatter.format(new Date(activity.dueAt))} às{' '}
-										{timeFormatter.format(new Date(activity.dueAt))}
-										<br />
-										{getDaysLeft(activity.dueAt)}
+										{getActivityStatus(activity, submissions).label === 'Avaliada'
+											? 'Avaliada em'
+											: 'Entregue em'}{' '}
+										{dateTimeFormatter.format(
+											new Date(getActivityStatus(activity, submissions).subtitle),
+										)}
 									</Text>
-								) : (
-									<Text textStyle='smaller' color='textMuted'>
-										Sem prazo definido
-									</Text>
-								)}
+								) : null}
 							</VStack>
 						</Flex>
 					))

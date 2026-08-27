@@ -1,6 +1,6 @@
 import type { StudentEnrollment } from '@Api/academic/types';
 import { Surface } from '@BaseComponents';
-import { Box, Button, Flex, Grid, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+import { Badge, Box, Button, Flex, Heading, HStack, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import { BookOpen } from 'lucide-react';
 
 type StudentClassesCardProps = {
@@ -46,82 +46,108 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 				</Button>
 			</Flex>
 
-			<Box borderColor='border' overflow='hidden'>
-				<Grid
-					templateColumns={{
-						base: 'minmax(0, 1fr)',
-						md: 'minmax(220px, 2fr) minmax(120px, 1fr) minmax(110px, 0.9fr)',
-					}}
-					bg='surface'
+			<Box
+				bg='linear-gradient(180deg, rgba(10, 18, 38, 0.92), rgba(14, 23, 44, 0.98))'
+				borderRadius='xl'
+				px={{ base: 3, md: 5 }}
+				py={{ base: 3, md: 4 }}
+				boxShadow='inset 0 1px 0 rgba(255,255,255,0.03)'
+			>
+				<SimpleGrid
+					columns={{ base: 1, md: 3 }}
+					gap={4}
+					mb={3}
+					px={{ base: 0, md: 1 }}
 					fontSize='sm'
-					fontWeight='semibold'
-					px={3}
-					py={2}
+					color='textMuted'
+					textAlign='center'
 				>
-					<Box textAlign='center' whiteSpace='nowrap'>
-						Componente Curricular
-					</Box>
-					<Box display={{ base: 'none', md: 'block' }} textAlign='center' whiteSpace='nowrap'>
-						Local
-					</Box>
-					<Box display={{ base: 'none', md: 'block' }} textAlign='center' whiteSpace='nowrap'>
+					<Box>Componente Curricular</Box>
+					<Box display={{ base: 'none', md: 'block' }}>Local</Box>
+					<Box display={{ base: 'none', md: 'block' }}>
 						Horário
 					</Box>
-				</Grid>
+				</SimpleGrid>
 
-				{rows.length === 0 ? (
-					<VStack px={3} py={6} align='stretch'>
-						<Text textStyle='smaller' color='textMuted'>
-							Nenhuma matéria disponível para exibição.
-						</Text>
-					</VStack>
-				) : (
-					rows.map((item) => (
-						<Grid
+				<VStack gap={2} align='stretch'>
+					{rows.map((item, index) => (
+						<SimpleGrid
 							key={item.key}
-							templateColumns={{
-								base: 'minmax(0, 1fr)',
-								md: 'minmax(220px, 2fr) minmax(160px, 1fr) minmax(110px, 0.9fr)',
-							}}
-							px={3}
-							py={2.5}
+							columns={{ base: 1, md: 3 }}
+							gap={4}
 							alignItems='center'
+							px={{ base: 2, md: 3 }}
+							py={2.5}
+							borderRadius='lg'
+							bg={index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'}
+							color='text'
+							textAlign='center'
 							cursor='pointer'
-							transition='all 0.2s ease'
-							_hover={{ bg: 'surface', transform: 'translateX(2px)' }}
+							transition='background-color 0.18s ease, transform 0.18s ease'
+							_hover={{
+								bg: 'rgba(37, 99, 235, 0.08)',
+								transform: 'translateX(2px)',
+							}}
 						>
-							<Box textAlign='left'>
+							<Box minW={0}>
 								<Text
-									fontWeight='bold'
-									color='text'
+									fontWeight='700'
 									textTransform='uppercase'
 									fontSize='xs'
-									whiteSpace='nowrap'
+									letterSpacing='0.03em'
+									lineHeight='1.2'
 								>
 									{item.title}
 								</Text>
 							</Box>
-							<Box
-								display={{ base: 'none', md: 'block' }}
-								color='textMuted'
-								fontSize='xs'
-								textAlign='center'
-								whiteSpace='nowrap'
-							>
-								{item.location}
+
+							<Box display={{ base: 'none', md: 'block' }} minW={0}>
+								<Text
+									fontSize='sm'
+									color='textMuted'
+									whiteSpace='nowrap'
+									overflow='hidden'
+									textOverflow='ellipsis'
+								>
+									{item.location}
+								</Text>
 							</Box>
-							<Box
-								display={{ base: 'none', md: 'block' }}
-								color='textMuted'
-								fontSize='xs'
-								textAlign='center'
-								whiteSpace='nowrap'
-							>
-								{item.time}
+
+							<Box display={{ base: 'none', md: 'block' }}>
+								<Badge
+									px={3}
+									py={1.5}
+									borderRadius='full'
+									bg='rgba(37, 99, 235, 0.24)'
+									color='white'
+									fontSize='sm'
+									fontWeight='700'
+									minW='fit-content'
+								>
+									{item.time}
+								</Badge>
 							</Box>
-						</Grid>
-					))
-				)}
+
+							<Box display={{ base: 'block', md: 'none' }} textAlign='center'>
+								<Text fontSize='sm' color='textMuted' mt={1}>
+									{item.location}
+								</Text>
+								<Badge
+									mt={2}
+									px={3}
+									py={1.5}
+									borderRadius='full'
+									bg='rgba(37, 99, 235, 0.24)'
+									color='white'
+									fontSize='sm'
+									fontWeight='700'
+								>
+									{item.time}
+								</Badge>
+							</Box>
+						</SimpleGrid>
+					))}
+				</VStack>
 			</Box>
 		</Surface>
 	);
