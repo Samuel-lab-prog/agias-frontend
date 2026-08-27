@@ -2,6 +2,7 @@ import type { StudentProfile } from '@Api/academic/types';
 import { Surface } from '@BaseComponents';
 import { Badge, Box, Button, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { translateBackendStatus } from '@core/utils/backend-labels';
+import { useColorModeValue } from '@core/components/ui/color-mode';
 import { FileText, GraduationCap, LogOut, MessageSquare } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
@@ -11,6 +12,11 @@ type StudentProfileCardProps = {
 };
 
 export function StudentProfileCard({ profile, userName }: StudentProfileCardProps) {
+	const headerTextColor = useColorModeValue('text', 'white');
+	const headerSubtextColor = useColorModeValue('textMuted', 'textMuted');
+	const logoutHoverBg = useColorModeValue('accentSoft', 'rgba(255,255,255,0.05)');
+	const logoutHoverColor = useColorModeValue('accentStrong', 'text');
+
 	const initials = userName
 		?.split(/\s+/)
 		.filter(Boolean)
@@ -40,12 +46,14 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 						{initials ?? '?'}
 					</Box>
 
-					<VStack align='start' gap={0.5} color='white'>
+					<VStack align='start' gap={0.5} color={headerTextColor}>
 						<Heading as='h3' textStyle='h6'>
 							{userName ?? 'Nome não informado'}
 						</Heading>
-						<Text textStyle='smaller'>{academicId ?? 'Matrícula não informada'}</Text>
-						<Text textStyle='smaller'>
+						<Text textStyle='smaller' color={headerSubtextColor}>
+							{academicId ?? 'Matrícula não informada'}
+						</Text>
+						<Text textStyle='smaller' color={headerSubtextColor}>
 							{courseId ? `Curso ${courseId}` : 'Curso não vinculado'}
 						</Text>
 						<Badge colorPalette='gray' variant='subtle'>
@@ -106,10 +114,10 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 						w='full'
 						variant='outline'
 						size='sm'
-						color='pink.100'
+						color='textMuted'
 						borderColor='border'
 						bg='transparent'
-						_hover={{ bg: 'surface', borderColor: 'borderHover', color: 'text' }}
+						_hover={{ bg: logoutHoverBg, borderColor: 'borderHover', color: logoutHoverColor }}
 					>
 						<NavLink to='/login'>
 							<HStack gap={2}>

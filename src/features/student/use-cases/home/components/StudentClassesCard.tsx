@@ -2,12 +2,22 @@ import type { StudentEnrollment } from '@Api/academic/types';
 import { Surface } from '@BaseComponents';
 import { Badge, Box, Button, Flex, Heading, HStack, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import { BookOpen } from 'lucide-react';
+import { useColorModeValue } from '@core/components/ui/color-mode';
 
 type StudentClassesCardProps = {
 	enrollments: StudentEnrollment[];
 };
 
 export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
+	const cardBg = useColorModeValue(
+		'linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.98))',
+		'linear-gradient(180deg, rgba(10, 18, 38, 0.92), rgba(14, 23, 44, 0.98))',
+	);
+	const rowStripeBg = useColorModeValue('rgba(15, 23, 42, 0.02)', 'rgba(255, 255, 255, 0.02)');
+	const rowHoverBg = useColorModeValue('rgba(37, 99, 235, 0.08)', 'rgba(37, 99, 235, 0.08)');
+	const badgeBg = useColorModeValue('rgba(37, 99, 235, 0.10)', 'rgba(37, 99, 235, 0.24)');
+	const badgeColor = useColorModeValue('blue.700', 'white');
+
 	const rows = enrollments.map((enrollment) => {
 		const firstSession = enrollment.sessions[0];
 		const sessionTime = firstSession
@@ -47,7 +57,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 			</Flex>
 
 			<Box
-				bg='linear-gradient(180deg, rgba(10, 18, 38, 0.92), rgba(14, 23, 44, 0.98))'
+				bg={cardBg}
 				borderRadius='xl'
 				px={{ base: 3, md: 5 }}
 				py={{ base: 3, md: 4 }}
@@ -79,13 +89,13 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 							px={{ base: 2, md: 3 }}
 							py={2.5}
 							borderRadius='lg'
-							bg={index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'}
+							bg={index % 2 === 0 ? rowStripeBg : 'transparent'}
 							color='text'
 							textAlign='center'
 							cursor='pointer'
 							transition='background-color 0.18s ease, transform 0.18s ease'
 							_hover={{
-								bg: 'rgba(37, 99, 235, 0.08)',
+								bg: rowHoverBg,
 								transform: 'translateX(2px)',
 							}}
 						>
@@ -118,8 +128,8 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 									px={3}
 									py={1.5}
 									borderRadius='full'
-									bg='rgba(37, 99, 235, 0.24)'
-									color='white'
+									bg={badgeBg}
+									color={badgeColor}
 									fontSize='sm'
 									fontWeight='700'
 									minW='fit-content'
@@ -137,8 +147,8 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 									px={3}
 									py={1.5}
 									borderRadius='full'
-									bg='rgba(37, 99, 235, 0.24)'
-									color='white'
+									bg={badgeBg}
+									color={badgeColor}
 									fontSize='sm'
 									fontWeight='700'
 								>

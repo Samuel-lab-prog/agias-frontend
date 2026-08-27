@@ -62,7 +62,11 @@ function getTimeRemaining(dueAt: string) {
 	const now = Date.now();
 	const diffMs = dueDate - now;
 
-	if (diffMs <= 0) {
+	if (diffMs < 0) {
+		return 'Atrasada';
+	}
+
+	if (diffMs === 0) {
 		return 'Entrega hoje';
 	}
 
@@ -139,19 +143,6 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 			return left - right;
 		})
 		.slice(0, 4);
-
-	const getDaysLeft = (dueAt: string) => {
-		const dueDate = new Date(dueAt);
-		const today = new Date();
-		const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-		const startOfDueDate = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
-		const diffMs = startOfDueDate.getTime() - startOfToday.getTime();
-		const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-
-		if (diffDays <= 0) return 'Entrega hoje';
-		if (diffDays === 1) return 'Falta 1 dia';
-		return `Faltam ${diffDays} dias`;
-	};
 
 	return (
 		<Surface variant='panel' p={{ base: 4, md: 5 }}>
@@ -237,7 +228,9 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 								</Badge>
 								{isPendingActivity(activity, submissions) && activity.dueAt ? (
 									<Text textStyle='smaller' color='textMuted' textAlign={{ base: 'left', md: 'right' }}>
-										{getTimeRemaining(activity.dueAt)}
+										{getTimeRemaining(activity.dueAt) !== 'Atrasada'
+											? getTimeRemaining(activity.dueAt)
+											: null}
 									</Text>
 								) : null}
 								{getActivityStatus(activity, submissions).label === 'Atrasada' && activity.dueAt ? (
