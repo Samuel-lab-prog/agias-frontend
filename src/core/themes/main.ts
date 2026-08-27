@@ -42,6 +42,32 @@ const tokens = defineTokens({
 			900: { value: '#881337' },
 			950: { value: '#4c0519' },
 		},
+		blue: {
+			50: { value: '#eff6ff' },
+			100: { value: '#dbeafe' },
+			200: { value: '#bfdbfe' },
+			300: { value: '#93c5fd' },
+			400: { value: '#60a5fa' },
+			500: { value: '#3b82f6' },
+			600: { value: '#2563eb' },
+			700: { value: '#1d4ed8' },
+			800: { value: '#1e40af' },
+			900: { value: '#1e3a8a' },
+			950: { value: '#172554' },
+		},
+		amber: {
+			50: { value: '#fffbeb' },
+			100: { value: '#fef3c7' },
+			200: { value: '#fde68a' },
+			300: { value: '#fcd34d' },
+			400: { value: '#fbbf24' },
+			500: { value: '#f59e0b' },
+			600: { value: '#d97706' },
+			700: { value: '#b45309' },
+			800: { value: '#92400e' },
+			900: { value: '#78350f' },
+			950: { value: '#451a03' },
+		},
 		neutral: {
 			50: { value: '#fcfcfd' },
 			100: { value: '#f7f8fa' },
@@ -84,29 +110,29 @@ const semanticTokens = defineSemanticTokens({
 
 		surface: {
 			value: {
-				base: '{colors.white}',
+				base: '{colors.neutral.50}',
 				_dark: '{colors.slate.900}',
 			},
 		},
 
 		accent: {
 			value: {
-				base: '#1d4ed8',
-				_dark: '{colors.slate.100}',
+				base: '{colors.blue.700}',
+				_dark: '{colors.blue.300}',
 			},
 		},
 
 		accentStrong: {
 			value: {
-				base: '#172554',
-				_dark: '{colors.slate.50}',
+				base: '{colors.blue.950}',
+				_dark: '{colors.blue.100}',
 			},
 		},
 
 		accentSoft: {
 			value: {
-				base: '#dbeafe',
-				_dark: '{colors.slate.800}',
+				base: '{colors.blue.100}',
+				_dark: '{colors.blue.900}',
 			},
 		},
 
@@ -131,10 +157,17 @@ const semanticTokens = defineSemanticTokens({
 			},
 		},
 
+		warning: {
+			value: {
+				base: '{colors.amber.600}',
+				_dark: '{colors.amber.400}',
+			},
+		},
+
 		focusRing: {
 			value: {
-				base: '#93c5fd',
-				_dark: '{colors.slate.300}',
+				base: '{colors.blue.400}',
+				_dark: '{colors.blue.300}',
 			},
 		},
 	},
@@ -154,8 +187,6 @@ const globalCss = defineGlobalStyles({
 	body: {
 		background: '{colors.background}',
 		color: '{colors.text}',
-		backgroundImage:
-			'linear-gradient(180deg, rgba(255,255,255,1), rgba(248,250,252,1))',
 		display: 'flex',
 		margin: '0',
 		boxSizing: 'border-box',

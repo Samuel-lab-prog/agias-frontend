@@ -15,6 +15,7 @@ export * from './forms/audio-field/Component';
 export * from './forms/audio-field/hooks';
 export * from './forms/audio-field/types';
 export * from './forms/audio-field/utils';
+export * from './forms/color-field/Component';
 export * from './forms/dynamic-form/Component';
 export * from './forms/dynamic-form/renderField';
 export * from './forms/dynamic-form/types';

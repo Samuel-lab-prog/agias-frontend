@@ -59,6 +59,22 @@ const StaffHomePage = lazyPage(
 	() => import('./features/staff/use-cases/home/Page'),
 	(module) => module.StaffHomePage,
 );
+const DevComponentsPage = lazyPage(
+	() => import('./features/dev/use-cases/components-gallery/Page'),
+	(module) => module.DevComponentsPage,
+);
+const DevColorsPage = lazyPage(
+	() => import('./features/dev/use-cases/colors-gallery/Page'),
+	(module) => module.DevColorsPage,
+);
+const DevTypographyPage = lazyPage(
+	() => import('./features/dev/use-cases/typography-gallery/Page'),
+	(module) => module.DevTypographyPage,
+);
+const DevAnimationsPage = lazyPage(
+	() => import('./features/dev/use-cases/animations-gallery/Page'),
+	(module) => module.DevAnimationsPage,
+);
 
 const router = createBrowserRouter([
 	{
@@ -96,6 +112,31 @@ const router = createBrowserRouter([
 	{
 		path: '/staff',
 		element: <RoleGate allowedRoles={['staff']}>{renderLazyPage(StaffHomePage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/dev/components',
+		element: <Navigate to='/dev/components/forms' replace />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/dev/components/forms',
+		element: renderLazyPage(DevComponentsPage),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/dev/components/colors',
+		element: renderLazyPage(DevColorsPage),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/dev/components/typography',
+		element: renderLazyPage(DevTypographyPage),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/dev/components/animations',
+		element: renderLazyPage(DevAnimationsPage),
 		errorElement: <ErrorPage />,
 	},
 ]);
