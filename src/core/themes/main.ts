@@ -108,6 +108,27 @@ const semanticTokens = defineSemanticTokens({
 			},
 		},
 
+		surfaceShadow: {
+			value: {
+				DEFAULT: 'rgba(15, 23, 42, 0.06)',
+				_dark: 'rgba(0, 0, 0, 0.38)',
+			},
+		},
+
+		surfaceShadowSoft: {
+			value: {
+				DEFAULT: 'rgba(15, 23, 42, 0.05)',
+				_dark: 'rgba(0, 0, 0, 0.28)',
+			},
+		},
+
+		surfaceShadowStrong: {
+			value: {
+				DEFAULT: 'rgba(15, 23, 42, 0.08)',
+				_dark: 'rgba(0, 0, 0, 0.42)',
+			},
+		},
+
 		surface: {
 			value: {
 				base: '{colors.neutral.50}',

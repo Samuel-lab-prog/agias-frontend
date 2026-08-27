@@ -1,16 +1,18 @@
 import { defineRecipe } from '@chakra-ui/react';
 
+import { hoverNav, hoverSubtle } from '../../utils/interaction';
+
+const navMotion = hoverNav();
+const subtleMotion = hoverSubtle();
+
 export const linkRecipe = defineRecipe({
 	base: {
 		textDecoration: 'none',
 		cursor: 'pointer',
 		borderRadius: 'sm',
 		outline: 'none',
-		transition:
-			'color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease',
-		_focusVisible: {
-			boxShadow: '0 0 0 2px {colors.background}, 0 0 0 4px {colors.gray.950}',
-		},
+		transition: subtleMotion.transition,
+		_focusVisible: subtleMotion.focusVisible,
 	},
 	variants: {
 		size: {
@@ -26,10 +28,12 @@ export const linkRecipe = defineRecipe({
 				color: 'textMuted',
 				textUnderlineOffset: '3px',
 				_hover: {
+					...subtleMotion.hover,
 					color: 'text',
 					textDecoration: 'underline',
 				},
 				_active: {
+					...subtleMotion.active,
 					color: 'text',
 				},
 			},
@@ -42,9 +46,9 @@ export const linkRecipe = defineRecipe({
 				justifyContent: 'flex-start',
 				borderRadius: 'md',
 				_hover: {
+					...navMotion.hover,
 					bg: 'rgba(0, 0, 0, 0.04)',
 					color: 'text',
-					transform: 'translateX(2px)',
 				},
 				_currentPage: {
 					fontWeight: '700',
@@ -62,9 +66,9 @@ export const linkRecipe = defineRecipe({
 				py: '2',
 				borderRadius: 'md',
 				_hover: {
+					...subtleMotion.hover,
 					bg: 'rgba(0, 0, 0, 0.04)',
 					color: 'text',
-					transform: 'translateY(-1px)',
 				},
 				_currentPage: {
 					fontWeight: '700',
@@ -76,10 +80,12 @@ export const linkRecipe = defineRecipe({
 				color: 'textMuted',
 				opacity: '0.9',
 				_hover: {
+					...subtleMotion.hover,
 					color: 'text',
 					opacity: '1',
 				},
 				_active: {
+					...subtleMotion.active,
 					color: 'text',
 				},
 			},

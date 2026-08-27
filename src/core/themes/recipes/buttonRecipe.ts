@@ -1,8 +1,13 @@
 import { defineRecipe } from '@chakra-ui/react';
 
+import { hoverLift, hoverSubtle } from '../../utils/interaction';
+
+const liftMotion = hoverLift();
+const subtleMotion = hoverSubtle();
+
 export const buttonRecipe = defineRecipe({
-	base: {
-		display: 'inline-flex',
+		base: {
+			display: 'inline-flex',
 		alignItems: 'center',
 		justifyContent: 'center',
 		gap: '2',
@@ -10,22 +15,18 @@ export const buttonRecipe = defineRecipe({
 		borderRadius: 'md',
 		border: '1px solid transparent',
 		userSelect: 'none',
-		transform: 'translateY(0)',
-		willChange: 'transform, box-shadow, filter',
-		transition:
-			'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease, filter 0.2s ease',
-		_focusVisible: {
-			outline: 'none',
-			boxShadow: '0 0 0 2px {colors.background}, 0 0 0 4px {colors.gray.700}',
-		},
-		_disabled: {
-			opacity: '0.78',
-			cursor: 'not-allowed',
-			boxShadow: 'none',
 			transform: 'translateY(0)',
-			filter: 'saturate(0.92)',
+			willChange: 'transform, box-shadow, filter',
+			transition: liftMotion.transition,
+			_focusVisible: liftMotion.focusVisible,
+			_disabled: {
+				...liftMotion.disabled,
+				opacity: '0.78',
+				cursor: 'not-allowed',
+				boxShadow: 'none',
+				filter: 'saturate(0.92)',
+			},
 		},
-	},
 	variants: {
 		size: {
 			sm: {
@@ -54,13 +55,13 @@ export const buttonRecipe = defineRecipe({
 				background: 'linear-gradient(135deg, {colors.blue.950}, {colors.blue.800})',
 				boxShadow: '0 4px 14px rgba(3, 105, 161, 0.22)',
 				_hover: {
+					...liftMotion.hover,
 					background: 'linear-gradient(135deg, {colors.blue.900}, {colors.blue.700})',
 					boxShadow: '0 8px 24px rgba(37, 99, 235, 0.28)',
-					transform: 'translateY(-1px)',
 				},
 				_active: {
+					...liftMotion.active,
 					background: 'linear-gradient(135deg, {colors.blue.950}, {colors.blue.900})',
-					transform: 'translateY(1px) scale(0.99)',
 					boxShadow: '0 2px 10px rgba(37, 99, 235, 0.32)',
 				},
 			},
@@ -70,13 +71,13 @@ export const buttonRecipe = defineRecipe({
 				borderColor: 'blue.700',
 				boxShadow: '0 4px 14px rgba(37, 99, 235, 0.24)',
 				_hover: {
+					...liftMotion.hover,
 					bg: 'blue.600',
 					boxShadow: '0 8px 20px rgba(37, 99, 235, 0.3)',
-					transform: 'translateY(-1px)',
 				},
 				_active: {
+					...liftMotion.active,
 					bg: 'blue.800',
-					transform: 'translateY(1px) scale(0.99)',
 					boxShadow: '0 2px 10px rgba(37, 99, 235, 0.34)',
 				},
 			},
@@ -86,13 +87,13 @@ export const buttonRecipe = defineRecipe({
 				borderColor: 'rose.600',
 				boxShadow: '0 4px 14px rgba(225, 29, 72, 0.22)',
 				_hover: {
+					...liftMotion.hover,
 					bg: 'rose.500',
 					boxShadow: '0 8px 20px rgba(225, 29, 72, 0.28)',
-					transform: 'translateY(-1px)',
 				},
 				_active: {
+					...liftMotion.active,
 					bg: 'rose.700',
-					transform: 'translateY(1px) scale(0.99)',
 					boxShadow: '0 2px 10px rgba(225, 29, 72, 0.32)',
 				},
 			},
@@ -106,14 +107,14 @@ export const buttonRecipe = defineRecipe({
 					bg: 'transparent',
 				},
 				_hover: {
+					...subtleMotion.hover,
 					bg: 'surface',
 					color: 'text',
 					borderColor: 'borderHover',
-					transform: 'translateY(-1px)',
 				},
 				_active: {
+					...subtleMotion.active,
 					bg: 'surface',
-					transform: 'translateY(1px) scale(0.99)',
 				},
 			},
 			ghostPink: {
@@ -126,14 +127,14 @@ export const buttonRecipe = defineRecipe({
 					borderColor: 'transparent',
 				},
 				_hover: {
+					...subtleMotion.hover,
 					bg: 'surface',
 					color: 'text',
 					borderColor: 'border',
-					transform: 'translateY(-1px)',
 				},
 				_active: {
+					...subtleMotion.active,
 					bg: 'surface',
-					transform: 'translateY(1px) scale(0.99)',
 				},
 			},
 			danger: {
@@ -142,14 +143,14 @@ export const buttonRecipe = defineRecipe({
 				borderColor: 'red.500',
 				boxShadow: '0 4px 14px rgba(239, 68, 68, 0.25)',
 				_hover: {
+					...liftMotion.hover,
 					bg: 'red.400',
 					boxShadow: '0 8px 20px rgba(239, 68, 68, 0.32)',
-					transform: 'translateY(-1px)',
 				},
 				_active: {
+					...liftMotion.active,
 					bg: 'red.500',
 					filter: 'brightness(0.92)',
-					transform: 'translateY(1px) scale(0.99)',
 					boxShadow: '0 2px 10px rgba(239, 68, 68, 0.3)',
 				},
 			},

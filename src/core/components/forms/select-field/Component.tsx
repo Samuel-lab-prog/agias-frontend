@@ -9,6 +9,10 @@ import {
 	type Path,
 } from 'react-hook-form';
 
+import { hoverSubtle } from '../../../utils/interaction';
+
+const subtleMotion = hoverSubtle();
+
 interface Option {
 	value: string;
 	label: string;
@@ -47,7 +51,7 @@ export function SelectField<T extends FieldValues>({
 				textStyle='smaller'
 				fontWeight='medium'
 				color={hasError ? 'error' : 'text'}
-				transition='color 0.22s ease'
+				transition={subtleMotion.transition}
 			>
 				{label}
 				{required && <Field.RequiredIndicator />}
@@ -78,12 +82,14 @@ export function SelectField<T extends FieldValues>({
 							px={3}
 							py={2}
 							pe={14}
-							transition='all 0.22s ease'
+							transition={subtleMotion.transition}
 							_hover={{
+								...subtleMotion.hover,
 								borderColor: hasError ? 'error' : 'borderHover',
 								bg: 'surface',
 							}}
 							_focusVisible={{
+								...subtleMotion.focusVisible,
 								borderColor: hasError ? 'error' : 'borderHover',
 								boxShadow: hasError ? '0 0 0 5px {colors.error}' : '0 0 0 5px {colors.focusRing}',
 								bg: 'surface',
@@ -130,13 +136,13 @@ export function SelectField<T extends FieldValues>({
 							border='1px solid'
 							borderColor={hasError ? 'error' : 'border'}
 							color={hasError ? 'error' : isFocused ? 'text' : 'textMuted'}
-							transition='transform 0.24s ease, color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease'
+							transition={subtleMotion.transition}
 							transform={isFocused ? 'translateY(-1px)' : 'translateY(0)'}
 						>
 							<Icon
 								as={ChevronDown}
 								boxSize={4}
-								transition='transform 0.24s ease'
+								transition={subtleMotion.transition}
 								transform={isFocused ? 'rotate(180deg)' : 'rotate(0deg)'}
 							/>
 						</NativeSelect.Indicator>

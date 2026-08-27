@@ -1,3 +1,4 @@
+/* eslint-disable simple-import-sort/imports */
 import { Box, Flex } from '@chakra-ui/react';
 import { type ReactNode, useState } from 'react';
 
@@ -19,27 +20,27 @@ export function NavigationPageShell({
 	rightContent,
 }: NavigationPageShellProps) {
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
+	const desktopNavTop = { base: 0, xl: '72px' };
 
 	return (
-		<Flex
-			as='main'
-			layerStyle='main'
-			minH='100%'
-			direction='column'
-			px={{ base: 0, md: 0 }}
-			pb={{ base: 'calc(24px + env(safe-area-inset-bottom, 0px))', md: 10 }}
-			bg='linear-gradient(180deg, #ffffff 0%, #f7f9ff 100%)'
-		>
 			<Flex
-				position='sticky'
-				top={0}
-				zIndex={20}
-				w='full'
-				borderBottom='1px solid'
-				borderColor='border'
-				bg='rgba(255, 255, 255, 0.88)'
-				backdropFilter='blur(14px)'
+				as='main'
+				layerStyle='main'
+				minH='100%'
+				direction='column'
+				px={{ base: 0, md: 0 }}
+				pb={{ base: 'calc(24px + env(safe-area-inset-bottom, 0px))', md: 10 }}
+				bg='background'
 			>
+				<Flex
+					position='sticky'
+					top={0}
+					zIndex={20}
+					w='full'
+					borderBottom='1px solid'
+					borderColor='border'
+					backdropFilter='blur(14px)'
+				>
 				<NavigationTopBar
 					title={preset.title}
 					subtitle={preset.subtitle}
@@ -62,10 +63,25 @@ export function NavigationPageShell({
 				<NavigationSidebar links={preset.links} onLinkClick={() => setMobileNavOpen(false)} />
 			</Box>
 
-			<Flex layerStyle='main' gap={4} direction={{ base: 'column', xl: 'row' }} flex='1'>
-				<Flex display={{ base: 'none', xl: 'block' }} flexShrink={0} w={sidebarWidth}>
-					<NavigationSidebar links={preset.links} onLinkClick={() => setMobileNavOpen(false)} />
-				</Flex>
+			<Flex
+				layerStyle='main'
+				flex='1'
+				direction='column'
+				display={{ base: 'flex', xl: 'grid' }}
+				gridTemplateColumns={{ xl: `${sidebarWidth} minmax(0, 1fr)` }}
+				gap={4}
+				align='stretch'
+			>
+				<Box display={{ base: 'none', xl: 'block' }} alignSelf='start'>
+					<Box
+						position='sticky'
+						top={desktopNavTop}
+						h='calc(100dvh - 72px)'
+						w='full'
+					>
+						<NavigationSidebar links={preset.links} onLinkClick={() => setMobileNavOpen(false)} />
+					</Box>
+				</Box>
 
 				<Flex flex='1' minW={0} w='full' justify='center'>
 					<Flex

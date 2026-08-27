@@ -1,5 +1,9 @@
 import { Flex, type FlexProps } from '@chakra-ui/react';
 
+import { hoverLift } from '../../../utils/interaction';
+
+const liftMotion = hoverLift();
+
 export function FormCard(props: FlexProps) {
 	return (
 		<Flex
@@ -14,15 +18,17 @@ export function FormCard(props: FlexProps) {
 			borderRadius='xl'
 			bg='surface'
 			backdropFilter='blur(4px)'
-			transition='background-color 0.26s ease, border-color 0.26s ease, box-shadow 0.26s ease'
+			transition={liftMotion.transition}
 			_hover={{
+				...liftMotion.hover,
 				borderColor: 'borderHover',
 				bg: 'surface',
 			}}
 			_focusWithin={{
+				...liftMotion.focusVisible,
 				borderColor: 'borderHover',
 				bg: 'surface',
-				boxShadow: '0 10px 28px {colors.shadow}',
+				boxShadow: '0 10px 28px {colors.surfaceShadow}',
 			}}
 			animationName='fade-in'
 			animationDuration='420ms'

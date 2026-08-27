@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /* eslint-disable max-lines-per-function */
 import type { Field } from '@BaseComponents';
 // eslint-disable-next-line no-duplicate-imports
@@ -505,7 +506,7 @@ export function DevComponentsPage() {
 								placeholder='Mensagem'
 								defaultValue='Texto de exemplo para revisão visual.'
 							/>
-							<Input placeholder='Slug' defaultValue='hello-poetry' isDisabled />
+							<Input placeholder='Slug' defaultValue='hello-poetry' disabled />
 							<BaseButton variant='outline'>BaseButton</BaseButton>
 						</Stack>
 					</ComponentCard>

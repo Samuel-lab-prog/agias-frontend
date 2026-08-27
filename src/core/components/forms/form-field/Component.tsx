@@ -4,6 +4,9 @@ import { Controller, type FieldValues } from 'react-hook-form';
 
 import { useAsyncValidation } from './hooks';
 import type { FormFieldProps } from './types';
+import { hoverSubtle } from '../../../utils/interaction';
+
+const subtleMotion = hoverSubtle();
 
 /**
  * Form-friendly input/textarea field with optional async validation,
@@ -83,7 +86,7 @@ export function FormField<T extends FieldValues>({
 							textStyle='smaller'
 							fontWeight='medium'
 							color={hasError ? 'error' : 'text'}
-							transition='color 0.22s ease'
+							transition={subtleMotion.transition}
 						>
 							{label}
 							{required && <Field.RequiredIndicator />}
@@ -92,14 +95,16 @@ export function FormField<T extends FieldValues>({
 						<Component
 							{...field}
 							textStyle='smaller'
-							transition='all 0.22s ease'
+							transition={subtleMotion.transition}
 							bg='background'
 							borderColor={hasError ? 'error' : 'border'}
 							_hover={{
+								...subtleMotion.hover,
 								borderColor: 'borderHover',
 								bg: 'surface',
 							}}
 							_focusVisible={{
+								...subtleMotion.focusVisible,
 								borderColor: hasError ? 'error' : 'borderHover',
 								boxShadow: hasError ? '0 0 0 3px {colors.error}' : '0 0 0 3px {colors.focusRing}',
 								bg: 'surface',
@@ -130,15 +135,15 @@ export function FormField<T extends FieldValues>({
 							gridTemplateRows={hasError ? '1fr' : '0fr'}
 							transition='grid-template-rows 0.24s ease'
 						>
-							<Field.ErrorText
-								textStyle='smaller'
-								color='error'
-								opacity={hasError ? 1 : 0}
-								transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}
-								overflow='hidden'
-								minH={0}
-								transition='opacity 0.2s ease, transform 0.2s ease, margin-top 0.2s ease'
-							>
+						<Field.ErrorText
+							textStyle='smaller'
+							color='error'
+							opacity={hasError ? 1 : 0}
+							transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}
+							overflow='hidden'
+							minH={0}
+							transition={subtleMotion.transition}
+						>
 								{errorMessage}
 							</Field.ErrorText>
 						</Box>

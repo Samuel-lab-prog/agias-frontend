@@ -5,6 +5,9 @@ import { Controller, type FieldValues, useWatch } from 'react-hook-form';
 import { useFilePreview } from './hooks';
 import type { FileFieldProps } from './types';
 import { buildFileValidationRules } from './utils';
+import { hoverSubtle } from '../../../utils/interaction';
+
+const subtleMotion = hoverSubtle();
 
 export function FileField<T extends FieldValues>({
 	control,
@@ -45,7 +48,7 @@ export function FileField<T extends FieldValues>({
 							textStyle='smaller'
 							fontWeight='medium'
 							color={hasError ? 'error' : 'text'}
-							transition='color 0.22s ease'
+							transition={subtleMotion.transition}
 						>
 							{label}
 							{required && <Field.RequiredIndicator />}

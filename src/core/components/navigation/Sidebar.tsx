@@ -4,7 +4,7 @@ import { ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { useColorModeValue } from '../ui/color-mode';
+import { hoverNav } from '../../utils/interaction';
 import type { NavigationLink } from './types';
 
 type NavigationSidebarProps = {
@@ -16,22 +16,15 @@ type NavigationSidebarProps = {
 export function NavigationSidebar({ links, initialActive, onLinkClick }: NavigationSidebarProps) {
 	const firstVisible = links.find((link) => !link.hidden)?.label ?? '';
 	const [activeItem, setActiveItem] = useState(initialActive ?? firstVisible);
-	const panelBg = useColorModeValue('rgba(255,255,255,0.98)', 'surface');
-	const itemActiveBg = useColorModeValue('rgba(37,99,235,0.12)', 'transparent');
-	const itemHoverBg = useColorModeValue('rgba(37,99,235,0.08)', 'transparent');
-	const itemActiveColor = useColorModeValue('blue.700', 'text');
+	const navMotion = hoverNav();
 
 	return (
 		<Surface
-			variant='panel'
+			variant='sidebar'
 			h='full'
-			px={{ base: 3, md: 4 }}
-			py={4}
 			overflow='hidden'
 			borderRadius={0}
-			borderColor='border'
 			borderTop='0'
-			bg={panelBg}
 		>
 			<VStack align='stretch' gap={1} h='full' p={0}>
 				{links
@@ -67,17 +60,16 @@ export function NavigationSidebar({ links, initialActive, onLinkClick }: Navigat
 										px={4}
 										py={3}
 										borderRadius='sm'
-										bg={isActive ? itemActiveBg : 'transparent'}
+										bg={isActive ? 'accentSoft' : 'transparent'}
 										border='1px solid'
 										borderColor={isActive ? 'borderHover' : 'transparent'}
-										color={isActive ? itemActiveColor : 'textMuted'}
+										color={isActive ? 'accent' : 'textMuted'}
 										cursor='pointer'
-										transition='all 0.2s ease'
+										transition={navMotion.transition}
 										transform='translateX(0)'
-										_hover={{
-											bg: itemHoverBg,
-											color: itemActiveColor,
-										}}
+										_hover={navMotion.hover}
+										_active={navMotion.active}
+										_focusVisible={navMotion.focusVisible}
 									>
 										<HStack gap={2}>
 											{icon ? <Icon as={icon} boxSize={3.5} opacity={0.85} /> : null}

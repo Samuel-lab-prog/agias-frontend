@@ -1,9 +1,10 @@
+/* eslint-disable simple-import-sort/imports */
 import { Surface } from '@BaseComponents';
 import { Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/react';
 import { Menu } from 'lucide-react';
 import type { ReactNode } from 'react';
 
-import { useColorModeValue } from '../ui/color-mode';
+import { hoverSubtle } from '../../utils/interaction';
 
 type NavigationTopBarProps = {
 	title?: string;
@@ -18,16 +19,12 @@ export function NavigationTopBar({
 	onMenuClick,
 	rightContent,
 }: NavigationTopBarProps) {
-	const bg = useColorModeValue('rgba(255,255,255,0.96)', 'surface');
+	const buttonMotion = hoverSubtle();
 	return (
 		<Surface
-			variant='panel'
-			color='surface'
-			px={{ base: 3, md: 4, xl: 6 }}
-			py={{ base: 3, md: 4 }}
+			variant='topBar'
 			w='full'
 			borderRadius={0}
-			bg={bg}
 		>
 			<Flex align='center' justify='space-between' gap={3} wrap='nowrap'>
 				<HStack gap={2} align='center' minW={0}>
@@ -46,12 +43,15 @@ export function NavigationTopBar({
 					{onMenuClick ? (
 						<IconButton
 							aria-label='Abrir navegação'
-							variant='ghost'
+							variant='outlinePurple'
 							size='sm'
 							display={{ base: 'inline-flex', xl: 'none' }}
 							onClick={onMenuClick}
 							color='textMuted'
-							_hover={{ bg: 'surface', color: 'text' }}
+							transition={buttonMotion.transition}
+							_hover={buttonMotion.hover}
+							_active={buttonMotion.active}
+							_focusVisible={buttonMotion.focusVisible}
 						>
 							<Menu />
 						</IconButton>

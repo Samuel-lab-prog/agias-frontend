@@ -1,6 +1,10 @@
 import { Box, Field, Flex, Input, Stack, Text } from '@chakra-ui/react';
 import { Controller, type FieldError, type FieldValues, type Path } from 'react-hook-form';
 
+import { hoverSubtle } from '../../../utils/interaction';
+
+const subtleMotion = hoverSubtle();
+
 type ColorFieldProps<T extends FieldValues> = {
 	control: import('react-hook-form').Control<T>;
 	name: Path<T>;
@@ -60,7 +64,7 @@ export function ColorField<T extends FieldValues>({
 							textStyle='smaller'
 							fontWeight='medium'
 							color={hasError ? 'error' : 'text'}
-							transition='color 0.22s ease'
+							transition={subtleMotion.transition}
 						>
 							{label}
 							{required && <Field.RequiredIndicator />}
@@ -81,12 +85,12 @@ export function ColorField<T extends FieldValues>({
 									boxShadow='inset 0 0 0 1px {colors.background}'
 									cursor={disabled ? 'not-allowed' : 'pointer'}
 									overflow='hidden'
-									transition='transform 0.18s ease, border-color 0.2s ease, box-shadow 0.2s ease'
+									transition={subtleMotion.transition}
 									_hover={
 										disabled
 											? undefined
 											: {
-													transform: 'translateY(-1px)',
+													...subtleMotion.hover,
 													borderColor: hasError ? 'error' : 'borderHover',
 												}
 									}
@@ -123,12 +127,14 @@ export function ColorField<T extends FieldValues>({
 									borderRadius='md'
 									px={3}
 									py={2}
-									transition='all 0.22s ease'
+									transition={subtleMotion.transition}
 									_hover={{
+										...subtleMotion.hover,
 										borderColor: hasError ? 'error' : 'borderHover',
 										bg: 'surface',
 									}}
 									_focusVisible={{
+										...subtleMotion.focusVisible,
 										borderColor: hasError ? 'error' : 'borderHover',
 										boxShadow: hasError
 											? '0 0 0 3px {colors.error}'
@@ -156,7 +162,7 @@ export function ColorField<T extends FieldValues>({
 									overflow='hidden'
 									minH={0}
 									mt={resolvedErrorMessage ? 1 : 0}
-									transition='opacity 0.2s ease, transform 0.2s ease, margin-top 0.2s ease'
+									transition={subtleMotion.transition}
 								>
 									{resolvedErrorMessage}
 								</Field.ErrorText>

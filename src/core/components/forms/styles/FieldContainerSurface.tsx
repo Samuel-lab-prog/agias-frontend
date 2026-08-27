@@ -1,5 +1,9 @@
 import { Box, type BoxProps } from '@chakra-ui/react';
 
+import { hoverSubtle } from '../../../utils/interaction';
+
+const subtleMotion = hoverSubtle();
+
 interface FieldContainerProps extends BoxProps {
 	delay?: number;
 	hasError?: boolean;
@@ -19,8 +23,9 @@ export function FieldContainer({
 			borderColor={hasError ? 'error' : 'transparent'}
 			bg={hasError ? 'surface' : 'transparent'}
 			borderRadius='md'
-			transition='border-color 0.22s ease, background-color 0.22s ease, box-shadow 0.22s ease'
+			transition={subtleMotion.transition}
 			_focusWithin={{
+				...subtleMotion.focusVisible,
 				borderColor: hasError ? 'error' : 'borderHover',
 				bg: hasError ? 'surface' : 'surface',
 			}}

@@ -12,6 +12,8 @@ import { ThemeProvider, type ThemeProviderProps, useTheme } from 'next-themes';
 import * as React from 'react';
 import { LuMoon, LuSun } from 'react-icons/lu';
 
+import { hoverLift } from '../../utils/interaction';
+
 export type ColorModeProviderProps = ThemeProviderProps;
 
 export function ColorModeProvider(props: ColorModeProviderProps) {
@@ -56,6 +58,7 @@ type ColorModeButtonProps = Omit<IconButtonProps, 'aria-label'>;
 export const ColorModeButton = React.forwardRef<HTMLButtonElement, ColorModeButtonProps>(
 	function ColorModeButton(props, ref) {
 		const { toggleColorMode } = useColorMode();
+		const buttonMotion = hoverLift();
 		return (
 			<ClientOnly fallback={<Skeleton boxSize='9' />}>
 				<IconButton
@@ -67,12 +70,16 @@ export const ColorModeButton = React.forwardRef<HTMLButtonElement, ColorModeButt
 					{...props}
 					css={{
 						borderRadius: '9999px',
+						transition: buttonMotion.transition,
 						boxShadow: '0 8px 20px rgba(15, 23, 42, 0.16)',
 						_icon: {
 							width: '5',
 							height: '5',
 						},
 					}}
+					_hover={buttonMotion.hover}
+					_active={buttonMotion.active}
+					_focusVisible={buttonMotion.focusVisible}
 				>
 					<ColorModeIcon />
 				</IconButton>
