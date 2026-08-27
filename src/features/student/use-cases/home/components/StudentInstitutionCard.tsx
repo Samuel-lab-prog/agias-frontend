@@ -11,8 +11,15 @@ type StudentInstitutionCardProps = {
 	};
 };
 
-export function StudentInstitutionCard({ profile, courseLevel, attendanceSummary }: StudentInstitutionCardProps) {
-	const courseLabel = profile?.courseId !== null && profile?.courseId !== undefined ? `Curso ${profile.courseId}` : 'Curso não vinculado';
+export function StudentInstitutionCard({
+	profile,
+	courseLevel,
+	attendanceSummary,
+}: StudentInstitutionCardProps) {
+	const courseLabel =
+		profile?.courseId !== null && profile?.courseId !== undefined
+			? `Curso ${profile.courseId}`
+			: 'Curso não vinculado';
 	const institutionData = [
 		['Matrícula', profile?.academicId ?? 'Não informado'],
 		['Curso', courseLabel],

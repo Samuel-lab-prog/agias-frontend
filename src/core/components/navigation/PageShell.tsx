@@ -1,6 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useState } from 'react';
-import type { ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 
 import { NavigationSidebar } from './Sidebar';
 import { NavigationTopBar } from './TopBar';
@@ -70,14 +69,14 @@ export function NavigationPageShell({
 
 				<Flex flex='1' minW={0} w='full' justify='center'>
 					<Flex
-					w='full'
-					maxW={{ base: '100%', xl: '1080px' }}
-					direction='column'
-					gap={{ base: 3, md: 4 }}
-					mt={4}
-					px={{ base: 3, md: 4, xl: 0 }}
-					align='stretch'
-				>
+						w='full'
+						maxW={{ base: '100%', xl: '1080px' }}
+						direction='column'
+						gap={{ base: 3, md: 4 }}
+						mt={4}
+						px={{ base: 3, md: 4, xl: 0 }}
+						align='stretch'
+					>
 						{children}
 					</Flex>
 				</Flex>

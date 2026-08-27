@@ -1,7 +1,7 @@
-import { Surface } from '@BaseComponents';
-import { Box, Button, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { communications } from '@Api/communications/endpoints';
 import { communicationsKeys } from '@Api/communications/keys';
+import { Surface } from '@BaseComponents';
+import { Box, Button, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { translateBackendAudience } from '@core/utils/backend-labels';
 import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
 import { useQuery } from '@tanstack/react-query';
@@ -27,20 +27,22 @@ export function StudentAlertsCard() {
 				<HStack gap={2}>
 					<Bell size={18} />
 					<Heading as='h3' textStyle='h6'>
-						{visibleAnnouncements.length > 0 ? 'Comunicados recentes' : 'Nenhum comunicado publicado'}
+						{visibleAnnouncements.length > 0
+							? 'Comunicados recentes'
+							: 'Nenhum comunicado publicado'}
 					</Heading>
 				</HStack>
 
-					<Button
-						size='sm'
-						variant='outline'
-						color='textMuted'
-						borderColor='border'
-						bg='transparent'
-						_hover={{ bg: 'surface', borderColor: 'borderHover', color: 'text' }}
-					>
+				<Button
+					size='sm'
+					variant='outline'
+					color='textMuted'
+					borderColor='border'
+					bg='transparent'
+					_hover={{ bg: 'surface', borderColor: 'borderHover', color: 'text' }}
+				>
 					Ver todas as notícias
-					</Button>
+				</Button>
 			</Flex>
 
 			<VStack align='stretch' gap={0}>

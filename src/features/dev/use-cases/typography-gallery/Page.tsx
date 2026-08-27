@@ -1,6 +1,8 @@
 import { Surface } from '@BaseComponents';
 import { Box, Flex, Grid, Heading, Stack, Text } from '@chakra-ui/react';
 
+import { DevSubNav } from '../../components/DevSubNav';
+
 type TypographyToken = {
 	name: string;
 	description: string;
@@ -38,14 +40,9 @@ function TypographyCard({ token }: { token: TypographyToken }) {
 					borderRadius='xl'
 					border='1px solid'
 					borderColor='border'
-					bg='rgba(255,255,255,0.8)'
+					bg='surface'
 				>
-					<Text
-						textStyle={token.previewStyle}
-						color='text'
-						display='block'
-						minH='3em'
-					>
+					<Text textStyle={token.previewStyle} color='text' display='block' minH='3em'>
 						{token.sample}
 					</Text>
 				</Box>
@@ -144,6 +141,7 @@ export function DevTypographyPage() {
 
 	return (
 		<Flex as='main' layerStyle='mainPadded' direction='column' gap={8} pb={12}>
+			<DevSubNav />
 			<Stack gap={4}>
 				<SectionTitle
 					title='Tipografia'

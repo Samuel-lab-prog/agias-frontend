@@ -43,7 +43,7 @@ export function TagsInputControl({
 		<>
 			<TagsInput.Root
 				w='full'
-				colorPalette='gray'
+				colorPalette='blue'
 				animationName='fade-in'
 				animationDuration='260ms'
 				animationTimingFunction='ease-out'
@@ -51,19 +51,34 @@ export function TagsInputControl({
 				disabled={disabled}
 				css={{
 					"& [data-scope='tags-input'][data-part='item']": {
-						background: 'rgba(0, 0, 0, 0.08) !important',
-						color: 'var(--chakra-colors-gray-900) !important',
-						borderColor: 'var(--chakra-colors-gray-400) !important',
+						background: 'var(--chakra-colors-accentSoft) !important',
+						color: 'var(--chakra-colors-accentStrong) !important',
+						borderColor: 'var(--chakra-colors-borderHover) !important',
 					},
 					"& [data-scope='tags-input'][data-part='itemPreview']": {
 						background: 'transparent !important',
-						color: 'var(--chakra-colors-gray-900) !important',
+						color: 'var(--chakra-colors-accentStrong) !important',
+					},
+					"& [data-scope='tags-input'][data-part='itemText']": {
+						color: 'var(--chakra-colors-accentStrong) !important',
+					},
+					"& [data-scope='tags-input'][data-part='itemDeleteTrigger']": {
+						color: 'var(--chakra-colors-accent) !important',
+					},
+					"& [data-scope='tags-input'][data-part='itemDeleteTrigger']:hover": {
+						color: 'var(--chakra-colors-text) !important',
+					},
+					"& [data-scope='tags-input'][data-part='input']": {
+						color: 'var(--chakra-colors-text) !important',
+					},
+					"& [data-scope='tags-input'][data-part='clearTrigger']": {
+						color: 'var(--chakra-colors-textMuted) !important',
 					},
 				}}
 				onValueChange={(details) => onValueChange(details.value)}
 			>
 				<TagsInput.Control
-					bg='rgba(255, 255, 255, 0.03)'
+					bg='background'
 					color='text'
 					border='1px solid'
 					borderColor={hasError ? 'error' : isFocused ? 'borderHover' : 'border'}
@@ -75,14 +90,12 @@ export function TagsInputControl({
 					transition='all 0.22s ease'
 					_hover={{
 						borderColor: hasError ? 'error' : 'borderHover',
-						bg: 'rgba(255, 255, 255, 0.03)',
+						bg: 'surface',
 					}}
 					_focusWithin={{
 						borderColor: hasError ? 'error' : 'borderHover',
-						boxShadow: hasError
-							? '0 0 0 5px rgba(239, 68, 68, 0.25)'
-							: '0 0 0 5px rgba(0, 0, 0, 0.18)',
-						bg: 'rgba(255, 255, 255, 0.04)',
+						boxShadow: hasError ? '0 0 0 5px {colors.error}' : '0 0 0 5px {colors.focusRing}',
+						bg: 'surface',
 					}}
 				>
 					<TagsInput.Items>
@@ -91,33 +104,33 @@ export function TagsInputControl({
 								key={index}
 								index={index}
 								value={tag}
-								bg='rgba(0, 0, 0, 0.08)'
-								color='gray.900'
+								bg='accentSoft'
+								color='accentStrong'
 								border='1px solid'
-								borderColor='gray.400'
+								borderColor='borderHover'
 								borderRadius='full'
 								animationName='fade-in'
 								animationDuration='180ms'
 								_highlighted={{
-									bg: 'rgba(0, 0, 0, 0.14)',
-									color: 'gray.900',
+									bg: 'surface',
+									color: 'accentStrong',
 								}}
 								_selected={{
-									bg: 'rgba(0, 0, 0, 0.14)',
-									color: 'gray.900',
+									bg: 'surface',
+									color: 'accentStrong',
 								}}
 							>
 								<TagsInput.ItemPreview
 									bg='transparent'
-									color='gray.900'
+									color='accentStrong'
 									_highlighted={{
-										color: 'gray.900',
+										color: 'accentStrong',
 									}}
 								>
-									<TagsInput.ItemText color='gray.900'>{tag}</TagsInput.ItemText>
-									<TagsInput.ItemDeleteTrigger color='gray.600' _hover={{ color: 'gray.900' }} />
+									<TagsInput.ItemText color='accentStrong'>{tag}</TagsInput.ItemText>
+									<TagsInput.ItemDeleteTrigger color='accent' _hover={{ color: 'accentStrong' }} />
 								</TagsInput.ItemPreview>
-								<TagsInput.ItemInput bg='transparent' color='gray.900' />
+								<TagsInput.ItemInput bg='transparent' color='accentStrong' />
 							</TagsInput.Item>
 						))}
 					</TagsInput.Items>
@@ -130,7 +143,7 @@ export function TagsInputControl({
 						color='text'
 						disabled={disabled || limitReached}
 						maxLength={maxTagLength}
-						_placeholder={{ color: 'gray.500' }}
+						_placeholder={{ color: 'textMuted' }}
 						onFocus={() => setIsFocused(true)}
 						onBlur={(event) => {
 							setIsFocused(false);
@@ -141,9 +154,9 @@ export function TagsInputControl({
 						}}
 					/>
 					<TagsInput.ClearTrigger
-						color='gray.500'
+						color='textMuted'
 						transition='color 0.2s ease'
-						_hover={{ color: 'gray.900' }}
+						_hover={{ color: 'text' }}
 					/>
 				</TagsInput.Control>
 			</TagsInput.Root>

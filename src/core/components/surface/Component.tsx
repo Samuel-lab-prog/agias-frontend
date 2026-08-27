@@ -22,5 +22,13 @@ export const Surface = forwardRef<HTMLDivElement, SurfaceProps>(function Surface
 	const resolvedBg = color ?? bg ?? variantStyles.bg;
 	const resolvedBorderColor = borderColor ?? variantStyles.borderColor;
 
-	return <Box ref={ref} {...variantStyles} bg={resolvedBg} borderColor={resolvedBorderColor} {...props} />;
+	return (
+		<Box
+			ref={ref}
+			{...variantStyles}
+			bg={resolvedBg}
+			borderColor={resolvedBorderColor}
+			{...props}
+		/>
+	);
 });

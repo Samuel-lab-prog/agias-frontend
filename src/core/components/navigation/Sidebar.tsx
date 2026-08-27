@@ -3,8 +3,8 @@ import { Box, HStack, Icon, Link, Text, VStack } from '@chakra-ui/react';
 import { ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useColorModeValue } from '../ui/color-mode';
 
+import { useColorModeValue } from '../ui/color-mode';
 import type { NavigationLink } from './types';
 
 type NavigationSidebarProps = {
@@ -50,7 +50,7 @@ export function NavigationSidebar({ links, initialActive, onLinkClick }: Navigat
 								borderRadius={0}
 								_hover={{ textDecoration: 'none' }}
 							>
-									<NavLink
+								<NavLink
 									to={to}
 									onClick={() => {
 										setActiveItem(label);
@@ -61,7 +61,7 @@ export function NavigationSidebar({ links, initialActive, onLinkClick }: Navigat
 										textDecoration: 'none',
 									}}
 								>
-								<HStack
+									<HStack
 										justify='space-between'
 										align='center'
 										px={4}
@@ -81,7 +81,11 @@ export function NavigationSidebar({ links, initialActive, onLinkClick }: Navigat
 									>
 										<HStack gap={2}>
 											{icon ? <Icon as={icon} boxSize={3.5} opacity={0.85} /> : null}
-											<Text textStyle='smaller' fontWeight={isActive ? 'medium' : 'normal'} color='inherit'>
+											<Text
+												textStyle='smaller'
+												fontWeight={isActive ? 'medium' : 'normal'}
+												color='inherit'
+											>
 												{label}
 											</Text>
 										</HStack>

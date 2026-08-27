@@ -42,10 +42,10 @@ export function DynamicForm<T extends FieldValues>({
 					py={2.5}
 					mb={2}
 					border='1px solid'
-					borderColor='rgba(248, 113, 113, 0.5)'
+					borderColor='error'
 					borderRadius='md'
-					bg='rgba(248, 113, 113, 0.12)'
-					boxShadow='inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+					bg='surface'
+					boxShadow='inset 0 1px 0 rgba(255, 255, 255, 0.02)'
 					animationName='shake-x, fade-in'
 					animationDuration='240ms'
 				>
@@ -54,10 +54,10 @@ export function DynamicForm<T extends FieldValues>({
 						justify='center'
 						boxSize={7}
 						borderRadius='full'
-						bg='rgba(248, 113, 113, 0.14)'
+						bg='surface'
 						flexShrink={0}
 					>
-						<Icon as={CircleAlert} boxSize={4} color='red.400' />
+						<Icon as={CircleAlert} boxSize={4} color='error' />
 					</Flex>
 					<Text
 						textStyle='smaller'

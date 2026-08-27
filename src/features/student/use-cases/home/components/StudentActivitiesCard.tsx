@@ -124,16 +124,25 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 									<Text textStyle='smaller' color='textMuted'>
 										Postada em {dateFormatter.format(new Date(activity.createdAt))}
 									</Text>
-									
 								</Box>
 							</HStack>
 
-							<VStack align={{ base: 'start', md: 'end' }} gap={1} flexShrink={0} w={{ base: 'full', md: 'auto' }} mt={{ base: 2, md: 0 }}>
+							<VStack
+								align={{ base: 'start', md: 'end' }}
+								gap={1}
+								flexShrink={0}
+								w={{ base: 'full', md: 'auto' }}
+								mt={{ base: 2, md: 0 }}
+							>
 								<Badge colorPalette={getActivityStatus(activity, submissions).colorPalette}>
 									{getActivityStatus(activity, submissions).label}
 								</Badge>
 								{activity.dueAt ? (
-									<Text textStyle='smaller' color='textMuted' textAlign={{ base: 'left', md: 'right' }}>
+									<Text
+										textStyle='smaller'
+										color='textMuted'
+										textAlign={{ base: 'left', md: 'right' }}
+									>
 										Entrega em {dateFormatter.format(new Date(activity.dueAt))} às{' '}
 										{timeFormatter.format(new Date(activity.dueAt))}
 										<br />

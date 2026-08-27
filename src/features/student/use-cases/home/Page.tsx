@@ -1,5 +1,4 @@
-import { Grid, Link, Text, VStack } from '@chakra-ui/react';
-import { Box } from '@chakra-ui/react';
+import { Box, Grid, Link, Text, VStack } from '@chakra-ui/react';
 import { NavigationPageShell } from '@core/components/navigation';
 
 import { studentNavigationPreset } from '../../utils/navigation-routes';
@@ -56,11 +55,18 @@ export function StudentHomePage() {
 				</Link>
 			}
 		>
-			<Grid templateColumns={{ base: '1fr', xl: 'minmax(0, 1fr) 390px' }} gap={4} alignItems='start'>
+			<Grid
+				templateColumns={{ base: '1fr', xl: 'minmax(0, 1fr) 390px' }}
+				gap={4}
+				alignItems='start'
+			>
 				<VStack align='stretch' gap={4}>
 					<StudentAlertsCard />
 					<StudentClassesCard enrollments={dashboard?.enrollments ?? []} />
-					<StudentActivitiesCard enrollments={dashboard?.enrollments ?? []} submissions={dashboard?.submissions ?? []} />
+					<StudentActivitiesCard
+						enrollments={dashboard?.enrollments ?? []}
+						submissions={dashboard?.submissions ?? []}
+					/>
 				</VStack>
 
 				<VStack align='stretch' gap={4}>

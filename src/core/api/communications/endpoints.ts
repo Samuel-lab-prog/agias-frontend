@@ -1,10 +1,8 @@
 import { createMutationEndpoint, createQueryEndpoint } from '@Api/utils';
 import { createHTTPRequest } from '@Utils';
+
 import { communicationsKeys } from './keys';
-import type {
-	AnnouncementListItem,
-	CreateAnnouncementBody,
-} from './types';
+import type { AnnouncementListItem, CreateAnnouncementBody } from './types';
 
 const getMyAnnouncements = createQueryEndpoint<[], AnnouncementListItem[]>({
 	key: communicationsKeys.myAnnouncements,

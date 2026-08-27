@@ -57,6 +57,17 @@ export function FormField<T extends FieldValues>({
 		<Controller
 			name={name}
 			control={control}
+			rules={{
+				required: required ? 'This field is required.' : false,
+				minLength:
+					typeof minLength === 'number'
+						? { value: minLength, message: `Minimum length is ${minLength} characters.` }
+						: undefined,
+				maxLength:
+					typeof maxLength === 'number'
+						? { value: maxLength, message: `Maximum length is ${maxLength} characters.` }
+						: undefined,
+			}}
 			render={({ field, fieldState }) => {
 				const resolvedError = fieldState.error ?? error;
 				const errorMessage = resolvedError?.message?.toString();
@@ -82,22 +93,20 @@ export function FormField<T extends FieldValues>({
 							{...field}
 							textStyle='smaller'
 							transition='all 0.22s ease'
-							bg='rgba(255, 255, 255, 0.03)'
+							bg='background'
 							borderColor={hasError ? 'error' : 'border'}
 							_hover={{
 								borderColor: 'borderHover',
-								bg: 'rgba(255, 255, 255, 0.05)',
+								bg: 'surface',
 							}}
 							_focusVisible={{
 								borderColor: hasError ? 'error' : 'borderHover',
-								boxShadow: hasError
-									? '0 0 0 3px rgba(239, 68, 68, 1)'
-									: '0 0 0 3px rgba(0, 0, 0, 0.18)',
-								bg: 'rgba(255, 255, 255, 0.06)',
+								boxShadow: hasError ? '0 0 0 3px {colors.error}' : '0 0 0 3px {colors.focusRing}',
+								bg: 'surface',
 							}}
 							_focus={{
 								borderColor: hasError ? 'error' : 'borderHover',
-								bg: 'rgba(255, 255, 255, 0.06)',
+								bg: 'surface',
 							}}
 							autoFocus={autoFocus}
 							rows={as === 'textarea' ? rows : undefined}

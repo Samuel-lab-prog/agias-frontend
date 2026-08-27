@@ -1,7 +1,8 @@
 import { Surface } from '@BaseComponents';
 import { Flex, Heading, HStack, IconButton, Text } from '@chakra-ui/react';
-import type { ReactNode } from 'react';
 import { Menu } from 'lucide-react';
+import type { ReactNode } from 'react';
+
 import { useColorModeValue } from '../ui/color-mode';
 
 type NavigationTopBarProps = {

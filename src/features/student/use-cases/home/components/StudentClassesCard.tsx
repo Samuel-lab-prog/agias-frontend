@@ -13,7 +13,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 		const sessionTime = firstSession
 			? new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' }).format(
 					new Date(firstSession.startsAt),
-			  )
+				)
 			: 'Sem aula';
 
 		return {
@@ -91,7 +91,13 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 							_hover={{ bg: 'surface', transform: 'translateX(2px)' }}
 						>
 							<Box textAlign='left'>
-								<Text fontWeight='bold' color='text' textTransform='uppercase' fontSize='xs' whiteSpace='nowrap'>
+								<Text
+									fontWeight='bold'
+									color='text'
+									textTransform='uppercase'
+									fontSize='xs'
+									whiteSpace='nowrap'
+								>
 									{item.title}
 								</Text>
 							</Box>

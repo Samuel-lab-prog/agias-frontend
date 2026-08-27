@@ -1,5 +1,5 @@
-import { Grid, GridItem } from '@chakra-ui/react';
 import { Footer } from '@BaseComponents';
+import { Grid, GridItem } from '@chakra-ui/react';
 import { NavigationPageShell } from '@core/components/navigation';
 import { useAuthClientStore } from '@features/auth/public';
 
@@ -8,9 +8,7 @@ import { HomeMainColumn } from './HomeMainColumn';
 import { HomeSidebar } from './HomeSidebar';
 import { homeNavigationPreset } from './navigation';
 
-const footerLinks = [
-	{ label: 'Login', to: '/login' },
-];
+const footerLinks = [{ label: 'Login', to: '/login' }];
 
 export function HomePage() {
 	const authClient = useAuthClientStore((state) => state.authClient);

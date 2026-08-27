@@ -17,12 +17,12 @@ export function FieldContainer({
 			p='1'
 			border='1px solid'
 			borderColor={hasError ? 'error' : 'transparent'}
-			bg={hasError ? 'rgba(248, 113, 113, 0.08)' : 'transparent'}
+			bg={hasError ? 'surface' : 'transparent'}
 			borderRadius='md'
 			transition='border-color 0.22s ease, background-color 0.22s ease, box-shadow 0.22s ease'
 			_focusWithin={{
 				borderColor: hasError ? 'error' : 'borderHover',
-				bg: hasError ? 'rgba(248, 113, 113, 0.08)' : 'rgba(0, 0, 0, 0.04)',
+				bg: hasError ? 'surface' : 'surface',
 			}}
 			animationName='slide-from-bottom, fade-in'
 			animationDuration='380ms'

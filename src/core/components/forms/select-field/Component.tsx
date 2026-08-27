@@ -57,6 +57,9 @@ export function SelectField<T extends FieldValues>({
 				disabled={disabled}
 				name={name}
 				control={control}
+				rules={{
+					required: required ? 'This field is required.' : false,
+				}}
 				render={({ field }) => (
 					<NativeSelect.Root
 						size='md'
@@ -67,7 +70,7 @@ export function SelectField<T extends FieldValues>({
 					>
 						<NativeSelect.Field
 							textStyle='smaller'
-							bg='rgba(255, 255, 255, 0.03)'
+							bg='background'
 							border='1px solid'
 							borderColor={hasError ? 'error' : 'border'}
 							borderRadius='md'
@@ -78,14 +81,12 @@ export function SelectField<T extends FieldValues>({
 							transition='all 0.22s ease'
 							_hover={{
 								borderColor: hasError ? 'error' : 'borderHover',
-								bg: 'rgba(255, 255, 255, 0.03)',
+								bg: 'surface',
 							}}
 							_focusVisible={{
 								borderColor: hasError ? 'error' : 'borderHover',
-								boxShadow: hasError
-									? '0 0 0 5px rgba(239, 68, 68, 0.25)'
-									: '0 0 0 5px rgba(0, 0, 0, 0.18)',
-								bg: 'rgba(255, 255, 255, 0.04)',
+								boxShadow: hasError ? '0 0 0 5px {colors.error}' : '0 0 0 5px {colors.focusRing}',
+								bg: 'surface',
 							}}
 							_disabled={{
 								opacity: 0.65,
@@ -100,7 +101,7 @@ export function SelectField<T extends FieldValues>({
 							onBlur={() => setIsFocused(false)}
 						>
 							{placeholder && (
-								<option value='' disabled style={{ color: '#8e6f8c' }}>
+								<option value='' disabled style={{ color: 'var(--chakra-colors-textMuted)' }}>
 									{placeholder}
 								</option>
 							)}
@@ -110,8 +111,8 @@ export function SelectField<T extends FieldValues>({
 									key={option.value}
 									value={option.value}
 									style={{
-										backgroundColor: '#1B0019',
-										color: '#ffd6e7',
+										backgroundColor: 'var(--chakra-colors-background)',
+										color: 'var(--chakra-colors-text)',
 									}}
 								>
 									{option.label}
@@ -125,10 +126,10 @@ export function SelectField<T extends FieldValues>({
 							h='70%'
 							right={1}
 							borderRadius='md'
-							bg={hasError ? 'rgba(239,68,68,0.14)' : 'rgba(255, 255, 255, 0.05)'}
+							bg='accentSoft'
 							border='1px solid'
-							borderColor={hasError ? 'red.400' : 'gray.600'}
-							color={hasError ? 'red.300' : isFocused ? 'text' : 'textMuted'}
+							borderColor={hasError ? 'error' : 'border'}
+							color={hasError ? 'error' : isFocused ? 'text' : 'textMuted'}
 							transition='transform 0.24s ease, color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease'
 							transform={isFocused ? 'translateY(-1px)' : 'translateY(0)'}
 						>

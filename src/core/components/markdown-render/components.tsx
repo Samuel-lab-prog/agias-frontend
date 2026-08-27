@@ -136,5 +136,5 @@ export const components: Components = {
 			{children}
 		</Box>
 	),
-		hr: () => <Box as='hr' my={6} borderColor='gray.700' />,
+	hr: () => <Box as='hr' my={6} borderColor='gray.700' />,
 };

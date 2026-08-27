@@ -18,17 +18,13 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 		.map((part) => part[0]?.toUpperCase())
 		.join('');
 	const academicId = profile?.academicId;
-	const courseId = profile?.courseId !== null && profile?.courseId !== undefined ? String(profile.courseId) : null;
+	const courseId =
+		profile?.courseId !== null && profile?.courseId !== undefined ? String(profile.courseId) : null;
 	const status = translateBackendStatus(profile?.status);
 
 	return (
 		<Surface id='student-profile' variant='panel' p={0} overflow='hidden'>
-			<Box
-				p={4}
-				bg='surface'
-				borderBottom='1px solid'
-				borderColor='border'
-			>
+			<Box p={4} bg='surface' borderBottom='1px solid' borderColor='border'>
 				<HStack align='start' gap={4}>
 					<Box
 						boxSize={16}
@@ -49,7 +45,9 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 							{userName ?? 'Nome não informado'}
 						</Heading>
 						<Text textStyle='smaller'>{academicId ?? 'Matrícula não informada'}</Text>
-						<Text textStyle='smaller'>{courseId ? `Curso ${courseId}` : 'Curso não vinculado'}</Text>
+						<Text textStyle='smaller'>
+							{courseId ? `Curso ${courseId}` : 'Curso não vinculado'}
+						</Text>
 						<Badge colorPalette='gray' variant='subtle'>
 							{status}
 						</Badge>
@@ -123,7 +121,6 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 						</NavLink>
 					</Button>
 				</Box>
-
 			</VStack>
 		</Surface>
 	);

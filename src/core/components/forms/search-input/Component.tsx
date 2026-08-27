@@ -41,20 +41,20 @@ export function SearchInput({
 				placeholder={placeholder}
 				textStyle='smaller'
 				transition='all 0.22s ease'
-				bg='rgba(255, 255, 255, 0.03)'
+				bg='background'
 				borderColor='border'
 				_hover={{
 					borderColor: 'borderHover',
-					bg: 'rgba(255, 255, 255, 0.05)',
+					bg: 'surface',
 				}}
 				_focusVisible={{
-					borderColor: 'gray.500',
-					boxShadow: '0 0 0 3px rgba(0, 0, 0, 0.18)',
-					bg: 'rgba(255, 255, 255, 0.06)',
+					borderColor: 'borderHover',
+					boxShadow: '0 0 0 3px {colors.focusRing}',
+					bg: 'surface',
 				}}
 				_focus={{
-					borderColor: 'gray.500',
-					bg: 'rgba(255, 255, 255, 0.06)',
+					borderColor: 'borderHover',
+					bg: 'surface',
 				}}
 			/>
 		</Field.Root>

@@ -1,7 +1,7 @@
-import { Surface } from '@BaseComponents';
-import { Badge, Box, Button, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { communications } from '@Api/communications/endpoints';
 import { communicationsKeys } from '@Api/communications/keys';
+import { Surface } from '@BaseComponents';
+import { Badge, Box, Button, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
 import { useQuery } from '@tanstack/react-query';
 import { Bell, BookOpen, FileText } from 'lucide-react';
@@ -80,24 +80,23 @@ export function HomeMainColumn() {
 	});
 
 	const visibleAnnouncements = (query.data ?? []).slice(0, 3);
-	const remainingAnnouncements = Math.max(0, (query.data?.length ?? 0) - visibleAnnouncements.length);
+	const remainingAnnouncements = Math.max(
+		0,
+		(query.data?.length ?? 0) - visibleAnnouncements.length,
+	);
 
 	return (
 		<VStack align='stretch' gap={4}>
 			<Surface variant='panel' p={{ base: 3.5, md: 4 }}>
 				<Flex align='start' gap={3}>
-					<Box
-						boxSize={10}
-						borderRadius='xl'
-						display='grid'
-						placeItems='center'
-						bg='surface'
-					>
+					<Box boxSize={10} borderRadius='xl' display='grid' placeItems='center' bg='surface'>
 						<Bell size={20} />
 					</Box>
 					<Box flex='1'>
 						<Heading as='h3' textStyle='h6'>
-							{visibleAnnouncements.length > 0 ? 'Comunicados recentes' : 'Nenhum comunicado publicado'}
+							{visibleAnnouncements.length > 0
+								? 'Comunicados recentes'
+								: 'Nenhum comunicado publicado'}
 						</Heading>
 						<VStack align='stretch' gap={1} mt={1.5}>
 							{visibleAnnouncements.map((announcement) => (

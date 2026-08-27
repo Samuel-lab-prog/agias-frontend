@@ -63,6 +63,10 @@ const DevComponentsPage = lazyPage(
 	() => import('./features/dev/use-cases/components-gallery/Page'),
 	(module) => module.DevComponentsPage,
 );
+const DevButtonsPage = lazyPage(
+	() => import('./features/dev/use-cases/buttons-gallery/Page'),
+	(module) => module.DevButtonsPage,
+);
 const DevColorsPage = lazyPage(
 	() => import('./features/dev/use-cases/colors-gallery/Page'),
 	(module) => module.DevColorsPage,
@@ -116,7 +120,12 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/dev/components',
-		element: <Navigate to='/dev/components/forms' replace />,
+		element: <Navigate to='/dev/components/buttons' replace />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/dev/components/buttons',
+		element: renderLazyPage(DevButtonsPage),
 		errorElement: <ErrorPage />,
 	},
 	{

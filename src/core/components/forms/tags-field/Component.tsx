@@ -53,6 +53,16 @@ export function TagsField<T extends FieldValues>({
 			<Controller
 				name={name}
 				control={control}
+				rules={{
+					required: required ? 'This field is required.' : false,
+					validate: (value) => {
+						const selectedTags = Array.isArray(value) ? value : [];
+						if (selectedTags.length > maxTags) {
+							return `Maximum of ${maxTags} tags allowed.`;
+						}
+						return true;
+					},
+				}}
 				render={({ field }) => {
 					const selectedTags: string[] = Array.isArray(field.value)
 						? field.value.filter((tag: unknown): tag is string => typeof tag === 'string')

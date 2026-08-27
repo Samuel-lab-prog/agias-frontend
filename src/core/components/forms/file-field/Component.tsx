@@ -29,7 +29,10 @@ export function FileField<T extends FieldValues>({
 		<Controller
 			name={name}
 			control={control}
-			rules={rules}
+			rules={{
+				required: required ? 'This field is required.' : false,
+				...rules,
+			}}
 			render={({ field, fieldState }) => {
 				const resolvedError = fieldState.error ?? error;
 				const errorMessage = resolvedError?.message?.toString();

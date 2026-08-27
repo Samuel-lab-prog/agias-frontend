@@ -48,7 +48,10 @@ export function ColorField<T extends FieldValues>({
 			render={({ field, fieldState }) => {
 				const resolvedError = fieldState.error ?? error;
 				const resolvedErrorMessage = resolvedError?.message?.toString();
-				const value = normalizeColorValue((field.value as string | null | undefined) ?? '#000000', allowAlpha);
+				const value = normalizeColorValue(
+					(field.value as string | null | undefined) ?? '#000000',
+					allowAlpha,
+				);
 				const swatchValue = value || '#000000';
 
 				return (
@@ -75,7 +78,7 @@ export function ColorField<T extends FieldValues>({
 									border='1px solid'
 									borderColor={hasError ? 'error' : 'border'}
 									bg={swatchValue}
-									boxShadow='inset 0 0 0 1px rgba(255,255,255,0.25)'
+									boxShadow='inset 0 0 0 1px {colors.background}'
 									cursor={disabled ? 'not-allowed' : 'pointer'}
 									overflow='hidden'
 									transition='transform 0.18s ease, border-color 0.2s ease, box-shadow 0.2s ease'
@@ -85,7 +88,7 @@ export function ColorField<T extends FieldValues>({
 											: {
 													transform: 'translateY(-1px)',
 													borderColor: hasError ? 'error' : 'borderHover',
-											  }
+												}
 									}
 								>
 									<Box
@@ -108,11 +111,13 @@ export function ColorField<T extends FieldValues>({
 
 								<Input
 									value={value}
-									onChange={(event) => field.onChange(normalizeColorValue(event.target.value, allowAlpha))}
+									onChange={(event) =>
+										field.onChange(normalizeColorValue(event.target.value, allowAlpha))
+									}
 									disabled={disabled}
 									placeholder={allowAlpha ? '#RRGGBBAA' : '#RRGGBB'}
 									textStyle='smaller'
-									bg='rgba(255, 255, 255, 0.03)'
+									bg='background'
 									border='1px solid'
 									borderColor={hasError ? 'error' : 'border'}
 									borderRadius='md'
@@ -121,14 +126,14 @@ export function ColorField<T extends FieldValues>({
 									transition='all 0.22s ease'
 									_hover={{
 										borderColor: hasError ? 'error' : 'borderHover',
-										bg: 'rgba(255, 255, 255, 0.05)',
+										bg: 'surface',
 									}}
 									_focusVisible={{
 										borderColor: hasError ? 'error' : 'borderHover',
 										boxShadow: hasError
-											? '0 0 0 3px rgba(239, 68, 68, 1)'
-											: '0 0 0 3px rgba(0, 0, 0, 0.18)',
-										bg: 'rgba(255, 255, 255, 0.06)',
+											? '0 0 0 3px {colors.error}'
+											: '0 0 0 3px {colors.focusRing}',
+										bg: 'surface',
 									}}
 								/>
 							</Flex>

@@ -25,7 +25,13 @@ export function AudioField<T extends FieldValues>({
 	const [isRecording, setIsRecording] = useState(false);
 	const [recorderError, setRecorderError] = useState('');
 
-	const { field, fieldState } = useController({ control, name });
+	const { field, fieldState } = useController({
+		control,
+		name,
+		rules: {
+			required: required ? 'This field is required.' : false,
+		},
+	});
 	const file = field.value as File | null | undefined;
 	const resolvedError = fieldState.error ?? error;
 	const errorMessage = resolvedError?.message?.toString();
@@ -143,7 +149,7 @@ export function AudioField<T extends FieldValues>({
 			<Flex gap={{ base: 1.5, md: 2 }} wrap='wrap'>
 				<Button
 					size={{ base: '2xs', md: 'xs' }}
-					variant='solidPink'
+					variant='solidPurple'
 					onClick={handleStartRecording}
 					disabled={isRecording || disabled}
 				>
@@ -154,8 +160,7 @@ export function AudioField<T extends FieldValues>({
 				</Button>
 				<Button
 					size={{ base: '2xs', md: 'xs' }}
-					variant='solidPink'
-					colorPalette='gray'
+					variant='outlinePurple'
 					onClick={handleStopRecording}
 					disabled={!isRecording || disabled}
 				>
@@ -166,8 +171,7 @@ export function AudioField<T extends FieldValues>({
 				</Button>
 				<Button
 					size={{ base: '2xs', md: 'xs' }}
-					variant='ghost'
-					colorPalette='gray'
+					variant='ghostPink'
 					onClick={handleDiscardRecording}
 					disabled={!file || disabled}
 				>
@@ -207,7 +211,7 @@ export function AudioField<T extends FieldValues>({
 			)}
 
 			{recorderError && (
-				<Text textStyle='small' color='red.400' mt={2}>
+				<Text textStyle='small' color='warning' mt={2}>
 					{recorderError}
 				</Text>
 			)}

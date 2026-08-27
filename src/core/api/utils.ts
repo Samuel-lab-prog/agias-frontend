@@ -245,4 +245,3 @@ export function restoreSnapshots(
 		queryClient.setQueryData(snapshot.queryKey, snapshot.data);
 	});
 }
-	

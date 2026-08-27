@@ -1,6 +1,8 @@
 import { Surface } from '@BaseComponents';
 import { Box, Flex, Grid, Heading, Stack, Text } from '@chakra-ui/react';
 
+import { DevSubNav } from '../../components/DevSubNav';
+
 type AnimationToken = {
 	name: string;
 	description: string;
@@ -68,6 +70,7 @@ export function DevAnimationsPage() {
 
 	return (
 		<Flex as='main' layerStyle='mainPadded' direction='column' gap={8} pb={12}>
+			<DevSubNav />
 			<Stack gap={4}>
 				<SectionTitle
 					title='Animações'

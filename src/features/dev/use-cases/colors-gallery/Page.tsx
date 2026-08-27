@@ -1,6 +1,7 @@
 import { Surface } from '@BaseComponents';
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 
+import { DevSubNav } from '../../components/DevSubNav';
 
 type SemanticToken = {
 	name: string;
@@ -98,13 +99,19 @@ export function DevColorsPage() {
 
 	return (
 		<Flex as='main' layerStyle='mainPadded' direction='column' gap={8} pb={12}>
+			<DevSubNav />
 			<Stack gap={4}>
 				<SectionTitle
 					title='Tokens semânticos'
 					description='Cada token abaixo aparece com uma amostra visual e uma descrição curta de uso.'
 				/>
 				<Surface variant='panel' p={0} borderRadius='2xl' overflow='hidden'>
-					<Box p={4} borderBottom='1px solid' borderColor='border' display={{ base: 'none', md: 'block' }}>
+					<Box
+						p={4}
+						borderBottom='1px solid'
+						borderColor='border'
+						display={{ base: 'none', md: 'block' }}
+					>
 						<Box
 							display='grid'
 							gridTemplateColumns='220px 1fr 1fr 1.2fr'
@@ -140,19 +147,41 @@ export function DevColorsPage() {
 									</Text>
 								</Stack>
 								<Stack gap={2} mb={{ base: 4, md: 0 }}>
-									<Text fontSize='xs' fontWeight='semibold' color='fg.muted' display={{ md: 'none' }}>
+									<Text
+										fontSize='xs'
+										fontWeight='semibold'
+										color='fg.muted'
+										display={{ md: 'none' }}
+									>
 										Light
 									</Text>
-									<Box h='28px' borderRadius='md' bg={token.light} border='1px solid' borderColor='border' />
+									<Box
+										h='28px'
+										borderRadius='md'
+										bg={token.light}
+										border='1px solid'
+										borderColor='border'
+									/>
 									<Text fontSize='sm' color='fg.muted'>
 										{token.light}
 									</Text>
 								</Stack>
 								<Stack gap={2} mb={{ base: 4, md: 0 }}>
-									<Text fontSize='xs' fontWeight='semibold' color='fg.muted' display={{ md: 'none' }}>
+									<Text
+										fontSize='xs'
+										fontWeight='semibold'
+										color='fg.muted'
+										display={{ md: 'none' }}
+									>
 										Dark
 									</Text>
-									<Box h='28px' borderRadius='md' bg={token.dark} border='1px solid' borderColor='border' />
+									<Box
+										h='28px'
+										borderRadius='md'
+										bg={token.dark}
+										border='1px solid'
+										borderColor='border'
+									/>
 									<Text fontSize='sm' color='fg.muted'>
 										{token.dark}
 									</Text>
@@ -165,7 +194,6 @@ export function DevColorsPage() {
 					</Box>
 				</Surface>
 			</Stack>
-
 		</Flex>
 	);
 }
