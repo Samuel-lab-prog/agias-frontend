@@ -3,11 +3,10 @@ export const stateCardSurfaceStyles = {
 	overflow: 'hidden',
 	borderRadius: '2xl',
 	border: '1px solid',
-	borderColor: 'gray.700',
-	bgGradient:
-		'linear(to-br, rgba(17, 17, 17, 0.92), rgba(38, 38, 38, 0.98) 55%, rgba(0, 0, 0, 0.12))',
+	borderColor: 'cardBorderSoft',
+	bg: 'cardSurfaceMuted',
 	p: { base: 5, md: 6 },
-	shadow: '0 12px 30px rgba(0,0,0,0.28)',
+	shadow: 'cardShadow',
 	_before: {
 		content: '""',
 		position: 'absolute',
@@ -15,9 +14,9 @@ export const stateCardSurfaceStyles = {
 		w: '180px',
 		h: '180px',
 		borderRadius: 'full',
-		bg: 'gray.500',
+		bg: 'accentSoft',
 		filter: 'blur(70px)',
-		opacity: 0.14,
+		opacity: 0.9,
 	},
 	_after: {
 		content: '""',
@@ -26,8 +25,8 @@ export const stateCardSurfaceStyles = {
 		w: '200px',
 		h: '200px',
 		borderRadius: 'full',
-		bg: 'gray.700',
+		bg: 'blue.100',
 		filter: 'blur(75px)',
-		opacity: 0.18,
+		opacity: 0.55,
 	},
 } as const;

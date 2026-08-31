@@ -82,7 +82,7 @@ const semanticTokens = defineSemanticTokens({
 	colors: {
 		background: {
 			value: {
-				DEFAULT: '{colors.neutral.100}',
+				DEFAULT: '{colors.neutral.500}',
 				_dark: '{colors.slate.950}',
 			},
 		},
@@ -98,6 +98,20 @@ const semanticTokens = defineSemanticTokens({
 			value: {
 				DEFAULT: 'rgba(15, 23, 42, 0.05)',
 				_dark: '{colors.slate.500}',
+			},
+		},
+
+		cardBorder: {
+			value: {
+				DEFAULT: 'rgba(15, 23, 42, 0.05)',
+				_dark: '{colors.slate.700}',
+			},
+		},
+
+		cardBorderSoft: {
+			value: {
+				DEFAULT: 'rgba(15, 23, 42, 0.03)',
+				_dark: '{colors.slate.700}',
 			},
 		},
 
@@ -129,6 +143,27 @@ const semanticTokens = defineSemanticTokens({
 			},
 		},
 
+		cardShadow: {
+			value: {
+				DEFAULT: '0 1px 3px rgba(15, 23, 42, 0.02)',
+				_dark: '0 12px 30px rgba(0, 0, 0, 0.32)',
+			},
+		},
+
+		cardShadowStrong: {
+			value: {
+				DEFAULT: '0 2px 6px rgba(15, 23, 42, 0.03)',
+				_dark: '0 14px 34px rgba(0, 0, 0, 0.40)',
+			},
+		},
+
+		cardInsetShadow: {
+			value: {
+				DEFAULT: 'inset 0 1px 0 rgba(255, 255, 255, 0.06)',
+				_dark: 'inset 0 1px 0 rgba(255, 255, 255, 0.03)',
+			},
+		},
+
 		surface: {
 			value: {
 				base: '{colors.white}',
@@ -154,6 +189,20 @@ const semanticTokens = defineSemanticTokens({
 			value: {
 				base: 'rgba(37, 99, 235, 0.06)',
 				_dark: '{colors.blue.900}',
+			},
+		},
+
+		cardSurface: {
+			value: {
+				base: '#ffffff',
+				_dark: '{colors.slate.900}',
+			},
+		},
+
+		cardSurfaceMuted: {
+			value: {
+				base: '#ffffff',
+				_dark: '{colors.slate.950}',
 			},
 		},
 
@@ -206,7 +255,6 @@ const globalCss = defineGlobalStyles({
 	},
 
 	body: {
-		background: '{colors.background}',
 		color: '{colors.text}',
 		display: 'flex',
 		margin: '0',

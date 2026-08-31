@@ -15,7 +15,7 @@ export interface SurfaceProps extends Omit<BoxProps, 'color'> {
  * A styled container that applies a consistent surface variant.
  */
 export const Surface = forwardRef<HTMLDivElement, SurfaceProps>(function Surface(
-	{ variant = 'panel', color, bg, borderColor, ...props },
+	{ variant = 'soft', color, bg, borderColor, ...props },
 	ref,
 ) {
 	const variantStyles = surfaceVariants[variant];

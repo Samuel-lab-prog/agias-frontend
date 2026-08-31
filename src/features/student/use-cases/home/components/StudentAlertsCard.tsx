@@ -22,7 +22,7 @@ export function StudentAlertsCard() {
 	const remainingAnnouncements = Math.max(0, announcements.length - visibleAnnouncements.length);
 
 	return (
-		<Surface variant='panel' p={{ base: 4, md: 5 }}>
+		<Surface variant='soft' p={{ base: 4, md: 5 }}>
 			<Flex justify='space-between' align='center' gap={3} wrap='wrap' mb={4}>
 				<HStack gap={2}>
 					<Bell size={18} />

@@ -19,13 +19,9 @@ type StudentClassesCardProps = {
 };
 
 export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
-	const cardBg = useColorModeValue(
-		'linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.98))',
-		'linear-gradient(180deg, rgba(10, 18, 38, 0.92), rgba(14, 23, 44, 0.98))',
-	);
-	const rowStripeBg = useColorModeValue('rgba(15, 23, 42, 0.02)', 'rgba(255, 255, 255, 0.02)');
-	const rowHoverBg = useColorModeValue('rgba(37, 99, 235, 0.08)', 'rgba(37, 99, 235, 0.08)');
-	const badgeBg = useColorModeValue('rgba(37, 99, 235, 0.10)', 'rgba(37, 99, 235, 0.24)');
+	const rowStripeBg = useColorModeValue('background', 'slate.900');
+	const rowHoverBg = useColorModeValue('accentSoft', 'blue.900');
+	const badgeBg = useColorModeValue('blue.50', 'blue.900');
 	const badgeColor = useColorModeValue('blue.700', 'white');
 
 	const rows = enrollments.map((enrollment) => {
@@ -45,7 +41,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 	});
 
 	return (
-		<Surface variant='panel' p={{ base: 4, md: 5 }}>
+		<Surface variant='soft' p={{ base: 4, md: 5 }}>
 			<Flex justify='space-between' align='center' gap={3} wrap='wrap' mb={4}>
 				<HStack gap={2}>
 					<BookOpen size={18} />
@@ -66,13 +62,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 				</Button>
 			</Flex>
 
-			<Box
-				bg={cardBg}
-				borderRadius='xl'
-				px={{ base: 3, md: 5 }}
-				py={{ base: 3, md: 4 }}
-				boxShadow='inset 0 1px 0 rgba(255,255,255,0.03)'
-			>
+			<Surface variant='soft' p={{ base: 3, md: 5 }} >
 				<SimpleGrid
 					display={{ base: 'none', md: 'grid' }}
 					columns={{ md: 3 }}
@@ -178,7 +168,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 						</SimpleGrid>
 					))}
 				</VStack>
-			</Box>
+			</Surface>
 		</Surface>
 	);
 }

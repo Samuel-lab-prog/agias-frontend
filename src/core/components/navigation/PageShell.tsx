@@ -38,7 +38,6 @@ export function NavigationPageShell({
 			direction='column'
 			px={{ base: 0, md: 0, xl: 0 }}
 			pb={{ base: 'calc(24px + env(safe-area-inset-bottom, 0px))', md: 10 }}
-			bg='background'
 		>
 			<Flex position='sticky' top={0} zIndex={20} w='full' backdropFilter='blur(14px)'>
 				<NavigationTopBar
