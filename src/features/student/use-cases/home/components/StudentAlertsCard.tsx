@@ -1,7 +1,7 @@
 import { communications } from '@Api/communications/endpoints';
 import { communicationsKeys } from '@Api/communications/keys';
-import { Surface } from '@BaseComponents';
-import { Box, Button, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+import { BaseButton, componentColors, componentRadii, Surface } from '@BaseComponents';
+import { Box, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { translateBackendAudience } from '@core/utils/backend-labels';
 import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
 import { useQuery } from '@tanstack/react-query';
@@ -26,29 +26,32 @@ export function StudentAlertsCard() {
 			<Flex justify='space-between' align='center' gap={3} wrap='wrap' mb={4}>
 				<HStack gap={2}>
 					<Bell size={18} />
-					<Heading as='h3' textStyle='h6'>
+					<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700'>
 						{visibleAnnouncements.length > 0
 							? 'Comunicados recentes'
 							: 'Nenhum comunicado publicado'}
 					</Heading>
 				</HStack>
 
-				<Button
+				<BaseButton
 					size='sm'
-					variant='outline'
-					color='textMuted'
-					borderColor='border'
-					bg='transparent'
-					_hover={{ bg: 'surface', borderColor: 'borderHover', color: 'text' }}
+					variant='outlinePurple'
+					color={componentColors.light.textMuted}
+					_dark={{ color: componentColors.dark.textMuted }}
 				>
 					Ver todas as notícias
-				</Button>
+				</BaseButton>
 			</Flex>
 
 			<VStack align='stretch' gap={0}>
 				{visibleAnnouncements.length === 0 ? (
 					<Box px={2} py={3}>
-						<Text textStyle='smaller' color='textMuted'>
+						<Text
+							fontSize='0.8125rem'
+							lineHeight='1.25rem'
+							color={componentColors.light.textMuted}
+							_dark={{ color: componentColors.dark.textMuted }}
+						>
 							Os comunicados publicados pela staff aparecerão aqui.
 						</Text>
 					</Box>
@@ -62,14 +65,15 @@ export function StudentAlertsCard() {
 							align='center'
 							justify='space-between'
 							borderTop={index === 0 ? '0' : '1px solid'}
-							borderColor='border'
+							borderColor={componentColors.light.border}
 							transition='all 0.2s ease'
 							cursor='pointer'
 							_hover={{
 								bg: 'rgba(255,255,255,0.03)',
 								transform: 'translateX(2px)',
-								'& .announcement-accent': { bg: 'gray.400' },
+								'& .announcement-accent': { bg: 'rgba(148, 163, 184, 0.9)' },
 							}}
+							_dark={{ borderColor: componentColors.dark.border }}
 						>
 							<HStack align='start' gap={3} flex='1' minW={0}>
 								<Box
@@ -77,29 +81,55 @@ export function StudentAlertsCard() {
 									w='3px'
 									minW='3px'
 									alignSelf='stretch'
-									borderRadius='full'
-									bg={announcement.isPinned ? 'gray.500' : 'borderHover'}
+									borderRadius={componentRadii.full}
+									bg={
+										announcement.isPinned
+											? 'rgba(100, 116, 139, 0.9)'
+											: componentColors.light.borderHover
+									}
 									transition='background-color 0.2s ease'
+									_dark={{
+										bg: announcement.isPinned
+											? 'rgba(148, 163, 184, 0.75)'
+											: componentColors.dark.borderHover,
+									}}
 								/>
 
 								<Box minW={0}>
 									<HStack gap={2} wrap='wrap'>
-										<Text textStyle='smaller' fontWeight='bold'>
+										<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='bold'>
 											{announcement.title}
 										</Text>
 										{announcement.isPinned ? (
-											<Box color='accent' display='inline-flex' alignItems='center' gap={1}>
+											<Box
+												color={componentColors.light.accent}
+												display='inline-flex'
+												alignItems='center'
+												gap={1}
+												_dark={{ color: componentColors.dark.accent }}
+											>
 												<Pin size={12} />
-												<Text textStyle='smaller' fontWeight='semibold'>
+												<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 													Fixado
 												</Text>
 											</Box>
 										) : null}
 									</HStack>
-									<Text textStyle='smaller' color='textMuted'>
+									<Text
+										fontSize='0.8125rem'
+										lineHeight='1.25rem'
+										color={componentColors.light.textMuted}
+										_dark={{ color: componentColors.dark.textMuted }}
+									>
 										{announcement.body}
 									</Text>
-									<Text textStyle='smaller' color='textMuted' mt={1}>
+									<Text
+										fontSize='0.8125rem'
+										lineHeight='1.25rem'
+										color={componentColors.light.textMuted}
+										mt={1}
+										_dark={{ color: componentColors.dark.textMuted }}
+									>
 										{announcement.publishedAt
 											? `Publicado em ${new Intl.DateTimeFormat('pt-BR', {
 													day: '2-digit',
@@ -110,7 +140,13 @@ export function StudentAlertsCard() {
 								</Box>
 							</HStack>
 
-							<Text textStyle='smaller' color='textMuted' flexShrink={0}>
+							<Text
+								fontSize='0.8125rem'
+								lineHeight='1.25rem'
+								color={componentColors.light.textMuted}
+								flexShrink={0}
+								_dark={{ color: componentColors.dark.textMuted }}
+							>
 								{translateBackendAudience(announcement.audience)}
 							</Text>
 						</Flex>
@@ -119,7 +155,13 @@ export function StudentAlertsCard() {
 			</VStack>
 
 			{remainingAnnouncements > 0 ? (
-				<Text textStyle='smaller' color='textMuted' mt={3}>
+				<Text
+					fontSize='0.8125rem'
+					lineHeight='1.25rem'
+					color={componentColors.light.textMuted}
+					mt={3}
+					_dark={{ color: componentColors.dark.textMuted }}
+				>
 					Mais {remainingAnnouncements} comunicado{remainingAnnouncements > 1 ? 's' : ''}.
 				</Text>
 			) : null}

@@ -1,8 +1,10 @@
-import { Avatar, Box, Button, Field, Flex, Input, Text, VisuallyHidden } from '@chakra-ui/react';
+import { Avatar, Box, Field, Flex, Input, Text, VisuallyHidden } from '@chakra-ui/react';
 import { useMemo, useRef } from 'react';
 import { Controller, type FieldValues, useWatch } from 'react-hook-form';
 
 import { hoverSubtle } from '../../../utils/interaction';
+import { BaseButton } from '../../Button';
+import { componentColors } from '../../localStyles';
 import { useFilePreview } from './hooks';
 import type { FileFieldProps } from './types';
 import { buildFileValidationRules } from './utils';
@@ -45,10 +47,14 @@ export function FileField<T extends FieldValues>({
 				return (
 					<Field.Root required={required} invalid={hasError}>
 						<Field.Label
-							textStyle='smaller'
+							fontSize='0.8125rem'
+							lineHeight='1.25rem'
 							fontWeight='medium'
-							color={hasError ? 'error' : 'text'}
+							color={hasError ? componentColors.light.error : componentColors.light.text}
 							transition={subtleMotion.transition}
+							_dark={{
+								color: hasError ? componentColors.dark.error : componentColors.dark.text,
+							}}
 						>
 							{label}
 							{required && <Field.RequiredIndicator />}
@@ -67,7 +73,7 @@ export function FileField<T extends FieldValues>({
 						)}
 
 						<Flex align='center' gap={3} wrap='wrap'>
-							<Button
+							<BaseButton
 								as='label'
 								size='sm'
 								variant='outlinePurple'
@@ -87,14 +93,25 @@ export function FileField<T extends FieldValues>({
 										disabled={disabled}
 									/>
 								</VisuallyHidden>
-							</Button>
-							<Text textStyle='smaller' color='textMuted'>
+							</BaseButton>
+							<Text
+								fontSize='0.8125rem'
+								lineHeight='1.25rem'
+								color={componentColors.light.textMuted}
+								_dark={{ color: componentColors.dark.textMuted }}
+							>
 								{file ? file.name : 'File not selected'}
 							</Text>
 						</Flex>
 
 						{helpText && (
-							<Text textStyle='smaller' color='textMuted' mt={2}>
+							<Text
+								fontSize='0.8125rem'
+								lineHeight='1.25rem'
+								color={componentColors.light.textMuted}
+								mt={2}
+								_dark={{ color: componentColors.dark.textMuted }}
+							>
 								{helpText}
 							</Text>
 						)}
@@ -105,7 +122,8 @@ export function FileField<T extends FieldValues>({
 							transition='grid-template-rows 0.24s ease'
 						>
 							<Field.ErrorText
-								color='error'
+								color={componentColors.light.error}
+								_dark={{ color: componentColors.dark.error }}
 								opacity={hasError ? 1 : 0}
 								transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}
 								overflow='hidden'

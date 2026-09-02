@@ -10,6 +10,7 @@ import {
 } from 'react-hook-form';
 
 import { hoverSubtle } from '../../../utils/interaction';
+import { componentColors, componentRadii } from '../../localStyles';
 
 const subtleMotion = hoverSubtle();
 
@@ -48,10 +49,14 @@ export function SelectField<T extends FieldValues>({
 	return (
 		<Field.Root required={required} invalid={!!error} w='full'>
 			<Field.Label
-				textStyle='smaller'
+				fontSize='0.8125rem'
+				lineHeight='1.25rem'
 				fontWeight='medium'
-				color={hasError ? 'error' : 'text'}
+				color={hasError ? componentColors.light.error : componentColors.light.text}
 				transition={subtleMotion.transition}
+				_dark={{
+					color: hasError ? componentColors.dark.error : componentColors.dark.text,
+				}}
 			>
 				{label}
 				{required && <Field.RequiredIndicator />}
@@ -73,26 +78,53 @@ export function SelectField<T extends FieldValues>({
 						animationTimingFunction='ease-out'
 					>
 						<NativeSelect.Field
-							textStyle='smaller'
-							bg='background'
+							fontSize='0.8125rem'
+							lineHeight='1.25rem'
+							bg={componentColors.light.background}
 							border='1px solid'
-							borderColor={hasError ? 'error' : 'border'}
-							borderRadius='md'
-							color='text'
-							px={3}
-							py={2}
+							borderColor={hasError ? componentColors.light.error : componentColors.light.border}
+							borderRadius={componentRadii.md}
+							color={componentColors.light.text}
+							px='0.75rem'
+							py='0.5rem'
 							pe={14}
 							transition={subtleMotion.transition}
 							_hover={{
 								...subtleMotion.hover,
-								borderColor: hasError ? 'error' : 'borderHover',
-								bg: 'surface',
+								borderColor: hasError
+									? componentColors.light.error
+									: componentColors.light.borderHover,
+								bg: componentColors.light.surface,
 							}}
 							_focusVisible={{
 								...subtleMotion.focusVisible,
-								borderColor: hasError ? 'error' : 'borderHover',
-								boxShadow: hasError ? '0 0 0 5px {colors.error}' : '0 0 0 5px {colors.focusRing}',
-								bg: 'surface',
+								borderColor: hasError
+									? componentColors.light.error
+									: componentColors.light.borderHover,
+								boxShadow: `0 0 0 5px ${
+									hasError ? componentColors.light.errorSoft : componentColors.light.focusRing
+								}`,
+								bg: componentColors.light.surface,
+							}}
+							_dark={{
+								bg: componentColors.dark.background,
+								borderColor: hasError ? componentColors.dark.error : componentColors.dark.border,
+								color: componentColors.dark.text,
+								_hover: {
+									borderColor: hasError
+										? componentColors.dark.error
+										: componentColors.dark.borderHover,
+									bg: componentColors.dark.surface,
+								},
+								_focusVisible: {
+									borderColor: hasError
+										? componentColors.dark.error
+										: componentColors.dark.borderHover,
+									boxShadow: `0 0 0 5px ${
+										hasError ? componentColors.dark.errorSoft : componentColors.dark.focusRing
+									}`,
+									bg: componentColors.dark.surface,
+								},
 							}}
 							_disabled={{
 								opacity: 0.65,
@@ -107,7 +139,7 @@ export function SelectField<T extends FieldValues>({
 							onBlur={() => setIsFocused(false)}
 						>
 							{placeholder && (
-								<option value='' disabled style={{ color: 'var(--chakra-colors-textMuted)' }}>
+								<option value='' disabled style={{ color: componentColors.light.textMuted }}>
 									{placeholder}
 								</option>
 							)}
@@ -117,8 +149,8 @@ export function SelectField<T extends FieldValues>({
 									key={option.value}
 									value={option.value}
 									style={{
-										backgroundColor: 'var(--chakra-colors-background)',
-										color: 'var(--chakra-colors-text)',
+										backgroundColor: componentColors.light.background,
+										color: componentColors.light.text,
 									}}
 								>
 									{option.label}
@@ -128,16 +160,31 @@ export function SelectField<T extends FieldValues>({
 
 						<NativeSelect.Indicator
 							pointerEvents='none'
-							px={2}
+							px='0.5rem'
 							h='70%'
 							right={1}
-							borderRadius='md'
-							bg='accentSoft'
+							borderRadius={componentRadii.md}
+							bg={componentColors.light.accentSoft}
 							border='1px solid'
-							borderColor={hasError ? 'error' : 'border'}
-							color={hasError ? 'error' : isFocused ? 'text' : 'textMuted'}
+							borderColor={hasError ? componentColors.light.error : componentColors.light.border}
+							color={
+								hasError
+									? componentColors.light.error
+									: isFocused
+										? componentColors.light.text
+										: componentColors.light.textMuted
+							}
 							transition={subtleMotion.transition}
 							transform={isFocused ? 'translateY(-1px)' : 'translateY(0)'}
+							_dark={{
+								bg: componentColors.dark.accentSoft,
+								borderColor: hasError ? componentColors.dark.error : componentColors.dark.border,
+								color: hasError
+									? componentColors.dark.error
+									: isFocused
+										? componentColors.dark.text
+										: componentColors.dark.textMuted,
+							}}
 						>
 							<Icon
 								as={ChevronDown}
@@ -156,7 +203,8 @@ export function SelectField<T extends FieldValues>({
 				transition='grid-template-rows 0.24s ease'
 			>
 				<Field.ErrorText
-					color='error'
+					color={componentColors.light.error}
+					_dark={{ color: componentColors.dark.error }}
 					opacity={hasError ? 1 : 0}
 					transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}
 					overflow='hidden'

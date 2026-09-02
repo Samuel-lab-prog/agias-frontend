@@ -1,4 +1,5 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
+import { componentColors } from '@core/components';
 import { NavigationPageShell } from '@core/components/navigation';
 
 import { staffNavigationPreset } from './navigation';
@@ -15,10 +16,15 @@ export function StaffHomePage() {
 				textAlign='center'
 				gap={3}
 			>
-				<Heading as='h2' textStyle='h4'>
+				<Heading as='h2' fontSize='clamp(1.25rem, 2vw, 1.65rem)' lineHeight='1.2' fontWeight='700'>
 					Você fez login como staff
 				</Heading>
-				<Text textStyle='body' color='textMuted'>
+				<Text
+					fontSize='1rem'
+					lineHeight='1.7rem'
+					color={componentColors.light.textMuted}
+					_dark={{ color: componentColors.dark.textMuted }}
+				>
 					Esta página está vazia por enquanto.
 				</Text>
 			</Box>

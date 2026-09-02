@@ -16,15 +16,15 @@ export function HomeFooter({ links }: HomeFooterProps) {
 				px={3}
 				py={2.5}
 				borderTop='1px solid'
-				borderColor='border'
+				borderColor='rgba(15, 23, 42, 0.08)'
 				direction={{ base: 'column', md: 'row' }}
 			>
-				<Text textStyle='xs' color='textMuted'>
+				<Text fontSize='0.75rem' lineHeight='1rem' color='#475569'>
 					AGIAS | Diretoria de Tecnologia da Informação
 				</Text>
 				<Flex gap={4} wrap='wrap' justify='center'>
 					{links.map((link) => (
-						<Text key={link.label} textStyle='xs' color='textMuted'>
+						<Text key={link.label} fontSize='0.75rem' lineHeight='1rem' color='#475569'>
 							{link.label}
 						</Text>
 					))}

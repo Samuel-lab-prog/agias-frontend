@@ -1,4 +1,4 @@
-import { Surface } from '@BaseComponents';
+import { componentColors, componentRadii, Surface } from '@BaseComponents';
 import { Flex, Text } from '@chakra-ui/react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -23,7 +23,13 @@ export function DevSubNav() {
 			zIndex={5}
 		>
 			<Flex gap={2} wrap='wrap' align='center'>
-				<Text fontSize='sm' fontWeight='semibold' color='fg.muted' mr={2}>
+				<Text
+					fontSize='sm'
+					fontWeight='semibold'
+					color={componentColors.light.textMuted}
+					mr={2}
+					_dark={{ color: componentColors.dark.textMuted }}
+				>
 					Dev
 				</Text>
 				{devNavItems.map((item) => {
@@ -31,31 +37,43 @@ export function DevSubNav() {
 
 					return (
 						<Flex
-							as={Link}
+							asChild
 							key={item.to}
-							to={item.to}
 							px={3}
 							py={2}
 							border='1px solid'
-							borderColor={isActive ? 'accent' : 'border'}
-							bg={isActive ? 'accentSoft' : 'background'}
-							color={isActive ? 'text' : 'textMuted'}
-							borderRadius='full'
+							borderColor={isActive ? componentColors.light.accent : componentColors.light.border}
+							bg={isActive ? componentColors.light.accentSoft : componentColors.light.background}
+							color={isActive ? componentColors.light.text : componentColors.light.textMuted}
+							borderRadius={componentRadii.full}
 							fontSize='sm'
 							fontWeight={isActive ? 'semibold' : 'medium'}
 							transition='all 0.18s ease'
 							_hover={{
-								borderColor: 'accent',
-								bg: 'surface',
-								color: 'text',
+								borderColor: componentColors.light.accent,
+								bg: componentColors.light.surface,
+								color: componentColors.light.text,
 								transform: 'translateY(-1px)',
 							}}
 							_focusVisible={{
 								outline: 'none',
-								boxShadow: '0 0 0 4px {colors.focusRing}',
+								boxShadow: `0 0 0 4px ${componentColors.light.focusRing}`,
+							}}
+							_dark={{
+								borderColor: isActive ? componentColors.dark.accent : componentColors.dark.border,
+								bg: isActive ? componentColors.dark.accentSoft : componentColors.dark.background,
+								color: isActive ? componentColors.dark.text : componentColors.dark.textMuted,
+								_hover: {
+									borderColor: componentColors.dark.accent,
+									bg: componentColors.dark.surface,
+									color: componentColors.dark.text,
+								},
+								_focusVisible: {
+									boxShadow: `0 0 0 4px ${componentColors.dark.focusRing}`,
+								},
 							}}
 						>
-							{item.label}
+							<Link to={item.to}>{item.label}</Link>
 						</Flex>
 					);
 				})}

@@ -35,9 +35,30 @@ export function AsyncState({
 	emptyElement,
 	children,
 }: AsyncStateProps) {
-	if (isError) return errorElement || <Text textStyle='body'>Error</Text>;
-	if (isLoading) return loadingElement || <Text textStyle='body'>Loading...</Text>;
-	if (isEmpty) return emptyElement || <Text textStyle='body'>No data found.</Text>;
+	if (isError)
+		return (
+			errorElement || (
+				<Text fontSize='1rem' lineHeight='1.7rem'>
+					Error
+				</Text>
+			)
+		);
+	if (isLoading)
+		return (
+			loadingElement || (
+				<Text fontSize='1rem' lineHeight='1.7rem'>
+					Loading...
+				</Text>
+			)
+		);
+	if (isEmpty)
+		return (
+			emptyElement || (
+				<Text fontSize='1rem' lineHeight='1.7rem'>
+					No data found.
+				</Text>
+			)
+		);
 
 	return children;
 }

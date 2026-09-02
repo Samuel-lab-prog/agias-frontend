@@ -1,6 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 
+import { componentColors } from '../localStyles';
 import { NavigationSidebar } from './Sidebar';
 import { NavigationTopBar } from './TopBar';
 import type { NavigationPreset } from './types';
@@ -21,8 +22,7 @@ export function NavigationPageShell({
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
 	const [mobileNavHeight, setMobileNavHeight] = useState(0);
 	const mobileNavRef = useRef<HTMLDivElement | null>(null);
-	const desktopNavTop = { base: 0, xl: '65px' };
-	const desktopNavLeft = { xl: 0 };
+	const topBarHeight = '65px';
 
 	useEffect(() => {
 		if (!mobileNavRef.current) return;
@@ -33,13 +33,25 @@ export function NavigationPageShell({
 	return (
 		<Flex
 			as='main'
-			layerStyle='main'
-			minH='100%'
+			bg={componentColors.light.background}
+			color={componentColors.light.text}
+			minH='100dvh'
 			direction='column'
 			px={{ base: 0, md: 0, xl: 0 }}
 			pb={{ base: 'calc(24px + env(safe-area-inset-bottom, 0px))', md: 10 }}
+			_dark={{
+				bg: componentColors.dark.background,
+				color: componentColors.dark.text,
+			}}
 		>
-			<Flex position='sticky' top={0} zIndex={20} w='full' backdropFilter='blur(14px)'>
+			<Flex
+				position='sticky'
+				top={0}
+				zIndex={20}
+				w='full'
+				minH={{ xl: topBarHeight }}
+				backdropFilter='blur(14px)'
+			>
 				<NavigationTopBar
 					title={preset.title}
 					subtitle={preset.subtitle}
@@ -69,27 +81,25 @@ export function NavigationPageShell({
 			</Box>
 
 			<Flex
-				layerStyle='main'
 				flex='1'
-				direction='column'
+				direction={{ base: 'column', xl: 'row' }}
 				display='flex'
 				gap={0}
 				px={{ base: 0, xl: 0 }}
 				align='stretch'
+				minH={{ xl: `calc(100dvh - ${topBarHeight})` }}
 			>
 				<Box
 					display={{ base: 'none', xl: 'block' }}
-					position='relative'
-					h={0}
-					w={0}
-					overflow='visible'
+					flex={`0 0 ${sidebarWidth}`}
+					w={sidebarWidth}
+					alignSelf='stretch'
 				>
 					<Box
-						position='fixed'
-						top={desktopNavTop}
-						left={desktopNavLeft}
-						h='calc(100dvh - 64px)'
-						w={sidebarWidth}
+						position='sticky'
+						top={topBarHeight}
+						h={`calc(100dvh - ${topBarHeight})`}
+						w='full'
 						overflow='hidden'
 					>
 						<NavigationSidebar
@@ -100,14 +110,7 @@ export function NavigationPageShell({
 					</Box>
 				</Box>
 
-				<Flex
-					flex='1'
-					minW={0}
-					w='full'
-					justify='center'
-					pl={{ xl: `calc(${sidebarWidth} + 24px)` }}
-					pt={{ xl: 0 }}
-				>
+				<Flex flex='1' minW={0} w='full' justify='center' pl={0} pt={{ xl: 0 }}>
 					<Flex
 						w='full'
 						maxW={{ base: '100%', xl: '1280px' }}

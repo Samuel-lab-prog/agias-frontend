@@ -30,25 +30,23 @@ export function HomeSidebar({ authClient }: HomeProps) {
 	return (
 		<VStack align='stretch' gap={4}>
 			<Surface variant='panel' p={0} overflow='hidden'>
-				<Box p={4} bg='surface'>
+				<Box p={4} bg='#ffffff'>
 					<HStack align='start' gap={4}>
-						<Avatar.Root size='2xl' bg='gray.900' color='white'>
+						<Avatar.Root size='2xl' bg='#0f172a' color='#ffffff'>
 							<Avatar.Fallback name='Usuário' />
 						</Avatar.Root>
 
 						<VStack align='start' gap={0.5}>
-							<Heading as='h3' textStyle='h6'>
+							<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700'>
 								Samuel Gomes Monni
 							</Heading>
-							<Text textStyle='smaller' color='textMuted'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 								2023326456
 							</Text>
-							<Text textStyle='smaller' color='textMuted'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 								{label}
 							</Text>
-							<Badge colorPalette='gray' variant='subtle'>
-								Ativo
-							</Badge>
+							<Badge variant='subtle'>Ativo</Badge>
 						</VStack>
 					</HStack>
 				</Box>
@@ -66,13 +64,11 @@ export function HomeSidebar({ authClient }: HomeProps) {
 					>
 						<HStack gap={2}>
 							<Mail size={16} />
-							<Text textStyle='smaller' fontWeight='semibold'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 								Mensagens
 							</Text>
 						</HStack>
-						<Badge colorPalette='gray' variant='solid'>
-							2
-						</Badge>
+						<Badge variant='solid'>2</Badge>
 					</Button>
 					<Button
 						variant='ghost'
@@ -86,7 +82,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 						_hover={{ bg: 'rgba(255,255,255,0.05)' }}
 					>
 						<FilePenLine size={16} />
-						<Text textStyle='smaller' fontWeight='semibold'>
+						<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 							Atualizar Foto e Perfil
 						</Text>
 					</Button>
@@ -102,7 +98,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 						_hover={{ bg: 'rgba(255,255,255,0.05)' }}
 					>
 						<User size={16} />
-						<Text textStyle='smaller' fontWeight='semibold'>
+						<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 							Meus Dados Pessoais
 						</Text>
 					</Button>
@@ -110,66 +106,66 @@ export function HomeSidebar({ authClient }: HomeProps) {
 			</Surface>
 
 			<Surface variant='panel' p={{ base: 3.5, md: 4 }}>
-				<Heading as='h3' textStyle='h6' mb={3}>
+				<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700' mb={3}>
 					Dados institucionais
 				</Heading>
 				<Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={3}>
 					<GridItem>
 						<Box>
-							<Text textStyle='smaller' color='textMuted'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 								Matrícula
 							</Text>
-							<Text textStyle='smaller' fontWeight='semibold'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 								2023326456
 							</Text>
 						</Box>
 					</GridItem>
 					<GridItem>
 						<Box>
-							<Text textStyle='smaller' color='textMuted'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 								Curso
 							</Text>
-							<Text textStyle='smaller' fontWeight='semibold'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 								Técnico Integrado
 							</Text>
 						</Box>
 					</GridItem>
 					<GridItem>
 						<Box>
-							<Text textStyle='smaller' color='textMuted'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 								Status
 							</Text>
-							<Text textStyle='smaller' fontWeight='semibold'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 								Ativo
 							</Text>
 						</Box>
 					</GridItem>
 					<GridItem>
 						<Box>
-							<Text textStyle='smaller' color='textMuted'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 								Frequência global
 							</Text>
-							<Text textStyle='smaller' fontWeight='semibold'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 								92%
 							</Text>
 						</Box>
 					</GridItem>
 					<GridItem>
 						<Box>
-							<Text textStyle='smaller' color='textMuted'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 								Ano de entrada
 							</Text>
-							<Text textStyle='smaller' fontWeight='semibold'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 								2023
 							</Text>
 						</Box>
 					</GridItem>
 					<GridItem colSpan={{ base: 1, md: 2 }}>
 						<Box>
-							<Text textStyle='smaller' color='textMuted'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 								E-mail institucional
 							</Text>
-							<Text textStyle='smaller' fontWeight='semibold'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 								2023326456@agias.edu.br
 							</Text>
 						</Box>
@@ -178,7 +174,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 			</Surface>
 
 			<Surface variant='panel' p={{ base: 3.5, md: 4 }}>
-				<Heading as='h3' textStyle='h6' mb={3}>
+				<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700' mb={3}>
 					Próximos eventos
 				</Heading>
 				<VStack align='stretch' gap={0}>
@@ -192,15 +188,15 @@ export function HomeSidebar({ authClient }: HomeProps) {
 							py={2.5}
 							px={2}
 							borderBottom={index === events.length - 1 ? '0' : '1px solid'}
-							borderColor='border'
+							borderColor='rgba(15, 23, 42, 0.08)'
 							cursor='pointer'
 							transition='all 0.2s ease'
 							_hover={{ bg: 'rgba(255,255,255,0.05)', transform: 'translateX(2px)' }}
 						>
-							<Text textStyle='smaller' color='textMuted'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 								{event.date}
 							</Text>
-							<Text textStyle='smaller' fontWeight='semibold'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 								{event.title}
 							</Text>
 						</Box>

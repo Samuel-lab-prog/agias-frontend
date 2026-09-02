@@ -1,5 +1,5 @@
 import type { StudentProfile } from '@Api/academic/types';
-import { Surface } from '@BaseComponents';
+import { componentColors, Surface } from '@BaseComponents';
 import { Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import { translateBackendStatus } from '@core/utils/backend-labels';
 
@@ -31,16 +31,21 @@ export function StudentInstitutionCard({
 
 	return (
 		<Surface variant='panel' p={{ base: 4, md: 5 }}>
-			<Heading as='h3' textStyle='h6' mb={4}>
+			<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700' mb={4}>
 				Dados institucionais
 			</Heading>
 			<VStack align='stretch' gap={2}>
 				{institutionData.map(([label, value]) => (
 					<Flex key={label} justify='space-between' gap={3}>
-						<Text textStyle='smaller' color='textMuted'>
+						<Text
+							fontSize='0.8125rem'
+							lineHeight='1.25rem'
+							color={componentColors.light.textMuted}
+							_dark={{ color: componentColors.dark.textMuted }}
+						>
 							{label}
 						</Text>
-						<Text textStyle='smaller' fontWeight='semibold' textAlign='right'>
+						<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold' textAlign='right'>
 							{value}
 						</Text>
 					</Flex>

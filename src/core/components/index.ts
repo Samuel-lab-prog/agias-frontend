@@ -34,6 +34,7 @@ export * from './forms/styles/FormCardSurface';
 export * from './forms/tags-field/Component';
 export * from './forms/tags-field/TagsInputControl';
 export * from './forms/tags-field/utils';
+export * from './localStyles';
 export * from './markdown-render/Component';
 export * from './markdown-render/components';
 export * from './surface/Component';

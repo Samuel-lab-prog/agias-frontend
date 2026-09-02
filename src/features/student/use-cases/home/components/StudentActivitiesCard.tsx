@@ -3,8 +3,8 @@ import type {
 	StudentDashboardSubmission,
 	StudentEnrollment,
 } from '@Api/academic/types';
-import { Surface } from '@BaseComponents';
-import { Badge, Box, Button, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+import { BaseButton, componentColors, componentRadii, Surface } from '@BaseComponents';
+import { Badge, Box, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { CalendarDays } from 'lucide-react';
 
 type StudentActivitiesCardProps = {
@@ -25,7 +25,7 @@ function getActivityStatus(
 			return {
 				label: 'Atrasada',
 				bg: 'rgba(239, 68, 68, 0.16)',
-				color: 'error',
+				color: componentColors.light.error,
 				description: 'Prazo expirado',
 			};
 		}
@@ -33,7 +33,7 @@ function getActivityStatus(
 		return {
 			label: 'Pendente',
 			bg: 'rgba(234, 179, 8, 0.16)',
-			color: 'warning',
+			color: componentColors.light.warning,
 			description: 'Ainda não enviada',
 		};
 	}
@@ -42,7 +42,7 @@ function getActivityStatus(
 		return {
 			label: 'Avaliada',
 			bg: 'rgba(34, 197, 94, 0.14)',
-			color: 'accent',
+			color: componentColors.light.accent,
 			subtitle: submission.submittedAt,
 			description: '',
 		};
@@ -51,7 +51,7 @@ function getActivityStatus(
 	return {
 		label: 'Entregue',
 		bg: 'rgba(37, 99, 235, 0.16)',
-		color: 'accentStrong',
+		color: componentColors.light.accentStrong,
 		subtitle: submission.submittedAt,
 		description: '',
 	};
@@ -149,122 +149,150 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 			<Flex justify='space-between' align='center' gap={3} wrap='wrap' mb={4}>
 				<HStack gap={2}>
 					<CalendarDays size={18} />
-					<Heading as='h3' textStyle='h6'>
+					<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700'>
 						Minhas atividades
 					</Heading>
 				</HStack>
 
-				<Button
+				<BaseButton
 					size='sm'
-					variant='outline'
-					color='textMuted'
-					borderColor='border'
-					bg='transparent'
-					_hover={{ bg: 'surface', borderColor: 'borderHover', color: 'text' }}
+					variant='outlinePurple'
+					color={componentColors.light.textMuted}
+					_dark={{ color: componentColors.dark.textMuted }}
 				>
 					Ver todas as atividades
-				</Button>
+				</BaseButton>
 			</Flex>
 
 			<VStack align='stretch' gap={0}>
 				{activities.length === 0 ? (
 					<Box px={2} py={3}>
-						<Text textStyle='smaller' color='textMuted'>
+						<Text
+							fontSize='0.8125rem'
+							lineHeight='1.25rem'
+							color={componentColors.light.textMuted}
+							_dark={{ color: componentColors.dark.textMuted }}
+						>
 							Nenhuma atividade disponível no momento.
 						</Text>
 					</Box>
 				) : (
-					activities.map((activity, index) => (
+					activities.map((activity, index) =>
 						// Read once so TypeScript can narrow the optional subtitle cleanly.
 						(() => {
 							const activityStatus = getActivityStatus(activity, submissions);
 							const subtitle = activityStatus.subtitle;
 
 							return (
-						<Flex
-							key={`${activity.classOfferingId}-${activity.id}`}
-							px={3}
-							py={3}
-							align='start'
-							justify='space-between'
-							direction={{ base: 'column', md: 'row' }}
-							borderRadius='lg'
-							bg={index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'}
-							transition='background-color 0.18s ease, transform 0.18s ease'
-							cursor='pointer'
-							_hover={{ bg: 'rgba(37, 99, 235, 0.08)', transform: 'translateX(2px)' }}
-						>
-							<HStack align='start' gap={3} flex='1' minW={0} w='full'>
-								<Box minW={0}>
-									<Text textStyle='smaller' fontWeight='bold'>
-										{activity.title} - {activity.classTitle}
-									</Text>
-									<Text textStyle='smaller' color='textMuted'>
-										Postada em {dateFormatter.format(new Date(activity.createdAt))} às{' '}
-										{timeFormatter.format(new Date(activity.createdAt))}
-									</Text>
-									{activity.dueAt ? (
-										<Text textStyle='smaller' color='textMuted' mt={1}>
-											Entregar em {dateFormatter.format(new Date(activity.dueAt))} às{' '}
-											{timeFormatter.format(new Date(activity.dueAt))}
-										</Text>
-									) : (
-										<Text textStyle='smaller' color='textMuted' mt={1}>
-											Sem prazo definido
-										</Text>
-									)}
-								</Box>
-							</HStack>
-
-							<VStack
-								align={{ base: 'start', md: 'end' }}
-								gap={1}
-								flexShrink={0}
-								w={{ base: 'full', md: 'auto' }}
-								mt={{ base: 2, md: 0 }}
-							>
-								<Badge
-									bg={activityStatus.bg}
-									color={activityStatus.color}
-									borderRadius='full'
+								<Flex
+									key={`${activity.classOfferingId}-${activity.id}`}
 									px={3}
-									py={1}
+									py={3}
+									align='start'
+									justify='space-between'
+									direction={{ base: 'column', md: 'row' }}
+									borderRadius={componentRadii.lg}
+									bg={index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'}
+									transition='background-color 0.18s ease, transform 0.18s ease'
+									cursor='pointer'
+									_hover={{ bg: 'rgba(37, 99, 235, 0.08)', transform: 'translateX(2px)' }}
 								>
-									{activityStatus.label}
-								</Badge>
-								{isPendingActivity(activity, submissions) && activity.dueAt ? (
-									<Text
-										textStyle='smaller'
-										color='textMuted'
-										textAlign={{ base: 'left', md: 'right' }}
+									<HStack align='start' gap={3} flex='1' minW={0} w='full'>
+										<Box minW={0}>
+											<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='bold'>
+												{activity.title} - {activity.classTitle}
+											</Text>
+											<Text
+												fontSize='0.8125rem'
+												lineHeight='1.25rem'
+												color={componentColors.light.textMuted}
+												_dark={{ color: componentColors.dark.textMuted }}
+											>
+												Postada em {dateFormatter.format(new Date(activity.createdAt))} às{' '}
+												{timeFormatter.format(new Date(activity.createdAt))}
+											</Text>
+											{activity.dueAt ? (
+												<Text
+													fontSize='0.8125rem'
+													lineHeight='1.25rem'
+													color={componentColors.light.textMuted}
+													mt={1}
+													_dark={{ color: componentColors.dark.textMuted }}
+												>
+													Entregar em {dateFormatter.format(new Date(activity.dueAt))} às{' '}
+													{timeFormatter.format(new Date(activity.dueAt))}
+												</Text>
+											) : (
+												<Text
+													fontSize='0.8125rem'
+													lineHeight='1.25rem'
+													color={componentColors.light.textMuted}
+													mt={1}
+													_dark={{ color: componentColors.dark.textMuted }}
+												>
+													Sem prazo definido
+												</Text>
+											)}
+										</Box>
+									</HStack>
+
+									<VStack
+										align={{ base: 'start', md: 'end' }}
+										gap={1}
+										flexShrink={0}
+										w={{ base: 'full', md: 'auto' }}
+										mt={{ base: 2, md: 0 }}
 									>
-										{getTimeRemaining(activity.dueAt) !== 'Atrasada'
-											? getTimeRemaining(activity.dueAt)
-											: null}
-									</Text>
-								) : null}
-								{activityStatus.label === 'Atrasada' && activity.dueAt ? (
-									<Text textStyle='smaller' color='error' textAlign={{ base: 'left', md: 'right' }}>
-										{getOverdueTime(activity.dueAt)}
-									</Text>
-								) : null}
-								{subtitle ? (
-									<Text
-										textStyle='smaller'
-										color='textMuted'
-										textAlign={{ base: 'left', md: 'right' }}
-									>
-										{activityStatus.label === 'Avaliada'
-											? 'Avaliada em'
-											: 'Entregue em'}{' '}
-										{dateTimeFormatter.format(new Date(subtitle))}
-									</Text>
-								) : null}
-							</VStack>
-						</Flex>
+										<Badge
+											bg={activityStatus.bg}
+											color={activityStatus.color}
+											borderRadius={componentRadii.full}
+											px={3}
+											py={1}
+										>
+											{activityStatus.label}
+										</Badge>
+										{isPendingActivity(activity, submissions) && activity.dueAt ? (
+											<Text
+												fontSize='0.8125rem'
+												lineHeight='1.25rem'
+												color={componentColors.light.textMuted}
+												_dark={{ color: componentColors.dark.textMuted }}
+												textAlign={{ base: 'left', md: 'right' }}
+											>
+												{getTimeRemaining(activity.dueAt) !== 'Atrasada'
+													? getTimeRemaining(activity.dueAt)
+													: null}
+											</Text>
+										) : null}
+										{activityStatus.label === 'Atrasada' && activity.dueAt ? (
+											<Text
+												fontSize='0.8125rem'
+												lineHeight='1.25rem'
+												color={componentColors.light.error}
+												_dark={{ color: componentColors.dark.error }}
+												textAlign={{ base: 'left', md: 'right' }}
+											>
+												{getOverdueTime(activity.dueAt)}
+											</Text>
+										) : null}
+										{subtitle ? (
+											<Text
+												fontSize='0.8125rem'
+												lineHeight='1.25rem'
+												color={componentColors.light.textMuted}
+												_dark={{ color: componentColors.dark.textMuted }}
+												textAlign={{ base: 'left', md: 'right' }}
+											>
+												{activityStatus.label === 'Avaliada' ? 'Avaliada em' : 'Entregue em'}{' '}
+												{dateTimeFormatter.format(new Date(subtitle))}
+											</Text>
+										) : null}
+									</VStack>
+								</Flex>
 							);
-						})()
-					))
+						})(),
+					)
 				)}
 			</VStack>
 		</Surface>

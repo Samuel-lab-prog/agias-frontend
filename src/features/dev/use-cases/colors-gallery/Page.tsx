@@ -3,7 +3,7 @@ import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 
 import { DevSubNav } from '../../components/DevSubNav';
 
-type SemanticToken = {
+type LocalColor = {
 	name: string;
 	light: string;
 	dark: string;
@@ -14,7 +14,7 @@ function SectionTitle({ title, description }: { title: string; description: stri
 	return (
 		<Stack gap={1}>
 			<Heading size='md'>{title}</Heading>
-			<Text color='fg.muted' maxW='2xl'>
+			<Text color='#475569' maxW='2xl'>
 				{description}
 			</Text>
 		</Stack>
@@ -22,7 +22,7 @@ function SectionTitle({ title, description }: { title: string; description: stri
 }
 
 export function DevColorsPage() {
-	const semanticTokens: SemanticToken[] = [
+	const localColors: LocalColor[] = [
 		{
 			name: 'background',
 			light: '#ffffff',
@@ -98,7 +98,17 @@ export function DevColorsPage() {
 	];
 
 	return (
-		<Flex as='main' layerStyle='mainPadded' direction='column' gap={8} pb={12}>
+		<Flex
+			as='main'
+			bg='#f7f8fa'
+			color='#0f172a'
+			minH='100dvh'
+			px={{ base: 4, md: 6 }}
+			py={{ base: 6, md: 10 }}
+			direction='column'
+			gap={8}
+			pb={12}
+		>
 			<DevSubNav />
 			<Stack gap={4}>
 				<SectionTitle
@@ -109,7 +119,7 @@ export function DevColorsPage() {
 					<Box
 						p={4}
 						borderBottom='1px solid'
-						borderColor='border'
+						borderColor='rgba(15, 23, 42, 0.08)'
 						display={{ base: 'none', md: 'block' }}
 					>
 						<Box
@@ -118,7 +128,7 @@ export function DevColorsPage() {
 							gap={3}
 							fontSize='sm'
 							fontWeight='semibold'
-							color='fg.muted'
+							color='#475569'
 						>
 							<Text>Token</Text>
 							<Text>Light</Text>
@@ -127,7 +137,7 @@ export function DevColorsPage() {
 						</Box>
 					</Box>
 					<Box p={4} display='grid' gap={4}>
-						{semanticTokens.map((token) => (
+						{localColors.map((token) => (
 							<Box
 								key={token.name}
 								display={{ base: 'block', md: 'grid' }}
@@ -135,14 +145,14 @@ export function DevColorsPage() {
 								gap={3}
 								p={{ base: 4, md: 0 }}
 								borderBottom='1px solid'
-								borderColor='border'
+								borderColor='rgba(15, 23, 42, 0.08)'
 								_last={{ borderBottom: 'none' }}
 								borderRadius={{ base: 'xl', md: 'none' }}
 								bg={{ base: 'rgba(255,255,255,0.6)', md: 'transparent' }}
 							>
 								<Stack gap={1} mb={{ base: 4, md: 0 }}>
 									<Text fontWeight='semibold'>{token.name}</Text>
-									<Text fontSize='xs' color='fg.muted'>
+									<Text fontSize='xs' color='#475569'>
 										{token.description}
 									</Text>
 								</Stack>
@@ -150,7 +160,7 @@ export function DevColorsPage() {
 									<Text
 										fontSize='xs'
 										fontWeight='semibold'
-										color='fg.muted'
+										color='#475569'
 										display={{ md: 'none' }}
 									>
 										Light
@@ -160,9 +170,9 @@ export function DevColorsPage() {
 										borderRadius='md'
 										bg={token.light}
 										border='1px solid'
-										borderColor='border'
+										borderColor='rgba(15, 23, 42, 0.08)'
 									/>
-									<Text fontSize='sm' color='fg.muted'>
+									<Text fontSize='sm' color='#475569'>
 										{token.light}
 									</Text>
 								</Stack>
@@ -170,7 +180,7 @@ export function DevColorsPage() {
 									<Text
 										fontSize='xs'
 										fontWeight='semibold'
-										color='fg.muted'
+										color='#475569'
 										display={{ md: 'none' }}
 									>
 										Dark
@@ -180,13 +190,13 @@ export function DevColorsPage() {
 										borderRadius='md'
 										bg={token.dark}
 										border='1px solid'
-										borderColor='border'
+										borderColor='rgba(15, 23, 42, 0.08)'
 									/>
-									<Text fontSize='sm' color='fg.muted'>
+									<Text fontSize='sm' color='#475569'>
 										{token.dark}
 									</Text>
 								</Stack>
-								<Text fontSize='sm' color='fg.muted' display={{ base: 'none', md: 'block' }}>
+								<Text fontSize='sm' color='#475569' display={{ base: 'none', md: 'block' }}>
 									{token.description}
 								</Text>
 							</Box>

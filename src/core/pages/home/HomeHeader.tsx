@@ -24,13 +24,17 @@ export function HomeHeader({ authClient }: HomeProps) {
 			>
 				<VStack align='start' gap={3} maxW='xl'>
 					<Box>
-						<Badge colorPalette='blue' variant='subtle'>
-							{getRoleLabel(authClient)}
-						</Badge>
-						<Heading as='h2' textStyle={{ base: 'h5', md: 'h4' }} mt={2}>
+						<Badge variant='subtle'>{getRoleLabel(authClient)}</Badge>
+						<Heading
+							as='h2'
+							fontSize={{ base: '1.1rem', md: 'clamp(1.25rem, 2vw, 1.65rem)' }}
+							lineHeight={{ base: '1.25', md: '1.2' }}
+							fontWeight='700'
+							mt={2}
+						>
 							Bem-vindo ao sistema acadêmico
 						</Heading>
-						<Text mt={2} textStyle='smaller' color='textMuted' maxW='lg'>
+						<Text mt={2} fontSize='0.8125rem' lineHeight='1.25rem' color='#475569' maxW='lg'>
 							Aqui você encontra os principais atalhos da sua rotina institucional, com acesso
 							rápido aos módulos que fazem parte do seu perfil.
 						</Text>
@@ -43,8 +47,8 @@ export function HomeHeader({ authClient }: HomeProps) {
 						</Button>
 						<Button
 							variant='outline'
-							color='textMuted'
-							borderColor='border'
+							color='#475569'
+							borderColor='rgba(15, 23, 42, 0.08)'
 							_hover={{ bg: 'surface' }}
 						>
 							<ArrowRight />

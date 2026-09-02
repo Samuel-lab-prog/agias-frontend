@@ -1,4 +1,6 @@
-﻿import { Link, Text, VStack } from '@chakra-ui/react';
+import { Link, Text, VStack } from '@chakra-ui/react';
+
+import { componentColors } from '../localStyles';
 
 type Link = { label: string; href: string };
 
@@ -11,7 +13,7 @@ const links: Link[] = [
 export function FooterCommunity() {
 	return (
 		<VStack align='start' gap={2}>
-			<Text textStyle='small' color='textMuted'>
+			<Text fontSize='0.875rem' lineHeight='1.4rem' color={componentColors.dark.textMuted}>
 				Development
 			</Text>
 			{links.map((link) => (
@@ -20,8 +22,11 @@ export function FooterCommunity() {
 					href={link.href}
 					target='_blank'
 					rel='noopener noreferrer'
-					variant='muted'
-					textStyle='smaller'
+					fontSize='0.8125rem'
+					lineHeight='1.25rem'
+					color={componentColors.dark.textMuted}
+					opacity='0.9'
+					_hover={{ color: componentColors.dark.text, opacity: 1 }}
 				>
 					{link.label}
 				</Link>

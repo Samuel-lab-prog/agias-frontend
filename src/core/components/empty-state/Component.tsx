@@ -2,6 +2,7 @@ import { Box, type BoxProps, Heading, HStack, Icon, Text, VStack } from '@chakra
 import type { LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
+import { componentColors, componentRadii } from '../localStyles';
 import { stateCardSurfaceStyles } from '../state-card/surfaceStyles';
 
 type EmptyStateCardProps = Omit<BoxProps, 'title'> & {
@@ -21,7 +22,7 @@ export function EmptyStateCard({
 	ariaLive = 'polite',
 	eyebrow,
 	eyebrowIcon,
-	eyebrowIconColor = 'accent',
+	eyebrowIconColor = componentColors.light.accent,
 	title,
 	description,
 	action,
@@ -36,7 +37,7 @@ export function EmptyStateCard({
 					<HStack
 						px={3}
 						py={2}
-						borderRadius='full'
+						borderRadius={componentRadii.full}
 						bg='rgba(255, 255, 255, 0.06)'
 						border='1px solid'
 						borderColor='rgba(255, 255, 255, 0.08)'
@@ -44,10 +45,12 @@ export function EmptyStateCard({
 					>
 						{eyebrowIcon ? <Icon as={eyebrowIcon} boxSize={4.5} color={eyebrowIconColor} /> : null}
 						<Text
-							textStyle='smaller'
-							color='accent'
+							fontSize='0.8125rem'
+							lineHeight='1.25rem'
+							color={componentColors.light.accent}
 							letterSpacing='0.08em'
 							textTransform='uppercase'
+							_dark={{ color: componentColors.dark.accent }}
 						>
 							{eyebrow}
 						</Text>
@@ -55,10 +58,23 @@ export function EmptyStateCard({
 				) : null}
 
 				<VStack align='start' gap={2} w='full'>
-					<Heading as='h2' textStyle='h4' color='white' mb={0}>
+					<Heading
+						as='h2'
+						fontSize='clamp(1.25rem, 2vw, 1.65rem)'
+						lineHeight='1.2'
+						fontWeight='700'
+						color={componentColors.light.text}
+						mb={0}
+						_dark={{ color: componentColors.dark.text }}
+					>
 						{title}
 					</Heading>
-					<Text textStyle='smaller' color='textMuted'>
+					<Text
+						fontSize='0.8125rem'
+						lineHeight='1.25rem'
+						color={componentColors.light.textMuted}
+						_dark={{ color: componentColors.dark.textMuted }}
+					>
 						{description}
 					</Text>
 				</VStack>

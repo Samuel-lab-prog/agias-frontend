@@ -1,8 +1,10 @@
-import { Box, Button, Field, Flex, HStack, Text } from '@chakra-ui/react';
+import { Box, Field, Flex, HStack, Text } from '@chakra-ui/react';
 import { Mic, Square, Trash2, Upload } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { type FieldValues, useController } from 'react-hook-form';
 
+import { BaseButton } from '../../Button';
+import { componentColors } from '../../localStyles';
 import { useAudioPreview } from './hooks';
 import type { AudioFieldProps } from './types';
 import { pickAudioMimeType, resolveAudioLabels } from './utils';
@@ -126,10 +128,14 @@ export function AudioField<T extends FieldValues>({
 	return (
 		<Field.Root required={required} invalid={hasError} w='full'>
 			<Field.Label
-				textStyle='small'
+				fontSize='0.875rem'
+				lineHeight='1.4rem'
 				fontWeight='medium'
-				color={hasError ? 'error' : 'text'}
+				color={hasError ? componentColors.light.error : componentColors.light.text}
 				transition='color 0.22s ease'
+				_dark={{
+					color: hasError ? componentColors.dark.error : componentColors.dark.text,
+				}}
 			>
 				{label}
 				{required && <Field.RequiredIndicator />}
@@ -137,7 +143,13 @@ export function AudioField<T extends FieldValues>({
 
 			{previewUrl && (
 				<Box mb={3} mt={1}>
-					<Text textStyle='smaller' color='textMuted' mb={2}>
+					<Text
+						fontSize='0.8125rem'
+						lineHeight='1.25rem'
+						color={componentColors.light.textMuted}
+						mb={2}
+						_dark={{ color: componentColors.dark.textMuted }}
+					>
 						{previewSource === 'recorded'
 							? labelsResolved.previewRecorded
 							: labelsResolved.previewUploaded}
@@ -147,7 +159,7 @@ export function AudioField<T extends FieldValues>({
 			)}
 
 			<Flex gap={{ base: 1.5, md: 2 }} wrap='wrap'>
-				<Button
+				<BaseButton
 					size={{ base: '2xs', md: 'xs' }}
 					variant='solidPurple'
 					onClick={handleStartRecording}
@@ -155,10 +167,12 @@ export function AudioField<T extends FieldValues>({
 				>
 					<HStack gap={1.5}>
 						<Mic size={12} />
-						<Text textStyle='smaller'>{labelsResolved.record}</Text>
+						<Text fontSize='0.8125rem' lineHeight='1.25rem'>
+							{labelsResolved.record}
+						</Text>
 					</HStack>
-				</Button>
-				<Button
+				</BaseButton>
+				<BaseButton
 					size={{ base: '2xs', md: 'xs' }}
 					variant='outlinePurple'
 					onClick={handleStopRecording}
@@ -166,10 +180,12 @@ export function AudioField<T extends FieldValues>({
 				>
 					<HStack gap={1.5}>
 						<Square size={12} />
-						<Text textStyle='smaller'>{labelsResolved.stop}</Text>
+						<Text fontSize='0.8125rem' lineHeight='1.25rem'>
+							{labelsResolved.stop}
+						</Text>
 					</HStack>
-				</Button>
-				<Button
+				</BaseButton>
+				<BaseButton
 					size={{ base: '2xs', md: 'xs' }}
 					variant='ghostPink'
 					onClick={handleDiscardRecording}
@@ -177,10 +193,12 @@ export function AudioField<T extends FieldValues>({
 				>
 					<HStack gap={1.5}>
 						<Trash2 size={12} />
-						<Text textStyle='smaller'>{labelsResolved.discard}</Text>
+						<Text fontSize='0.8125rem' lineHeight='1.25rem'>
+							{labelsResolved.discard}
+						</Text>
 					</HStack>
-				</Button>
-				<Button
+				</BaseButton>
+				<BaseButton
 					size={{ base: '2xs', md: 'xs' }}
 					variant='outlinePurple'
 					onClick={() => audioFileInputRef.current?.click()}
@@ -188,9 +206,11 @@ export function AudioField<T extends FieldValues>({
 				>
 					<HStack gap={1.5}>
 						<Upload size={12} />
-						<Text textStyle='smaller'>{labelsResolved.upload}</Text>
+						<Text fontSize='0.8125rem' lineHeight='1.25rem'>
+							{labelsResolved.upload}
+						</Text>
 					</HStack>
-				</Button>
+				</BaseButton>
 			</Flex>
 			<input
 				ref={audioFileInputRef}
@@ -205,13 +225,25 @@ export function AudioField<T extends FieldValues>({
 			/>
 
 			{file && (
-				<Text textStyle='smaller' color='textMuted' mt={2}>
+				<Text
+					fontSize='0.8125rem'
+					lineHeight='1.25rem'
+					color={componentColors.light.textMuted}
+					mt={2}
+					_dark={{ color: componentColors.dark.textMuted }}
+				>
 					Selected file: {file.name}
 				</Text>
 			)}
 
 			{recorderError && (
-				<Text textStyle='small' color='warning' mt={2}>
+				<Text
+					fontSize='0.875rem'
+					lineHeight='1.4rem'
+					color={componentColors.light.warning}
+					mt={2}
+					_dark={{ color: componentColors.dark.warning }}
+				>
 					{recorderError}
 				</Text>
 			)}
@@ -222,7 +254,8 @@ export function AudioField<T extends FieldValues>({
 				transition='grid-template-rows 0.24s ease'
 			>
 				<Field.ErrorText
-					color='error'
+					color={componentColors.light.error}
+					_dark={{ color: componentColors.dark.error }}
 					opacity={hasError ? 1 : 0}
 					transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}
 					overflow='hidden'

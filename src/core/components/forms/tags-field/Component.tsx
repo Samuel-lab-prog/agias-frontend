@@ -1,6 +1,7 @@
 import { Box, Field } from '@chakra-ui/react';
 import { type Control, Controller, type FieldValues, type Path } from 'react-hook-form';
 
+import { componentColors } from '../../localStyles';
 import { TagsInputControl } from './TagsInputControl';
 import { resolveErrorMessage, sanitizeTags } from './utils';
 
@@ -41,10 +42,14 @@ export function TagsField<T extends FieldValues>({
 	return (
 		<Field.Root required={required} invalid={!!error} w='full'>
 			<Field.Label
-				textStyle='smaller'
+				fontSize='0.8125rem'
+				lineHeight='1.25rem'
 				fontWeight='medium'
-				color={hasError ? 'error' : 'text'}
+				color={hasError ? componentColors.light.error : componentColors.light.text}
 				transition='color 0.22s ease'
+				_dark={{
+					color: hasError ? componentColors.dark.error : componentColors.dark.text,
+				}}
 			>
 				{label}
 				{required && <Field.RequiredIndicator />}
@@ -96,7 +101,8 @@ export function TagsField<T extends FieldValues>({
 				transition='grid-template-rows 0.24s ease'
 			>
 				<Field.ErrorText
-					color='error'
+					color={componentColors.light.error}
+					_dark={{ color: componentColors.dark.error }}
 					opacity={hasError ? 1 : 0}
 					transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}
 					overflow='hidden'

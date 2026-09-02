@@ -1,5 +1,5 @@
-import { ErrorStateCard } from '@BaseComponents';
-import { type BoxProps, Button, HStack, Icon, Text } from '@chakra-ui/react';
+import { BaseButton, ErrorStateCard } from '@BaseComponents';
+import { type BoxProps, HStack, Icon, Text } from '@chakra-ui/react';
 import { LogIn } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
@@ -22,14 +22,14 @@ export function AuthRequiredCard({
 			description={description}
 			action={
 				<HStack gap={3} wrap='wrap' w='full'>
-					<Button size='sm' variant='solidPink' w={{ base: 'full', md: 'auto' }} asChild>
+					<BaseButton size='sm' variant='solidPink' w={{ base: 'full', md: 'auto' }} asChild>
 						<NavLink to='/login'>
 							<HStack gap={2}>
 								<Icon as={LogIn} boxSize={3.5} />
 								<Text as='span'>Entrar</Text>
 							</HStack>
 						</NavLink>
-					</Button>
+					</BaseButton>
 				</HStack>
 			}
 			{...boxProps}

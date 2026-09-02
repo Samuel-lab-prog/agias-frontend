@@ -2,6 +2,7 @@ import { Flex, Icon, SimpleGrid, Text } from '@chakra-ui/react';
 import { CircleAlert } from 'lucide-react';
 import type { FieldValues } from 'react-hook-form';
 
+import { componentColors, componentRadii } from '../../localStyles';
 import { FormButton } from '../form-button/Component';
 import { FormCard } from '../styles/FormCardSurface';
 import { renderDynamicField } from './renderField';
@@ -38,34 +39,45 @@ export function DynamicForm<T extends FieldValues>({
 					align='center'
 					gap={2.5}
 					w='full'
-					px={3}
-					py={2.5}
+					px='0.75rem'
+					py='0.625rem'
 					mb={2}
 					border='1px solid'
-					borderColor='error'
-					borderRadius='md'
-					bg='surface'
+					borderColor={componentColors.light.error}
+					borderRadius={componentRadii.md}
+					bg={componentColors.light.surface}
 					boxShadow='inset 0 1px 0 rgba(255, 255, 255, 0.02)'
 					animationName='shake-x, fade-in'
 					animationDuration='240ms'
+					_dark={{
+						borderColor: componentColors.dark.error,
+						bg: componentColors.dark.surface,
+					}}
 				>
 					<Flex
 						align='center'
 						justify='center'
 						boxSize={7}
-						borderRadius='full'
-						bg='surface'
+						borderRadius={componentRadii.full}
+						bg={componentColors.light.surface}
 						flexShrink={0}
+						_dark={{ bg: componentColors.dark.surface }}
 					>
-						<Icon as={CircleAlert} boxSize={4} color='error' />
+						<Icon
+							as={CircleAlert}
+							boxSize={4}
+							color={componentColors.light.error}
+							_dark={{ color: componentColors.dark.error }}
+						/>
 					</Flex>
 					<Text
-						textStyle='smaller'
-						lineHeight='1.45'
-						color='error'
+						fontSize='0.8125rem'
+						lineHeight='1.25rem'
+						color={componentColors.light.error}
 						minH={7}
 						display='flex'
 						alignItems='center'
+						_dark={{ color: componentColors.dark.error }}
 					>
 						{generalError}
 					</Text>

@@ -13,6 +13,7 @@ import * as React from 'react';
 import { LuMoon, LuSun } from 'react-icons/lu';
 
 import { hoverLift } from '../../utils/interaction';
+import { componentColors } from '../localStyles';
 
 export type ColorModeProviderProps = ThemeProviderProps;
 
@@ -63,9 +64,12 @@ export const ColorModeButton = React.forwardRef<HTMLButtonElement, ColorModeButt
 			<ClientOnly fallback={<Skeleton boxSize='9' />}>
 				<IconButton
 					onClick={toggleColorMode}
-					variant='surface'
 					aria-label='Toggle color mode'
 					size='md'
+					bg={componentColors.light.surface}
+					color={componentColors.light.text}
+					border='1px solid'
+					borderColor={componentColors.light.border}
 					ref={ref}
 					{...props}
 					css={{
@@ -80,6 +84,11 @@ export const ColorModeButton = React.forwardRef<HTMLButtonElement, ColorModeButt
 					_hover={buttonMotion.hover}
 					_active={buttonMotion.active}
 					_focusVisible={buttonMotion.focusVisible}
+					_dark={{
+						bg: componentColors.dark.surface,
+						color: componentColors.dark.text,
+						borderColor: componentColors.dark.border,
+					}}
 				>
 					<ColorModeIcon />
 				</IconButton>
@@ -92,11 +101,9 @@ export const LightMode = React.forwardRef<HTMLSpanElement, SpanProps>(
 	function LightMode(props, ref) {
 		return (
 			<Span
-				color='fg'
+				color={componentColors.light.text}
 				display='contents'
 				className='chakra-theme light'
-				colorPalette='gray'
-				colorScheme='light'
 				ref={ref}
 				{...props}
 			/>
@@ -107,11 +114,9 @@ export const LightMode = React.forwardRef<HTMLSpanElement, SpanProps>(
 export const DarkMode = React.forwardRef<HTMLSpanElement, SpanProps>(function DarkMode(props, ref) {
 	return (
 		<Span
-			color='fg'
+			color={componentColors.dark.text}
 			display='contents'
 			className='chakra-theme dark'
-			colorPalette='gray'
-			colorScheme='dark'
 			ref={ref}
 			{...props}
 		/>

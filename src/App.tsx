@@ -1,4 +1,4 @@
-import { Toaster } from '@BaseComponents';
+import { componentColors, Toaster } from '@BaseComponents';
 import { Flex, Spinner } from '@chakra-ui/react';
 import { RoleGate } from '@features/auth/public/components/RoleGate';
 import { ErrorPage } from '@features/system/public';
@@ -16,13 +16,18 @@ function PageLoader() {
 	return (
 		<Flex
 			as='main'
-			layerStyle='mainPadded'
+			bg={componentColors.light.background}
+			color={componentColors.light.text}
 			direction='column'
 			align='center'
 			minH='32vh'
 			justify='center'
+			_dark={{
+				bg: componentColors.dark.background,
+				color: componentColors.dark.text,
+			}}
 		>
-			<Spinner size='lg' color='gray.600' />
+			<Spinner size='lg' color={componentColors.light.textMuted} />
 		</Flex>
 	);
 }

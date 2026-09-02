@@ -6,6 +6,7 @@ import { LuMoon } from 'react-icons/lu';
 import { NavLink } from 'react-router-dom';
 
 import { hoverNav } from '../../utils/interaction';
+import { componentColors, componentRadii } from '../localStyles';
 import { useColorMode } from '../ui/color-mode';
 import type { NavigationLink } from './types';
 
@@ -27,16 +28,25 @@ function SidebarThemeControl() {
 				alignItems='center'
 				justifyContent='space-between'
 				gap={3}
-				px={4}
-				py={3}
+				px='1rem'
+				py='0.75rem'
 				border='1px solid'
-				borderColor='border'
-				borderRadius='xl'
-				bg='surface'
+				borderColor={componentColors.light.border}
+				borderRadius={componentRadii.xl}
+				bg={componentColors.light.surface}
+				_dark={{
+					borderColor: componentColors.dark.border,
+					bg: componentColors.dark.surface,
+				}}
 			>
 				<HStack gap={3} minW={0}>
 					<Icon as={LuMoon} boxSize={4} opacity={0.9} />
-					<Text textStyle='smaller' color='text'>
+					<Text
+						fontSize='0.8125rem'
+						lineHeight='1.25rem'
+						color={componentColors.light.text}
+						_dark={{ color: componentColors.dark.text }}
+					>
 						Tema escuro
 					</Text>
 				</HStack>
@@ -73,8 +83,10 @@ export function NavigationSidebar({
 	const isDark = colorMode === 'dark';
 	const activeBg = isDark ? 'rgba(37, 99, 235, 0.28)' : 'rgba(37, 99, 235, 0.06)';
 	const activeBorder = isDark ? 'rgba(96, 165, 250, 0.28)' : 'rgba(37, 99, 235, 0.12)';
-	const activeColor = isDark ? 'accent' : 'accentStrong';
-	const hoverBg = isDark ? 'rgba(255, 255, 255, 0.04)' : 'transparent';
+	const activeColor = isDark ? componentColors.dark.accent : componentColors.light.accentStrong;
+	const hoverBg = isDark ? 'rgba(148, 163, 184, 0.08)' : componentColors.light.surface;
+	const hoverColor = isDark ? componentColors.dark.text : componentColors.light.text;
+	const hoverBorder = isDark ? componentColors.dark.borderHover : componentColors.light.borderHover;
 
 	return (
 		<Surface variant='sidebar' h='full' overflow='hidden' borderRadius={0} borderTop='0'>
@@ -88,7 +100,6 @@ export function NavigationSidebar({
 							<Link
 								asChild
 								key={label}
-								variant='nav'
 								display='block'
 								px={0}
 								py={0}
@@ -109,28 +120,40 @@ export function NavigationSidebar({
 									<HStack
 										justify='space-between'
 										align='center'
-										px={5}
-										py={4}
+										px='1.25rem'
+										py='1rem'
 										minH='56px'
-										borderRadius='md'
+										borderRadius={componentRadii.md}
 										bg={isActive ? activeBg : 'transparent'}
 										border='1px solid'
 										borderColor={isActive ? activeBorder : 'transparent'}
-										color={isActive ? activeColor : 'textMuted'}
+										color={
+											isActive
+												? activeColor
+												: isDark
+													? componentColors.dark.textMuted
+													: componentColors.light.textMuted
+										}
 										cursor='pointer'
 										transition={navMotion.transition}
 										transform='translateX(0)'
 										_hover={{
-											...navMotion.hover,
-											bg: isDark ? hoverBg : navMotion.hover.bg,
+											bg: hoverBg,
+											borderColor: hoverBorder,
+											color: hoverColor,
+											transform: navMotion.hover.transform,
 										}}
 										_active={navMotion.active}
-										_focusVisible={navMotion.focusVisible}
+										_focusVisible={{
+											...navMotion.focusVisible,
+											color: hoverColor,
+										}}
 									>
 										<HStack gap={2}>
 											{icon ? <Icon as={icon} boxSize={5} opacity={0.85} /> : null}
 											<Text
-												textStyle='small'
+												fontSize='0.875rem'
+												lineHeight='1.4rem'
 												fontWeight={isActive ? 'medium' : 'normal'}
 												color='inherit'
 											>

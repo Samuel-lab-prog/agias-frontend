@@ -89,11 +89,11 @@ export function HomeMainColumn() {
 		<VStack align='stretch' gap={4}>
 			<Surface variant='panel' p={{ base: 3.5, md: 4 }}>
 				<Flex align='start' gap={3}>
-					<Box boxSize={10} borderRadius='xl' display='grid' placeItems='center' bg='surface'>
+					<Box boxSize={10} borderRadius='xl' display='grid' placeItems='center' bg='#ffffff'>
 						<Bell size={20} />
 					</Box>
 					<Box flex='1'>
-						<Heading as='h3' textStyle='h6'>
+						<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700'>
 							{visibleAnnouncements.length > 0
 								? 'Comunicados recentes'
 								: 'Nenhum comunicado publicado'}
@@ -101,27 +101,27 @@ export function HomeMainColumn() {
 						<VStack align='stretch' gap={1} mt={1.5}>
 							{visibleAnnouncements.map((announcement) => (
 								<Box key={announcement.id}>
-									<Text textStyle='smaller' fontWeight='semibold'>
+									<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 										{announcement.title}
 									</Text>
-									<Text textStyle='smaller' color='textMuted'>
+									<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 										{announcement.body}
 									</Text>
 								</Box>
 							))}
 							{visibleAnnouncements.length === 0 ? (
-								<Text textStyle='smaller' color='textMuted'>
+								<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 									Os comunicados publicados pela staff aparecerão aqui.
 								</Text>
 							) : null}
 							{remainingAnnouncements > 0 ? (
-								<Text textStyle='smaller' color='textMuted'>
+								<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 									Mais {remainingAnnouncements} comunicado{remainingAnnouncements > 1 ? 's' : ''}.
 								</Text>
 							) : null}
 						</VStack>
 					</Box>
-					<Button size='sm' variant='outline' color='textMuted' borderColor='border'>
+					<Button size='sm' variant='outline' color='#475569' borderColor='rgba(15, 23, 42, 0.08)'>
 						Ver todas as notícias
 					</Button>
 				</Flex>
@@ -131,11 +131,11 @@ export function HomeMainColumn() {
 				<Flex justify='space-between' align='center' mb={3}>
 					<HStack gap={2}>
 						<Bell size={18} />
-						<Heading as='h3' textStyle='h6'>
+						<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700'>
 							Atualizações
 						</Heading>
 					</HStack>
-					<Button size='sm' variant='ghost' color='textMuted'>
+					<Button size='sm' variant='ghost' color='#475569'>
 						Ver todas as atualizações
 					</Button>
 				</Flex>
@@ -148,21 +148,21 @@ export function HomeMainColumn() {
 							justify='space-between'
 							py={2.5}
 							borderBottom={index === updates.length - 1 ? '0' : '1px solid'}
-							borderColor='border'
+							borderColor='rgba(15, 23, 42, 0.08)'
 							px={2}
 							transition='all 0.2s ease'
 							cursor='pointer'
 							_hover={{ bg: 'rgba(255,255,255,0.05)', transform: 'translateX(2px)' }}
 						>
 							<Box>
-								<Text textStyle='smaller' color='textMuted'>
+								<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 									{update.title}
 								</Text>
-								<Text textStyle='smaller' fontWeight='semibold'>
+								<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 									{update.description}
 								</Text>
 							</Box>
-							<Text textStyle='smaller' color='orange.300'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#fdba74'>
 								{update.time}
 							</Text>
 						</Flex>
@@ -174,11 +174,11 @@ export function HomeMainColumn() {
 				<Flex justify='space-between' align='center' mb={3}>
 					<HStack gap={2}>
 						<BookOpen size={18} />
-						<Heading as='h3' textStyle='h6'>
+						<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700'>
 							Componentes de hoje
 						</Heading>
 					</HStack>
-					<Button size='sm' variant='ghost' color='textMuted'>
+					<Button size='sm' variant='ghost' color='#475569'>
 						Ver toda a agenda
 					</Button>
 				</Flex>
@@ -191,20 +191,18 @@ export function HomeMainColumn() {
 							justify='space-between'
 							py={1.5}
 							borderBottom={index === todayClasses.length - 1 ? '0' : '1px solid'}
-							borderColor='border'
+							borderColor='rgba(15, 23, 42, 0.08)'
 							px={2}
 							transition='all 0.2s ease'
 							cursor='pointer'
 							_hover={{ bg: 'rgba(255,255,255,0.05)', transform: 'translateX(2px)' }}
 						>
 							<Box>
-								<Text textStyle='smaller' fontWeight='semibold'>
+								<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 									{component.name}
 								</Text>
 							</Box>
-							<Badge colorPalette='gray' variant='subtle'>
-								{component.time}
-							</Badge>
+							<Badge variant='subtle'>{component.time}</Badge>
 						</Flex>
 					))}
 				</VStack>
@@ -214,11 +212,11 @@ export function HomeMainColumn() {
 				<Flex justify='space-between' align='center' mb={3}>
 					<HStack gap={2}>
 						<FileText size={18} />
-						<Heading as='h3' textStyle='h6'>
+						<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700'>
 							Minhas atividades
 						</Heading>
 					</HStack>
-					<Button size='sm' variant='ghost' color='textMuted'>
+					<Button size='sm' variant='ghost' color='#475569'>
 						Ver todas as atividades
 					</Button>
 				</Flex>
@@ -231,7 +229,7 @@ export function HomeMainColumn() {
 							justify='space-between'
 							py={2}
 							borderBottom={index === activities.length - 1 ? '0' : '1px solid'}
-							borderColor='border'
+							borderColor='rgba(15, 23, 42, 0.08)'
 							px={2}
 							transition='all 0.2s ease'
 							cursor='pointer'
@@ -239,32 +237,22 @@ export function HomeMainColumn() {
 						>
 							<Box>
 								<HStack gap={1} wrap='wrap' align='baseline'>
-									<Text textStyle='smaller' color='textMuted'>
+									<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 										{activity.subject} :
 									</Text>
-									<Text textStyle='smaller' fontWeight='semibold'>
+									<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 										{activity.title}
 									</Text>
 								</HStack>
-								<Badge
-									mt={1}
-									colorPalette={
-										activity.status === 'Pendente'
-											? 'orange'
-											: activity.status === 'Entregue'
-												? 'blue'
-												: 'green'
-									}
-									variant='subtle'
-								>
+								<Badge mt={1} variant='subtle'>
 									{activity.status}
 								</Badge>
 							</Box>
 							<VStack align='end' gap={0}>
-								<Text textStyle='smaller' color='textMuted'>
+								<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
 									{activity.date}
 								</Text>
-								<Text textStyle='smaller' color='orange.300'>
+								<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#fdba74'>
 									{activity.due}
 								</Text>
 							</VStack>

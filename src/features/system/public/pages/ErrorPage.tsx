@@ -1,4 +1,5 @@
-import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { BaseButton, componentColors } from '@BaseComponents';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import {
 	getAccessDeniedMessage,
 	getBannedPrivilegeMessage,
@@ -260,29 +261,54 @@ export function ErrorPage() {
 	}, [error, info.code, info.description, info.message, info.status, location.pathname]);
 
 	return (
-		<Flex minH='100vh' align='center' justify='center' px={6} py={20} textAlign='center'>
+		<Flex
+			minH='100vh'
+			align='center'
+			justify='center'
+			px={6}
+			py={20}
+			textAlign='center'
+			bg={componentColors.light.background}
+			color={componentColors.light.text}
+			_dark={{
+				bg: componentColors.dark.background,
+				color: componentColors.dark.text,
+			}}
+		>
 			<Box maxW='md'>
-				<Heading as='h1' textStyle='h2'>
+				<Heading as='h1' fontSize='clamp(1.8rem, 3.5vw, 3rem)' lineHeight='1.08' fontWeight='800'>
 					Ops!
 				</Heading>
 
-				<Heading as='h2' textStyle='h5' mt={3}>
+				<Heading
+					as='h2'
+					fontSize='clamp(1.1rem, 1.6vw, 1.35rem)'
+					lineHeight='1.25'
+					fontWeight='700'
+					mt={3}
+				>
 					{info.message}
 				</Heading>
 
-				<Text textStyle='small' mt={1}>
+				<Text fontSize='0.875rem' lineHeight='1.4rem' mt={1}>
 					{info.description}
 				</Text>
 
 				{info.status && (
-					<Text textStyle='smaller' mt={2} color='textMuted'>
+					<Text
+						fontSize='0.8125rem'
+						lineHeight='1.25rem'
+						mt={2}
+						color={componentColors.light.textMuted}
+						_dark={{ color: componentColors.dark.textMuted }}
+					>
 						Erro {info.status}
 						{info.code ? ` (${info.code})` : ''}
 					</Text>
 				)}
 
 				<Box mt={6}>
-					<Button asChild variant='solidPink'>
+					<BaseButton asChild variant='solidPink'>
 						<NavLink
 							to={info.recoveryTo}
 							onClick={() => {
@@ -298,7 +324,7 @@ export function ErrorPage() {
 						>
 							{info.recoveryLabel}
 						</NavLink>
-					</Button>
+					</BaseButton>
 				</Box>
 			</Box>
 		</Flex>

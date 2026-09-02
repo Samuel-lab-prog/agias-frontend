@@ -2,6 +2,7 @@ import { Box, Field, Flex, Input, Stack, Text } from '@chakra-ui/react';
 import { Controller, type FieldError, type FieldValues, type Path } from 'react-hook-form';
 
 import { hoverSubtle } from '../../../utils/interaction';
+import { componentColors, componentRadii } from '../../localStyles';
 
 const subtleMotion = hoverSubtle();
 
@@ -61,10 +62,14 @@ export function ColorField<T extends FieldValues>({
 				return (
 					<Field.Root required={required} invalid={Boolean(resolvedErrorMessage)} w='full'>
 						<Field.Label
-							textStyle='smaller'
+							fontSize='0.8125rem'
+							lineHeight='1.25rem'
 							fontWeight='medium'
-							color={hasError ? 'error' : 'text'}
+							color={hasError ? componentColors.light.error : componentColors.light.text}
 							transition={subtleMotion.transition}
+							_dark={{
+								color: hasError ? componentColors.dark.error : componentColors.dark.text,
+							}}
 						>
 							{label}
 							{required && <Field.RequiredIndicator />}
@@ -78,11 +83,13 @@ export function ColorField<T extends FieldValues>({
 									flexShrink={0}
 									w='44px'
 									h='44px'
-									borderRadius='md'
+									borderRadius={componentRadii.md}
 									border='1px solid'
-									borderColor={hasError ? 'error' : 'border'}
+									borderColor={
+										hasError ? componentColors.light.error : componentColors.light.border
+									}
 									bg={swatchValue}
-									boxShadow='inset 0 0 0 1px {colors.background}'
+									boxShadow={`inset 0 0 0 1px ${componentColors.light.background}`}
 									cursor={disabled ? 'not-allowed' : 'pointer'}
 									overflow='hidden'
 									transition={subtleMotion.transition}
@@ -91,17 +98,31 @@ export function ColorField<T extends FieldValues>({
 											? undefined
 											: {
 													...subtleMotion.hover,
-													borderColor: hasError ? 'error' : 'borderHover',
+													borderColor: hasError
+														? componentColors.light.error
+														: componentColors.light.borderHover,
 												}
 									}
+									_dark={{
+										borderColor: hasError
+											? componentColors.dark.error
+											: componentColors.dark.border,
+										boxShadow: `inset 0 0 0 1px ${componentColors.dark.background}`,
+										_hover: disabled
+											? undefined
+											: {
+													borderColor: hasError
+														? componentColors.dark.error
+														: componentColors.dark.borderHover,
+												},
+									}}
 								>
-									<Box
-										as='input'
+									<Input
 										type='color'
 										value={value || '#000000'}
 										disabled={disabled}
 										onChange={(event) => {
-											field.onChange(normalizeColorValue(event.target.value, allowAlpha));
+											field.onChange(normalizeColorValue(event.currentTarget.value, allowAlpha));
 										}}
 										aria-label={label}
 										opacity={0}
@@ -120,32 +141,67 @@ export function ColorField<T extends FieldValues>({
 									}
 									disabled={disabled}
 									placeholder={allowAlpha ? '#RRGGBBAA' : '#RRGGBB'}
-									textStyle='smaller'
-									bg='background'
+									fontSize='0.8125rem'
+									lineHeight='1.25rem'
+									bg={componentColors.light.background}
 									border='1px solid'
-									borderColor={hasError ? 'error' : 'border'}
-									borderRadius='md'
-									px={3}
-									py={2}
+									borderColor={
+										hasError ? componentColors.light.error : componentColors.light.border
+									}
+									borderRadius={componentRadii.md}
+									color={componentColors.light.text}
+									px='0.75rem'
+									py='0.5rem'
 									transition={subtleMotion.transition}
 									_hover={{
 										...subtleMotion.hover,
-										borderColor: hasError ? 'error' : 'borderHover',
-										bg: 'surface',
+										borderColor: hasError
+											? componentColors.light.error
+											: componentColors.light.borderHover,
+										bg: componentColors.light.surface,
 									}}
 									_focusVisible={{
 										...subtleMotion.focusVisible,
-										borderColor: hasError ? 'error' : 'borderHover',
-										boxShadow: hasError
-											? '0 0 0 3px {colors.error}'
-											: '0 0 0 3px {colors.focusRing}',
-										bg: 'surface',
+										borderColor: hasError
+											? componentColors.light.error
+											: componentColors.light.borderHover,
+										boxShadow: `0 0 0 3px ${
+											hasError ? componentColors.light.errorSoft : componentColors.light.focusRing
+										}`,
+										bg: componentColors.light.surface,
+									}}
+									_dark={{
+										bg: componentColors.dark.background,
+										borderColor: hasError
+											? componentColors.dark.error
+											: componentColors.dark.border,
+										color: componentColors.dark.text,
+										_hover: {
+											borderColor: hasError
+												? componentColors.dark.error
+												: componentColors.dark.borderHover,
+											bg: componentColors.dark.surface,
+										},
+										_focusVisible: {
+											borderColor: hasError
+												? componentColors.dark.error
+												: componentColors.dark.borderHover,
+											boxShadow: `0 0 0 3px ${
+												hasError ? componentColors.dark.errorSoft : componentColors.dark.focusRing
+											}`,
+											bg: componentColors.dark.surface,
+										},
 									}}
 								/>
 							</Flex>
 
 							{helperText ? (
-								<Text textStyle='smaller' color='textMuted'>
+								<Text
+									fontSize='0.8125rem'
+									lineHeight='1.25rem'
+									color={componentColors.light.textMuted}
+									_dark={{ color: componentColors.dark.textMuted }}
+								>
 									{helperText}
 								</Text>
 							) : null}
@@ -156,7 +212,8 @@ export function ColorField<T extends FieldValues>({
 								transition='grid-template-rows 0.24s ease'
 							>
 								<Field.ErrorText
-									color='error'
+									color={componentColors.light.error}
+									_dark={{ color: componentColors.dark.error }}
 									opacity={resolvedErrorMessage ? 1 : 0}
 									transform={resolvedErrorMessage ? 'translateY(0)' : 'translateY(-3px)'}
 									overflow='hidden'

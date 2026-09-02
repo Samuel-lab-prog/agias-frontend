@@ -9,6 +9,8 @@ import {
 	Toaster as ChakraToaster,
 } from '@chakra-ui/react';
 
+import { componentColors } from '../localStyles';
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const toaster = createToaster({
 	placement: 'bottom-end',
@@ -20,16 +22,29 @@ export const Toaster = () => (
 		<ChakraToaster toaster={toaster} insetInline={{ mdDown: '4' }}>
 			{(toast) => {
 				const colorPalette = (toast.meta as { colorPalette?: string } | undefined)?.colorPalette;
+				const tone =
+					colorPalette === 'red' || colorPalette === 'pink'
+						? {
+								bg: componentColors.light.error,
+								borderColor: componentColors.light.error,
+								color: '#ffffff',
+							}
+						: colorPalette
+							? {
+									bg: componentColors.light.accent,
+									borderColor: componentColors.light.accentStrong,
+									color: '#ffffff',
+								}
+							: undefined;
 				return (
 					<Toast.Root
 						width={{ md: 'sm' }}
-						colorPalette={colorPalette}
-						bg={colorPalette ? `${colorPalette}.600` : undefined}
-						borderColor={colorPalette ? `${colorPalette}.400` : undefined}
-						color={colorPalette ? `${colorPalette}.50` : undefined}
+						bg={tone?.bg}
+						borderColor={tone?.borderColor}
+						color={tone?.color}
 					>
 						{toast.type === 'loading' ? (
-							<Spinner size='sm' color='gray.700' />
+							<Spinner size='sm' color={componentColors.light.text} />
 						) : (
 							<Toast.Indicator />
 						)}

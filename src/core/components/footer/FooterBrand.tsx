@@ -1,4 +1,6 @@
-﻿import { Badge, Box, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+import { Badge, Box, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+
+import { componentColors, componentRadii } from '../localStyles';
 
 export function FooterBrand() {
 	return (
@@ -9,25 +11,43 @@ export function FooterBrand() {
 					h='44px'
 					display='grid'
 					placeItems='center'
-					borderRadius='full'
-					bg='linear-gradient(135deg, {colors.gray.900}, {colors.gray.600})'
-					color='white'
+					borderRadius={componentRadii.full}
+					bg='linear-gradient(135deg, #0f172a, #475569)'
+					color={componentColors.dark.text}
 					fontWeight='700'
 					fontSize='sm'
 				>
 					OP
 				</Box>
 				<VStack align='start' gap={0}>
-					<Heading as='h3' textStyle='h4' color='text'>
+					<Heading
+						as='h3'
+						fontSize='clamp(1.25rem, 2vw, 1.65rem)'
+						lineHeight='1.2'
+						fontWeight='700'
+						color={componentColors.light.text}
+						_dark={{ color: componentColors.dark.text }}
+					>
 						HelloPoetry
 					</Heading>
-					<Badge size='sm' colorPalette='gray' variant='subtle'>
+					<Badge
+						size='sm'
+						bg='rgba(148, 163, 184, 0.16)'
+						color={componentColors.light.textMuted}
+						_dark={{ color: componentColors.dark.textMuted }}
+					>
 						Poetry Platform
 					</Badge>
 				</VStack>
 			</HStack>
 
-			<Text textStyle='smaller' color='textMuted' maxW='sm'>
+			<Text
+				fontSize='0.8125rem'
+				lineHeight='1.25rem'
+				color={componentColors.light.textMuted}
+				maxW='sm'
+				_dark={{ color: componentColors.dark.textMuted }}
+			>
 				Publish poems, save favorites, comment, and build connections with other authors.
 			</Text>
 		</VStack>

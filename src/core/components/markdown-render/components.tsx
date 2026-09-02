@@ -1,50 +1,93 @@
 import { Box, Heading, Link, Mark, Text } from '@chakra-ui/react';
 import { type Components } from 'react-markdown';
 
+import { componentColors, componentRadii } from '../localStyles';
+
 /**
  * Chakra-flavored renderers for common Markdown nodes.
  * These keep typography consistent with the design system.
  */
 export const components: Components = {
 	h1: ({ children }) => (
-		<Heading as='h1' textStyle='h1' mt={8} mb={4}>
+		<Heading
+			as='h1'
+			fontSize='clamp(2.25rem, 5vw, 4.5rem)'
+			lineHeight='1.02'
+			fontWeight='800'
+			mt={8}
+			mb={4}
+		>
 			{children}
 		</Heading>
 	),
 	h2: ({ children }) => (
-		<Heading as='h2' textStyle='h2' mt={7} mb={3}>
+		<Heading
+			as='h2'
+			fontSize='clamp(1.8rem, 3.5vw, 3rem)'
+			lineHeight='1.08'
+			fontWeight='800'
+			mt={7}
+			mb={3}
+		>
 			{children}
 		</Heading>
 	),
 	h3: ({ children }) => (
-		<Heading as='h3' textStyle='h3' mt={6} mb={3}>
+		<Heading
+			as='h3'
+			fontSize='clamp(1.5rem, 2.6vw, 2.25rem)'
+			lineHeight='1.14'
+			fontWeight='700'
+			mt={6}
+			mb={3}
+		>
 			{children}
 		</Heading>
 	),
 	h4: ({ children }) => (
-		<Heading as='h4' textStyle='h4' mt={5} mb={2}>
+		<Heading
+			as='h4'
+			fontSize='clamp(1.25rem, 2vw, 1.65rem)'
+			lineHeight='1.2'
+			fontWeight='700'
+			mt={5}
+			mb={2}
+		>
 			{children}
 		</Heading>
 	),
 	h5: ({ children }) => (
-		<Heading as='h5' textStyle='h5' mt={4} mb={2}>
+		<Heading
+			as='h5'
+			fontSize='clamp(1.1rem, 1.6vw, 1.35rem)'
+			lineHeight='1.25'
+			fontWeight='700'
+			mt={4}
+			mb={2}
+		>
 			{children}
 		</Heading>
 	),
 	h6: ({ children }) => (
-		<Heading as='h6' textStyle='h6' mt={4} mb={2}>
+		<Heading as='h6' fontSize='1rem' lineHeight='1.3' fontWeight='700' mt={4} mb={2}>
 			{children}
 		</Heading>
 	),
 
 	p: ({ children }) => (
-		<Text as='p' textStyle='body' my={3}>
+		<Text as='p' fontSize='1rem' lineHeight='1.7rem' my={3}>
 			{children}
 		</Text>
 	),
 
 	strong: ({ children }) => (
-		<Text as='strong' fontWeight='700' display='inline' color='accent'>
+		<Text
+			as='strong'
+			fontWeight='700'
+			display='inline'
+			color={componentColors.light.accent}
+			_dark={{ color: componentColors.dark.accent }}
+		>
 			{children}
 		</Text>
 	),
@@ -55,18 +98,24 @@ export const components: Components = {
 	),
 
 	mark: ({ children }) => (
-		<Mark as='mark' bg='accentSoft' color='gray.900' textStyle='body'>
+		<Mark
+			as='mark'
+			bg={componentColors.light.accentSoft}
+			color={componentColors.light.text}
+			fontSize='1rem'
+			lineHeight='1.7rem'
+		>
 			{children}
 		</Mark>
 	),
 
 	ul: ({ children }) => (
-		<Box as='ul' textStyle='body' pl={6} my={3}>
+		<Box as='ul' fontSize='1rem' lineHeight='1.7rem' pl={6} my={3}>
 			{children}
 		</Box>
 	),
 	ol: ({ children }) => (
-		<Box as='ol' textStyle='body' pl={6} my={3}>
+		<Box as='ol' fontSize='1rem' lineHeight='1.7rem' pl={6} my={3}>
 			{children}
 		</Box>
 	),
@@ -77,7 +126,21 @@ export const components: Components = {
 	),
 
 	a: ({ children, href }) => (
-		<Link variant='inline' size='md' href={href}>
+		<Link
+			href={href}
+			color={componentColors.light.textMuted}
+			textUnderlineOffset='3px'
+			_hover={{
+				color: componentColors.light.text,
+				textDecoration: 'underline',
+			}}
+			_active={{ color: componentColors.light.text }}
+			_dark={{
+				color: componentColors.dark.textMuted,
+				_hover: { color: componentColors.dark.text },
+				_active: { color: componentColors.dark.text },
+			}}
+		>
 			{children}
 		</Link>
 	),
@@ -87,10 +150,10 @@ export const components: Components = {
 			my={4}
 			px={4}
 			py={3}
-			borderRadius='md'
+			borderRadius={componentRadii.md}
 			bg='rgba(255, 255, 255, 0.04)'
 			border='1px solid'
-			borderColor='gray.700'
+			borderColor='rgba(148, 163, 184, 0.24)'
 			overflowX='auto'
 		>
 			{children}
@@ -100,7 +163,13 @@ export const components: Components = {
 		const isBlock = className?.includes('language-');
 		if (isBlock) {
 			return (
-				<Box as='code' textStyle='code' whiteSpace='pre'>
+				<Box
+					as='code'
+					fontFamily='ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
+					fontSize='0.875rem'
+					lineHeight='1.5rem'
+					whiteSpace='pre'
+				>
 					{children}
 				</Box>
 			);
@@ -109,12 +178,15 @@ export const components: Components = {
 		return (
 			<Box
 				as='code'
-				textStyle='code'
+				fontFamily='ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace'
+				fontSize='0.875rem'
+				lineHeight='1.5rem'
 				px={1.5}
 				py={0.5}
-				borderRadius='sm'
+				borderRadius={componentRadii.sm}
 				bg='rgba(255, 255, 255, 0.08)'
-				color='textMuted'
+				color={componentColors.light.textMuted}
+				_dark={{ color: componentColors.dark.textMuted }}
 			>
 				{children}
 			</Box>
@@ -127,14 +199,15 @@ export const components: Components = {
 			pl={4}
 			py={1}
 			borderLeft='3px solid'
-			borderColor='borderHover'
+			borderColor={componentColors.light.borderHover}
 			bg='rgba(255, 255, 255, 0.03)'
-			borderRadius='sm'
-			textStyle='body'
+			borderRadius={componentRadii.sm}
+			fontSize='1rem'
+			lineHeight='1.7rem'
 			fontStyle='italic'
 		>
 			{children}
 		</Box>
 	),
-	hr: () => <Box as='hr' my={6} borderColor='gray.700' />,
+	hr: () => <Box as='hr' my={6} borderColor='rgba(148, 163, 184, 0.24)' />,
 };

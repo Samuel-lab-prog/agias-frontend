@@ -1,4 +1,4 @@
-import { Surface } from '@BaseComponents';
+import { componentTypography, Surface } from '@BaseComponents';
 import { Box, Flex, Grid, Heading, Stack, Text } from '@chakra-ui/react';
 
 import { DevSubNav } from '../../components/DevSubNav';
@@ -7,7 +7,7 @@ type TypographyToken = {
 	name: string;
 	description: string;
 	sample: string;
-	previewStyle: string;
+	previewStyle: keyof typeof componentTypography;
 	spec: string;
 };
 
@@ -15,7 +15,7 @@ function SectionTitle({ title, description }: { title: string; description: stri
 	return (
 		<Stack gap={1}>
 			<Heading size='md'>{title}</Heading>
-			<Text color='fg.muted' maxW='2xl'>
+			<Text color='#475569' maxW='2xl'>
 				{description}
 			</Text>
 		</Stack>
@@ -28,10 +28,10 @@ function TypographyCard({ token }: { token: TypographyToken }) {
 			<Stack gap={3}>
 				<Stack gap={1.5}>
 					<Heading size='sm'>{token.name}</Heading>
-					<Text fontSize='sm' color='fg.muted'>
+					<Text fontSize='sm' color='#475569'>
 						{token.description}
 					</Text>
-					<Text fontSize='xs' color='fg.muted'>
+					<Text fontSize='xs' color='#475569'>
 						{token.spec}
 					</Text>
 				</Stack>
@@ -39,10 +39,15 @@ function TypographyCard({ token }: { token: TypographyToken }) {
 					p={{ base: 4, md: 5 }}
 					borderRadius='xl'
 					border='1px solid'
-					borderColor='border'
-					bg='surface'
+					borderColor='rgba(15, 23, 42, 0.08)'
+					bg='#ffffff'
 				>
-					<Text textStyle={token.previewStyle} color='text' display='block' minH='3em'>
+					<Text
+						{...componentTypography[token.previewStyle]}
+						color='#0f172a'
+						display='block'
+						minH='3em'
+					>
 						{token.sample}
 					</Text>
 				</Box>
@@ -140,12 +145,22 @@ export function DevTypographyPage() {
 	];
 
 	return (
-		<Flex as='main' layerStyle='mainPadded' direction='column' gap={8} pb={12}>
+		<Flex
+			as='main'
+			bg='#f7f8fa'
+			color='#0f172a'
+			minH='100dvh'
+			px={{ base: 4, md: 6 }}
+			py={{ base: 6, md: 10 }}
+			direction='column'
+			gap={8}
+			pb={12}
+		>
 			<DevSubNav />
 			<Stack gap={4}>
 				<SectionTitle
 					title='Tipografia'
-					description='Correspondente aos textStyles definidos no tema. Cada card mostra uso, amostra e leitura real.'
+					description='Correspondente à tipografia local usada pelos componentes. Cada card mostra uso, amostra e leitura real.'
 				/>
 				<Grid gap={4} gridTemplateColumns={{ base: '1fr', lg: 'repeat(2, minmax(0, 1fr))' }}>
 					{tokens.map((token) => (

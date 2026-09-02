@@ -13,7 +13,7 @@ function SectionTitle({ title, description }: { title: string; description: stri
 	return (
 		<Stack gap={1}>
 			<Heading size='md'>{title}</Heading>
-			<Text color='fg.muted' maxW='2xl'>
+			<Text color='#475569' maxW='2xl'>
 				{description}
 			</Text>
 		</Stack>
@@ -26,7 +26,7 @@ function AnimationCard({ token }: { token: AnimationToken }) {
 			<Stack gap={4}>
 				<Stack gap={1}>
 					<Text fontWeight='semibold'>{token.name}</Text>
-					<Text fontSize='sm' color='fg.muted'>
+					<Text fontSize='sm' color='#475569'>
 						{token.description}
 					</Text>
 				</Stack>
@@ -34,7 +34,7 @@ function AnimationCard({ token }: { token: AnimationToken }) {
 					h='120px'
 					borderRadius='xl'
 					border='1px solid'
-					borderColor='border'
+					borderColor='rgba(15, 23, 42, 0.08)'
 					bg='linear-gradient(135deg, rgba(219,234,254,0.9), rgba(255,255,255,0.95))'
 					display='grid'
 					placeItems='center'
@@ -51,7 +51,7 @@ function AnimationCard({ token }: { token: AnimationToken }) {
 						animationIterationCount={token.name === 'bounceFadeIn' ? 'infinite' : '1'}
 					/>
 				</Box>
-				<Text fontSize='xs' color='fg.muted'>
+				<Text fontSize='xs' color='#475569'>
 					{token.value}
 				</Text>
 			</Stack>
@@ -69,12 +69,22 @@ export function DevAnimationsPage() {
 	];
 
 	return (
-		<Flex as='main' layerStyle='mainPadded' direction='column' gap={8} pb={12}>
+		<Flex
+			as='main'
+			bg='#f7f8fa'
+			color='#0f172a'
+			minH='100dvh'
+			px={{ base: 4, md: 6 }}
+			py={{ base: 6, md: 10 }}
+			direction='column'
+			gap={8}
+			pb={12}
+		>
 			<DevSubNav />
 			<Stack gap={4}>
 				<SectionTitle
 					title='Animações'
-					description='Correspondente aos animationStyles do tema. Aqui dá para ver o token e o comportamento visual.'
+					description='Correspondente às animações locais usadas no front. Aqui dá para ver o nome e o comportamento visual.'
 				/>
 				<Grid gap={4} gridTemplateColumns={{ base: '1fr', lg: 'repeat(2, minmax(0, 1fr))' }}>
 					{tokens.map((token) => (

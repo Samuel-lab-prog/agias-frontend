@@ -1,4 +1,4 @@
-import { Surface } from '@BaseComponents';
+import { componentColors, Surface } from '@BaseComponents';
 import { Box, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 
 import { LoginForm } from './components/LoginForm';
@@ -8,13 +8,34 @@ function HeaderCard() {
 		<Surface variant='elevated' p={{ base: 4, md: 6 }}>
 			<VStack align='stretch' gap={3}>
 				<Box>
-					<Text textStyle='small' color='accent' fontWeight='semibold' letterSpacing='0.08em'>
+					<Text
+						fontSize='0.875rem'
+						lineHeight='1.4rem'
+						color={componentColors.light.accent}
+						fontWeight='semibold'
+						letterSpacing='0.08em'
+						_dark={{ color: componentColors.dark.accent }}
+					>
 						AGIAS - Aplicação de Gestão Integrada Acadêmica e de Serviços
 					</Text>
-					<Heading as='h1' textStyle={{ base: 'h3', md: 'h2' }} color='accent' mt={1}>
+					<Heading
+						as='h1'
+						fontSize={{ base: '1.5rem', md: 'clamp(1.8rem, 3.5vw, 3rem)' }}
+						lineHeight={{ base: '1.14', md: '1.08' }}
+						fontWeight='800'
+						color={componentColors.light.accent}
+						mt={1}
+						_dark={{ color: componentColors.dark.accent }}
+					>
 						Acesso ao sistema
 					</Heading>
-					<Text mt={2} textStyle='small' color='textMuted'>
+					<Text
+						mt={2}
+						fontSize='0.875rem'
+						lineHeight='1.4rem'
+						color={componentColors.light.textMuted}
+						_dark={{ color: componentColors.dark.textMuted }}
+					>
 						Entre com seu usuário e senha para acessar o sistema.
 					</Text>
 				</Box>
@@ -36,10 +57,23 @@ function LoginPanel() {
 		>
 			<VStack align='stretch' gap={4} w='full' alignItems='center' justifyContent='center'>
 				<Box>
-					<Heading as='h2' textStyle='h4' textAlign='center'>
+					<Heading
+						as='h2'
+						fontSize='clamp(1.25rem, 2vw, 1.65rem)'
+						lineHeight='1.2'
+						fontWeight='700'
+						textAlign='center'
+					>
 						Entrar no sistema
 					</Heading>
-					<Text mt={1} textStyle='small' color='textMuted' textAlign='center'>
+					<Text
+						mt={1}
+						fontSize='0.875rem'
+						lineHeight='1.4rem'
+						color={componentColors.light.textMuted}
+						textAlign='center'
+						_dark={{ color: componentColors.dark.textMuted }}
+					>
 						Digite seu usuário e senha para continuar.
 					</Text>
 				</Box>
@@ -54,13 +88,20 @@ export function LoginPage() {
 	return (
 		<Flex
 			as='main'
-			layerStyle='mainPadded'
+			bg={componentColors.light.background}
+			color={componentColors.light.text}
 			flex='1'
 			minH='100%'
 			direction='column'
 			align='center'
 			overflowY='auto'
 			scrollbarGutter='stable'
+			px={{ base: 4, md: 6 }}
+			py={{ base: 6, md: 10 }}
+			_dark={{
+				bg: componentColors.dark.background,
+				color: componentColors.dark.text,
+			}}
 		>
 			<Flex as='section' direction='column' align='stretch' gap={5} w='full' maxW='2xl' mx='auto'>
 				<HeaderCard />
