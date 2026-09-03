@@ -84,10 +84,7 @@ export function NavigationPageShell({
 				gap={0}
 				minH={{ xl: `calc(100dvh - ${topBarHeight})` }}
 			>
-				<Box
-					display={{ base: 'none', xl: 'block' }}
-					w={sidebarWidth}
-				>
+				<Box display={{ base: 'none', xl: 'block' }} w={sidebarWidth}>
 					<Box
 						position='fixed'
 						top={topBarHeight}
@@ -111,6 +108,7 @@ export function NavigationPageShell({
 					<Flex
 						w='full'
 						maxW={{ base: '100%', xl: foundations.sizes.content }}
+						boxSizing='border-box'
 						direction='column'
 						gap={{ base: 3, md: 4 }}
 						mt={4}

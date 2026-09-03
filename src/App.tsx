@@ -52,6 +52,10 @@ const StudentSubjectDetailsPage = lazyPage(
 	() => import('./features/student/use-cases/subject-details/Page'),
 	(module) => module.StudentSubjectDetailsPage,
 );
+const StudentActivityDetailsPage = lazyPage(
+	() => import('./features/student/use-cases/activity-details/Page'),
+	(module) => module.StudentActivityDetailsPage,
+);
 const ProfessorHomePage = lazyPage(
 	() => import('./features/professor/use-cases/home/Page'),
 	(module) => module.ProfessorHomePage,
@@ -104,6 +108,13 @@ const router = createBrowserRouter([
 		path: '/student/subjects/:enrollmentId',
 		element: (
 			<RoleGate allowedRoles={['student']}>{renderLazyPage(StudentSubjectDetailsPage)}</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/student/subjects/:enrollmentId/activities/:activityId',
+		element: (
+			<RoleGate allowedRoles={['student']}>{renderLazyPage(StudentActivityDetailsPage)}</RoleGate>
 		),
 		errorElement: <ErrorPage />,
 	},

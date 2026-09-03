@@ -138,3 +138,19 @@ at `/student/subjects/:enrollmentId`.
   fabricated.
 - Loading, request failure, invalid identifiers, missing enrollment, empty sessions, and empty
   activities have explicit states.
+
+## Student activity details
+
+Individual activities are available at `/student/subjects/:enrollmentId/activities/:activityId`.
+The route is protected by the student role gate and is linked from both subject activity rows and
+the dashboard activity list.
+
+- `useStudentActivityDetails` reads the existing `useMyStudentDashboard` query and selects the
+  requested enrollment/activity pair.
+- `mapStudentActivityDetails` derives status labels and formats dates without introducing domain
+  fixtures or hardcoded activity data.
+- The page displays instructions, publication/deadline metadata, and submission feedback when the
+  backend provides it.
+- Submission controls are intentionally not simulated: the current API exposes read-only dashboard
+  submission data, so the page communicates that online delivery is unavailable until a mutation
+  contract is added.

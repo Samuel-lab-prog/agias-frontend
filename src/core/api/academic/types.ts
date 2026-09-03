@@ -91,6 +91,17 @@ export type StudentDashboardSubmission = {
 	submittedAt: string | null;
 	grade: string | null;
 	feedback: string | null;
+	attachments?: StudentSubmissionAttachment[];
+};
+
+export type StudentSubmissionAttachment = {
+	id: number;
+	submissionId: number;
+	fileName: string;
+	fileUrl: string;
+	fileKey?: string;
+	contentType: string | null;
+	fileSize: number | null;
 };
 
 export type CreateStudentProfileBody = Record<string, unknown>;
@@ -105,3 +116,25 @@ export type UnlinkStudentFromCourseBody = Record<string, unknown>;
 export type UnlinkProfessorFromDepartmentBody = Record<string, unknown>;
 export type CreateAcademicActivityAttachmentUploadUrlBody = Record<string, unknown>;
 export type CreateAcademicActivityAttachmentUploadUrlResponse = Record<string, unknown>;
+export type CreateStudentActivitySubmissionUploadBody = {
+	activityId: number;
+	fileName: string;
+	contentType?: string;
+	contentLength?: number;
+};
+export type CreateStudentActivitySubmissionUploadResponse = {
+	uploadUrl: string;
+	fields: Record<string, string>;
+	fileUrl: string;
+};
+export type CreateStudentActivitySubmissionBody = {
+	activityId: number;
+	studentProfileId: number;
+	attachments?: Array<{
+		fileName: string;
+		fileUrl: string;
+		fileKey?: string;
+		contentType?: string;
+		fileSize?: number;
+	}>;
+};

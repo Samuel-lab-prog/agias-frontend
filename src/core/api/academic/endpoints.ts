@@ -9,6 +9,9 @@ import type {
 	CreateAcademicActivityAttachmentUploadUrlResponse,
 	CreateProfessorProfileBody,
 	CreateStaffProfileBody,
+	CreateStudentActivitySubmissionBody,
+	CreateStudentActivitySubmissionUploadBody,
+	CreateStudentActivitySubmissionUploadResponse,
 	CreateStudentProfileBody,
 	LinkProfessorToDepartmentBody,
 	LinkStudentToCourseBody,
@@ -218,6 +221,36 @@ const createAcademicActivityAttachmentUploadUrl = createMutationEndpoint<
 		}),
 });
 
+const createStudentActivitySubmissionUploadUrl = createMutationEndpoint<
+	CreateStudentActivitySubmissionUploadBody,
+	CreateStudentActivitySubmissionUploadResponse
+>({
+	fn: ({ activityId, ...data }) =>
+		createHTTPRequest<
+			CreateStudentActivitySubmissionUploadResponse,
+			Omit<CreateStudentActivitySubmissionUploadBody, 'activityId'>
+		>({
+			method: 'POST',
+			path: `/activities/${activityId}/submissions/me/upload-url`,
+			body: data,
+		}),
+});
+
+const createStudentActivitySubmission = createMutationEndpoint<
+	CreateStudentActivitySubmissionBody,
+	AcademicActivitySubmission
+>({
+	fn: ({ activityId, ...body }) =>
+		createHTTPRequest<
+			AcademicActivitySubmission,
+			Omit<CreateStudentActivitySubmissionBody, 'activityId'>
+		>({
+			method: 'POST',
+			path: `/activities/${activityId}/submissions/me`,
+			body,
+		}),
+});
+
 export const academic = {
 	getMyStudentProfile,
 	getMyStudentDashboard,
@@ -240,4 +273,6 @@ export const academic = {
 	unlinkStudentFromCourse,
 	unlinkProfessorFromDepartment,
 	createAcademicActivityAttachmentUploadUrl,
+	createStudentActivitySubmissionUploadUrl,
+	createStudentActivitySubmission,
 };

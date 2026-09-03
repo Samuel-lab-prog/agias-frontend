@@ -49,12 +49,15 @@ export function StudentSubjectDetailsPage() {
 				<>
 					<SubjectHeader details={details} />
 					<Grid
-						templateColumns={{ base: '1fr', lg: 'minmax(0, 0.9fr) minmax(0, 1.1fr)' }}
+						templateColumns={{ base: '1fr', lg: 'minmax(0, 1.1fr) minmax(0, 0.9fr)' }}
 						gap={4}
 						alignItems='start'
 					>
+						<SubjectActivities
+							activities={details.activities}
+							enrollmentId={details.enrollmentId}
+						/>
 						<SubjectSchedule sessions={details.sessions} />
-						<SubjectActivities activities={details.activities} />
 					</Grid>
 				</>
 			) : null}
