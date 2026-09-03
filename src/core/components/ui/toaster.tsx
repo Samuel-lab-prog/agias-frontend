@@ -41,11 +41,7 @@ export const Toaster = () => (
 						borderColor={tone?.borderColor}
 						color={tone?.color}
 					>
-						{toast.type === 'loading' ? (
-							<Spinner size='sm' color={'fg.default'} />
-						) : (
-							<Toast.Indicator />
-						)}
+						{toast.type === 'loading' ? <Spinner size='sm' color='fg.default' /> : <Toast.Indicator />}
 						<Stack gap='1' flex='1' maxWidth='100%'>
 							{toast.title && <Toast.Title>{toast.title}</Toast.Title>}
 							{toast.description && <Toast.Description>{toast.description}</Toast.Description>}

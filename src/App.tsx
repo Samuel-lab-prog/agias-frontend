@@ -16,8 +16,8 @@ function PageLoader() {
 	return (
 		<Flex
 			as='main'
-			bg={'bg.canvas'}
-			color={'fg.default'}
+			bg='bg.canvas'
+			color='fg.default'
 			direction='column'
 			align='center'
 			minH='32vh'
@@ -27,7 +27,7 @@ function PageLoader() {
 				color: 'fg.default',
 			}}
 		>
-			<Spinner size='lg' color={'fg.muted'} />
+			<Spinner size='lg' color='fg.muted' />
 		</Flex>
 	);
 }

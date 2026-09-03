@@ -1,10 +1,11 @@
 import type { StudentProfile } from '@Api/academic/types';
-import { BaseButton, Surface } from '@BaseComponents';
+import { BaseButton } from '@BaseComponents';
 import { Badge, Box, Heading, HStack, Text, VStack } from '@chakra-ui/react';
-import { useColorModeValue } from '@core/components/ui/color-mode';
 import { translateBackendStatus } from '@core/utils/backend-labels';
 import { FileText, GraduationCap, LogOut, MessageSquare } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
+
+import { StudentCard } from './StudentCard';
 
 type StudentProfileCardProps = {
 	profile?: StudentProfile;
@@ -12,9 +13,6 @@ type StudentProfileCardProps = {
 };
 
 export function StudentProfileCard({ profile, userName }: StudentProfileCardProps) {
-	const headerTextColor = useColorModeValue('fg.default', 'fg.default');
-	const headerSubtextColor = useColorModeValue('fg.muted', 'fg.muted');
-
 	const initials = userName
 		?.split(/\s+/)
 		.filter(Boolean)
@@ -27,41 +25,31 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 	const status = translateBackendStatus(profile?.status);
 
 	return (
-		<Surface id='student-profile' variant='panel' p={0} overflow='hidden'>
-			<Box
-				p={4}
-				bg={'bg.surface'}
-				borderBottom='1px solid'
-				borderColor={'border.default'}
-				_dark={{
-					bg: 'bg.surface',
-					borderColor: 'border.default',
-				}}
-			>
+		<StudentCard id='student-profile' flush>
+			<Box p={4} bg='bg.surface' borderBottom='1px solid' borderColor='border.default'>
 				<HStack align='start' gap={4}>
 					<Box
 						boxSize={16}
-						borderRadius={'full'}
+						borderRadius='full'
 						bg='action.primaryStrong'
 						display='grid'
 						placeItems='center'
 						color='fg.inverted'
 						fontWeight='bold'
 						border='1px solid'
-						borderColor={'border.default'}
-						_dark={{ borderColor: 'border.default' }}
+						borderColor='border.default'
 					>
 						{initials ?? '?'}
 					</Box>
 
-					<VStack align='start' gap={0.5} color={headerTextColor}>
+					<VStack align='start' gap={0.5} color='fg.default'>
 						<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700'>
 							{userName ?? 'Nome não informado'}
 						</Heading>
-						<Text fontSize='0.8125rem' lineHeight='1.25rem' color={headerSubtextColor}>
+						<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 							{academicId ?? 'Matrícula não informada'}
 						</Text>
-						<Text fontSize='0.8125rem' lineHeight='1.25rem' color={headerSubtextColor}>
+						<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 							{courseId ? `Curso ${courseId}` : 'Curso não vinculado'}
 						</Text>
 						<Badge variant='subtle'>{status}</Badge>
@@ -84,12 +72,7 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 							Mensagens
 						</Text>
 					</HStack>
-					<Text
-						fontSize='0.8125rem'
-						lineHeight='1.25rem'
-						color={'fg.muted'}
-						_dark={{ color: 'fg.muted' }}
-					>
+					<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 						Dado não disponível
 					</Text>
 				</HStack>
@@ -132,6 +115,6 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 					</BaseButton>
 				</Box>
 			</VStack>
-		</Surface>
+		</StudentCard>
 	);
 }

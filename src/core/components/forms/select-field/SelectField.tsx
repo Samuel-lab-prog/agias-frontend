@@ -79,11 +79,11 @@ export function SelectField<T extends FieldValues>({
 						<NativeSelect.Field
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
-							bg={'bg.canvas'}
+							bg='bg.canvas'
 							border='1px solid'
 							borderColor={hasError ? 'status.error' : 'border.default'}
-							borderRadius={'md'}
-							color={'fg.default'}
+							borderRadius='md'
+							color='fg.default'
 							px='0.75rem'
 							py='0.5rem'
 							pe={14}
@@ -150,8 +150,8 @@ export function SelectField<T extends FieldValues>({
 							px='0.5rem'
 							h='70%'
 							right={1}
-							borderRadius={'md'}
-							bg={'action.primarySubtle'}
+							borderRadius='md'
+							bg='action.primarySubtle'
 							border='1px solid'
 							borderColor={hasError ? 'status.error' : 'border.default'}
 							color={hasError ? 'status.error' : isFocused ? 'fg.default' : 'fg.muted'}
@@ -180,7 +180,7 @@ export function SelectField<T extends FieldValues>({
 				transition='grid-template-rows 0.24s ease'
 			>
 				<Field.ErrorText
-					color={'status.error'}
+					color='status.error'
 					_dark={{ color: 'status.error' }}
 					opacity={hasError ? 1 : 0}
 					transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}

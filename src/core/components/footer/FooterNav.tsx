@@ -6,7 +6,7 @@ type FooterLink = { label: string; to: string };
 export function FooterNav({ links }: { links: FooterLink[] }) {
 	return (
 		<VStack align='start' gap={2}>
-			<Text fontSize='0.875rem' lineHeight='1.4rem' color={'fg.muted'}>
+			<Text fontSize='0.875rem' lineHeight='1.4rem' color='fg.muted'>
 				Navegation
 			</Text>
 			{links.map((link) => (
@@ -15,7 +15,7 @@ export function FooterNav({ links }: { links: FooterLink[] }) {
 					key={link.label}
 					fontSize='0.8125rem'
 					lineHeight='1.25rem'
-					color={'fg.muted'}
+					color='fg.muted'
 					opacity='0.9'
 					_currentPage={{ color: 'action.primary', fontWeight: '600' }}
 					_hover={{ color: 'fg.default', opacity: 1 }}

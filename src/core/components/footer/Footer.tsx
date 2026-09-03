@@ -46,10 +46,10 @@ export function Footer({ links }: FooterProps) {
 				direction={{ base: 'column', md: 'row' }}
 				gap={2}
 			>
-				<Text fontSize='0.8125rem' lineHeight='1.25rem' color={'fg.muted'}>
+				<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 					© {new Date().getFullYear()} HelloPoetry.
 				</Text>
-				<Text fontSize='0.8125rem' lineHeight='1.25rem' color={'fg.muted'}>
+				<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 					Published for readers and authors.
 				</Text>
 			</Flex>

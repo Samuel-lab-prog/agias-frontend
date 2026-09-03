@@ -100,7 +100,7 @@ export function TagsField<T extends FieldValues>({
 				transition='grid-template-rows 0.24s ease'
 			>
 				<Field.ErrorText
-					color={'status.error'}
+					color='status.error'
 					_dark={{ color: 'status.error' }}
 					opacity={hasError ? 1 : 0}
 					transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}

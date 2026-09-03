@@ -29,21 +29,17 @@ function SidebarThemeControl() {
 				gap={3}
 				px='1rem'
 				py='0.75rem'
-				border='1px solid'
-				borderColor={'border.default'}
-				borderRadius={'xl'}
-				bg={'bg.surface'}
-				_dark={{
-					borderColor: 'border.default',
-					bg: 'bg.surface',
-				}}
+				border='none'
+				borderRadius='xl'
+				bg='bg.surface'
+				_dark={{ bg: 'bg.surface' }}
 			>
 				<HStack gap={3} minW={0}>
 					<Icon as={LuMoon} boxSize={4} opacity={0.9} />
 					<Text
 						fontSize='0.8125rem'
 						lineHeight='1.25rem'
-						color={'fg.default'}
+						color='fg.default'
 						_dark={{ color: 'fg.default' }}
 					>
 						Tema escuro
@@ -88,7 +84,14 @@ export function NavigationSidebar({
 	const hoverBorder = isDark ? 'border.interactive' : 'border.interactive';
 
 	return (
-		<Surface variant='sidebar' h='full' overflow='hidden' borderRadius={0} borderTop='0'>
+		<Surface
+			variant='sidebar'
+			h='full'
+			overflowX='hidden'
+			overflowY='auto'
+			borderRadius={0}
+			borderTop='0'
+		>
 			<VStack align='stretch' gap={1} h='full' p={0}>
 				{links
 					.filter((link) => !link.hidden)
@@ -122,7 +125,7 @@ export function NavigationSidebar({
 										px='1.25rem'
 										py='1rem'
 										minH='56px'
-										borderRadius={'md'}
+										borderRadius='md'
 										bg={isActive ? activeBg : 'transparent'}
 										border='1px solid'
 										borderColor={isActive ? activeBorder : 'transparent'}

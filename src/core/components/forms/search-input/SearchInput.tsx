@@ -29,12 +29,7 @@ export function SearchInput({
 
 	return (
 		<Field.Root>
-			<Field.Label
-				fontSize='0.8125rem'
-				lineHeight='1.25rem'
-				fontWeight='medium'
-				color={'fg.default'}
-			>
+			<Field.Label fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='medium' color='fg.default'>
 				{label}
 			</Field.Label>
 			<Input
@@ -47,9 +42,9 @@ export function SearchInput({
 				fontSize='0.8125rem'
 				lineHeight='1.25rem'
 				transition='all 0.22s ease'
-				bg={'bg.canvas'}
-				borderColor={'border.default'}
-				color={'fg.default'}
+				bg='bg.canvas'
+				borderColor='border.default'
+				color='fg.default'
 				_hover={{
 					borderColor: 'border.interactive',
 					bg: 'bg.surface',

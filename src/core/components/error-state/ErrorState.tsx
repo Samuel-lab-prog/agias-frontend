@@ -38,7 +38,7 @@ export function ErrorStateCard({
 				<Text
 					fontSize='sm'
 					fontWeight='bold'
-					color={'action.primary'}
+					color='action.primary'
 					letterSpacing='0.06em'
 					_dark={{ color: 'action.primary' }}
 				>
@@ -47,17 +47,12 @@ export function ErrorStateCard({
 				<Text
 					fontSize={{ base: 'lg', md: 'xl' }}
 					fontWeight='semibold'
-					color={'fg.default'}
+					color='fg.default'
 					_dark={{ color: 'fg.default' }}
 				>
 					{title}
 				</Text>
-				<Text
-					fontSize='0.875rem'
-					lineHeight='1.4rem'
-					color={'fg.muted'}
-					_dark={{ color: 'fg.muted' }}
-				>
+				<Text fontSize='0.875rem' lineHeight='1.4rem' color='fg.muted' _dark={{ color: 'fg.muted' }}>
 					{description}
 				</Text>
 				{renderedAction ? (

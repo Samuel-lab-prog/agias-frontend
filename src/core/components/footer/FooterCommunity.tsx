@@ -11,7 +11,7 @@ const links: Link[] = [
 export function FooterCommunity() {
 	return (
 		<VStack align='start' gap={2}>
-			<Text fontSize='0.875rem' lineHeight='1.4rem' color={'fg.muted'}>
+			<Text fontSize='0.875rem' lineHeight='1.4rem' color='fg.muted'>
 				Development
 			</Text>
 			{links.map((link) => (
@@ -22,7 +22,7 @@ export function FooterCommunity() {
 					rel='noopener noreferrer'
 					fontSize='0.8125rem'
 					lineHeight='1.25rem'
-					color={'fg.muted'}
+					color='fg.muted'
 					opacity='0.9'
 					_hover={{ color: 'fg.default', opacity: 1 }}
 				>

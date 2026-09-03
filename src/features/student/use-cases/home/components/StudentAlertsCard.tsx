@@ -1,11 +1,13 @@
 import { communications } from '@Api/communications/endpoints';
 import { communicationsKeys } from '@Api/communications/keys';
-import { BaseButton, Surface } from '@BaseComponents';
-import { Box, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+import { BaseButton } from '@BaseComponents';
+import { Box, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import { translateBackendAudience } from '@core/utils/backend-labels';
 import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
 import { useQuery } from '@tanstack/react-query';
 import { Bell, Pin } from 'lucide-react';
+
+import { StudentCard, StudentCardHeader } from './StudentCard';
 
 export function StudentAlertsCard() {
 	const clientId = useAuthClientStore((state) => state.authClient?.id ?? null);
@@ -22,21 +24,22 @@ export function StudentAlertsCard() {
 	const remainingAnnouncements = Math.max(0, announcements.length - visibleAnnouncements.length);
 
 	return (
-		<Surface variant='soft' p={{ base: 4, md: 5 }}>
-			<Flex justify='space-between' align='center' gap={3} wrap='wrap' mb={4}>
-				<HStack gap={2}>
-					<Bell size={18} />
-					<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700'>
+		<StudentCard>
+			<StudentCardHeader
+				icon={<Bell size={18} />}
+				title={
+					<>
 						{visibleAnnouncements.length > 0
 							? 'Comunicados recentes'
 							: 'Nenhum comunicado publicado'}
-					</Heading>
-				</HStack>
-
-				<BaseButton size='sm' variant='secondary' color={'fg.muted'} _dark={{ color: 'fg.muted' }}>
-					Ver todas as notícias
-				</BaseButton>
-			</Flex>
+					</>
+				}
+				action={
+					<BaseButton size='sm' variant='secondary' color='fg.muted'>
+						Ver todas as notícias
+					</BaseButton>
+				}
+			/>
 
 			<VStack align='stretch' gap={0}>
 				{visibleAnnouncements.length === 0 ? (
@@ -44,7 +47,7 @@ export function StudentAlertsCard() {
 						<Text
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
-							color={'fg.muted'}
+							color='fg.muted'
 							_dark={{ color: 'fg.muted' }}
 						>
 							Os comunicados publicados pela staff aparecerão aqui.
@@ -60,7 +63,7 @@ export function StudentAlertsCard() {
 							align='center'
 							justify='space-between'
 							borderTop={index === 0 ? '0' : '1px solid'}
-							borderColor={'border.default'}
+							borderColor='border.default'
 							transition='all 0.2s ease'
 							cursor='pointer'
 							_hover={{
@@ -76,7 +79,7 @@ export function StudentAlertsCard() {
 									w='3px'
 									minW='3px'
 									alignSelf='stretch'
-									borderRadius={'full'}
+									borderRadius='full'
 									bg={announcement.isPinned ? 'fg.muted' : 'border.interactive'}
 									transition='background-color 0.2s ease'
 									_dark={{
@@ -91,7 +94,7 @@ export function StudentAlertsCard() {
 										</Text>
 										{announcement.isPinned ? (
 											<Box
-												color={'action.primary'}
+												color='action.primary'
 												display='inline-flex'
 												alignItems='center'
 												gap={1}
@@ -107,7 +110,7 @@ export function StudentAlertsCard() {
 									<Text
 										fontSize='0.8125rem'
 										lineHeight='1.25rem'
-										color={'fg.muted'}
+										color='fg.muted'
 										_dark={{ color: 'fg.muted' }}
 									>
 										{announcement.body}
@@ -115,7 +118,7 @@ export function StudentAlertsCard() {
 									<Text
 										fontSize='0.8125rem'
 										lineHeight='1.25rem'
-										color={'fg.muted'}
+										color='fg.muted'
 										mt={1}
 										_dark={{ color: 'fg.muted' }}
 									>
@@ -132,7 +135,7 @@ export function StudentAlertsCard() {
 							<Text
 								fontSize='0.8125rem'
 								lineHeight='1.25rem'
-								color={'fg.muted'}
+								color='fg.muted'
 								flexShrink={0}
 								_dark={{ color: 'fg.muted' }}
 							>
@@ -147,13 +150,13 @@ export function StudentAlertsCard() {
 				<Text
 					fontSize='0.8125rem'
 					lineHeight='1.25rem'
-					color={'fg.muted'}
+					color='fg.muted'
 					mt={3}
 					_dark={{ color: 'fg.muted' }}
 				>
 					Mais {remainingAnnouncements} comunicado{remainingAnnouncements > 1 ? 's' : ''}.
 				</Text>
 			) : null}
-		</Surface>
+		</StudentCard>
 	);
 }

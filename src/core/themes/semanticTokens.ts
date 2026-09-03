@@ -19,6 +19,7 @@ export const semanticTokens = defineSemanticTokens({
 		},
 		border: {
 			default: adaptive(semanticValues.border.light, semanticValues.border.dark),
+			surface: adaptive(semanticValues.surfaceBorder.light, semanticValues.surfaceBorder.dark),
 			muted: adaptive(semanticValues.borderMuted.light, semanticValues.borderMuted.dark),
 			interactive: adaptive(
 				semanticValues.borderInteractive.light,
@@ -58,6 +59,7 @@ export const documentedColorTokens = [
 	['fg.default', semanticValues.text, 'Texto e ícones principais'],
 	['fg.muted', semanticValues.textMuted, 'Texto secundário e legendas'],
 	['border.default', semanticValues.border, 'Bordas e divisores'],
+	['border.surface', semanticValues.surfaceBorder, 'Contorno de cartões e painéis'],
 	['border.interactive', semanticValues.borderInteractive, 'Hover e foco de controles'],
 	['action.primary', semanticValues.accent, 'Ação principal e links'],
 	['action.primarySubtle', semanticValues.accentSoft, 'Destaque de baixa ênfase'],

@@ -96,7 +96,7 @@ export function FileField<T extends FieldValues>({
 							<Text
 								fontSize='0.8125rem'
 								lineHeight='1.25rem'
-								color={'fg.muted'}
+								color='fg.muted'
 								_dark={{ color: 'fg.muted' }}
 							>
 								{file ? file.name : 'File not selected'}
@@ -107,7 +107,7 @@ export function FileField<T extends FieldValues>({
 							<Text
 								fontSize='0.8125rem'
 								lineHeight='1.25rem'
-								color={'fg.muted'}
+								color='fg.muted'
 								mt={2}
 								_dark={{ color: 'fg.muted' }}
 							>
@@ -121,7 +121,7 @@ export function FileField<T extends FieldValues>({
 							transition='grid-template-rows 0.24s ease'
 						>
 							<Field.ErrorText
-								color={'status.error'}
+								color='status.error'
 								_dark={{ color: 'status.error' }}
 								opacity={hasError ? 1 : 0}
 								transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}

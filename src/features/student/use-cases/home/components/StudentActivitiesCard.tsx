@@ -3,9 +3,11 @@ import type {
 	StudentDashboardSubmission,
 	StudentEnrollment,
 } from '@Api/academic/types';
-import { BaseButton, Surface } from '@BaseComponents';
-import { Badge, Box, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+import { BaseButton } from '@BaseComponents';
+import { Badge, Box, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import { CalendarDays } from 'lucide-react';
+
+import { StudentCard, StudentCardHeader } from './StudentCard';
 
 type StudentActivitiesCardProps = {
 	enrollments: StudentEnrollment[];
@@ -145,19 +147,16 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 		.slice(0, 4);
 
 	return (
-		<Surface variant='panel' p={{ base: 4, md: 5 }}>
-			<Flex justify='space-between' align='center' gap={3} wrap='wrap' mb={4}>
-				<HStack gap={2}>
-					<CalendarDays size={18} />
-					<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700'>
-						Minhas atividades
-					</Heading>
-				</HStack>
-
-				<BaseButton size='sm' variant='secondary' color={'fg.muted'} _dark={{ color: 'fg.muted' }}>
-					Ver todas as atividades
-				</BaseButton>
-			</Flex>
+		<StudentCard>
+			<StudentCardHeader
+				icon={<CalendarDays size={18} />}
+				title='Minhas atividades'
+				action={
+					<BaseButton size='sm' variant='secondary' color='fg.muted'>
+						Ver todas as atividades
+					</BaseButton>
+				}
+			/>
 
 			<VStack align='stretch' gap={0}>
 				{activities.length === 0 ? (
@@ -165,7 +164,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 						<Text
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
-							color={'fg.muted'}
+							color='fg.muted'
 							_dark={{ color: 'fg.muted' }}
 						>
 							Nenhuma atividade disponível no momento.
@@ -186,7 +185,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 									align='start'
 									justify='space-between'
 									direction={{ base: 'column', md: 'row' }}
-									borderRadius={'lg'}
+									borderRadius='lg'
 									bg={index % 2 === 0 ? 'bg.muted' : 'transparent'}
 									transition='background-color 0.18s ease, transform 0.18s ease'
 									cursor='pointer'
@@ -200,7 +199,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 											<Text
 												fontSize='0.8125rem'
 												lineHeight='1.25rem'
-												color={'fg.muted'}
+												color='fg.muted'
 												_dark={{ color: 'fg.muted' }}
 											>
 												Postada em {dateFormatter.format(new Date(activity.createdAt))} às{' '}
@@ -210,7 +209,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 												<Text
 													fontSize='0.8125rem'
 													lineHeight='1.25rem'
-													color={'fg.muted'}
+													color='fg.muted'
 													mt={1}
 													_dark={{ color: 'fg.muted' }}
 												>
@@ -221,7 +220,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 												<Text
 													fontSize='0.8125rem'
 													lineHeight='1.25rem'
-													color={'fg.muted'}
+													color='fg.muted'
 													mt={1}
 													_dark={{ color: 'fg.muted' }}
 												>
@@ -241,7 +240,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 										<Badge
 											bg={activityStatus.bg}
 											color={activityStatus.color}
-											borderRadius={'full'}
+											borderRadius='full'
 											px={3}
 											py={1}
 										>
@@ -251,7 +250,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 											<Text
 												fontSize='0.8125rem'
 												lineHeight='1.25rem'
-												color={'fg.muted'}
+												color='fg.muted'
 												_dark={{ color: 'fg.muted' }}
 												textAlign={{ base: 'left', md: 'right' }}
 											>
@@ -264,7 +263,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 											<Text
 												fontSize='0.8125rem'
 												lineHeight='1.25rem'
-												color={'status.error'}
+												color='status.error'
 												_dark={{ color: 'status.error' }}
 												textAlign={{ base: 'left', md: 'right' }}
 											>
@@ -275,7 +274,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 											<Text
 												fontSize='0.8125rem'
 												lineHeight='1.25rem'
-												color={'fg.muted'}
+												color='fg.muted'
 												_dark={{ color: 'fg.muted' }}
 												textAlign={{ base: 'left', md: 'right' }}
 											>
@@ -290,6 +289,6 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 					)
 				)}
 			</VStack>
-		</Surface>
+		</StudentCard>
 	);
 }

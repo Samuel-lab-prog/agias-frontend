@@ -101,9 +101,9 @@ export function FormField<T extends FieldValues>({
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
 							transition={subtleMotion.transition}
-							bg={'bg.canvas'}
+							bg='bg.canvas'
 							borderColor={hasError ? 'status.error' : 'border.default'}
-							color={'fg.default'}
+							color='fg.default'
 							_hover={{
 								...subtleMotion.hover,
 								borderColor: hasError ? 'status.error' : 'border.interactive',
@@ -162,7 +162,7 @@ export function FormField<T extends FieldValues>({
 							<Field.ErrorText
 								fontSize='0.8125rem'
 								lineHeight='1.25rem'
-								color={'status.error'}
+								color='status.error'
 								_dark={{ color: 'status.error' }}
 								opacity={hasError ? 1 : 0}
 								transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}

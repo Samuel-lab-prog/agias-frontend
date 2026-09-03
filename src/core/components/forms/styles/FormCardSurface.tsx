@@ -14,9 +14,9 @@ export function FormCard(props: FlexProps) {
 			w='full'
 			maxW='md'
 			border='1px solid'
-			borderColor={'border.default'}
-			borderRadius={'xl'}
-			bg={'bg.surface'}
+			borderColor='border.surface'
+			borderRadius='xl'
+			bg='bg.surface'
 			backdropFilter='blur(4px)'
 			transition={liftMotion.transition}
 			_hover={{
@@ -31,7 +31,7 @@ export function FormCard(props: FlexProps) {
 				boxShadow: 'floating',
 			}}
 			_dark={{
-				borderColor: 'border.default',
+				borderColor: 'border.surface',
 				bg: 'bg.surface',
 				_hover: {
 					borderColor: 'border.interactive',

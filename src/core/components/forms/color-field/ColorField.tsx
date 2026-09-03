@@ -82,7 +82,7 @@ export function ColorField<T extends FieldValues>({
 									flexShrink={0}
 									w='44px'
 									h='44px'
-									borderRadius={'md'}
+									borderRadius='md'
 									border='1px solid'
 									borderColor={hasError ? 'status.error' : 'border.default'}
 									bg={swatchValue}
@@ -134,11 +134,11 @@ export function ColorField<T extends FieldValues>({
 									placeholder={allowAlpha ? '#RRGGBBAA' : '#RRGGBB'}
 									fontSize='0.8125rem'
 									lineHeight='1.25rem'
-									bg={'bg.canvas'}
+									bg='bg.canvas'
 									border='1px solid'
 									borderColor={hasError ? 'status.error' : 'border.default'}
-									borderRadius={'md'}
-									color={'fg.default'}
+									borderRadius='md'
+									color='fg.default'
 									px='0.75rem'
 									py='0.5rem'
 									transition={subtleMotion.transition}
@@ -174,7 +174,7 @@ export function ColorField<T extends FieldValues>({
 								<Text
 									fontSize='0.8125rem'
 									lineHeight='1.25rem'
-									color={'fg.muted'}
+									color='fg.muted'
 									_dark={{ color: 'fg.muted' }}
 								>
 									{helperText}
@@ -187,7 +187,7 @@ export function ColorField<T extends FieldValues>({
 								transition='grid-template-rows 0.24s ease'
 							>
 								<Field.ErrorText
-									color={'status.error'}
+									color='status.error'
 									_dark={{ color: 'status.error' }}
 									opacity={resolvedErrorMessage ? 1 : 0}
 									transform={resolvedErrorMessage ? 'translateY(0)' : 'translateY(-3px)'}

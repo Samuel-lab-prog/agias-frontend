@@ -22,7 +22,7 @@ export function FieldContainer({
 			border='1px solid'
 			borderColor={hasError ? 'status.error' : 'transparent'}
 			bg={hasError ? 'bg.surface' : 'transparent'}
-			borderRadius={'md'}
+			borderRadius='md'
 			transition={subtleMotion.transition}
 			_focusWithin={{
 				...subtleMotion.focusVisible,

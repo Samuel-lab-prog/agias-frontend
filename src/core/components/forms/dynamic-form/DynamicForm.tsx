@@ -42,9 +42,9 @@ export function DynamicForm<T extends FieldValues>({
 					py='0.625rem'
 					mb={2}
 					border='1px solid'
-					borderColor={'status.error'}
-					borderRadius={'md'}
-					bg={'bg.surface'}
+					borderColor='status.error'
+					borderRadius='md'
+					bg='bg.surface'
 					boxShadow='surface'
 					animationName='shake-x, fade-in'
 					animationDuration='240ms'
@@ -57,22 +57,17 @@ export function DynamicForm<T extends FieldValues>({
 						align='center'
 						justify='center'
 						boxSize={7}
-						borderRadius={'full'}
-						bg={'bg.surface'}
+						borderRadius='full'
+						bg='bg.surface'
 						flexShrink={0}
 						_dark={{ bg: 'bg.surface' }}
 					>
-						<Icon
-							as={CircleAlert}
-							boxSize={4}
-							color={'status.error'}
-							_dark={{ color: 'status.error' }}
-						/>
+						<Icon as={CircleAlert} boxSize={4} color='status.error' _dark={{ color: 'status.error' }} />
 					</Flex>
 					<Text
 						fontSize='0.8125rem'
 						lineHeight='1.25rem'
-						color={'status.error'}
+						color='status.error'
 						minH={7}
 						display='flex'
 						alignItems='center'

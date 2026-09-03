@@ -268,8 +268,8 @@ export function ErrorPage() {
 			px={6}
 			py={20}
 			textAlign='center'
-			bg={'bg.canvas'}
-			color={'fg.default'}
+			bg='bg.canvas'
+			color='fg.default'
 			_dark={{
 				bg: 'bg.canvas',
 				color: 'fg.default',
@@ -299,7 +299,7 @@ export function ErrorPage() {
 						fontSize='0.8125rem'
 						lineHeight='1.25rem'
 						mt={2}
-						color={'fg.muted'}
+						color='fg.muted'
 						_dark={{ color: 'fg.muted' }}
 					>
 						Erro {info.status}

@@ -1,6 +1,7 @@
-import { Box, Flex } from '@chakra-ui/react';
+import { Box, Flex, Grid } from '@chakra-ui/react';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 
+import { foundations } from '../../themes/foundations';
 import { NavigationSidebar } from './Sidebar';
 import { NavigationTopBar } from './TopBar';
 import type { NavigationPreset } from './types';
@@ -15,13 +16,13 @@ type NavigationPageShellProps = {
 export function NavigationPageShell({
 	preset,
 	children,
-	sidebarWidth = 'sizes.sidebar',
+	sidebarWidth = foundations.sizes.sidebar,
 	rightContent,
 }: NavigationPageShellProps) {
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
 	const [mobileNavHeight, setMobileNavHeight] = useState(0);
 	const mobileNavRef = useRef<HTMLDivElement | null>(null);
-	const topBarHeight = 'sizes.topBar';
+	const topBarHeight = foundations.sizes.topBar;
 
 	useEffect(() => {
 		if (!mobileNavRef.current) return;
@@ -36,6 +37,7 @@ export function NavigationPageShell({
 			color='fg.default'
 			minH='100dvh'
 			direction='column'
+			overflowX='clip'
 			px={{ base: 0, md: 0, xl: 0 }}
 			pb={{ base: 'calc(24px + env(safe-area-inset-bottom, 0px))', md: 10 }}
 		>
@@ -75,27 +77,24 @@ export function NavigationPageShell({
 				</Box>
 			</Box>
 
-			<Flex
+			<Grid
 				flex='1'
-				direction={{ base: 'column', xl: 'row' }}
-				display='flex'
+				display='grid'
+				gridTemplateColumns={{ base: 'minmax(0, 1fr)', xl: `${sidebarWidth} minmax(0, 1fr)` }}
 				gap={0}
-				px={{ base: 0, xl: 0 }}
-				align='stretch'
-				minH={{ xl: 'calc(100dvh - token(sizes.topBar))' }}
+				minH={{ xl: `calc(100dvh - ${topBarHeight})` }}
 			>
-				<Box
-					display={{ base: 'none', xl: 'block' }}
-					flex={`0 0 ${sidebarWidth}`}
-					w={sidebarWidth}
-					alignSelf='stretch'
-				>
+				<Box display={{ base: 'none', xl: 'block' }} w={sidebarWidth}>
 					<Box
-						position='sticky'
+						position='fixed'
 						top={topBarHeight}
-						h='calc(100dvh - token(sizes.topBar))'
-						w='full'
-						overflow='hidden'
+						bottom={0}
+						left={0}
+						zIndex={10}
+						w={sidebarWidth}
+						boxSizing='border-box'
+						overflowY='auto'
+						overflowX='hidden'
 					>
 						<NavigationSidebar
 							links={preset.links}
@@ -105,10 +104,10 @@ export function NavigationPageShell({
 					</Box>
 				</Box>
 
-				<Flex flex='1' minW={0} w='full' justify='center' pl={0} pt={{ xl: 0 }}>
+				<Flex minW={0} w='full' justify='center' pl={0} pt={{ xl: 0 }}>
 					<Flex
 						w='full'
-						maxW={{ base: '100%', xl: 'sizes.content' }}
+						maxW={{ base: '100%', xl: foundations.sizes.content }}
 						direction='column'
 						gap={{ base: 3, md: 4 }}
 						mt={4}
@@ -118,7 +117,7 @@ export function NavigationPageShell({
 						{children}
 					</Flex>
 				</Flex>
-			</Flex>
+			</Grid>
 		</Flex>
 	);
 }

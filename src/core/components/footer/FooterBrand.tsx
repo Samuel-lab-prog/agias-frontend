@@ -9,9 +9,9 @@ export function FooterBrand() {
 					h='44px'
 					display='grid'
 					placeItems='center'
-					borderRadius={'full'}
+					borderRadius='full'
 					bg='action.primaryStrong'
-					color={'fg.default'}
+					color='fg.default'
 					fontWeight='700'
 					fontSize='sm'
 				>
@@ -23,12 +23,12 @@ export function FooterBrand() {
 						fontSize='clamp(1.25rem, 2vw, 1.65rem)'
 						lineHeight='1.2'
 						fontWeight='700'
-						color={'fg.default'}
+						color='fg.default'
 						_dark={{ color: 'fg.default' }}
 					>
 						HelloPoetry
 					</Heading>
-					<Badge size='sm' bg='border.muted' color={'fg.muted'} _dark={{ color: 'fg.muted' }}>
+					<Badge size='sm' bg='border.muted' color='fg.muted' _dark={{ color: 'fg.muted' }}>
 						Poetry Platform
 					</Badge>
 				</VStack>
@@ -37,7 +37,7 @@ export function FooterBrand() {
 			<Text
 				fontSize='0.8125rem'
 				lineHeight='1.25rem'
-				color={'fg.muted'}
+				color='fg.muted'
 				maxW='sm'
 				_dark={{ color: 'fg.muted' }}
 			>

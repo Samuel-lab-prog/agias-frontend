@@ -24,13 +24,7 @@ export function StaffMyProfilePage() {
 			mx='auto'
 			w='full'
 		>
-			<Box
-				p={6}
-				borderRadius={'xl'}
-				border='1px solid'
-				borderColor='border.default'
-				bg='bg.surface'
-			>
+			<Box p={6} borderRadius='xl' border='1px solid' borderColor='border.default' bg='bg.surface'>
 				<Box mb={4}>
 					<Badge bg='action.primarySubtle' color='action.primary' mb={3}>
 						Feature staff
@@ -57,7 +51,7 @@ export function StaffMyProfilePage() {
 					<Grid templateColumns={{ base: '1fr', md: 'repeat(3, minmax(0, 1fr))' }} gap={4}>
 						<Box
 							p={4}
-							borderRadius={'xl'}
+							borderRadius='xl'
 							border='1px solid'
 							borderColor='border.default'
 							bg='bg.muted'
@@ -73,7 +67,7 @@ export function StaffMyProfilePage() {
 
 						<Box
 							p={4}
-							borderRadius={'xl'}
+							borderRadius='xl'
 							border='1px solid'
 							borderColor='border.default'
 							bg='bg.muted'
@@ -89,7 +83,7 @@ export function StaffMyProfilePage() {
 
 						<Box
 							p={4}
-							borderRadius={'xl'}
+							borderRadius='xl'
 							border='1px solid'
 							borderColor='border.default'
 							bg='bg.muted'

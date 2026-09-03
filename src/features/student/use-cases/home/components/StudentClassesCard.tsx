@@ -1,8 +1,10 @@
 import type { StudentEnrollment } from '@Api/academic/types';
 import { BaseButton, Surface } from '@BaseComponents';
-import { Badge, Box, Flex, Heading, HStack, SimpleGrid, Text, VStack } from '@chakra-ui/react';
+import { Badge, Box, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import { useColorModeValue } from '@core/components/ui/color-mode';
 import { BookOpen } from 'lucide-react';
+
+import { StudentCard, StudentCardHeader } from './StudentCard';
 
 type StudentClassesCardProps = {
 	enrollments: StudentEnrollment[];
@@ -10,9 +12,6 @@ type StudentClassesCardProps = {
 
 export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 	const rowStripeBg = useColorModeValue('bg.canvas', 'bg.surface');
-	const rowHoverBg = useColorModeValue('action.primarySubtle', 'action.primarySubtle');
-	const badgeBg = useColorModeValue('action.primarySubtle', 'action.primarySubtle');
-	const badgeColor = useColorModeValue('action.primary', 'action.primary');
 
 	const rows = enrollments.map((enrollment) => {
 		const firstSession = enrollment.sessions[0];
@@ -31,19 +30,16 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 	});
 
 	return (
-		<Surface variant='soft' p={{ base: 4, md: 5 }}>
-			<Flex justify='space-between' align='center' gap={3} wrap='wrap' mb={4}>
-				<HStack gap={2}>
-					<BookOpen size={18} />
-					<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700'>
-						Matérias de hoje
-					</Heading>
-				</HStack>
-
-				<BaseButton size='sm' variant='secondary' color={'fg.muted'} _dark={{ color: 'fg.muted' }}>
-					Ver grade do semestre
-				</BaseButton>
-			</Flex>
+		<StudentCard>
+			<StudentCardHeader
+				icon={<BookOpen size={18} />}
+				title='Matérias de hoje'
+				action={
+					<BaseButton size='sm' variant='secondary' color='fg.muted'>
+						Ver grade do semestre
+					</BaseButton>
+				}
+			/>
 
 			<Surface variant='soft' p={{ base: 3, md: 5 }}>
 				<SimpleGrid
@@ -53,9 +49,8 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 					mb={{ md: 3 }}
 					px={{ md: 1 }}
 					fontSize='sm'
-					color={'fg.muted'}
+					color='fg.muted'
 					textAlign='center'
-					_dark={{ color: 'fg.muted' }}
 				>
 					<Box>Componente Curricular</Box>
 					<Box display={{ base: 'none', md: 'block' }}>Local</Box>
@@ -71,15 +66,14 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 							alignItems='center'
 							px={{ base: 2.5, md: 3 }}
 							py={{ base: 2.25, md: 2.5 }}
-							borderRadius={'lg'}
+							borderRadius='lg'
 							bg={index % 2 === 0 ? rowStripeBg : 'transparent'}
-							color={'fg.default'}
-							_dark={{ color: 'fg.default' }}
+							color='fg.default'
 							textAlign={{ base: 'left', md: 'center' }}
 							cursor='pointer'
 							transition='background-color 0.18s ease, transform 0.18s ease'
 							_hover={{
-								bg: rowHoverBg,
+								bg: 'action.primarySubtle',
 								transform: 'translateX(2px)',
 							}}
 						>
@@ -101,7 +95,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 								>
 									<Text
 										fontSize='xs'
-										color={'fg.muted'}
+										color='fg.muted'
 										lineHeight='1.2'
 										whiteSpace='nowrap'
 										overflow='hidden'
@@ -112,9 +106,9 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 									<Badge
 										px={2.5}
 										py={1}
-										borderRadius={'full'}
-										bg={badgeBg}
-										color={badgeColor}
+										borderRadius='full'
+										bg='action.primarySubtle'
+										color='action.primary'
 										fontSize='xs'
 										fontWeight='700'
 										flexShrink={0}
@@ -127,7 +121,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 							<Box display={{ base: 'none', md: 'block' }} minW={0}>
 								<Text
 									fontSize='sm'
-									color={'fg.muted'}
+									color='fg.muted'
 									whiteSpace='nowrap'
 									overflow='hidden'
 									textOverflow='ellipsis'
@@ -140,9 +134,9 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 								<Badge
 									px={3}
 									py={1.5}
-									borderRadius={'full'}
-									bg={badgeBg}
-									color={badgeColor}
+									borderRadius='full'
+									bg='action.primarySubtle'
+									color='action.primary'
 									fontSize='sm'
 									fontWeight='700'
 									minW='fit-content'
@@ -154,6 +148,6 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 					))}
 				</VStack>
 			</Surface>
-		</Surface>
+		</StudentCard>
 	);
 }

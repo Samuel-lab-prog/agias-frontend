@@ -100,13 +100,13 @@ export function TagsInputControl({
 				onValueChange={(details) => onValueChange(details.value)}
 			>
 				<TagsInput.Control
-					bg={'bg.canvas'}
-					color={'fg.default'}
+					bg='bg.canvas'
+					color='fg.default'
 					border='1px solid'
 					borderColor={
 						hasError ? 'status.error' : isFocused ? 'border.interactive' : 'border.default'
 					}
-					borderRadius={'md'}
+					borderRadius='md'
 					px='0.5rem'
 					fontSize='0.8125rem'
 					lineHeight='1.25rem'
@@ -147,11 +147,11 @@ export function TagsInputControl({
 								key={index}
 								index={index}
 								value={tag}
-								bg={'action.primarySubtle'}
-								color={'action.primaryStrong'}
+								bg='action.primarySubtle'
+								color='action.primaryStrong'
 								border='1px solid'
-								borderColor={'border.interactive'}
-								borderRadius={'full'}
+								borderColor='border.interactive'
+								borderRadius='full'
 								animationName='fade-in'
 								animationDuration='180ms'
 								_highlighted={{
@@ -178,7 +178,7 @@ export function TagsInputControl({
 							>
 								<TagsInput.ItemPreview
 									bg='transparent'
-									color={'action.primaryStrong'}
+									color='action.primaryStrong'
 									_highlighted={{
 										color: 'action.primaryStrong',
 									}}
@@ -189,9 +189,9 @@ export function TagsInputControl({
 										},
 									}}
 								>
-									<TagsInput.ItemText color={'action.primaryStrong'}>{tag}</TagsInput.ItemText>
+									<TagsInput.ItemText color='action.primaryStrong'>{tag}</TagsInput.ItemText>
 									<TagsInput.ItemDeleteTrigger
-										color={'action.primary'}
+										color='action.primary'
 										_hover={{ color: 'action.primaryStrong' }}
 										_dark={{
 											color: 'action.primary',
@@ -201,7 +201,7 @@ export function TagsInputControl({
 								</TagsInput.ItemPreview>
 								<TagsInput.ItemInput
 									bg='transparent'
-									color={'action.primaryStrong'}
+									color='action.primaryStrong'
 									_dark={{ color: 'action.primaryStrong' }}
 								/>
 							</TagsInput.Item>
@@ -213,7 +213,7 @@ export function TagsInputControl({
 							limitReached ? 'Limite de tags atingido' : (placeholder ?? 'Adicione uma tag')
 						}
 						bg='transparent'
-						color={'fg.default'}
+						color='fg.default'
 						disabled={disabled || limitReached}
 						maxLength={maxTagLength}
 						_placeholder={{ color: 'fg.muted' }}
@@ -231,7 +231,7 @@ export function TagsInputControl({
 						}}
 					/>
 					<TagsInput.ClearTrigger
-						color={'fg.muted'}
+						color='fg.muted'
 						transition='color 0.2s ease'
 						_hover={{ color: 'fg.default' }}
 						_dark={{
@@ -245,7 +245,7 @@ export function TagsInputControl({
 			<Field.HelperText
 				fontSize='0.8125rem'
 				lineHeight='1.25rem'
-				color={'fg.muted'}
+				color='fg.muted'
 				mt='0.25rem'
 				_dark={{ color: 'fg.muted' }}
 			>

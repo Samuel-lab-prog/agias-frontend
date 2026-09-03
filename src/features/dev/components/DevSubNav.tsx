@@ -23,13 +23,7 @@ export function DevSubNav() {
 			zIndex={5}
 		>
 			<Flex gap={2} wrap='wrap' align='center'>
-				<Text
-					fontSize='sm'
-					fontWeight='semibold'
-					color={'fg.muted'}
-					mr={2}
-					_dark={{ color: 'fg.muted' }}
-				>
+				<Text fontSize='sm' fontWeight='semibold' color='fg.muted' mr={2} _dark={{ color: 'fg.muted' }}>
 					Dev
 				</Text>
 				{devNavItems.map((item) => {
@@ -45,7 +39,7 @@ export function DevSubNav() {
 							borderColor={isActive ? 'action.primary' : 'border.default'}
 							bg={isActive ? 'action.primarySubtle' : 'bg.canvas'}
 							color={isActive ? 'fg.default' : 'fg.muted'}
-							borderRadius={'full'}
+							borderRadius='full'
 							fontSize='sm'
 							fontWeight={isActive ? 'semibold' : 'medium'}
 							transition='all 0.18s ease'

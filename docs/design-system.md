@@ -37,7 +37,8 @@ internal implementation details.
 
 ### Borders and actions
 
-- `border.default`, `border.muted`, `border.interactive`.
+- `border.default` for dividers, `border.surface` for panel outlines, and
+  `border.muted`/`border.interactive` for low-emphasis and interactive borders.
 - `action.primary`, `action.primaryStrong`, `action.primarySubtle`.
 - `action.destructive`.
 - `status.error`, `status.errorSubtle`, `status.warning`.

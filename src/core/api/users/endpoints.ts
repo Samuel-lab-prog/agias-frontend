@@ -27,7 +27,7 @@ const checkNickname = createQueryEndpoint<[string], boolean>({
 const checkEmail = createQueryEndpoint<[string], boolean>({
 	key: userKeys.checkEmail,
 
-	fn: async () => false,
+	fn: () => Promise.resolve(false),
 });
 
 const getUsers = createQueryEndpoint<[UsersSearchParams], UsersPage>({

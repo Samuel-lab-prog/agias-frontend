@@ -253,12 +253,12 @@ export function DevComponentsPage() {
 								maxLength={80}
 								showCharacterCount
 								debounce={280}
-								asyncValidator={async (value) => {
-									if (!value.trim()) return 'Preencha o título.';
+								asyncValidator={(value) => {
+									if (!value.trim()) return Promise.resolve('Preencha o título.');
 									if (value.trim().toLowerCase() === 'hello poetry') {
-										return 'Troque o título para algo único.';
+										return Promise.resolve('Troque o título para algo único.');
 									}
-									return null;
+									return Promise.resolve(null);
 								}}
 								error={
 									manualErrorMode

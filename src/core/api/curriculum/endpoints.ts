@@ -11,7 +11,7 @@ import type {
 
 const getCurriculum = createQueryEndpoint<[], never>({
 	key: curriculumKeys.all,
-	fn: async () => {
+	fn: () => {
 		throw new Error('Curriculum read endpoints are not exposed by the backend yet.');
 	},
 });

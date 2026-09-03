@@ -41,6 +41,7 @@ export const semanticValues = {
 	text: { light: foundations.colors.slate[900], dark: foundations.colors.slate[50] },
 	textMuted: { light: foundations.colors.slate[600], dark: foundations.colors.slate[300] },
 	border: { light: 'rgba(15, 23, 42, 0.08)', dark: 'rgba(148, 163, 184, 0.24)' },
+	surfaceBorder: { light: foundations.colors.slate[200], dark: 'rgba(148, 163, 184, 0.24)' },
 	borderMuted: { light: 'rgba(15, 23, 42, 0.06)', dark: 'rgba(148, 163, 184, 0.16)' },
 	borderInteractive: { light: 'rgba(37, 99, 235, 0.18)', dark: 'rgba(96, 165, 250, 0.32)' },
 	accent: { light: foundations.colors.blue[600], dark: foundations.colors.blue[400] },

@@ -30,7 +30,7 @@ export function NavigationTopBar({
 						<Text
 							fontSize='0.75rem'
 							lineHeight='1rem'
-							color={'fg.muted'}
+							color='fg.muted'
 							display={{ base: 'none', md: 'block' }}
 							_dark={{ color: 'fg.muted' }}
 						>
@@ -48,8 +48,8 @@ export function NavigationTopBar({
 							size='sm'
 							display={{ base: 'inline-flex', xl: 'none' }}
 							onClick={onMenuClick}
-							color={'fg.muted'}
-							borderColor={'border.default'}
+							color='fg.muted'
+							borderColor='border.default'
 							transition={buttonMotion.transition}
 							_hover={{
 								...buttonMotion.hover,

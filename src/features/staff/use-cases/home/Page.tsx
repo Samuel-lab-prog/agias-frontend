@@ -18,7 +18,7 @@ export function StaffHomePage() {
 				<Heading as='h2' fontSize='clamp(1.25rem, 2vw, 1.65rem)' lineHeight='1.2' fontWeight='700'>
 					Você fez login como staff
 				</Heading>
-				<Text fontSize='1rem' lineHeight='1.7rem' color={'fg.muted'} _dark={{ color: 'fg.muted' }}>
+				<Text fontSize='1rem' lineHeight='1.7rem' color='fg.muted' _dark={{ color: 'fg.muted' }}>
 					Esta página está vazia por enquanto.
 				</Text>
 			</Box>

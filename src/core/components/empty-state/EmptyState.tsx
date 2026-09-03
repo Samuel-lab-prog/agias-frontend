@@ -36,7 +36,7 @@ export function EmptyStateCard({
 					<HStack
 						px={3}
 						py={2}
-						borderRadius={'full'}
+						borderRadius='full'
 						bg='bg.muted'
 						border='1px solid'
 						borderColor='bg.interactive'
@@ -46,7 +46,7 @@ export function EmptyStateCard({
 						<Text
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
-							color={'action.primary'}
+							color='action.primary'
 							letterSpacing='0.08em'
 							textTransform='uppercase'
 							_dark={{ color: 'action.primary' }}
@@ -62,18 +62,13 @@ export function EmptyStateCard({
 						fontSize='clamp(1.25rem, 2vw, 1.65rem)'
 						lineHeight='1.2'
 						fontWeight='700'
-						color={'fg.default'}
+						color='fg.default'
 						mb={0}
 						_dark={{ color: 'fg.default' }}
 					>
 						{title}
 					</Heading>
-					<Text
-						fontSize='0.8125rem'
-						lineHeight='1.25rem'
-						color={'fg.muted'}
-						_dark={{ color: 'fg.muted' }}
-					>
+					<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted' _dark={{ color: 'fg.muted' }}>
 						{description}
 					</Text>
 				</VStack>

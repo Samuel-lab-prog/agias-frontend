@@ -10,7 +10,7 @@ export const surfaceVariants = {
 	panel: {
 		...baseStyle,
 		border: '1px solid',
-		borderColor: 'border.default',
+		borderColor: 'border.surface',
 		borderRadius: 'xl',
 		bg: 'bg.surface',
 		backdropFilter: 'blur(8px)',
@@ -36,7 +36,7 @@ export const surfaceVariants = {
 	elevated: {
 		...baseStyle,
 		border: '1px solid',
-		borderColor: 'border.default',
+		borderColor: 'border.surface',
 		borderRadius: 'xl',
 		bg: 'bg.surface',
 		backdropFilter: 'blur(10px)',
@@ -59,7 +59,7 @@ export const surfaceVariants = {
 		px: { base: '0.75rem', md: '1rem' },
 		py: '1rem',
 		border: '1px solid',
-		borderColor: 'border.default',
+		borderColor: 'border.surface',
 		borderRadius: 0,
 		borderTop: 0,
 		bg: 'bg.surface',

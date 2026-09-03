@@ -11,7 +11,7 @@ function HeaderCard() {
 					<Text
 						fontSize='0.875rem'
 						lineHeight='1.4rem'
-						color={'action.primary'}
+						color='action.primary'
 						fontWeight='semibold'
 						letterSpacing='0.08em'
 						_dark={{ color: 'action.primary' }}
@@ -23,7 +23,7 @@ function HeaderCard() {
 						fontSize={{ base: '1.5rem', md: 'clamp(1.8rem, 3.5vw, 3rem)' }}
 						lineHeight={{ base: '1.14', md: '1.08' }}
 						fontWeight='800'
-						color={'action.primary'}
+						color='action.primary'
 						mt={1}
 						_dark={{ color: 'action.primary' }}
 					>
@@ -33,7 +33,7 @@ function HeaderCard() {
 						mt={2}
 						fontSize='0.875rem'
 						lineHeight='1.4rem'
-						color={'fg.muted'}
+						color='fg.muted'
 						_dark={{ color: 'fg.muted' }}
 					>
 						Entre com seu usuário e senha para acessar o sistema.
@@ -70,7 +70,7 @@ function LoginPanel() {
 						mt={1}
 						fontSize='0.875rem'
 						lineHeight='1.4rem'
-						color={'fg.muted'}
+						color='fg.muted'
 						textAlign='center'
 						_dark={{ color: 'fg.muted' }}
 					>
@@ -88,8 +88,8 @@ export function LoginPage() {
 	return (
 		<Flex
 			as='main'
-			bg={'bg.canvas'}
-			color={'fg.default'}
+			bg='bg.canvas'
+			color='fg.default'
 			flex='1'
 			minH='100%'
 			direction='column'

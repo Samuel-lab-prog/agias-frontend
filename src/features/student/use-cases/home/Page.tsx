@@ -32,10 +32,10 @@ export function StudentHomePage() {
 					gap={2}
 					px={2.5}
 					py={1.5}
-					borderRadius={'full'}
+					borderRadius='full'
 					border='1px solid'
-					borderColor={'border.default'}
-					color={'fg.muted'}
+					borderColor='border.default'
+					color='fg.muted'
 					_hover={{
 						bg: 'bg.muted',
 						color: 'action.primary',
@@ -51,7 +51,7 @@ export function StudentHomePage() {
 				>
 					<Box
 						boxSize={7}
-						borderRadius={'full'}
+						borderRadius='full'
 						display='grid'
 						placeItems='center'
 						bg='bg.muted'

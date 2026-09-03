@@ -83,7 +83,7 @@ export const components: Components = {
 			as='strong'
 			fontWeight='700'
 			display='inline'
-			color={'action.primary'}
+			color='action.primary'
 			_dark={{ color: 'action.primary' }}
 		>
 			{children}
@@ -96,13 +96,7 @@ export const components: Components = {
 	),
 
 	mark: ({ children }) => (
-		<Mark
-			as='mark'
-			bg={'action.primarySubtle'}
-			color={'fg.default'}
-			fontSize='1rem'
-			lineHeight='1.7rem'
-		>
+		<Mark as='mark' bg='action.primarySubtle' color='fg.default' fontSize='1rem' lineHeight='1.7rem'>
 			{children}
 		</Mark>
 	),
@@ -126,7 +120,7 @@ export const components: Components = {
 	a: ({ children, href }) => (
 		<Link
 			href={href}
-			color={'fg.muted'}
+			color='fg.muted'
 			textUnderlineOffset='3px'
 			_hover={{
 				color: 'fg.default',
@@ -148,7 +142,7 @@ export const components: Components = {
 			my={4}
 			px={4}
 			py={3}
-			borderRadius={'md'}
+			borderRadius='md'
 			bg='bg.muted'
 			border='1px solid'
 			borderColor='border.default'
@@ -181,9 +175,9 @@ export const components: Components = {
 				lineHeight='1.5rem'
 				px={1.5}
 				py={0.5}
-				borderRadius={'sm'}
+				borderRadius='sm'
 				bg='bg.interactive'
-				color={'fg.muted'}
+				color='fg.muted'
 				_dark={{ color: 'fg.muted' }}
 			>
 				{children}
@@ -197,9 +191,9 @@ export const components: Components = {
 			pl={4}
 			py={1}
 			borderLeft='3px solid'
-			borderColor={'border.interactive'}
+			borderColor='border.interactive'
 			bg='bg.muted'
-			borderRadius={'sm'}
+			borderRadius='sm'
 			fontSize='1rem'
 			lineHeight='1.7rem'
 			fontStyle='italic'
