@@ -28,6 +28,7 @@ export type AcademicActivity = {
 	title: string;
 	description: string | null;
 	dueAt: string | null;
+	allowLateSubmissions?: boolean;
 };
 
 export type AcademicActivitySubmission = {
@@ -75,6 +76,7 @@ export type StudentDashboardActivity = {
 	title: string;
 	description: string | null;
 	dueAt: string | null;
+	allowLateSubmissions?: boolean;
 	createdAt: string;
 };
 

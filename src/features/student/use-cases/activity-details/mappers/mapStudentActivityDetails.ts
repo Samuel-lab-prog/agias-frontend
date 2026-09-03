@@ -26,6 +26,22 @@ export function mapStudentActivityDetails(
 		submitted: 'Entregue',
 		graded: 'Avaliada',
 	}[status];
+	const isOverdue = status === 'overdue' && activity.dueAt !== null;
+	const overdueLabel = isOverdue
+		? (() => {
+				const elapsedMs = Math.max(0, now.getTime() - Date.parse(activity.dueAt!));
+				const totalMinutes = Math.ceil(elapsedMs / (1000 * 60));
+				const days = Math.floor(totalMinutes / (60 * 24));
+				const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+				const minutes = totalMinutes % 60;
+				const parts = [
+					days > 0 ? `${days}d` : null,
+					hours > 0 ? `${hours}h` : null,
+					minutes > 0 ? `${minutes}m` : null,
+				].filter((part): part is string => part !== null);
+				return parts.length > 0 ? `Atrasada há ${parts.join(' ')}` : 'Atrasada há poucos instantes';
+			})()
+		: null;
 	const dateTimeFormatter = new Intl.DateTimeFormat('pt-BR', {
 		day: '2-digit',
 		month: '2-digit',
@@ -45,6 +61,8 @@ export function mapStudentActivityDetails(
 		dueLabel: activity.dueAt
 			? dateTimeFormatter.format(new Date(activity.dueAt))
 			: 'Sem prazo definido',
+		overdueLabel,
+		allowLateSubmissions: activity.allowLateSubmissions !== false,
 		status,
 		statusLabel,
 		submission: submission

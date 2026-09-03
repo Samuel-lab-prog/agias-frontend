@@ -7,6 +7,8 @@ export type StudentActivityDetails = {
 	description: string | null;
 	createdLabel: string;
 	dueLabel: string;
+	overdueLabel: string | null;
+	allowLateSubmissions: boolean;
 	status: 'pending' | 'overdue' | 'submitted' | 'graded';
 	statusLabel: string;
 	submission: {

@@ -201,6 +201,16 @@ export function StudentActivityDetailsPage() {
 										Prazo
 									</Text>
 									<Text fontWeight='medium'>{details.dueLabel}</Text>
+									{details.overdueLabel ? (
+										<Text color='status.error' fontSize='sm' fontWeight='medium'>
+											{details.overdueLabel}
+										</Text>
+									) : null}
+									{details.status === 'overdue' && !details.allowLateSubmissions ? (
+										<Text color='status.error' fontSize='sm'>
+											O prazo foi encerrado e esta atividade não aceita mais envios.
+										</Text>
+									) : null}
 								</Box>
 								{details.submission ? (
 									<>
@@ -276,41 +286,49 @@ export function StudentActivityDetailsPage() {
 										{selectedFiles.length ? (
 											<VStack align='stretch' gap={2}>
 												{selectedFiles.map((file, index) => (
-													<HStack
+													<VStack
 														key={`${file.name}-${file.lastModified}-${index}`}
-														justify='space-between'
-														gap={3}
+														align='stretch'
+														gap={2}
 														p={2.5}
 														borderWidth='1px'
 														borderColor='border.muted'
 														borderRadius='md'
 													>
-														<HStack minW={0} gap={2}>
-															<SelectedFilePreview file={file} />
-															<FileText size={16} />
-															<Box minW={0}>
-																<Text fontSize='sm' fontWeight='medium' truncate>
-																	{file.name}
-																</Text>
-																<Text color='fg.muted' fontSize='xs'>
-																	{file.type || 'Tipo não informado'} · {formatFileSize(file.size)}
-																</Text>
-															</Box>
+														<HStack justify='space-between' gap={3} minW={0}>
+															<HStack minW={0} gap={2}>
+																{!file.type.startsWith('audio/') ? (
+																	<SelectedFilePreview file={file} />
+																) : null}
+																<FileText size={16} />
+																<Box minW={0}>
+																	<Text fontSize='sm' fontWeight='medium' truncate>
+																		{file.name}
+																	</Text>
+																	<Text color='fg.muted' fontSize='xs'>
+																		{file.type || 'Tipo não informado'} ·{' '}
+																		{formatFileSize(file.size)}
+																	</Text>
+																</Box>
+															</HStack>
+															<BaseButton
+																type='button'
+																variant='subtle'
+																size='sm'
+																aria-label={`Remover ${file.name}`}
+																onClick={() =>
+																	setSelectedFiles((current) =>
+																		current.filter((_, fileIndex) => fileIndex !== index),
+																	)
+																}
+															>
+																<X size={14} />
+															</BaseButton>
 														</HStack>
-														<BaseButton
-															type='button'
-															variant='subtle'
-															size='sm'
-															aria-label={`Remover ${file.name}`}
-															onClick={() =>
-																setSelectedFiles((current) =>
-																	current.filter((_, fileIndex) => fileIndex !== index),
-																)
-															}
-														>
-															<X size={14} />
-														</BaseButton>
-													</HStack>
+														{file.type.startsWith('audio/') ? (
+															<SelectedFilePreview file={file} />
+														) : null}
+													</VStack>
 												))}
 											</VStack>
 										) : null}
