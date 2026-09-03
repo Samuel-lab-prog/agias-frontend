@@ -8,7 +8,7 @@ function SectionTitle({ title, description }: { title: string; description: stri
 	return (
 		<Stack gap={1}>
 			<Heading size='md'>{title}</Heading>
-			<Text color='#475569' maxW='2xl'>
+			<Text color='fg.muted' maxW='2xl'>
 				{description}
 			</Text>
 		</Stack>
@@ -29,7 +29,7 @@ function ButtonCard({
 			<Stack gap={3}>
 				<Stack gap={1}>
 					<Heading size='sm'>{title}</Heading>
-					<Text fontSize='sm' color='#475569'>
+					<Text fontSize='sm' color='fg.muted'>
 						{description}
 					</Text>
 				</Stack>
@@ -63,7 +63,7 @@ function ModeSection({
 				<Stack gap={4}>
 					<Stack gap={1}>
 						<Heading size='sm'>{title}</Heading>
-						<Text fontSize='sm' color='#475569'>
+						<Text fontSize='sm' color='fg.muted'>
 							{description}
 						</Text>
 					</Stack>
@@ -79,24 +79,24 @@ function ButtonsGrid() {
 		<Grid gap={4} gridTemplateColumns={{ base: '1fr', md: 'repeat(2, minmax(0, 1fr))' }}>
 			<ButtonCard title='Surface' description='Botão principal com presença forte.'>
 				<Stack direction='row' gap={3} wrap='wrap'>
-					<BaseButton variant='surface'>Principal</BaseButton>
-					<BaseButton variant='surface' disabled>
+					<BaseButton variant='primary'>Principal</BaseButton>
+					<BaseButton variant='primary' disabled>
 						Desabilitado
 					</BaseButton>
 				</Stack>
 			</ButtonCard>
 			<ButtonCard title='Solid Purple' description='Ação importante com identidade azul.'>
 				<Stack direction='row' gap={3} wrap='wrap'>
-					<BaseButton variant='solidPurple'>Salvar</BaseButton>
-					<BaseButton variant='solidPurple' disabled>
+					<BaseButton variant='primary'>Salvar</BaseButton>
+					<BaseButton variant='primary' disabled>
 						Salvar
 					</BaseButton>
 				</Stack>
 			</ButtonCard>
 			<ButtonCard title='Solid Pink' description='Ação de destaque com tom de alerta positivo.'>
 				<Stack direction='row' gap={3} wrap='wrap'>
-					<BaseButton variant='solidPink'>Continuar</BaseButton>
-					<BaseButton variant='solidPink' disabled>
+					<BaseButton variant='primary'>Continuar</BaseButton>
+					<BaseButton variant='primary' disabled>
 						Continuar
 					</BaseButton>
 				</Stack>
@@ -106,8 +106,8 @@ function ButtonsGrid() {
 				description='Ação secundária com borda e contraste mais suave.'
 			>
 				<Stack direction='row' gap={3} wrap='wrap'>
-					<BaseButton variant='outlinePurple'>Cancelar</BaseButton>
-					<BaseButton variant='outlinePurple' disabled>
+					<BaseButton variant='secondary'>Cancelar</BaseButton>
+					<BaseButton variant='secondary' disabled>
 						Cancelar
 					</BaseButton>
 				</Stack>
@@ -117,16 +117,16 @@ function ButtonsGrid() {
 				description='Ação leve, útil para controles menos prioritários.'
 			>
 				<Stack direction='row' gap={3} wrap='wrap'>
-					<BaseButton variant='ghostPink'>Mais opções</BaseButton>
-					<BaseButton variant='ghostPink' disabled>
+					<BaseButton variant='subtle'>Mais opções</BaseButton>
+					<BaseButton variant='subtle' disabled>
 						Mais opções
 					</BaseButton>
 				</Stack>
 			</ButtonCard>
 			<ButtonCard title='Danger' description='Ações destrutivas e de alto risco.'>
 				<Stack direction='row' gap={3} wrap='wrap'>
-					<BaseButton variant='danger'>Excluir</BaseButton>
-					<BaseButton variant='danger' disabled>
+					<BaseButton variant='destructive'>Excluir</BaseButton>
+					<BaseButton variant='destructive' disabled>
 						Excluir
 					</BaseButton>
 				</Stack>
@@ -139,8 +139,8 @@ export function DevButtonsPage() {
 	return (
 		<Flex
 			as='main'
-			bg='#f7f8fa'
-			color='#0f172a'
+			bg='bg.canvas'
+			color='fg.default'
 			minH='100dvh'
 			px={{ base: 4, md: 6 }}
 			py={{ base: 6, md: 10 }}

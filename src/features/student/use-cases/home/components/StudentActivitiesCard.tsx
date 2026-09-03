@@ -3,7 +3,7 @@ import type {
 	StudentDashboardSubmission,
 	StudentEnrollment,
 } from '@Api/academic/types';
-import { BaseButton, componentColors, componentRadii, Surface } from '@BaseComponents';
+import { BaseButton, Surface } from '@BaseComponents';
 import { Badge, Box, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { CalendarDays } from 'lucide-react';
 
@@ -24,16 +24,16 @@ function getActivityStatus(
 		if (isOverdue) {
 			return {
 				label: 'Atrasada',
-				bg: 'rgba(239, 68, 68, 0.16)',
-				color: componentColors.light.error,
+				bg: 'status.errorSubtle',
+				color: 'status.error',
 				description: 'Prazo expirado',
 			};
 		}
 
 		return {
 			label: 'Pendente',
-			bg: 'rgba(234, 179, 8, 0.16)',
-			color: componentColors.light.warning,
+			bg: 'action.primarySubtle',
+			color: 'status.warning',
 			description: 'Ainda não enviada',
 		};
 	}
@@ -41,8 +41,8 @@ function getActivityStatus(
 	if (submission.grade !== null) {
 		return {
 			label: 'Avaliada',
-			bg: 'rgba(34, 197, 94, 0.14)',
-			color: componentColors.light.accent,
+			bg: 'action.primarySubtle',
+			color: 'action.primary',
 			subtitle: submission.submittedAt,
 			description: '',
 		};
@@ -50,8 +50,8 @@ function getActivityStatus(
 
 	return {
 		label: 'Entregue',
-		bg: 'rgba(37, 99, 235, 0.16)',
-		color: componentColors.light.accentStrong,
+		bg: 'action.primarySubtle',
+		color: 'action.primaryStrong',
 		subtitle: submission.submittedAt,
 		description: '',
 	};
@@ -154,12 +154,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 					</Heading>
 				</HStack>
 
-				<BaseButton
-					size='sm'
-					variant='outlinePurple'
-					color={componentColors.light.textMuted}
-					_dark={{ color: componentColors.dark.textMuted }}
-				>
+				<BaseButton size='sm' variant='secondary' color={'fg.muted'} _dark={{ color: 'fg.muted' }}>
 					Ver todas as atividades
 				</BaseButton>
 			</Flex>
@@ -170,8 +165,8 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 						<Text
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
-							color={componentColors.light.textMuted}
-							_dark={{ color: componentColors.dark.textMuted }}
+							color={'fg.muted'}
+							_dark={{ color: 'fg.muted' }}
 						>
 							Nenhuma atividade disponível no momento.
 						</Text>
@@ -191,11 +186,11 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 									align='start'
 									justify='space-between'
 									direction={{ base: 'column', md: 'row' }}
-									borderRadius={componentRadii.lg}
-									bg={index % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'transparent'}
+									borderRadius={'lg'}
+									bg={index % 2 === 0 ? 'bg.muted' : 'transparent'}
 									transition='background-color 0.18s ease, transform 0.18s ease'
 									cursor='pointer'
-									_hover={{ bg: 'rgba(37, 99, 235, 0.08)', transform: 'translateX(2px)' }}
+									_hover={{ bg: 'action.primarySubtle', transform: 'translateX(2px)' }}
 								>
 									<HStack align='start' gap={3} flex='1' minW={0} w='full'>
 										<Box minW={0}>
@@ -205,8 +200,8 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 											<Text
 												fontSize='0.8125rem'
 												lineHeight='1.25rem'
-												color={componentColors.light.textMuted}
-												_dark={{ color: componentColors.dark.textMuted }}
+												color={'fg.muted'}
+												_dark={{ color: 'fg.muted' }}
 											>
 												Postada em {dateFormatter.format(new Date(activity.createdAt))} às{' '}
 												{timeFormatter.format(new Date(activity.createdAt))}
@@ -215,9 +210,9 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 												<Text
 													fontSize='0.8125rem'
 													lineHeight='1.25rem'
-													color={componentColors.light.textMuted}
+													color={'fg.muted'}
 													mt={1}
-													_dark={{ color: componentColors.dark.textMuted }}
+													_dark={{ color: 'fg.muted' }}
 												>
 													Entregar em {dateFormatter.format(new Date(activity.dueAt))} às{' '}
 													{timeFormatter.format(new Date(activity.dueAt))}
@@ -226,9 +221,9 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 												<Text
 													fontSize='0.8125rem'
 													lineHeight='1.25rem'
-													color={componentColors.light.textMuted}
+													color={'fg.muted'}
 													mt={1}
-													_dark={{ color: componentColors.dark.textMuted }}
+													_dark={{ color: 'fg.muted' }}
 												>
 													Sem prazo definido
 												</Text>
@@ -246,7 +241,7 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 										<Badge
 											bg={activityStatus.bg}
 											color={activityStatus.color}
-											borderRadius={componentRadii.full}
+											borderRadius={'full'}
 											px={3}
 											py={1}
 										>
@@ -256,8 +251,8 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 											<Text
 												fontSize='0.8125rem'
 												lineHeight='1.25rem'
-												color={componentColors.light.textMuted}
-												_dark={{ color: componentColors.dark.textMuted }}
+												color={'fg.muted'}
+												_dark={{ color: 'fg.muted' }}
 												textAlign={{ base: 'left', md: 'right' }}
 											>
 												{getTimeRemaining(activity.dueAt) !== 'Atrasada'
@@ -269,8 +264,8 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 											<Text
 												fontSize='0.8125rem'
 												lineHeight='1.25rem'
-												color={componentColors.light.error}
-												_dark={{ color: componentColors.dark.error }}
+												color={'status.error'}
+												_dark={{ color: 'status.error' }}
 												textAlign={{ base: 'left', md: 'right' }}
 											>
 												{getOverdueTime(activity.dueAt)}
@@ -280,8 +275,8 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 											<Text
 												fontSize='0.8125rem'
 												lineHeight='1.25rem'
-												color={componentColors.light.textMuted}
-												_dark={{ color: componentColors.dark.textMuted }}
+												color={'fg.muted'}
+												_dark={{ color: 'fg.muted' }}
 												textAlign={{ base: 'left', md: 'right' }}
 											>
 												{activityStatus.label === 'Avaliada' ? 'Avaliada em' : 'Entregue em'}{' '}

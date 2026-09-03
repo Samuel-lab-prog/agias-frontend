@@ -118,3 +118,8 @@ fix: resolve login issue on Safari
 - This repository contains **only the frontend** of the application.
 - The backend is maintained in a **separate repository**.
 - Contributions, suggestions, and improvements are welcome.
+
+# Ágias frontend
+
+The visual architecture, token, component, and interface evolution guidelines are documented in
+[docs/design-system.md](./docs/design-system.md).

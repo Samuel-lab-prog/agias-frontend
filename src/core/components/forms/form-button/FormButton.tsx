@@ -1,8 +1,9 @@
 import { type ButtonProps } from '@chakra-ui/react';
 
-import { BaseButton } from '../../Button';
+import { BaseButton, type BaseButtonVariant } from '../../Button';
 
-interface FormButtonProps extends ButtonProps {
+interface FormButtonProps extends Omit<ButtonProps, 'variant'> {
+	variant?: BaseButtonVariant;
 	isValid?: boolean;
 	loading?: boolean;
 }
@@ -11,7 +12,7 @@ export function FormButton({
 	isValid = true,
 	loading,
 	children,
-	variant = 'solidPink',
+	variant = 'primary',
 	...props
 }: FormButtonProps) {
 	const loadingAriaLabel = loading && typeof children === 'string' ? children : undefined;

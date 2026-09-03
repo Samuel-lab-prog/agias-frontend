@@ -2,9 +2,16 @@ import { Button as ChakraButton, type ButtonProps } from '@chakra-ui/react';
 import { forwardRef } from 'react';
 
 import { hoverLift, hoverSubtle } from '../utils/interaction';
-import { componentColors, componentRadii } from './localStyles';
 
-export type BaseButtonProps = ButtonProps & {
+export type BaseButtonVariant =
+	| 'primary'
+	| 'secondary'
+	| 'subtle'
+	| 'destructive'
+	| ButtonProps['variant'];
+
+export type BaseButtonProps = Omit<ButtonProps, 'variant'> & {
+	variant?: BaseButtonVariant;
 	loading?: boolean;
 	fullWidth?: boolean;
 };
@@ -13,155 +20,123 @@ const liftMotion = hoverLift();
 const subtleMotion = hoverSubtle();
 
 const localButtonVariants = {
-	surface: {
-		color: '#ffffff',
-		borderColor: '#172554',
-		background: 'linear-gradient(135deg, #172554, #1e40af)',
-		boxShadow: '0 4px 14px rgba(3, 105, 161, 0.22)',
+	primary: {
+		color: 'fg.inverted',
+		borderColor: 'action.primary',
+		bg: 'action.primary',
+		boxShadow: 'floating',
 		_hover: {
 			...liftMotion.hover,
-			background: 'linear-gradient(135deg, #1e3a8a, #1d4ed8)',
-			boxShadow: '0 8px 24px rgba(37, 99, 235, 0.28)',
+			bg: 'action.primaryStrong',
+			boxShadow: 'floating',
 		},
 		_active: {
 			...liftMotion.active,
-			background: 'linear-gradient(135deg, #172554, #1e3a8a)',
-			boxShadow: '0 2px 10px rgba(37, 99, 235, 0.32)',
+			bg: 'action.primary',
+			boxShadow: 'surface',
 		},
 	},
-	solidPurple: {
-		bg: componentColors.light.accent,
-		color: '#ffffff',
-		borderColor: componentColors.light.accent,
-		boxShadow: '0 4px 14px rgba(37, 99, 235, 0.24)',
-		_hover: {
-			...liftMotion.hover,
-			bg: '#1d4ed8',
-			boxShadow: '0 8px 20px rgba(37, 99, 235, 0.3)',
-		},
-		_active: {
-			...liftMotion.active,
-			bg: '#1e40af',
-			boxShadow: '0 2px 10px rgba(37, 99, 235, 0.34)',
-		},
-	},
-	solidPink: {
-		bg: componentColors.light.error,
-		color: '#ffffff',
-		borderColor: componentColors.light.error,
-		boxShadow: '0 4px 14px rgba(225, 29, 72, 0.22)',
-		_hover: {
-			...liftMotion.hover,
-			bg: '#f43f5e',
-			boxShadow: '0 8px 20px rgba(225, 29, 72, 0.28)',
-		},
-		_active: {
-			...liftMotion.active,
-			bg: '#be123c',
-			boxShadow: '0 2px 10px rgba(225, 29, 72, 0.32)',
-		},
-	},
-	outlinePurple: {
+	secondary: {
 		bg: 'transparent',
-		color: componentColors.light.text,
-		borderColor: componentColors.light.border,
+		color: 'fg.default',
+		borderColor: 'border.default',
 		_disabled: {
-			color: componentColors.light.textMuted,
-			borderColor: componentColors.light.border,
+			color: 'fg.muted',
+			borderColor: 'border.default',
 			bg: 'transparent',
 		},
 		_hover: {
 			...subtleMotion.hover,
-			bg: componentColors.light.surface,
-			color: componentColors.light.text,
-			borderColor: componentColors.light.borderHover,
+			bg: 'bg.surface',
+			color: 'fg.default',
+			borderColor: 'border.interactive',
 		},
 		_active: {
 			...subtleMotion.active,
-			bg: componentColors.light.surface,
+			bg: 'bg.surface',
 		},
 		_dark: {
-			color: componentColors.dark.text,
-			borderColor: componentColors.dark.border,
+			color: 'fg.default',
+			borderColor: 'border.default',
 			_disabled: {
-				color: componentColors.dark.textMuted,
-				borderColor: componentColors.dark.border,
+				color: 'fg.muted',
+				borderColor: 'border.default',
 				bg: 'transparent',
 			},
 			_hover: {
-				bg: componentColors.dark.surface,
-				color: componentColors.dark.text,
-				borderColor: componentColors.dark.borderHover,
+				bg: 'bg.surface',
+				color: 'fg.default',
+				borderColor: 'border.interactive',
 			},
 			_active: {
-				bg: componentColors.dark.surface,
+				bg: 'bg.surface',
 			},
 		},
 	},
-	ghostPink: {
+	subtle: {
 		bg: 'transparent',
-		color: componentColors.light.text,
+		color: 'fg.default',
 		borderColor: 'transparent',
 		_disabled: {
-			color: componentColors.light.textMuted,
+			color: 'fg.muted',
 			bg: 'transparent',
 			borderColor: 'transparent',
 		},
 		_hover: {
 			...subtleMotion.hover,
-			bg: componentColors.light.surface,
-			color: componentColors.light.text,
-			borderColor: componentColors.light.border,
+			bg: 'bg.surface',
+			color: 'fg.default',
+			borderColor: 'border.default',
 		},
 		_active: {
 			...subtleMotion.active,
-			bg: componentColors.light.surface,
+			bg: 'bg.surface',
 		},
 		_dark: {
-			color: componentColors.dark.text,
+			color: 'fg.default',
 			_disabled: {
-				color: componentColors.dark.textMuted,
+				color: 'fg.muted',
 				bg: 'transparent',
 				borderColor: 'transparent',
 			},
 			_hover: {
-				bg: componentColors.dark.surface,
-				color: componentColors.dark.text,
-				borderColor: componentColors.dark.border,
+				bg: 'bg.surface',
+				color: 'fg.default',
+				borderColor: 'border.default',
 			},
 			_active: {
-				bg: componentColors.dark.surface,
+				bg: 'bg.surface',
 			},
 		},
 	},
-	danger: {
-		bg: '#ef4444',
-		color: '#ffffff',
-		borderColor: '#ef4444',
-		boxShadow: '0 4px 14px rgba(239, 68, 68, 0.25)',
+	destructive: {
+		bg: 'action.destructive',
+		color: 'fg.inverted',
+		borderColor: 'action.destructive',
+		boxShadow: 'floating',
 		_hover: {
 			...liftMotion.hover,
-			bg: '#f87171',
-			boxShadow: '0 8px 20px rgba(239, 68, 68, 0.32)',
+			filter: 'brightness(1.08)',
+			boxShadow: 'floating',
 		},
 		_active: {
 			...liftMotion.active,
-			bg: '#ef4444',
+			bg: 'action.destructive',
 			filter: 'brightness(0.92)',
-			boxShadow: '0 2px 10px rgba(239, 68, 68, 0.3)',
+			boxShadow: 'surface',
 		},
 	},
 } as const;
 
 type LocalButtonVariant = keyof typeof localButtonVariants;
 
-const isLocalButtonVariant = (variant: ButtonProps['variant']): variant is LocalButtonVariant =>
+const isLocalButtonVariant = (variant: unknown): variant is LocalButtonVariant =>
 	typeof variant === 'string' && variant in localButtonVariants;
 
 export const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
-	({ loading, fullWidth, w, variant = 'surface', ...props }, ref) => {
-		const localStyles = isLocalButtonVariant(variant) ? localButtonVariants[variant] : undefined;
-		const chakraVariant = localStyles ? undefined : variant;
+	({ loading, fullWidth, w, variant = 'primary', ...props }, ref) => {
+		const variantStyles = isLocalButtonVariant(variant) ? localButtonVariants[variant] : undefined;
+		const chakraVariant = variantStyles ? undefined : (variant as ButtonProps['variant']);
 
 		return (
 			<ChakraButton
@@ -173,7 +148,7 @@ export const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
 				justifyContent='center'
 				gap='0.5rem'
 				fontWeight='semibold'
-				borderRadius={componentRadii.md}
+				borderRadius={'md'}
 				border='1px solid transparent'
 				userSelect='none'
 				transform='translateY(0)'
@@ -188,7 +163,7 @@ export const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
 					filter: 'saturate(0.92)',
 				}}
 				variant={chakraVariant}
-				{...localStyles}
+				{...variantStyles}
 				{...props}
 			/>
 		);

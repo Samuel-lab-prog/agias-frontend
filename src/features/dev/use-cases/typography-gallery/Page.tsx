@@ -1,5 +1,6 @@
-import { componentTypography, Surface } from '@BaseComponents';
+import { Surface } from '@BaseComponents';
 import { Box, Flex, Grid, Heading, Stack, Text } from '@chakra-ui/react';
+import { typographyStyles } from '@themes/typography';
 
 import { DevSubNav } from '../../components/DevSubNav';
 
@@ -7,7 +8,7 @@ type TypographyToken = {
 	name: string;
 	description: string;
 	sample: string;
-	previewStyle: keyof typeof componentTypography;
+	previewStyle: keyof typeof typographyStyles;
 	spec: string;
 };
 
@@ -15,7 +16,7 @@ function SectionTitle({ title, description }: { title: string; description: stri
 	return (
 		<Stack gap={1}>
 			<Heading size='md'>{title}</Heading>
-			<Text color='#475569' maxW='2xl'>
+			<Text color='fg.muted' maxW='2xl'>
 				{description}
 			</Text>
 		</Stack>
@@ -28,10 +29,10 @@ function TypographyCard({ token }: { token: TypographyToken }) {
 			<Stack gap={3}>
 				<Stack gap={1.5}>
 					<Heading size='sm'>{token.name}</Heading>
-					<Text fontSize='sm' color='#475569'>
+					<Text fontSize='sm' color='fg.muted'>
 						{token.description}
 					</Text>
-					<Text fontSize='xs' color='#475569'>
+					<Text fontSize='xs' color='fg.muted'>
 						{token.spec}
 					</Text>
 				</Stack>
@@ -39,12 +40,12 @@ function TypographyCard({ token }: { token: TypographyToken }) {
 					p={{ base: 4, md: 5 }}
 					borderRadius='xl'
 					border='1px solid'
-					borderColor='rgba(15, 23, 42, 0.08)'
-					bg='#ffffff'
+					borderColor='border.default'
+					bg='bg.surface'
 				>
 					<Text
-						{...componentTypography[token.previewStyle]}
-						color='#0f172a'
+						{...typographyStyles[token.previewStyle]}
+						color='fg.default'
 						display='block'
 						minH='3em'
 					>
@@ -147,8 +148,8 @@ export function DevTypographyPage() {
 	return (
 		<Flex
 			as='main'
-			bg='#f7f8fa'
-			color='#0f172a'
+			bg='bg.canvas'
+			color='fg.default'
 			minH='100dvh'
 			px={{ base: 4, md: 6 }}
 			py={{ base: 6, md: 10 }}

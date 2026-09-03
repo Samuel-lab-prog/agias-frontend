@@ -2,7 +2,6 @@ import { Box, Field, Flex, Input, Stack, Text } from '@chakra-ui/react';
 import { Controller, type FieldError, type FieldValues, type Path } from 'react-hook-form';
 
 import { hoverSubtle } from '../../../utils/interaction';
-import { componentColors, componentRadii } from '../../localStyles';
 
 const subtleMotion = hoverSubtle();
 
@@ -65,10 +64,10 @@ export function ColorField<T extends FieldValues>({
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
 							fontWeight='medium'
-							color={hasError ? componentColors.light.error : componentColors.light.text}
+							color={hasError ? 'status.error' : 'fg.default'}
 							transition={subtleMotion.transition}
 							_dark={{
-								color: hasError ? componentColors.dark.error : componentColors.dark.text,
+								color: hasError ? 'status.error' : 'fg.default',
 							}}
 						>
 							{label}
@@ -83,13 +82,11 @@ export function ColorField<T extends FieldValues>({
 									flexShrink={0}
 									w='44px'
 									h='44px'
-									borderRadius={componentRadii.md}
+									borderRadius={'md'}
 									border='1px solid'
-									borderColor={
-										hasError ? componentColors.light.error : componentColors.light.border
-									}
+									borderColor={hasError ? 'status.error' : 'border.default'}
 									bg={swatchValue}
-									boxShadow={`inset 0 0 0 1px ${componentColors.light.background}`}
+									boxShadow={`inset 0 0 0 1px ${'bg.canvas'}`}
 									cursor={disabled ? 'not-allowed' : 'pointer'}
 									overflow='hidden'
 									transition={subtleMotion.transition}
@@ -98,22 +95,16 @@ export function ColorField<T extends FieldValues>({
 											? undefined
 											: {
 													...subtleMotion.hover,
-													borderColor: hasError
-														? componentColors.light.error
-														: componentColors.light.borderHover,
+													borderColor: hasError ? 'status.error' : 'border.interactive',
 												}
 									}
 									_dark={{
-										borderColor: hasError
-											? componentColors.dark.error
-											: componentColors.dark.border,
-										boxShadow: `inset 0 0 0 1px ${componentColors.dark.background}`,
+										borderColor: hasError ? 'status.error' : 'border.default',
+										boxShadow: `inset 0 0 0 1px ${'bg.canvas'}`,
 										_hover: disabled
 											? undefined
 											: {
-													borderColor: hasError
-														? componentColors.dark.error
-														: componentColors.dark.borderHover,
+													borderColor: hasError ? 'status.error' : 'border.interactive',
 												},
 									}}
 								>
@@ -143,53 +134,37 @@ export function ColorField<T extends FieldValues>({
 									placeholder={allowAlpha ? '#RRGGBBAA' : '#RRGGBB'}
 									fontSize='0.8125rem'
 									lineHeight='1.25rem'
-									bg={componentColors.light.background}
+									bg={'bg.canvas'}
 									border='1px solid'
-									borderColor={
-										hasError ? componentColors.light.error : componentColors.light.border
-									}
-									borderRadius={componentRadii.md}
-									color={componentColors.light.text}
+									borderColor={hasError ? 'status.error' : 'border.default'}
+									borderRadius={'md'}
+									color={'fg.default'}
 									px='0.75rem'
 									py='0.5rem'
 									transition={subtleMotion.transition}
 									_hover={{
 										...subtleMotion.hover,
-										borderColor: hasError
-											? componentColors.light.error
-											: componentColors.light.borderHover,
-										bg: componentColors.light.surface,
+										borderColor: hasError ? 'status.error' : 'border.interactive',
+										bg: 'bg.surface',
 									}}
 									_focusVisible={{
 										...subtleMotion.focusVisible,
-										borderColor: hasError
-											? componentColors.light.error
-											: componentColors.light.borderHover,
-										boxShadow: `0 0 0 3px ${
-											hasError ? componentColors.light.errorSoft : componentColors.light.focusRing
-										}`,
-										bg: componentColors.light.surface,
+										borderColor: hasError ? 'status.error' : 'border.interactive',
+										boxShadow: `0 0 0 3px ${hasError ? 'status.errorSubtle' : 'focus.ring'}`,
+										bg: 'bg.surface',
 									}}
 									_dark={{
-										bg: componentColors.dark.background,
-										borderColor: hasError
-											? componentColors.dark.error
-											: componentColors.dark.border,
-										color: componentColors.dark.text,
+										bg: 'bg.canvas',
+										borderColor: hasError ? 'status.error' : 'border.default',
+										color: 'fg.default',
 										_hover: {
-											borderColor: hasError
-												? componentColors.dark.error
-												: componentColors.dark.borderHover,
-											bg: componentColors.dark.surface,
+											borderColor: hasError ? 'status.error' : 'border.interactive',
+											bg: 'bg.surface',
 										},
 										_focusVisible: {
-											borderColor: hasError
-												? componentColors.dark.error
-												: componentColors.dark.borderHover,
-											boxShadow: `0 0 0 3px ${
-												hasError ? componentColors.dark.errorSoft : componentColors.dark.focusRing
-											}`,
-											bg: componentColors.dark.surface,
+											borderColor: hasError ? 'status.error' : 'border.interactive',
+											boxShadow: `0 0 0 3px ${hasError ? 'status.errorSubtle' : 'focus.ring'}`,
+											bg: 'bg.surface',
 										},
 									}}
 								/>
@@ -199,8 +174,8 @@ export function ColorField<T extends FieldValues>({
 								<Text
 									fontSize='0.8125rem'
 									lineHeight='1.25rem'
-									color={componentColors.light.textMuted}
-									_dark={{ color: componentColors.dark.textMuted }}
+									color={'fg.muted'}
+									_dark={{ color: 'fg.muted' }}
 								>
 									{helperText}
 								</Text>
@@ -212,8 +187,8 @@ export function ColorField<T extends FieldValues>({
 								transition='grid-template-rows 0.24s ease'
 							>
 								<Field.ErrorText
-									color={componentColors.light.error}
-									_dark={{ color: componentColors.dark.error }}
+									color={'status.error'}
+									_dark={{ color: 'status.error' }}
 									opacity={resolvedErrorMessage ? 1 : 0}
 									transform={resolvedErrorMessage ? 'translateY(0)' : 'translateY(-3px)'}
 									overflow='hidden'

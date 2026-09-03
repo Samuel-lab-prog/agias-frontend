@@ -1,4 +1,4 @@
-import { BaseButton, componentColors } from '@BaseComponents';
+import { BaseButton } from '@BaseComponents';
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import {
 	getAccessDeniedMessage,
@@ -268,11 +268,11 @@ export function ErrorPage() {
 			px={6}
 			py={20}
 			textAlign='center'
-			bg={componentColors.light.background}
-			color={componentColors.light.text}
+			bg={'bg.canvas'}
+			color={'fg.default'}
 			_dark={{
-				bg: componentColors.dark.background,
-				color: componentColors.dark.text,
+				bg: 'bg.canvas',
+				color: 'fg.default',
 			}}
 		>
 			<Box maxW='md'>
@@ -299,8 +299,8 @@ export function ErrorPage() {
 						fontSize='0.8125rem'
 						lineHeight='1.25rem'
 						mt={2}
-						color={componentColors.light.textMuted}
-						_dark={{ color: componentColors.dark.textMuted }}
+						color={'fg.muted'}
+						_dark={{ color: 'fg.muted' }}
 					>
 						Erro {info.status}
 						{info.code ? ` (${info.code})` : ''}
@@ -308,7 +308,7 @@ export function ErrorPage() {
 				)}
 
 				<Box mt={6}>
-					<BaseButton asChild variant='solidPink'>
+					<BaseButton asChild variant='primary'>
 						<NavLink
 							to={info.recoveryTo}
 							onClick={() => {

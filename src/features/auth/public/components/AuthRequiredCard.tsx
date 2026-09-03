@@ -22,7 +22,7 @@ export function AuthRequiredCard({
 			description={description}
 			action={
 				<HStack gap={3} wrap='wrap' w='full'>
-					<BaseButton size='sm' variant='solidPink' w={{ base: 'full', md: 'auto' }} asChild>
+					<BaseButton size='sm' variant='primary' w={{ base: 'full', md: 'auto' }} asChild>
 						<NavLink to='/login'>
 							<HStack gap={2}>
 								<Icon as={LogIn} boxSize={3.5} />

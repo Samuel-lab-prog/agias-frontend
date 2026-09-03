@@ -1,4 +1,4 @@
-import { componentRadii, ErrorStateCard } from '@BaseComponents';
+import { ErrorStateCard } from '@BaseComponents';
 import { Badge, Box, Flex, Grid, Text } from '@chakra-ui/react';
 import { useEnsureRole } from '@features/auth/public';
 import { StaffProfileAccessGate } from '@features/staff/public/components/StaffProfileAccessGate';
@@ -16,8 +16,8 @@ export function StaffMyProfilePage() {
 	return (
 		<Flex
 			as='main'
-			bg='linear-gradient(180deg, #020617, #0f172a)'
-			color='#f8fafc'
+			bg='bg.canvas'
+			color='fg.default'
 			direction='column'
 			gap={6}
 			maxW='4xl'
@@ -26,19 +26,19 @@ export function StaffMyProfilePage() {
 		>
 			<Box
 				p={6}
-				borderRadius={componentRadii.xl}
+				borderRadius={'xl'}
 				border='1px solid'
-				borderColor='rgba(255, 255, 255, 0.18)'
-				bg='linear-gradient(135deg, rgba(19, 26, 48, 0.98), rgba(10, 10, 16, 0.98))'
+				borderColor='border.default'
+				bg='bg.surface'
 			>
 				<Box mb={4}>
-					<Badge bg='rgba(34, 211, 238, 0.14)' color='#67e8f9' mb={3}>
+					<Badge bg='action.primarySubtle' color='action.primary' mb={3}>
 						Feature staff
 					</Badge>
 					<Text fontSize={{ base: '2xl', md: '3xl' }} fontWeight='bold'>
 						Perfil de staff
 					</Text>
-					<Text fontSize='0.875rem' lineHeight='1.4rem' color='rgba(255, 255, 255, 0.72)' mt={2}>
+					<Text fontSize='0.875rem' lineHeight='1.4rem' color='fg.muted' mt={2}>
 						Base inicial para páginas e ações de staff.
 					</Text>
 				</Box>
@@ -57,18 +57,13 @@ export function StaffMyProfilePage() {
 					<Grid templateColumns={{ base: '1fr', md: 'repeat(3, minmax(0, 1fr))' }} gap={4}>
 						<Box
 							p={4}
-							borderRadius={componentRadii.xl}
+							borderRadius={'xl'}
 							border='1px solid'
-							borderColor='rgba(255, 255, 255, 0.18)'
-							bg='rgba(0, 0, 0, 0.24)'
+							borderColor='border.default'
+							bg='bg.muted'
 						>
 							<BadgeInfo size={18} />
-							<Text
-								fontSize='0.875rem'
-								lineHeight='1.4rem'
-								mt={2}
-								color='rgba(255, 255, 255, 0.72)'
-							>
+							<Text fontSize='0.875rem' lineHeight='1.4rem' mt={2} color='fg.muted'>
 								ID do perfil
 							</Text>
 							<Text fontSize='2xl' fontWeight='bold'>
@@ -78,18 +73,13 @@ export function StaffMyProfilePage() {
 
 						<Box
 							p={4}
-							borderRadius={componentRadii.xl}
+							borderRadius={'xl'}
 							border='1px solid'
-							borderColor='rgba(255, 255, 255, 0.18)'
-							bg='rgba(0, 0, 0, 0.24)'
+							borderColor='border.default'
+							bg='bg.muted'
 						>
 							<ShieldCheck size={18} />
-							<Text
-								fontSize='0.875rem'
-								lineHeight='1.4rem'
-								mt={2}
-								color='rgba(255, 255, 255, 0.72)'
-							>
+							<Text fontSize='0.875rem' lineHeight='1.4rem' mt={2} color='fg.muted'>
 								ID do usuário
 							</Text>
 							<Text fontSize='2xl' fontWeight='bold'>
@@ -99,18 +89,13 @@ export function StaffMyProfilePage() {
 
 						<Box
 							p={4}
-							borderRadius={componentRadii.xl}
+							borderRadius={'xl'}
 							border='1px solid'
-							borderColor='rgba(255, 255, 255, 0.18)'
-							bg='rgba(0, 0, 0, 0.24)'
+							borderColor='border.default'
+							bg='bg.muted'
 						>
 							<Building2 size={18} />
-							<Text
-								fontSize='0.875rem'
-								lineHeight='1.4rem'
-								mt={2}
-								color='rgba(255, 255, 255, 0.72)'
-							>
+							<Text fontSize='0.875rem' lineHeight='1.4rem' mt={2} color='fg.muted'>
 								Departamento
 							</Text>
 							<Text fontSize='2xl' fontWeight='bold'>

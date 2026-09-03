@@ -2,7 +2,6 @@ import { Box, type BoxProps, Text, VStack } from '@chakra-ui/react';
 import type { ReactNode } from 'react';
 
 import { BaseButton } from '../Button';
-import { componentColors } from '../localStyles';
 import { stateCardSurfaceStyles } from '../state-card/surfaceStyles';
 
 type ErrorStateCardProps = Omit<BoxProps, 'title'> & {
@@ -28,7 +27,7 @@ export function ErrorStateCard({
 	const renderedAction =
 		action ??
 		(onAction ? (
-			<BaseButton size='sm' variant='solidPink' onClick={onAction}>
+			<BaseButton size='sm' variant='primary' onClick={onAction}>
 				{actionLabel}
 			</BaseButton>
 		) : null);
@@ -39,25 +38,25 @@ export function ErrorStateCard({
 				<Text
 					fontSize='sm'
 					fontWeight='bold'
-					color={componentColors.light.accent}
+					color={'action.primary'}
 					letterSpacing='0.06em'
-					_dark={{ color: componentColors.dark.accent }}
+					_dark={{ color: 'action.primary' }}
 				>
 					{eyebrow}
 				</Text>
 				<Text
 					fontSize={{ base: 'lg', md: 'xl' }}
 					fontWeight='semibold'
-					color={componentColors.light.text}
-					_dark={{ color: componentColors.dark.text }}
+					color={'fg.default'}
+					_dark={{ color: 'fg.default' }}
 				>
 					{title}
 				</Text>
 				<Text
 					fontSize='0.875rem'
 					lineHeight='1.4rem'
-					color={componentColors.light.textMuted}
-					_dark={{ color: componentColors.dark.textMuted }}
+					color={'fg.muted'}
+					_dark={{ color: 'fg.muted' }}
 				>
 					{description}
 				</Text>

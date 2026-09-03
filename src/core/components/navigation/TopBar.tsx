@@ -4,7 +4,6 @@ import { Menu } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 import { hoverSubtle } from '../../utils/interaction';
-import { componentColors } from '../localStyles';
 
 type NavigationTopBarProps = {
 	title?: string;
@@ -31,9 +30,9 @@ export function NavigationTopBar({
 						<Text
 							fontSize='0.75rem'
 							lineHeight='1rem'
-							color={componentColors.light.textMuted}
+							color={'fg.muted'}
 							display={{ base: 'none', md: 'block' }}
-							_dark={{ color: componentColors.dark.textMuted }}
+							_dark={{ color: 'fg.muted' }}
 						>
 							{subtitle}
 						</Text>
@@ -49,22 +48,22 @@ export function NavigationTopBar({
 							size='sm'
 							display={{ base: 'inline-flex', xl: 'none' }}
 							onClick={onMenuClick}
-							color={componentColors.light.textMuted}
-							borderColor={componentColors.light.border}
+							color={'fg.muted'}
+							borderColor={'border.default'}
 							transition={buttonMotion.transition}
 							_hover={{
 								...buttonMotion.hover,
-								borderColor: componentColors.light.borderHover,
-								color: componentColors.light.text,
+								borderColor: 'border.interactive',
+								color: 'fg.default',
 							}}
 							_active={buttonMotion.active}
 							_focusVisible={buttonMotion.focusVisible}
 							_dark={{
-								color: componentColors.dark.textMuted,
-								borderColor: componentColors.dark.border,
+								color: 'fg.muted',
+								borderColor: 'border.default',
 								_hover: {
-									borderColor: componentColors.dark.borderHover,
-									color: componentColors.dark.text,
+									borderColor: 'border.interactive',
+									color: 'fg.default',
 								},
 							}}
 						>

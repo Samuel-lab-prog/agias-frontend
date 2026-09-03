@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { ButtonProps } from '@chakra-ui/react';
 import type { ComponentProps, ReactNode } from 'react';
 import type {
 	Control,
@@ -10,6 +9,7 @@ import type {
 	UseFormSetError,
 } from 'react-hook-form';
 
+import type { BaseButtonVariant } from '../../Button';
 import { FormCard } from '../styles/FormCardSurface';
 
 export type FieldType = 'text' | 'password' | 'textarea';
@@ -141,7 +141,7 @@ export interface DynamicFormProps<T extends FieldValues> {
 	generalError?: string;
 	onSubmit: SubmitHandler<T>;
 	buttonLabel: string;
-	buttonVariant?: ButtonProps['variant'];
+	buttonVariant?: BaseButtonVariant;
 	setError?: UseFormSetError<T>;
 	clearErrors?: UseFormClearErrors<T>;
 	handleSubmitFn: (fn: SubmitHandler<T>) => (e?: React.BaseSyntheticEvent) => Promise<void>;

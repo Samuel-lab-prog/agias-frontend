@@ -1,5 +1,5 @@
 import type { StudentProfile } from '@Api/academic/types';
-import { componentColors, Surface } from '@BaseComponents';
+import { Surface } from '@BaseComponents';
 import { Flex, Heading, Text, VStack } from '@chakra-ui/react';
 import { translateBackendStatus } from '@core/utils/backend-labels';
 
@@ -40,8 +40,8 @@ export function StudentInstitutionCard({
 						<Text
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
-							color={componentColors.light.textMuted}
-							_dark={{ color: componentColors.dark.textMuted }}
+							color={'fg.muted'}
+							_dark={{ color: 'fg.muted' }}
 						>
 							{label}
 						</Text>

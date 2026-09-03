@@ -1,4 +1,4 @@
-import { componentColors, componentRadii, Surface } from '@BaseComponents';
+import { Surface } from '@BaseComponents';
 import { Flex, Text } from '@chakra-ui/react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -26,9 +26,9 @@ export function DevSubNav() {
 				<Text
 					fontSize='sm'
 					fontWeight='semibold'
-					color={componentColors.light.textMuted}
+					color={'fg.muted'}
 					mr={2}
-					_dark={{ color: componentColors.dark.textMuted }}
+					_dark={{ color: 'fg.muted' }}
 				>
 					Dev
 				</Text>
@@ -42,34 +42,34 @@ export function DevSubNav() {
 							px={3}
 							py={2}
 							border='1px solid'
-							borderColor={isActive ? componentColors.light.accent : componentColors.light.border}
-							bg={isActive ? componentColors.light.accentSoft : componentColors.light.background}
-							color={isActive ? componentColors.light.text : componentColors.light.textMuted}
-							borderRadius={componentRadii.full}
+							borderColor={isActive ? 'action.primary' : 'border.default'}
+							bg={isActive ? 'action.primarySubtle' : 'bg.canvas'}
+							color={isActive ? 'fg.default' : 'fg.muted'}
+							borderRadius={'full'}
 							fontSize='sm'
 							fontWeight={isActive ? 'semibold' : 'medium'}
 							transition='all 0.18s ease'
 							_hover={{
-								borderColor: componentColors.light.accent,
-								bg: componentColors.light.surface,
-								color: componentColors.light.text,
+								borderColor: 'action.primary',
+								bg: 'bg.surface',
+								color: 'fg.default',
 								transform: 'translateY(-1px)',
 							}}
 							_focusVisible={{
 								outline: 'none',
-								boxShadow: `0 0 0 4px ${componentColors.light.focusRing}`,
+								boxShadow: '0 0 0 4px token(colors.focus.ring)',
 							}}
 							_dark={{
-								borderColor: isActive ? componentColors.dark.accent : componentColors.dark.border,
-								bg: isActive ? componentColors.dark.accentSoft : componentColors.dark.background,
-								color: isActive ? componentColors.dark.text : componentColors.dark.textMuted,
+								borderColor: isActive ? 'action.primary' : 'border.default',
+								bg: isActive ? 'action.primarySubtle' : 'bg.canvas',
+								color: isActive ? 'fg.default' : 'fg.muted',
 								_hover: {
-									borderColor: componentColors.dark.accent,
-									bg: componentColors.dark.surface,
-									color: componentColors.dark.text,
+									borderColor: 'action.primary',
+									bg: 'bg.surface',
+									color: 'fg.default',
 								},
 								_focusVisible: {
-									boxShadow: `0 0 0 4px ${componentColors.dark.focusRing}`,
+									boxShadow: '0 0 0 4px token(colors.focus.ring)',
 								},
 							}}
 						>

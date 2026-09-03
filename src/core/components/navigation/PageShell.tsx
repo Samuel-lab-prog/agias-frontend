@@ -1,7 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 
-import { componentColors } from '../localStyles';
 import { NavigationSidebar } from './Sidebar';
 import { NavigationTopBar } from './TopBar';
 import type { NavigationPreset } from './types';
@@ -16,13 +15,13 @@ type NavigationPageShellProps = {
 export function NavigationPageShell({
 	preset,
 	children,
-	sidebarWidth = '312px',
+	sidebarWidth = 'sizes.sidebar',
 	rightContent,
 }: NavigationPageShellProps) {
 	const [mobileNavOpen, setMobileNavOpen] = useState(false);
 	const [mobileNavHeight, setMobileNavHeight] = useState(0);
 	const mobileNavRef = useRef<HTMLDivElement | null>(null);
-	const topBarHeight = '65px';
+	const topBarHeight = 'sizes.topBar';
 
 	useEffect(() => {
 		if (!mobileNavRef.current) return;
@@ -33,16 +32,12 @@ export function NavigationPageShell({
 	return (
 		<Flex
 			as='main'
-			bg={componentColors.light.background}
-			color={componentColors.light.text}
+			bg='bg.canvas'
+			color='fg.default'
 			minH='100dvh'
 			direction='column'
 			px={{ base: 0, md: 0, xl: 0 }}
 			pb={{ base: 'calc(24px + env(safe-area-inset-bottom, 0px))', md: 10 }}
-			_dark={{
-				bg: componentColors.dark.background,
-				color: componentColors.dark.text,
-			}}
 		>
 			<Flex
 				position='sticky'
@@ -87,7 +82,7 @@ export function NavigationPageShell({
 				gap={0}
 				px={{ base: 0, xl: 0 }}
 				align='stretch'
-				minH={{ xl: `calc(100dvh - ${topBarHeight})` }}
+				minH={{ xl: 'calc(100dvh - token(sizes.topBar))' }}
 			>
 				<Box
 					display={{ base: 'none', xl: 'block' }}
@@ -98,7 +93,7 @@ export function NavigationPageShell({
 					<Box
 						position='sticky'
 						top={topBarHeight}
-						h={`calc(100dvh - ${topBarHeight})`}
+						h='calc(100dvh - token(sizes.topBar))'
 						w='full'
 						overflow='hidden'
 					>
@@ -113,7 +108,7 @@ export function NavigationPageShell({
 				<Flex flex='1' minW={0} w='full' justify='center' pl={0} pt={{ xl: 0 }}>
 					<Flex
 						w='full'
-						maxW={{ base: '100%', xl: '1280px' }}
+						maxW={{ base: '100%', xl: 'sizes.content' }}
 						direction='column'
 						gap={{ base: 3, md: 4 }}
 						mt={4}

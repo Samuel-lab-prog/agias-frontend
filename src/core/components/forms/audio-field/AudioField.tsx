@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { type FieldValues, useController } from 'react-hook-form';
 
 import { BaseButton } from '../../Button';
-import { componentColors } from '../../localStyles';
 import { useAudioPreview } from './hooks';
 import type { AudioFieldProps } from './types';
 import { pickAudioMimeType, resolveAudioLabels } from './utils';
@@ -131,10 +130,10 @@ export function AudioField<T extends FieldValues>({
 				fontSize='0.875rem'
 				lineHeight='1.4rem'
 				fontWeight='medium'
-				color={hasError ? componentColors.light.error : componentColors.light.text}
+				color={hasError ? 'status.error' : 'fg.default'}
 				transition='color 0.22s ease'
 				_dark={{
-					color: hasError ? componentColors.dark.error : componentColors.dark.text,
+					color: hasError ? 'status.error' : 'fg.default',
 				}}
 			>
 				{label}
@@ -146,9 +145,9 @@ export function AudioField<T extends FieldValues>({
 					<Text
 						fontSize='0.8125rem'
 						lineHeight='1.25rem'
-						color={componentColors.light.textMuted}
+						color={'fg.muted'}
 						mb={2}
-						_dark={{ color: componentColors.dark.textMuted }}
+						_dark={{ color: 'fg.muted' }}
 					>
 						{previewSource === 'recorded'
 							? labelsResolved.previewRecorded
@@ -161,7 +160,7 @@ export function AudioField<T extends FieldValues>({
 			<Flex gap={{ base: 1.5, md: 2 }} wrap='wrap'>
 				<BaseButton
 					size={{ base: '2xs', md: 'xs' }}
-					variant='solidPurple'
+					variant='primary'
 					onClick={handleStartRecording}
 					disabled={isRecording || disabled}
 				>
@@ -174,7 +173,7 @@ export function AudioField<T extends FieldValues>({
 				</BaseButton>
 				<BaseButton
 					size={{ base: '2xs', md: 'xs' }}
-					variant='outlinePurple'
+					variant='secondary'
 					onClick={handleStopRecording}
 					disabled={!isRecording || disabled}
 				>
@@ -187,7 +186,7 @@ export function AudioField<T extends FieldValues>({
 				</BaseButton>
 				<BaseButton
 					size={{ base: '2xs', md: 'xs' }}
-					variant='ghostPink'
+					variant='subtle'
 					onClick={handleDiscardRecording}
 					disabled={!file || disabled}
 				>
@@ -200,7 +199,7 @@ export function AudioField<T extends FieldValues>({
 				</BaseButton>
 				<BaseButton
 					size={{ base: '2xs', md: 'xs' }}
-					variant='outlinePurple'
+					variant='secondary'
 					onClick={() => audioFileInputRef.current?.click()}
 					disabled={disabled}
 				>
@@ -228,9 +227,9 @@ export function AudioField<T extends FieldValues>({
 				<Text
 					fontSize='0.8125rem'
 					lineHeight='1.25rem'
-					color={componentColors.light.textMuted}
+					color={'fg.muted'}
 					mt={2}
-					_dark={{ color: componentColors.dark.textMuted }}
+					_dark={{ color: 'fg.muted' }}
 				>
 					Selected file: {file.name}
 				</Text>
@@ -240,9 +239,9 @@ export function AudioField<T extends FieldValues>({
 				<Text
 					fontSize='0.875rem'
 					lineHeight='1.4rem'
-					color={componentColors.light.warning}
+					color={'status.warning'}
 					mt={2}
-					_dark={{ color: componentColors.dark.warning }}
+					_dark={{ color: 'status.warning' }}
 				>
 					{recorderError}
 				</Text>
@@ -254,8 +253,8 @@ export function AudioField<T extends FieldValues>({
 				transition='grid-template-rows 0.24s ease'
 			>
 				<Field.ErrorText
-					color={componentColors.light.error}
-					_dark={{ color: componentColors.dark.error }}
+					color={'status.error'}
+					_dark={{ color: 'status.error' }}
 					opacity={hasError ? 1 : 0}
 					transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}
 					overflow='hidden'

@@ -60,4 +60,42 @@ export default defineConfig([
 			'arrow-body-style': ['error', 'as-needed'],
 		},
 	},
+	{
+		files: ['src/features/**/*.{ts,tsx}'],
+		rules: {
+			'no-restricted-syntax': [
+				'error',
+				{
+					selector: 'Literal[value=/^#[0-9a-fA-F]{3,8}$/]',
+					message: 'Use a semantic theme token instead of a hexadecimal color.',
+				},
+				{
+					selector: 'Literal[value=/^rgba?\\(/]',
+					message: 'Use a semantic theme token instead of an RGB color.',
+				},
+			],
+			'no-restricted-imports': [
+				'error',
+				{
+					paths: [
+						{
+							name: '@chakra-ui/react',
+							importNames: ['Button'],
+							message: 'Use BaseButton from @BaseComponents so variants stay consistent.',
+						},
+						{
+							name: '@BaseComponents',
+							importNames: ['componentColors', 'componentRadii'],
+							message: 'Use semantic Chakra tokens instead of legacy style objects.',
+						},
+						{
+							name: '@core/components',
+							importNames: ['componentColors', 'componentRadii'],
+							message: 'Use semantic Chakra tokens instead of legacy style objects.',
+						},
+					],
+				},
+			],
+		},
+	},
 ]);

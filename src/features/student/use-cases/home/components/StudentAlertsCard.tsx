@@ -1,6 +1,6 @@
 import { communications } from '@Api/communications/endpoints';
 import { communicationsKeys } from '@Api/communications/keys';
-import { BaseButton, componentColors, componentRadii, Surface } from '@BaseComponents';
+import { BaseButton, Surface } from '@BaseComponents';
 import { Box, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { translateBackendAudience } from '@core/utils/backend-labels';
 import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
@@ -33,12 +33,7 @@ export function StudentAlertsCard() {
 					</Heading>
 				</HStack>
 
-				<BaseButton
-					size='sm'
-					variant='outlinePurple'
-					color={componentColors.light.textMuted}
-					_dark={{ color: componentColors.dark.textMuted }}
-				>
+				<BaseButton size='sm' variant='secondary' color={'fg.muted'} _dark={{ color: 'fg.muted' }}>
 					Ver todas as notícias
 				</BaseButton>
 			</Flex>
@@ -49,8 +44,8 @@ export function StudentAlertsCard() {
 						<Text
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
-							color={componentColors.light.textMuted}
-							_dark={{ color: componentColors.dark.textMuted }}
+							color={'fg.muted'}
+							_dark={{ color: 'fg.muted' }}
 						>
 							Os comunicados publicados pela staff aparecerão aqui.
 						</Text>
@@ -65,15 +60,15 @@ export function StudentAlertsCard() {
 							align='center'
 							justify='space-between'
 							borderTop={index === 0 ? '0' : '1px solid'}
-							borderColor={componentColors.light.border}
+							borderColor={'border.default'}
 							transition='all 0.2s ease'
 							cursor='pointer'
 							_hover={{
-								bg: 'rgba(255,255,255,0.03)',
+								bg: 'bg.muted',
 								transform: 'translateX(2px)',
-								'& .announcement-accent': { bg: 'rgba(148, 163, 184, 0.9)' },
+								'& .announcement-accent': { bg: 'border.interactive' },
 							}}
-							_dark={{ borderColor: componentColors.dark.border }}
+							_dark={{ borderColor: 'border.default' }}
 						>
 							<HStack align='start' gap={3} flex='1' minW={0}>
 								<Box
@@ -81,17 +76,11 @@ export function StudentAlertsCard() {
 									w='3px'
 									minW='3px'
 									alignSelf='stretch'
-									borderRadius={componentRadii.full}
-									bg={
-										announcement.isPinned
-											? 'rgba(100, 116, 139, 0.9)'
-											: componentColors.light.borderHover
-									}
+									borderRadius={'full'}
+									bg={announcement.isPinned ? 'fg.muted' : 'border.interactive'}
 									transition='background-color 0.2s ease'
 									_dark={{
-										bg: announcement.isPinned
-											? 'rgba(148, 163, 184, 0.75)'
-											: componentColors.dark.borderHover,
+										bg: announcement.isPinned ? 'fg.muted' : 'border.interactive',
 									}}
 								/>
 
@@ -102,11 +91,11 @@ export function StudentAlertsCard() {
 										</Text>
 										{announcement.isPinned ? (
 											<Box
-												color={componentColors.light.accent}
+												color={'action.primary'}
 												display='inline-flex'
 												alignItems='center'
 												gap={1}
-												_dark={{ color: componentColors.dark.accent }}
+												_dark={{ color: 'action.primary' }}
 											>
 												<Pin size={12} />
 												<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
@@ -118,17 +107,17 @@ export function StudentAlertsCard() {
 									<Text
 										fontSize='0.8125rem'
 										lineHeight='1.25rem'
-										color={componentColors.light.textMuted}
-										_dark={{ color: componentColors.dark.textMuted }}
+										color={'fg.muted'}
+										_dark={{ color: 'fg.muted' }}
 									>
 										{announcement.body}
 									</Text>
 									<Text
 										fontSize='0.8125rem'
 										lineHeight='1.25rem'
-										color={componentColors.light.textMuted}
+										color={'fg.muted'}
 										mt={1}
-										_dark={{ color: componentColors.dark.textMuted }}
+										_dark={{ color: 'fg.muted' }}
 									>
 										{announcement.publishedAt
 											? `Publicado em ${new Intl.DateTimeFormat('pt-BR', {
@@ -143,9 +132,9 @@ export function StudentAlertsCard() {
 							<Text
 								fontSize='0.8125rem'
 								lineHeight='1.25rem'
-								color={componentColors.light.textMuted}
+								color={'fg.muted'}
 								flexShrink={0}
-								_dark={{ color: componentColors.dark.textMuted }}
+								_dark={{ color: 'fg.muted' }}
 							>
 								{translateBackendAudience(announcement.audience)}
 							</Text>
@@ -158,9 +147,9 @@ export function StudentAlertsCard() {
 				<Text
 					fontSize='0.8125rem'
 					lineHeight='1.25rem'
-					color={componentColors.light.textMuted}
+					color={'fg.muted'}
 					mt={3}
-					_dark={{ color: componentColors.dark.textMuted }}
+					_dark={{ color: 'fg.muted' }}
 				>
 					Mais {remainingAnnouncements} comunicado{remainingAnnouncements > 1 ? 's' : ''}.
 				</Text>

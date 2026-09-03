@@ -1,5 +1,4 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
-import { componentColors } from '@core/components';
 import { NavigationPageShell } from '@core/components/navigation';
 
 import { professorNavigationPreset } from './navigation';
@@ -19,12 +18,7 @@ export function ProfessorHomePage() {
 				<Heading as='h2' fontSize='clamp(1.25rem, 2vw, 1.65rem)' lineHeight='1.2' fontWeight='700'>
 					Você fez login como professor
 				</Heading>
-				<Text
-					fontSize='1rem'
-					lineHeight='1.7rem'
-					color={componentColors.light.textMuted}
-					_dark={{ color: componentColors.dark.textMuted }}
-				>
+				<Text fontSize='1rem' lineHeight='1.7rem' color={'fg.muted'} _dark={{ color: 'fg.muted' }}>
 					Esta página está vazia por enquanto.
 				</Text>
 			</Box>

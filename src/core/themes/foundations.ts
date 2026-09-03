@@ -1,0 +1,53 @@
+/** Raw design decisions. Product code must prefer semantic token names. */
+export const foundations = {
+	colors: {
+		white: '#ffffff',
+		black: '#000000',
+		slate: {
+			50: '#f8fafc',
+			100: '#f1f5f9',
+			200: '#e2e8f0',
+			300: '#cbd5e1',
+			400: '#94a3b8',
+			500: '#64748b',
+			600: '#475569',
+			800: '#1e293b',
+			900: '#0f172a',
+			950: '#020617',
+		},
+		blue: {
+			50: '#eff6ff',
+			100: '#dbeafe',
+			300: '#93c5fd',
+			400: '#60a5fa',
+			600: '#2563eb',
+			700: '#1d4ed8',
+			800: '#1e40af',
+			950: '#172554',
+		},
+		rose: { 400: '#fb7185', 500: '#f43f5e', 600: '#e11d48', 700: '#be123c' },
+		amber: { 400: '#fbbf24', 600: '#d97706', 700: '#b45309' },
+		green: { 400: '#4ade80', 600: '#16a34a' },
+	},
+	radii: { sm: '0.25rem', md: '0.375rem', lg: '0.5rem', xl: '0.75rem', full: '9999px' },
+	sizes: { topBar: '65px', sidebar: '312px', content: '1280px', touchTarget: '44px' },
+	durations: { fast: '150ms', normal: '200ms', slow: '380ms' },
+} as const;
+
+export const semanticValues = {
+	canvas: { light: '#f7f8fa', dark: foundations.colors.slate[950] },
+	surface: { light: foundations.colors.white, dark: foundations.colors.slate[900] },
+	surfaceMuted: { light: foundations.colors.slate[50], dark: foundations.colors.slate[950] },
+	text: { light: foundations.colors.slate[900], dark: foundations.colors.slate[50] },
+	textMuted: { light: foundations.colors.slate[600], dark: foundations.colors.slate[300] },
+	border: { light: 'rgba(15, 23, 42, 0.08)', dark: 'rgba(148, 163, 184, 0.24)' },
+	borderMuted: { light: 'rgba(15, 23, 42, 0.06)', dark: 'rgba(148, 163, 184, 0.16)' },
+	borderInteractive: { light: 'rgba(37, 99, 235, 0.18)', dark: 'rgba(96, 165, 250, 0.32)' },
+	accent: { light: foundations.colors.blue[600], dark: foundations.colors.blue[400] },
+	accentStrong: { light: foundations.colors.blue[700], dark: foundations.colors.blue[300] },
+	accentSoft: { light: 'rgba(37, 99, 235, 0.08)', dark: 'rgba(96, 165, 250, 0.14)' },
+	error: { light: foundations.colors.rose[600], dark: foundations.colors.rose[400] },
+	errorSoft: { light: 'rgba(225, 29, 72, 0.08)', dark: 'rgba(251, 113, 133, 0.12)' },
+	warning: { light: foundations.colors.amber[700], dark: foundations.colors.amber[400] },
+	focus: { light: 'rgba(37, 99, 235, 0.18)', dark: 'rgba(96, 165, 250, 0.28)' },
+} as const;

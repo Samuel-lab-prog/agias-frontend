@@ -1,45 +1,4 @@
-export const componentColors = {
-	light: {
-		text: '#0f172a',
-		textMuted: '#475569',
-		surface: '#ffffff',
-		background: '#f7f8fa',
-		border: 'rgba(15, 23, 42, 0.08)',
-		borderHover: 'rgba(37, 99, 235, 0.18)',
-		accent: '#2563eb',
-		accentStrong: '#1d4ed8',
-		accentSoft: 'rgba(37, 99, 235, 0.08)',
-		error: '#e11d48',
-		errorSoft: 'rgba(225, 29, 72, 0.08)',
-		warning: '#b45309',
-		focusRing: 'rgba(37, 99, 235, 0.18)',
-	},
-	dark: {
-		text: '#f8fafc',
-		textMuted: '#cbd5e1',
-		surface: '#0f172a',
-		background: '#020617',
-		border: 'rgba(148, 163, 184, 0.24)',
-		borderHover: 'rgba(96, 165, 250, 0.32)',
-		accent: '#60a5fa',
-		accentStrong: '#93c5fd',
-		accentSoft: 'rgba(96, 165, 250, 0.14)',
-		error: '#fb7185',
-		errorSoft: 'rgba(251, 113, 133, 0.12)',
-		warning: '#fbbf24',
-		focusRing: 'rgba(96, 165, 250, 0.28)',
-	},
-} as const;
-
-export const componentRadii = {
-	sm: '0.25rem',
-	md: '0.375rem',
-	lg: '0.5rem',
-	xl: '0.75rem',
-	full: '9999px',
-} as const;
-
-export const componentTypography = {
+export const typographyStyles = {
 	xs: {
 		fontSize: '0.75rem',
 		lineHeight: '1rem',

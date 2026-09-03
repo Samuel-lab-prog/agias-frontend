@@ -12,12 +12,18 @@ export function HomeFooter({ links }: HomeFooterProps) {
 		<Surface variant='panel' p={{ base: 3.5, md: 4 }}>
 			<Flex direction='column' gap={3}>
 				<HStack justify='space-between' wrap='wrap' gap={3}>
-					<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#475569'>
+					<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 						AGIAS
 					</Text>
 					<HStack gap={4} wrap='wrap'>
 						{links.map((link) => (
-							<Link key={link.to} asChild color='#475569' fontSize='0.8125rem' lineHeight='1.25rem'>
+							<Link
+								key={link.to}
+								asChild
+								color='fg.muted'
+								fontSize='0.8125rem'
+								lineHeight='1.25rem'
+							>
 								<NavLink to={link.to}>{link.label}</NavLink>
 							</Link>
 						))}

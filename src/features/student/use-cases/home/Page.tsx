@@ -1,5 +1,4 @@
 import { Box, Grid, Link, Text, VStack } from '@chakra-ui/react';
-import { componentColors, componentRadii } from '@core/components';
 import { NavigationPageShell } from '@core/components/navigation';
 
 import { studentNavigationPreset } from '../../utils/navigation-routes';
@@ -33,29 +32,29 @@ export function StudentHomePage() {
 					gap={2}
 					px={2.5}
 					py={1.5}
-					borderRadius={componentRadii.full}
+					borderRadius={'full'}
 					border='1px solid'
-					borderColor={componentColors.light.border}
-					color={componentColors.light.textMuted}
+					borderColor={'border.default'}
+					color={'fg.muted'}
 					_hover={{
-						bg: 'rgba(255,255,255,0.05)',
-						color: componentColors.light.accent,
+						bg: 'bg.muted',
+						color: 'action.primary',
 						textDecoration: 'none',
 					}}
 					_dark={{
-						borderColor: componentColors.dark.border,
-						color: componentColors.dark.textMuted,
+						borderColor: 'border.default',
+						color: 'fg.muted',
 						_hover: {
-							color: componentColors.dark.accent,
+							color: 'action.primary',
 						},
 					}}
 				>
 					<Box
 						boxSize={7}
-						borderRadius={componentRadii.full}
+						borderRadius={'full'}
 						display='grid'
 						placeItems='center'
-						bg='rgba(255,255,255,0.08)'
+						bg='bg.muted'
 						fontSize='xs'
 						fontWeight='bold'
 					>

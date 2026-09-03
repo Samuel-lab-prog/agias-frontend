@@ -1,5 +1,5 @@
 import type { StudentEnrollment } from '@Api/academic/types';
-import { BaseButton, componentColors, componentRadii, Surface } from '@BaseComponents';
+import { BaseButton, Surface } from '@BaseComponents';
 import { Badge, Box, Flex, Heading, HStack, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import { useColorModeValue } from '@core/components/ui/color-mode';
 import { BookOpen } from 'lucide-react';
@@ -9,16 +9,10 @@ type StudentClassesCardProps = {
 };
 
 export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
-	const rowStripeBg = useColorModeValue(
-		componentColors.light.background,
-		componentColors.dark.surface,
-	);
-	const rowHoverBg = useColorModeValue(
-		componentColors.light.accentSoft,
-		componentColors.dark.accentSoft,
-	);
-	const badgeBg = useColorModeValue('rgba(37, 99, 235, 0.08)', 'rgba(96, 165, 250, 0.16)');
-	const badgeColor = useColorModeValue(componentColors.light.accent, componentColors.dark.accent);
+	const rowStripeBg = useColorModeValue('bg.canvas', 'bg.surface');
+	const rowHoverBg = useColorModeValue('action.primarySubtle', 'action.primarySubtle');
+	const badgeBg = useColorModeValue('action.primarySubtle', 'action.primarySubtle');
+	const badgeColor = useColorModeValue('action.primary', 'action.primary');
 
 	const rows = enrollments.map((enrollment) => {
 		const firstSession = enrollment.sessions[0];
@@ -46,12 +40,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 					</Heading>
 				</HStack>
 
-				<BaseButton
-					size='sm'
-					variant='outlinePurple'
-					color={componentColors.light.textMuted}
-					_dark={{ color: componentColors.dark.textMuted }}
-				>
+				<BaseButton size='sm' variant='secondary' color={'fg.muted'} _dark={{ color: 'fg.muted' }}>
 					Ver grade do semestre
 				</BaseButton>
 			</Flex>
@@ -64,9 +53,9 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 					mb={{ md: 3 }}
 					px={{ md: 1 }}
 					fontSize='sm'
-					color={componentColors.light.textMuted}
+					color={'fg.muted'}
 					textAlign='center'
-					_dark={{ color: componentColors.dark.textMuted }}
+					_dark={{ color: 'fg.muted' }}
 				>
 					<Box>Componente Curricular</Box>
 					<Box display={{ base: 'none', md: 'block' }}>Local</Box>
@@ -82,10 +71,10 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 							alignItems='center'
 							px={{ base: 2.5, md: 3 }}
 							py={{ base: 2.25, md: 2.5 }}
-							borderRadius={componentRadii.lg}
+							borderRadius={'lg'}
 							bg={index % 2 === 0 ? rowStripeBg : 'transparent'}
-							color={componentColors.light.text}
-							_dark={{ color: componentColors.dark.text }}
+							color={'fg.default'}
+							_dark={{ color: 'fg.default' }}
 							textAlign={{ base: 'left', md: 'center' }}
 							cursor='pointer'
 							transition='background-color 0.18s ease, transform 0.18s ease'
@@ -112,7 +101,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 								>
 									<Text
 										fontSize='xs'
-										color={componentColors.light.textMuted}
+										color={'fg.muted'}
 										lineHeight='1.2'
 										whiteSpace='nowrap'
 										overflow='hidden'
@@ -123,7 +112,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 									<Badge
 										px={2.5}
 										py={1}
-										borderRadius={componentRadii.full}
+										borderRadius={'full'}
 										bg={badgeBg}
 										color={badgeColor}
 										fontSize='xs'
@@ -138,7 +127,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 							<Box display={{ base: 'none', md: 'block' }} minW={0}>
 								<Text
 									fontSize='sm'
-									color={componentColors.light.textMuted}
+									color={'fg.muted'}
 									whiteSpace='nowrap'
 									overflow='hidden'
 									textOverflow='ellipsis'
@@ -151,7 +140,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 								<Badge
 									px={3}
 									py={1.5}
-									borderRadius={componentRadii.full}
+									borderRadius={'full'}
 									bg={badgeBg}
 									color={badgeColor}
 									fontSize='sm'

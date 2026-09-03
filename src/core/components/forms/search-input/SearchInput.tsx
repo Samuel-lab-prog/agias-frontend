@@ -1,8 +1,6 @@
 import { Field, Input } from '@chakra-ui/react';
 import { useEffect } from 'react';
 
-import { componentColors } from '../../localStyles';
-
 type SearchInputProps = {
 	label: string;
 	placeholder?: string;
@@ -35,7 +33,7 @@ export function SearchInput({
 				fontSize='0.8125rem'
 				lineHeight='1.25rem'
 				fontWeight='medium'
-				color={componentColors.light.text}
+				color={'fg.default'}
 			>
 				{label}
 			</Field.Label>
@@ -49,38 +47,38 @@ export function SearchInput({
 				fontSize='0.8125rem'
 				lineHeight='1.25rem'
 				transition='all 0.22s ease'
-				bg={componentColors.light.background}
-				borderColor={componentColors.light.border}
-				color={componentColors.light.text}
+				bg={'bg.canvas'}
+				borderColor={'border.default'}
+				color={'fg.default'}
 				_hover={{
-					borderColor: componentColors.light.borderHover,
-					bg: componentColors.light.surface,
+					borderColor: 'border.interactive',
+					bg: 'bg.surface',
 				}}
 				_focusVisible={{
-					borderColor: componentColors.light.borderHover,
-					boxShadow: `0 0 0 3px ${componentColors.light.focusRing}`,
-					bg: componentColors.light.surface,
+					borderColor: 'border.interactive',
+					boxShadow: `0 0 0 3px ${'focus.ring'}`,
+					bg: 'bg.surface',
 				}}
 				_focus={{
-					borderColor: componentColors.light.borderHover,
-					bg: componentColors.light.surface,
+					borderColor: 'border.interactive',
+					bg: 'bg.surface',
 				}}
 				_dark={{
-					bg: componentColors.dark.background,
-					borderColor: componentColors.dark.border,
-					color: componentColors.dark.text,
+					bg: 'bg.canvas',
+					borderColor: 'border.default',
+					color: 'fg.default',
 					_hover: {
-						borderColor: componentColors.dark.borderHover,
-						bg: componentColors.dark.surface,
+						borderColor: 'border.interactive',
+						bg: 'bg.surface',
 					},
 					_focusVisible: {
-						borderColor: componentColors.dark.borderHover,
-						boxShadow: `0 0 0 3px ${componentColors.dark.focusRing}`,
-						bg: componentColors.dark.surface,
+						borderColor: 'border.interactive',
+						boxShadow: `0 0 0 3px ${'focus.ring'}`,
+						bg: 'bg.surface',
 					},
 					_focus: {
-						borderColor: componentColors.dark.borderHover,
-						bg: componentColors.dark.surface,
+						borderColor: 'border.interactive',
+						bg: 'bg.surface',
 					},
 				}}
 			/>

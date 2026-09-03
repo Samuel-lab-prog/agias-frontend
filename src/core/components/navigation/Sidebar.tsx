@@ -6,7 +6,6 @@ import { LuMoon } from 'react-icons/lu';
 import { NavLink } from 'react-router-dom';
 
 import { hoverNav } from '../../utils/interaction';
-import { componentColors, componentRadii } from '../localStyles';
 import { useColorMode } from '../ui/color-mode';
 import type { NavigationLink } from './types';
 
@@ -31,12 +30,12 @@ function SidebarThemeControl() {
 				px='1rem'
 				py='0.75rem'
 				border='1px solid'
-				borderColor={componentColors.light.border}
-				borderRadius={componentRadii.xl}
-				bg={componentColors.light.surface}
+				borderColor={'border.default'}
+				borderRadius={'xl'}
+				bg={'bg.surface'}
 				_dark={{
-					borderColor: componentColors.dark.border,
-					bg: componentColors.dark.surface,
+					borderColor: 'border.default',
+					bg: 'bg.surface',
 				}}
 			>
 				<HStack gap={3} minW={0}>
@@ -44,8 +43,8 @@ function SidebarThemeControl() {
 					<Text
 						fontSize='0.8125rem'
 						lineHeight='1.25rem'
-						color={componentColors.light.text}
-						_dark={{ color: componentColors.dark.text }}
+						color={'fg.default'}
+						_dark={{ color: 'fg.default' }}
 					>
 						Tema escuro
 					</Text>
@@ -81,12 +80,12 @@ export function NavigationSidebar({
 	const navMotion = hoverNav();
 	const { colorMode } = useColorMode();
 	const isDark = colorMode === 'dark';
-	const activeBg = isDark ? 'rgba(37, 99, 235, 0.28)' : 'rgba(37, 99, 235, 0.06)';
-	const activeBorder = isDark ? 'rgba(96, 165, 250, 0.28)' : 'rgba(37, 99, 235, 0.12)';
-	const activeColor = isDark ? componentColors.dark.accent : componentColors.light.accentStrong;
-	const hoverBg = isDark ? 'rgba(148, 163, 184, 0.08)' : componentColors.light.surface;
-	const hoverColor = isDark ? componentColors.dark.text : componentColors.light.text;
-	const hoverBorder = isDark ? componentColors.dark.borderHover : componentColors.light.borderHover;
+	const activeBg = isDark ? 'action.primarySubtle' : 'action.primarySubtle';
+	const activeBorder = isDark ? 'border.interactive' : 'border.interactive';
+	const activeColor = isDark ? 'action.primary' : 'action.primaryStrong';
+	const hoverBg = isDark ? 'bg.muted' : 'bg.surface';
+	const hoverColor = isDark ? 'fg.default' : 'fg.default';
+	const hoverBorder = isDark ? 'border.interactive' : 'border.interactive';
 
 	return (
 		<Surface variant='sidebar' h='full' overflow='hidden' borderRadius={0} borderTop='0'>
@@ -123,17 +122,11 @@ export function NavigationSidebar({
 										px='1.25rem'
 										py='1rem'
 										minH='56px'
-										borderRadius={componentRadii.md}
+										borderRadius={'md'}
 										bg={isActive ? activeBg : 'transparent'}
 										border='1px solid'
 										borderColor={isActive ? activeBorder : 'transparent'}
-										color={
-											isActive
-												? activeColor
-												: isDark
-													? componentColors.dark.textMuted
-													: componentColors.light.textMuted
-										}
+										color={isActive ? activeColor : isDark ? 'fg.muted' : 'fg.muted'}
 										cursor='pointer'
 										transition={navMotion.transition}
 										transform='translateX(0)'

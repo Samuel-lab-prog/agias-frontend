@@ -13,7 +13,7 @@ function SectionTitle({ title, description }: { title: string; description: stri
 	return (
 		<Stack gap={1}>
 			<Heading size='md'>{title}</Heading>
-			<Text color='#475569' maxW='2xl'>
+			<Text color='fg.muted' maxW='2xl'>
 				{description}
 			</Text>
 		</Stack>
@@ -26,7 +26,7 @@ function AnimationCard({ token }: { token: AnimationToken }) {
 			<Stack gap={4}>
 				<Stack gap={1}>
 					<Text fontWeight='semibold'>{token.name}</Text>
-					<Text fontSize='sm' color='#475569'>
+					<Text fontSize='sm' color='fg.muted'>
 						{token.description}
 					</Text>
 				</Stack>
@@ -34,8 +34,8 @@ function AnimationCard({ token }: { token: AnimationToken }) {
 					h='120px'
 					borderRadius='xl'
 					border='1px solid'
-					borderColor='rgba(15, 23, 42, 0.08)'
-					bg='linear-gradient(135deg, rgba(219,234,254,0.9), rgba(255,255,255,0.95))'
+					borderColor='border.default'
+					bg='action.primarySubtle'
 					display='grid'
 					placeItems='center'
 					overflow='hidden'
@@ -51,7 +51,7 @@ function AnimationCard({ token }: { token: AnimationToken }) {
 						animationIterationCount={token.name === 'bounceFadeIn' ? 'infinite' : '1'}
 					/>
 				</Box>
-				<Text fontSize='xs' color='#475569'>
+				<Text fontSize='xs' color='fg.muted'>
 					{token.value}
 				</Text>
 			</Stack>
@@ -71,8 +71,8 @@ export function DevAnimationsPage() {
 	return (
 		<Flex
 			as='main'
-			bg='#f7f8fa'
-			color='#0f172a'
+			bg='bg.canvas'
+			color='fg.default'
 			minH='100dvh'
 			px={{ base: 4, md: 6 }}
 			py={{ base: 6, md: 10 }}

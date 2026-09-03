@@ -2,8 +2,7 @@ import { Flex, Icon, SimpleGrid, Text } from '@chakra-ui/react';
 import { CircleAlert } from 'lucide-react';
 import type { FieldValues } from 'react-hook-form';
 
-import { componentColors, componentRadii } from '../../localStyles';
-import { FormButton } from '../form-button/Component';
+import { FormButton } from '../form-button/FormButton';
 import { FormCard } from '../styles/FormCardSurface';
 import { renderDynamicField } from './renderField';
 import type { DynamicFormProps } from './types';
@@ -43,41 +42,41 @@ export function DynamicForm<T extends FieldValues>({
 					py='0.625rem'
 					mb={2}
 					border='1px solid'
-					borderColor={componentColors.light.error}
-					borderRadius={componentRadii.md}
-					bg={componentColors.light.surface}
-					boxShadow='inset 0 1px 0 rgba(255, 255, 255, 0.02)'
+					borderColor={'status.error'}
+					borderRadius={'md'}
+					bg={'bg.surface'}
+					boxShadow='surface'
 					animationName='shake-x, fade-in'
 					animationDuration='240ms'
 					_dark={{
-						borderColor: componentColors.dark.error,
-						bg: componentColors.dark.surface,
+						borderColor: 'status.error',
+						bg: 'bg.surface',
 					}}
 				>
 					<Flex
 						align='center'
 						justify='center'
 						boxSize={7}
-						borderRadius={componentRadii.full}
-						bg={componentColors.light.surface}
+						borderRadius={'full'}
+						bg={'bg.surface'}
 						flexShrink={0}
-						_dark={{ bg: componentColors.dark.surface }}
+						_dark={{ bg: 'bg.surface' }}
 					>
 						<Icon
 							as={CircleAlert}
 							boxSize={4}
-							color={componentColors.light.error}
-							_dark={{ color: componentColors.dark.error }}
+							color={'status.error'}
+							_dark={{ color: 'status.error' }}
 						/>
 					</Flex>
 					<Text
 						fontSize='0.8125rem'
 						lineHeight='1.25rem'
-						color={componentColors.light.error}
+						color={'status.error'}
 						minH={7}
 						display='flex'
 						alignItems='center'
-						_dark={{ color: componentColors.dark.error }}
+						_dark={{ color: 'status.error' }}
 					>
 						{generalError}
 					</Text>

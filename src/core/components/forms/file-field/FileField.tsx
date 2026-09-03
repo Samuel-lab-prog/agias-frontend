@@ -4,7 +4,6 @@ import { Controller, type FieldValues, useWatch } from 'react-hook-form';
 
 import { hoverSubtle } from '../../../utils/interaction';
 import { BaseButton } from '../../Button';
-import { componentColors } from '../../localStyles';
 import { useFilePreview } from './hooks';
 import type { FileFieldProps } from './types';
 import { buildFileValidationRules } from './utils';
@@ -50,10 +49,10 @@ export function FileField<T extends FieldValues>({
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
 							fontWeight='medium'
-							color={hasError ? componentColors.light.error : componentColors.light.text}
+							color={hasError ? 'status.error' : 'fg.default'}
 							transition={subtleMotion.transition}
 							_dark={{
-								color: hasError ? componentColors.dark.error : componentColors.dark.text,
+								color: hasError ? 'status.error' : 'fg.default',
 							}}
 						>
 							{label}
@@ -76,7 +75,7 @@ export function FileField<T extends FieldValues>({
 							<BaseButton
 								as='label'
 								size='sm'
-								variant='outlinePurple'
+								variant='secondary'
 								cursor='pointer'
 								disabled={disabled}
 							>
@@ -97,8 +96,8 @@ export function FileField<T extends FieldValues>({
 							<Text
 								fontSize='0.8125rem'
 								lineHeight='1.25rem'
-								color={componentColors.light.textMuted}
-								_dark={{ color: componentColors.dark.textMuted }}
+								color={'fg.muted'}
+								_dark={{ color: 'fg.muted' }}
 							>
 								{file ? file.name : 'File not selected'}
 							</Text>
@@ -108,9 +107,9 @@ export function FileField<T extends FieldValues>({
 							<Text
 								fontSize='0.8125rem'
 								lineHeight='1.25rem'
-								color={componentColors.light.textMuted}
+								color={'fg.muted'}
 								mt={2}
-								_dark={{ color: componentColors.dark.textMuted }}
+								_dark={{ color: 'fg.muted' }}
 							>
 								{helpText}
 							</Text>
@@ -122,8 +121,8 @@ export function FileField<T extends FieldValues>({
 							transition='grid-template-rows 0.24s ease'
 						>
 							<Field.ErrorText
-								color={componentColors.light.error}
-								_dark={{ color: componentColors.dark.error }}
+								color={'status.error'}
+								_dark={{ color: 'status.error' }}
 								opacity={hasError ? 1 : 0}
 								transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}
 								overflow='hidden'

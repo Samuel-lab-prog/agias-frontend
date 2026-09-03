@@ -1,8 +1,6 @@
 import { Box, Heading, Link, Mark, Text } from '@chakra-ui/react';
 import { type Components } from 'react-markdown';
 
-import { componentColors, componentRadii } from '../localStyles';
-
 /**
  * Chakra-flavored renderers for common Markdown nodes.
  * These keep typography consistent with the design system.
@@ -85,8 +83,8 @@ export const components: Components = {
 			as='strong'
 			fontWeight='700'
 			display='inline'
-			color={componentColors.light.accent}
-			_dark={{ color: componentColors.dark.accent }}
+			color={'action.primary'}
+			_dark={{ color: 'action.primary' }}
 		>
 			{children}
 		</Text>
@@ -100,8 +98,8 @@ export const components: Components = {
 	mark: ({ children }) => (
 		<Mark
 			as='mark'
-			bg={componentColors.light.accentSoft}
-			color={componentColors.light.text}
+			bg={'action.primarySubtle'}
+			color={'fg.default'}
 			fontSize='1rem'
 			lineHeight='1.7rem'
 		>
@@ -128,17 +126,17 @@ export const components: Components = {
 	a: ({ children, href }) => (
 		<Link
 			href={href}
-			color={componentColors.light.textMuted}
+			color={'fg.muted'}
 			textUnderlineOffset='3px'
 			_hover={{
-				color: componentColors.light.text,
+				color: 'fg.default',
 				textDecoration: 'underline',
 			}}
-			_active={{ color: componentColors.light.text }}
+			_active={{ color: 'fg.default' }}
 			_dark={{
-				color: componentColors.dark.textMuted,
-				_hover: { color: componentColors.dark.text },
-				_active: { color: componentColors.dark.text },
+				color: 'fg.muted',
+				_hover: { color: 'fg.default' },
+				_active: { color: 'fg.default' },
 			}}
 		>
 			{children}
@@ -150,10 +148,10 @@ export const components: Components = {
 			my={4}
 			px={4}
 			py={3}
-			borderRadius={componentRadii.md}
-			bg='rgba(255, 255, 255, 0.04)'
+			borderRadius={'md'}
+			bg='bg.muted'
 			border='1px solid'
-			borderColor='rgba(148, 163, 184, 0.24)'
+			borderColor='border.default'
 			overflowX='auto'
 		>
 			{children}
@@ -183,10 +181,10 @@ export const components: Components = {
 				lineHeight='1.5rem'
 				px={1.5}
 				py={0.5}
-				borderRadius={componentRadii.sm}
-				bg='rgba(255, 255, 255, 0.08)'
-				color={componentColors.light.textMuted}
-				_dark={{ color: componentColors.dark.textMuted }}
+				borderRadius={'sm'}
+				bg='bg.interactive'
+				color={'fg.muted'}
+				_dark={{ color: 'fg.muted' }}
 			>
 				{children}
 			</Box>
@@ -199,9 +197,9 @@ export const components: Components = {
 			pl={4}
 			py={1}
 			borderLeft='3px solid'
-			borderColor={componentColors.light.borderHover}
-			bg='rgba(255, 255, 255, 0.03)'
-			borderRadius={componentRadii.sm}
+			borderColor={'border.interactive'}
+			bg='bg.muted'
+			borderRadius={'sm'}
 			fontSize='1rem'
 			lineHeight='1.7rem'
 			fontStyle='italic'
@@ -209,5 +207,5 @@ export const components: Components = {
 			{children}
 		</Box>
 	),
-	hr: () => <Box as='hr' my={6} borderColor='rgba(148, 163, 184, 0.24)' />,
+	hr: () => <Box as='hr' my={6} borderColor='border.default' />,
 };

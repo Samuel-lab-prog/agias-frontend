@@ -1,7 +1,6 @@
 import { Box, type BoxProps } from '@chakra-ui/react';
 
 import { hoverSubtle } from '../../../utils/interaction';
-import { componentColors, componentRadii } from '../../localStyles';
 
 const subtleMotion = hoverSubtle();
 
@@ -21,21 +20,21 @@ export function FieldContainer({
 			w='full'
 			p='0.25rem'
 			border='1px solid'
-			borderColor={hasError ? componentColors.light.error : 'transparent'}
-			bg={hasError ? componentColors.light.surface : 'transparent'}
-			borderRadius={componentRadii.md}
+			borderColor={hasError ? 'status.error' : 'transparent'}
+			bg={hasError ? 'bg.surface' : 'transparent'}
+			borderRadius={'md'}
 			transition={subtleMotion.transition}
 			_focusWithin={{
 				...subtleMotion.focusVisible,
-				borderColor: hasError ? componentColors.light.error : componentColors.light.borderHover,
-				bg: componentColors.light.surface,
+				borderColor: hasError ? 'status.error' : 'border.interactive',
+				bg: 'bg.surface',
 			}}
 			_dark={{
-				borderColor: hasError ? componentColors.dark.error : 'transparent',
-				bg: hasError ? componentColors.dark.surface : 'transparent',
+				borderColor: hasError ? 'status.error' : 'transparent',
+				bg: hasError ? 'bg.surface' : 'transparent',
 				_focusWithin: {
-					borderColor: hasError ? componentColors.dark.error : componentColors.dark.borderHover,
-					bg: componentColors.dark.surface,
+					borderColor: hasError ? 'status.error' : 'border.interactive',
+					bg: 'bg.surface',
 				},
 			}}
 			animationName='slide-from-bottom, fade-in'

@@ -5,8 +5,8 @@ export function StaffProfileAccessGate() {
 	return (
 		<Flex
 			as='main'
-			bg='#f7f8fa'
-			color='#0f172a'
+			bg='bg.canvas'
+			color='fg.default'
 			minH='100dvh'
 			px={{ base: 4, md: 6 }}
 			py={{ base: 6, md: 10 }}

@@ -1,4 +1,4 @@
-import { componentColors, Surface } from '@BaseComponents';
+import { Surface } from '@BaseComponents';
 import { Box, Flex, Heading, Text, VStack } from '@chakra-ui/react';
 
 import { LoginForm } from './components/LoginForm';
@@ -11,10 +11,10 @@ function HeaderCard() {
 					<Text
 						fontSize='0.875rem'
 						lineHeight='1.4rem'
-						color={componentColors.light.accent}
+						color={'action.primary'}
 						fontWeight='semibold'
 						letterSpacing='0.08em'
-						_dark={{ color: componentColors.dark.accent }}
+						_dark={{ color: 'action.primary' }}
 					>
 						AGIAS - Aplicação de Gestão Integrada Acadêmica e de Serviços
 					</Text>
@@ -23,9 +23,9 @@ function HeaderCard() {
 						fontSize={{ base: '1.5rem', md: 'clamp(1.8rem, 3.5vw, 3rem)' }}
 						lineHeight={{ base: '1.14', md: '1.08' }}
 						fontWeight='800'
-						color={componentColors.light.accent}
+						color={'action.primary'}
 						mt={1}
-						_dark={{ color: componentColors.dark.accent }}
+						_dark={{ color: 'action.primary' }}
 					>
 						Acesso ao sistema
 					</Heading>
@@ -33,8 +33,8 @@ function HeaderCard() {
 						mt={2}
 						fontSize='0.875rem'
 						lineHeight='1.4rem'
-						color={componentColors.light.textMuted}
-						_dark={{ color: componentColors.dark.textMuted }}
+						color={'fg.muted'}
+						_dark={{ color: 'fg.muted' }}
 					>
 						Entre com seu usuário e senha para acessar o sistema.
 					</Text>
@@ -70,9 +70,9 @@ function LoginPanel() {
 						mt={1}
 						fontSize='0.875rem'
 						lineHeight='1.4rem'
-						color={componentColors.light.textMuted}
+						color={'fg.muted'}
 						textAlign='center'
-						_dark={{ color: componentColors.dark.textMuted }}
+						_dark={{ color: 'fg.muted' }}
 					>
 						Digite seu usuário e senha para continuar.
 					</Text>
@@ -88,8 +88,8 @@ export function LoginPage() {
 	return (
 		<Flex
 			as='main'
-			bg={componentColors.light.background}
-			color={componentColors.light.text}
+			bg={'bg.canvas'}
+			color={'fg.default'}
 			flex='1'
 			minH='100%'
 			direction='column'
@@ -99,8 +99,8 @@ export function LoginPage() {
 			px={{ base: 4, md: 6 }}
 			py={{ base: 6, md: 10 }}
 			_dark={{
-				bg: componentColors.dark.background,
-				color: componentColors.dark.text,
+				bg: 'bg.canvas',
+				color: 'fg.default',
 			}}
 		>
 			<Flex as='section' direction='column' align='stretch' gap={5} w='full' maxW='2xl' mx='auto'>

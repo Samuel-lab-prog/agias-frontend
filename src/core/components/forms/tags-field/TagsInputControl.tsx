@@ -1,8 +1,6 @@
 import { Field, TagsInput } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { componentColors, componentRadii } from '../../localStyles';
-
 type TagsInputControlProps = {
 	selectedTags: string[];
 	disabled?: boolean;
@@ -52,67 +50,63 @@ export function TagsInputControl({
 				disabled={disabled}
 				css={{
 					"& [data-scope='tags-input'][data-part='item']": {
-						background: `${componentColors.light.accentSoft} !important`,
-						color: `${componentColors.light.accentStrong} !important`,
-						borderColor: `${componentColors.light.borderHover} !important`,
+						background: `${'action.primarySubtle'} !important`,
+						color: `${'action.primaryStrong'} !important`,
+						borderColor: `${'border.interactive'} !important`,
 					},
 					"& [data-scope='tags-input'][data-part='itemPreview']": {
 						background: 'transparent !important',
-						color: `${componentColors.light.accentStrong} !important`,
+						color: `${'action.primaryStrong'} !important`,
 					},
 					"& [data-scope='tags-input'][data-part='itemText']": {
-						color: `${componentColors.light.accentStrong} !important`,
+						color: `${'action.primaryStrong'} !important`,
 					},
 					"& [data-scope='tags-input'][data-part='itemDeleteTrigger']": {
-						color: `${componentColors.light.accent} !important`,
+						color: `${'action.primary'} !important`,
 					},
 					"& [data-scope='tags-input'][data-part='itemDeleteTrigger']:hover": {
-						color: `${componentColors.light.text} !important`,
+						color: `${'fg.default'} !important`,
 					},
 					"& [data-scope='tags-input'][data-part='input']": {
-						color: `${componentColors.light.text} !important`,
+						color: `${'fg.default'} !important`,
 					},
 					"& [data-scope='tags-input'][data-part='clearTrigger']": {
-						color: `${componentColors.light.textMuted} !important`,
+						color: `${'fg.muted'} !important`,
 					},
 					".dark & [data-scope='tags-input'][data-part='item']": {
-						background: `${componentColors.dark.accentSoft} !important`,
-						color: `${componentColors.dark.accentStrong} !important`,
-						borderColor: `${componentColors.dark.borderHover} !important`,
+						background: `${'action.primarySubtle'} !important`,
+						color: `${'action.primaryStrong'} !important`,
+						borderColor: `${'border.interactive'} !important`,
 					},
 					".dark & [data-scope='tags-input'][data-part='itemPreview']": {
-						color: `${componentColors.dark.accentStrong} !important`,
+						color: `${'action.primaryStrong'} !important`,
 					},
 					".dark & [data-scope='tags-input'][data-part='itemText']": {
-						color: `${componentColors.dark.accentStrong} !important`,
+						color: `${'action.primaryStrong'} !important`,
 					},
 					".dark & [data-scope='tags-input'][data-part='itemDeleteTrigger']": {
-						color: `${componentColors.dark.accent} !important`,
+						color: `${'action.primary'} !important`,
 					},
 					".dark & [data-scope='tags-input'][data-part='itemDeleteTrigger']:hover": {
-						color: `${componentColors.dark.text} !important`,
+						color: `${'fg.default'} !important`,
 					},
 					".dark & [data-scope='tags-input'][data-part='input']": {
-						color: `${componentColors.dark.text} !important`,
+						color: `${'fg.default'} !important`,
 					},
 					".dark & [data-scope='tags-input'][data-part='clearTrigger']": {
-						color: `${componentColors.dark.textMuted} !important`,
+						color: `${'fg.muted'} !important`,
 					},
 				}}
 				onValueChange={(details) => onValueChange(details.value)}
 			>
 				<TagsInput.Control
-					bg={componentColors.light.background}
-					color={componentColors.light.text}
+					bg={'bg.canvas'}
+					color={'fg.default'}
 					border='1px solid'
 					borderColor={
-						hasError
-							? componentColors.light.error
-							: isFocused
-								? componentColors.light.borderHover
-								: componentColors.light.border
+						hasError ? 'status.error' : isFocused ? 'border.interactive' : 'border.default'
 					}
-					borderRadius={componentRadii.md}
+					borderRadius={'md'}
 					px='0.5rem'
 					fontSize='0.8125rem'
 					lineHeight='1.25rem'
@@ -120,34 +114,30 @@ export function TagsInputControl({
 					minH='42px'
 					transition='all 0.22s ease'
 					_hover={{
-						borderColor: hasError ? componentColors.light.error : componentColors.light.borderHover,
-						bg: componentColors.light.surface,
+						borderColor: hasError ? 'status.error' : 'border.interactive',
+						bg: 'bg.surface',
 					}}
 					_focusWithin={{
-						borderColor: hasError ? componentColors.light.error : componentColors.light.borderHover,
-						boxShadow: `0 0 0 5px ${
-							hasError ? componentColors.light.errorSoft : componentColors.light.focusRing
-						}`,
-						bg: componentColors.light.surface,
+						borderColor: hasError ? 'status.error' : 'border.interactive',
+						boxShadow: `0 0 0 5px ${hasError ? 'status.errorSubtle' : 'focus.ring'}`,
+						bg: 'bg.surface',
 					}}
 					_dark={{
-						bg: componentColors.dark.background,
-						color: componentColors.dark.text,
+						bg: 'bg.canvas',
+						color: 'fg.default',
 						borderColor: hasError
-							? componentColors.dark.error
+							? 'status.error'
 							: isFocused
-								? componentColors.dark.borderHover
-								: componentColors.dark.border,
+								? 'border.interactive'
+								: 'border.default',
 						_hover: {
-							borderColor: hasError ? componentColors.dark.error : componentColors.dark.borderHover,
-							bg: componentColors.dark.surface,
+							borderColor: hasError ? 'status.error' : 'border.interactive',
+							bg: 'bg.surface',
 						},
 						_focusWithin: {
-							borderColor: hasError ? componentColors.dark.error : componentColors.dark.borderHover,
-							boxShadow: `0 0 0 5px ${
-								hasError ? componentColors.dark.errorSoft : componentColors.dark.focusRing
-							}`,
-							bg: componentColors.dark.surface,
+							borderColor: hasError ? 'status.error' : 'border.interactive',
+							boxShadow: `0 0 0 5px ${hasError ? 'status.errorSubtle' : 'focus.ring'}`,
+							bg: 'bg.surface',
 						},
 					}}
 				>
@@ -157,64 +147,62 @@ export function TagsInputControl({
 								key={index}
 								index={index}
 								value={tag}
-								bg={componentColors.light.accentSoft}
-								color={componentColors.light.accentStrong}
+								bg={'action.primarySubtle'}
+								color={'action.primaryStrong'}
 								border='1px solid'
-								borderColor={componentColors.light.borderHover}
-								borderRadius={componentRadii.full}
+								borderColor={'border.interactive'}
+								borderRadius={'full'}
 								animationName='fade-in'
 								animationDuration='180ms'
 								_highlighted={{
-									bg: componentColors.light.surface,
-									color: componentColors.light.accentStrong,
+									bg: 'bg.surface',
+									color: 'action.primaryStrong',
 								}}
 								_selected={{
-									bg: componentColors.light.surface,
-									color: componentColors.light.accentStrong,
+									bg: 'bg.surface',
+									color: 'action.primaryStrong',
 								}}
 								_dark={{
-									bg: componentColors.dark.accentSoft,
-									color: componentColors.dark.accentStrong,
-									borderColor: componentColors.dark.borderHover,
+									bg: 'action.primarySubtle',
+									color: 'action.primaryStrong',
+									borderColor: 'border.interactive',
 									_highlighted: {
-										bg: componentColors.dark.surface,
-										color: componentColors.dark.accentStrong,
+										bg: 'bg.surface',
+										color: 'action.primaryStrong',
 									},
 									_selected: {
-										bg: componentColors.dark.surface,
-										color: componentColors.dark.accentStrong,
+										bg: 'bg.surface',
+										color: 'action.primaryStrong',
 									},
 								}}
 							>
 								<TagsInput.ItemPreview
 									bg='transparent'
-									color={componentColors.light.accentStrong}
+									color={'action.primaryStrong'}
 									_highlighted={{
-										color: componentColors.light.accentStrong,
+										color: 'action.primaryStrong',
 									}}
 									_dark={{
-										color: componentColors.dark.accentStrong,
+										color: 'action.primaryStrong',
 										_highlighted: {
-											color: componentColors.dark.accentStrong,
+											color: 'action.primaryStrong',
 										},
 									}}
 								>
-									<TagsInput.ItemText color={componentColors.light.accentStrong}>
-										{tag}
-									</TagsInput.ItemText>
+									<TagsInput.ItemText color={'action.primaryStrong'}>{tag}</TagsInput.ItemText>
 									<TagsInput.ItemDeleteTrigger
-										color={componentColors.light.accent}
-										_hover={{ color: componentColors.light.accentStrong }}
+										color={'action.primary'}
+										_hover={{ color: 'action.primaryStrong' }}
 										_dark={{
-											color: componentColors.dark.accent,
-											_hover: { color: componentColors.dark.accentStrong },
+											color: 'action.primary',
+											_hover: { color: 'action.primaryStrong' },
 										}}
 									/>
 								</TagsInput.ItemPreview>
 								<TagsInput.ItemInput
 									bg='transparent'
-									color={componentColors.light.accentStrong}
-									_dark={{ color: componentColors.dark.accentStrong }}
+									color={'action.primaryStrong'}
+									_dark={{ color: 'action.primaryStrong' }}
 								/>
 							</TagsInput.Item>
 						))}
@@ -225,13 +213,13 @@ export function TagsInputControl({
 							limitReached ? 'Limite de tags atingido' : (placeholder ?? 'Adicione uma tag')
 						}
 						bg='transparent'
-						color={componentColors.light.text}
+						color={'fg.default'}
 						disabled={disabled || limitReached}
 						maxLength={maxTagLength}
-						_placeholder={{ color: componentColors.light.textMuted }}
+						_placeholder={{ color: 'fg.muted' }}
 						_dark={{
-							color: componentColors.dark.text,
-							_placeholder: { color: componentColors.dark.textMuted },
+							color: 'fg.default',
+							_placeholder: { color: 'fg.muted' },
 						}}
 						onFocus={() => setIsFocused(true)}
 						onBlur={(event) => {
@@ -243,12 +231,12 @@ export function TagsInputControl({
 						}}
 					/>
 					<TagsInput.ClearTrigger
-						color={componentColors.light.textMuted}
+						color={'fg.muted'}
 						transition='color 0.2s ease'
-						_hover={{ color: componentColors.light.text }}
+						_hover={{ color: 'fg.default' }}
 						_dark={{
-							color: componentColors.dark.textMuted,
-							_hover: { color: componentColors.dark.text },
+							color: 'fg.muted',
+							_hover: { color: 'fg.default' },
 						}}
 					/>
 				</TagsInput.Control>
@@ -257,9 +245,9 @@ export function TagsInputControl({
 			<Field.HelperText
 				fontSize='0.8125rem'
 				lineHeight='1.25rem'
-				color={componentColors.light.textMuted}
+				color={'fg.muted'}
 				mt='0.25rem'
-				_dark={{ color: componentColors.dark.textMuted }}
+				_dark={{ color: 'fg.muted' }}
 			>
 				{tagsCount}/{maxTags} tags
 			</Field.HelperText>

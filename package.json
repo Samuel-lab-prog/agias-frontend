@@ -8,6 +8,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"lint": "eslint . --cache",
+		"check:ui": "eslint src/features --no-cache",
 		"lint:fix": "eslint . --fix --cache",
 		"format": "prettier --check . --cache",
 		"format:fix": "prettier --write . --cache --log-level silent",

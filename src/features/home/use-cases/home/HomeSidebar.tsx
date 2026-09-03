@@ -1,9 +1,8 @@
-import { Surface } from '@BaseComponents';
+import { BaseButton, Surface } from '@BaseComponents';
 import {
 	Avatar,
 	Badge,
 	Box,
-	Button,
 	Grid,
 	GridItem,
 	Heading,
@@ -30,7 +29,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 	return (
 		<VStack align='stretch' gap={4}>
 			<Surface variant='panel' p={0} overflow='hidden'>
-				<Box p={4} bg='rgba(255,255,255,0.03)'>
+				<Box p={4} bg='bg.muted'>
 					<HStack align='start' gap={4}>
 						<Avatar.Root size='2xl' bg='purple.700' color='pink.50'>
 							<Avatar.Fallback name='Usuário' />
@@ -40,10 +39,10 @@ export function HomeSidebar({ authClient }: HomeProps) {
 							<Heading as='h3' fontSize='1rem' lineHeight='1.3' fontWeight='700'>
 								Samuel Gomes Monni
 							</Heading>
-							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#fce7f3'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 								2023326456
 							</Text>
-							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#fce7f3'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 								{label}
 							</Text>
 							<Badge variant='subtle'>Ativo</Badge>
@@ -52,15 +51,15 @@ export function HomeSidebar({ authClient }: HomeProps) {
 				</Box>
 
 				<VStack align='stretch' gap={0} p={0}>
-					<Button
-						variant='ghost'
+					<BaseButton
+						variant='subtle'
 						px={4}
 						py={3}
 						justifyContent='space-between'
 						textAlign='left'
 						cursor='pointer'
 						transition='all 0.2s ease'
-						_hover={{ bg: 'rgba(255,255,255,0.05)' }}
+						_hover={{ bg: 'bg.muted' }}
 					>
 						<HStack gap={2}>
 							<Mail size={16} />
@@ -69,9 +68,9 @@ export function HomeSidebar({ authClient }: HomeProps) {
 							</Text>
 						</HStack>
 						<Badge variant='solid'>2</Badge>
-					</Button>
-					<Button
-						variant='ghost'
+					</BaseButton>
+					<BaseButton
+						variant='subtle'
 						px={4}
 						py={3}
 						alignItems='center'
@@ -79,15 +78,15 @@ export function HomeSidebar({ authClient }: HomeProps) {
 						textAlign='left'
 						cursor='pointer'
 						transition='all 0.2s ease'
-						_hover={{ bg: 'rgba(255,255,255,0.05)' }}
+						_hover={{ bg: 'bg.muted' }}
 					>
 						<FilePenLine size={16} />
 						<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 							Atualizar Foto e Perfil
 						</Text>
-					</Button>
-					<Button
-						variant='ghost'
+					</BaseButton>
+					<BaseButton
+						variant='subtle'
 						px={4}
 						py={3}
 						alignItems='center'
@@ -95,13 +94,13 @@ export function HomeSidebar({ authClient }: HomeProps) {
 						textAlign='left'
 						cursor='pointer'
 						transition='all 0.2s ease'
-						_hover={{ bg: 'rgba(255,255,255,0.05)' }}
+						_hover={{ bg: 'bg.muted' }}
 					>
 						<User size={16} />
 						<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 							Meus Dados Pessoais
 						</Text>
-					</Button>
+					</BaseButton>
 				</VStack>
 			</Surface>
 
@@ -112,7 +111,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 				<Grid templateColumns={{ base: '1fr', md: '1fr 1fr' }} gap={3}>
 					<GridItem>
 						<Box>
-							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#fce7f3'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 								Matrícula
 							</Text>
 							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
@@ -122,7 +121,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 					</GridItem>
 					<GridItem>
 						<Box>
-							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#fce7f3'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 								Curso
 							</Text>
 							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
@@ -132,7 +131,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 					</GridItem>
 					<GridItem>
 						<Box>
-							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#fce7f3'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 								Status
 							</Text>
 							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
@@ -142,7 +141,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 					</GridItem>
 					<GridItem>
 						<Box>
-							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#fce7f3'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 								Frequência global
 							</Text>
 							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
@@ -152,7 +151,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 					</GridItem>
 					<GridItem>
 						<Box>
-							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#fce7f3'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 								Ano de entrada
 							</Text>
 							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
@@ -162,7 +161,7 @@ export function HomeSidebar({ authClient }: HomeProps) {
 					</GridItem>
 					<GridItem colSpan={{ base: 1, md: 2 }}>
 						<Box>
-							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#fce7f3'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 								E-mail institucional
 							</Text>
 							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
@@ -188,12 +187,12 @@ export function HomeSidebar({ authClient }: HomeProps) {
 							py={2.5}
 							px={2}
 							borderBottom={index === events.length - 1 ? '0' : '1px solid'}
-							borderColor='rgba(15, 23, 42, 0.08)'
+							borderColor='border.default'
 							cursor='pointer'
 							transition='all 0.2s ease'
-							_hover={{ bg: 'rgba(255,255,255,0.05)', transform: 'translateX(2px)' }}
+							_hover={{ bg: 'bg.muted', transform: 'translateX(2px)' }}
 						>
-							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='#fce7f3'>
+							<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 								{event.date}
 							</Text>
 							<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>

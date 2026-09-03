@@ -39,7 +39,7 @@ function SectionTitle({ title, description }: { title: string; description: stri
 	return (
 		<Stack gap={1.5}>
 			<Heading size={{ base: 'sm', md: 'md' }}>{title}</Heading>
-			<Text color='#475569' maxW='2xl' fontSize={{ base: 'sm', md: 'md' }} lineHeight='1.55'>
+			<Text color='fg.muted' maxW='2xl' fontSize={{ base: 'sm', md: 'md' }} lineHeight='1.55'>
 				{description}
 			</Text>
 		</Stack>
@@ -60,7 +60,7 @@ function ComponentCard({
 			<Stack gap={{ base: 3, md: 4 }}>
 				<Stack gap={1}>
 					<Heading size={{ base: 'xs', md: 'sm' }}>{title}</Heading>
-					<Text fontSize={{ base: 'xs', md: 'sm' }} color='#475569' lineHeight='1.5'>
+					<Text fontSize={{ base: 'xs', md: 'sm' }} color='fg.muted' lineHeight='1.5'>
 						{description}
 					</Text>
 				</Stack>
@@ -224,8 +224,8 @@ export function DevComponentsPage() {
 	return (
 		<Flex
 			as='main'
-			bg='#f7f8fa'
-			color='#0f172a'
+			bg='bg.canvas'
+			color='fg.default'
 			minH='100dvh'
 			px={{ base: 4, md: 6 }}
 			py={{ base: 6, md: 10 }}
@@ -440,7 +440,7 @@ export function DevComponentsPage() {
 							onValueChange={setQuery}
 							onDebouncedChange={setDebouncedQuery}
 						/>
-						<Text fontSize='sm' color='#475569'>
+						<Text fontSize='sm' color='fg.muted'>
 							Debounced: {debouncedQuery || 'vazio'}
 						</Text>
 					</ComponentCard>

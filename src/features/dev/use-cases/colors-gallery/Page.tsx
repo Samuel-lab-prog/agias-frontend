@@ -1,6 +1,7 @@
 import { Surface } from '@BaseComponents';
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 
+import { documentedColorTokens } from '../../../../core/themes/semanticTokens';
 import { DevSubNav } from '../../components/DevSubNav';
 
 type LocalColor = {
@@ -14,7 +15,7 @@ function SectionTitle({ title, description }: { title: string; description: stri
 	return (
 		<Stack gap={1}>
 			<Heading size='md'>{title}</Heading>
-			<Text color='#475569' maxW='2xl'>
+			<Text color='fg.muted' maxW='2xl'>
 				{description}
 			</Text>
 		</Stack>
@@ -22,86 +23,18 @@ function SectionTitle({ title, description }: { title: string; description: stri
 }
 
 export function DevColorsPage() {
-	const localColors: LocalColor[] = [
-		{
-			name: 'background',
-			light: '#ffffff',
-			dark: '#020617',
-			description: 'Fundo principal da página e áreas mais externas.',
-		},
-		{
-			name: 'surface',
-			light: '#fcfcfd',
-			dark: '#0f172a',
-			description: 'Cartões, painéis e superfícies elevadas com leve separação do fundo.',
-		},
-		{
-			name: 'border',
-			light: '#e2e8f0',
-			dark: '#1e293b',
-			description: 'Separadores, bordas padrão e contornos neutros.',
-		},
-		{
-			name: 'borderHover',
-			light: '#cbd5e1',
-			dark: '#64748b',
-			description: 'Borda em hover, foco sutil e realce de interação.',
-		},
-		{
-			name: 'text',
-			light: '#1f2a44',
-			dark: '#f1f5f9',
-			description: 'Texto principal de leitura e labels importantes.',
-		},
-		{
-			name: 'textMuted',
-			light: '#5f6b85',
-			dark: '#cbd5e1',
-			description: 'Texto secundário, legendas e detalhes de apoio.',
-		},
-		{
-			name: 'accent',
-			light: '#1d4ed8',
-			dark: '#93c5fd',
-			description: 'Links, ações principais e elementos de destaque.',
-		},
-		{
-			name: 'accentSoft',
-			light: '#dbeafe',
-			dark: '#1e3a8a',
-			description: 'Fundo suave para chips, callouts e destaques leves.',
-		},
-		{
-			name: 'accentStrong',
-			light: '#172554',
-			dark: '#dbeafe',
-			description: 'Versão forte do acento para contraste alto.',
-		},
-		{
-			name: 'error',
-			light: '#e11d48',
-			dark: '#fb7185',
-			description: 'Mensagens de erro, validação e estados destrutivos.',
-		},
-		{
-			name: 'warning',
-			light: '#d97706',
-			dark: '#fbbf24',
-			description: 'Avisos, atenção antes de uma ação e estados não críticos.',
-		},
-		{
-			name: 'focusRing',
-			light: '#60a5fa',
-			dark: '#93c5fd',
-			description: 'Anel de foco acessível para navegação por teclado.',
-		},
-	];
+	const localColors: LocalColor[] = documentedColorTokens.map(([name, values, description]) => ({
+		name,
+		light: values.light,
+		dark: values.dark,
+		description,
+	}));
 
 	return (
 		<Flex
 			as='main'
-			bg='#f7f8fa'
-			color='#0f172a'
+			bg='bg.canvas'
+			color='fg.default'
 			minH='100dvh'
 			px={{ base: 4, md: 6 }}
 			py={{ base: 6, md: 10 }}
@@ -119,7 +52,7 @@ export function DevColorsPage() {
 					<Box
 						p={4}
 						borderBottom='1px solid'
-						borderColor='rgba(15, 23, 42, 0.08)'
+						borderColor='border.default'
 						display={{ base: 'none', md: 'block' }}
 					>
 						<Box
@@ -128,7 +61,7 @@ export function DevColorsPage() {
 							gap={3}
 							fontSize='sm'
 							fontWeight='semibold'
-							color='#475569'
+							color='fg.muted'
 						>
 							<Text>Token</Text>
 							<Text>Light</Text>
@@ -145,14 +78,14 @@ export function DevColorsPage() {
 								gap={3}
 								p={{ base: 4, md: 0 }}
 								borderBottom='1px solid'
-								borderColor='rgba(15, 23, 42, 0.08)'
+								borderColor='border.default'
 								_last={{ borderBottom: 'none' }}
 								borderRadius={{ base: 'xl', md: 'none' }}
-								bg={{ base: 'rgba(255,255,255,0.6)', md: 'transparent' }}
+								bg={{ base: 'bg.muted', md: 'transparent' }}
 							>
 								<Stack gap={1} mb={{ base: 4, md: 0 }}>
 									<Text fontWeight='semibold'>{token.name}</Text>
-									<Text fontSize='xs' color='#475569'>
+									<Text fontSize='xs' color='fg.muted'>
 										{token.description}
 									</Text>
 								</Stack>
@@ -160,7 +93,7 @@ export function DevColorsPage() {
 									<Text
 										fontSize='xs'
 										fontWeight='semibold'
-										color='#475569'
+										color='fg.muted'
 										display={{ md: 'none' }}
 									>
 										Light
@@ -170,9 +103,9 @@ export function DevColorsPage() {
 										borderRadius='md'
 										bg={token.light}
 										border='1px solid'
-										borderColor='rgba(15, 23, 42, 0.08)'
+										borderColor='border.default'
 									/>
-									<Text fontSize='sm' color='#475569'>
+									<Text fontSize='sm' color='fg.muted'>
 										{token.light}
 									</Text>
 								</Stack>
@@ -180,7 +113,7 @@ export function DevColorsPage() {
 									<Text
 										fontSize='xs'
 										fontWeight='semibold'
-										color='#475569'
+										color='fg.muted'
 										display={{ md: 'none' }}
 									>
 										Dark
@@ -190,13 +123,13 @@ export function DevColorsPage() {
 										borderRadius='md'
 										bg={token.dark}
 										border='1px solid'
-										borderColor='rgba(15, 23, 42, 0.08)'
+										borderColor='border.default'
 									/>
-									<Text fontSize='sm' color='#475569'>
+									<Text fontSize='sm' color='fg.muted'>
 										{token.dark}
 									</Text>
 								</Stack>
-								<Text fontSize='sm' color='#475569' display={{ base: 'none', md: 'block' }}>
+								<Text fontSize='sm' color='fg.muted' display={{ base: 'none', md: 'block' }}>
 									{token.description}
 								</Text>
 							</Box>

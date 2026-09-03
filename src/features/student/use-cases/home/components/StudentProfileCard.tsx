@@ -1,5 +1,5 @@
 import type { StudentProfile } from '@Api/academic/types';
-import { BaseButton, componentColors, componentRadii, Surface } from '@BaseComponents';
+import { BaseButton, Surface } from '@BaseComponents';
 import { Badge, Box, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { useColorModeValue } from '@core/components/ui/color-mode';
 import { translateBackendStatus } from '@core/utils/backend-labels';
@@ -12,11 +12,8 @@ type StudentProfileCardProps = {
 };
 
 export function StudentProfileCard({ profile, userName }: StudentProfileCardProps) {
-	const headerTextColor = useColorModeValue(componentColors.light.text, componentColors.dark.text);
-	const headerSubtextColor = useColorModeValue(
-		componentColors.light.textMuted,
-		componentColors.dark.textMuted,
-	);
+	const headerTextColor = useColorModeValue('fg.default', 'fg.default');
+	const headerSubtextColor = useColorModeValue('fg.muted', 'fg.muted');
 
 	const initials = userName
 		?.split(/\s+/)
@@ -33,26 +30,26 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 		<Surface id='student-profile' variant='panel' p={0} overflow='hidden'>
 			<Box
 				p={4}
-				bg={componentColors.light.surface}
+				bg={'bg.surface'}
 				borderBottom='1px solid'
-				borderColor={componentColors.light.border}
+				borderColor={'border.default'}
 				_dark={{
-					bg: componentColors.dark.surface,
-					borderColor: componentColors.dark.border,
+					bg: 'bg.surface',
+					borderColor: 'border.default',
 				}}
 			>
 				<HStack align='start' gap={4}>
 					<Box
 						boxSize={16}
-						borderRadius={componentRadii.full}
-						bg='#0f172a'
+						borderRadius={'full'}
+						bg='action.primaryStrong'
 						display='grid'
 						placeItems='center'
-						color='#ffffff'
+						color='fg.inverted'
 						fontWeight='bold'
 						border='1px solid'
-						borderColor={componentColors.light.border}
-						_dark={{ borderColor: componentColors.dark.border }}
+						borderColor={'border.default'}
+						_dark={{ borderColor: 'border.default' }}
 					>
 						{initials ?? '?'}
 					</Box>
@@ -79,7 +76,7 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 					justify='space-between'
 					cursor='pointer'
 					transition='all 0.2s ease'
-					_hover={{ bg: 'rgba(255,255,255,0.05)', transform: 'translateX(2px)' }}
+					_hover={{ bg: 'bg.muted', transform: 'translateX(2px)' }}
 				>
 					<HStack gap={2}>
 						<MessageSquare size={16} />
@@ -90,8 +87,8 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 					<Text
 						fontSize='0.8125rem'
 						lineHeight='1.25rem'
-						color={componentColors.light.textMuted}
-						_dark={{ color: componentColors.dark.textMuted }}
+						color={'fg.muted'}
+						_dark={{ color: 'fg.muted' }}
 					>
 						Dado não disponível
 					</Text>
@@ -102,7 +99,7 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 					gap={2}
 					cursor='pointer'
 					transition='all 0.2s ease'
-					_hover={{ bg: 'rgba(255,255,255,0.05)', transform: 'translateX(2px)' }}
+					_hover={{ bg: 'bg.muted', transform: 'translateX(2px)' }}
 				>
 					<FileText size={16} />
 					<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
@@ -115,7 +112,7 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 					gap={2}
 					cursor='pointer'
 					transition='all 0.2s ease'
-					_hover={{ bg: 'rgba(255,255,255,0.05)', transform: 'translateX(2px)' }}
+					_hover={{ bg: 'bg.muted', transform: 'translateX(2px)' }}
 				>
 					<GraduationCap size={16} />
 					<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
@@ -123,7 +120,7 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 					</Text>
 				</HStack>
 				<Box px={4} py={3}>
-					<BaseButton asChild w='full' variant='outlinePurple' size='sm'>
+					<BaseButton asChild w='full' variant='secondary' size='sm'>
 						<NavLink to='/login'>
 							<HStack gap={2}>
 								<LogOut size={16} />

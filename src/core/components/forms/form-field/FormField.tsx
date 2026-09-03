@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react';
 import { Controller, type FieldValues } from 'react-hook-form';
 
 import { hoverSubtle } from '../../../utils/interaction';
-import { componentColors } from '../../localStyles';
 import { useAsyncValidation } from './hooks';
 import type { FormFieldProps } from './types';
 
@@ -87,10 +86,10 @@ export function FormField<T extends FieldValues>({
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
 							fontWeight='medium'
-							color={hasError ? componentColors.light.error : componentColors.light.text}
+							color={hasError ? 'status.error' : 'fg.default'}
 							transition={subtleMotion.transition}
 							_dark={{
-								color: hasError ? componentColors.dark.error : componentColors.dark.text,
+								color: hasError ? 'status.error' : 'fg.default',
 							}}
 						>
 							{label}
@@ -102,56 +101,40 @@ export function FormField<T extends FieldValues>({
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
 							transition={subtleMotion.transition}
-							bg={componentColors.light.background}
-							borderColor={hasError ? componentColors.light.error : componentColors.light.border}
-							color={componentColors.light.text}
+							bg={'bg.canvas'}
+							borderColor={hasError ? 'status.error' : 'border.default'}
+							color={'fg.default'}
 							_hover={{
 								...subtleMotion.hover,
-								borderColor: hasError
-									? componentColors.light.error
-									: componentColors.light.borderHover,
-								bg: componentColors.light.surface,
+								borderColor: hasError ? 'status.error' : 'border.interactive',
+								bg: 'bg.surface',
 							}}
 							_focusVisible={{
 								...subtleMotion.focusVisible,
-								borderColor: hasError
-									? componentColors.light.error
-									: componentColors.light.borderHover,
-								boxShadow: `0 0 0 3px ${
-									hasError ? componentColors.light.errorSoft : componentColors.light.focusRing
-								}`,
-								bg: componentColors.light.surface,
+								borderColor: hasError ? 'status.error' : 'border.interactive',
+								boxShadow: `0 0 0 3px ${hasError ? 'status.errorSubtle' : 'focus.ring'}`,
+								bg: 'bg.surface',
 							}}
 							_focus={{
-								borderColor: hasError
-									? componentColors.light.error
-									: componentColors.light.borderHover,
-								bg: componentColors.light.surface,
+								borderColor: hasError ? 'status.error' : 'border.interactive',
+								bg: 'bg.surface',
 							}}
 							_dark={{
-								bg: componentColors.dark.background,
-								borderColor: hasError ? componentColors.dark.error : componentColors.dark.border,
-								color: componentColors.dark.text,
+								bg: 'bg.canvas',
+								borderColor: hasError ? 'status.error' : 'border.default',
+								color: 'fg.default',
 								_hover: {
-									borderColor: hasError
-										? componentColors.dark.error
-										: componentColors.dark.borderHover,
-									bg: componentColors.dark.surface,
+									borderColor: hasError ? 'status.error' : 'border.interactive',
+									bg: 'bg.surface',
 								},
 								_focusVisible: {
-									borderColor: hasError
-										? componentColors.dark.error
-										: componentColors.dark.borderHover,
-									boxShadow: `0 0 0 3px ${
-										hasError ? componentColors.dark.errorSoft : componentColors.dark.focusRing
-									}`,
-									bg: componentColors.dark.surface,
+									borderColor: hasError ? 'status.error' : 'border.interactive',
+									boxShadow: `0 0 0 3px ${hasError ? 'status.errorSubtle' : 'focus.ring'}`,
+									bg: 'bg.surface',
 								},
 								_focus: {
-									borderColor: hasError
-										? componentColors.dark.error
-										: componentColors.dark.borderHover,
-									bg: componentColors.dark.surface,
+									borderColor: hasError ? 'status.error' : 'border.interactive',
+									bg: 'bg.surface',
 								},
 							}}
 							autoFocus={autoFocus}
@@ -179,8 +162,8 @@ export function FormField<T extends FieldValues>({
 							<Field.ErrorText
 								fontSize='0.8125rem'
 								lineHeight='1.25rem'
-								color={componentColors.light.error}
-								_dark={{ color: componentColors.dark.error }}
+								color={'status.error'}
+								_dark={{ color: 'status.error' }}
 								opacity={hasError ? 1 : 0}
 								transform={hasError ? 'translateY(0)' : 'translateY(-3px)'}
 								overflow='hidden'
@@ -195,13 +178,9 @@ export function FormField<T extends FieldValues>({
 							<Text
 								fontSize='0.8125rem'
 								lineHeight='1.25rem'
-								color={
-									isBelowMinLength ? componentColors.light.error : componentColors.light.textMuted
-								}
+								color={isBelowMinLength ? 'status.error' : 'fg.muted'}
 								_dark={{
-									color: isBelowMinLength
-										? componentColors.dark.error
-										: componentColors.dark.textMuted,
+									color: isBelowMinLength ? 'status.error' : 'fg.muted',
 								}}
 								w='full'
 								textAlign='right'

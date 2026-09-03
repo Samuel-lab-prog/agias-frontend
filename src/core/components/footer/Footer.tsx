@@ -1,6 +1,5 @@
 import { Box, Flex, Grid, GridItem, Text, VStack } from '@chakra-ui/react';
 
-import { componentColors } from '../localStyles';
 import { FooterBrand } from './FooterBrand';
 import { FooterCommunity } from './FooterCommunity';
 import { FooterNav } from './FooterNav';
@@ -18,8 +17,8 @@ export function Footer({ links }: FooterProps) {
 			px={{ base: 4, md: 4 }}
 			pb={{ base: 'calc(92px + env(safe-area-inset-bottom, 0px))', md: 8 }}
 			pt={0}
-			borderColor='rgba(148, 163, 184, 0.22)'
-			bg='linear-gradient(180deg, rgba(18,0,17,0.75) 0%, rgba(18,0,17,0.92) 100%)'
+			borderColor='border.default'
+			bg='bg.surface'
 		>
 			<Grid templateColumns={{ base: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }} gap={8}>
 				<GridItem colSpan={{ base: 2, md: 1 }}>
@@ -41,16 +40,16 @@ export function Footer({ links }: FooterProps) {
 				mt={8}
 				pt={4}
 				borderTop='1px solid'
-				borderColor='rgba(148, 163, 184, 0.22)'
+				borderColor='border.default'
 				justify='space-between'
 				align={{ base: 'start', md: 'center' }}
 				direction={{ base: 'column', md: 'row' }}
 				gap={2}
 			>
-				<Text fontSize='0.8125rem' lineHeight='1.25rem' color={componentColors.dark.textMuted}>
+				<Text fontSize='0.8125rem' lineHeight='1.25rem' color={'fg.muted'}>
 					© {new Date().getFullYear()} HelloPoetry.
 				</Text>
-				<Text fontSize='0.8125rem' lineHeight='1.25rem' color={componentColors.dark.textMuted}>
+				<Text fontSize='0.8125rem' lineHeight='1.25rem' color={'fg.muted'}>
 					Published for readers and authors.
 				</Text>
 			</Flex>

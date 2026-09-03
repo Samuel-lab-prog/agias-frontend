@@ -29,7 +29,7 @@ export function LoginForm() {
 			onSubmit={onSubmit}
 			handleSubmitFn={handleSubmit}
 			buttonLabel='Entrar'
-			buttonVariant='surface'
+			buttonVariant='primary'
 		/>
 	);
 }

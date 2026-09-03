@@ -1,5 +1,5 @@
-import { Surface } from '@BaseComponents';
-import { Badge, Box, Button, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+import { BaseButton, Surface } from '@BaseComponents';
+import { Badge, Box, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import { ArrowRight, Bell } from 'lucide-react';
 
 import type { HomeProps } from './types';
@@ -34,26 +34,26 @@ export function HomeHeader({ authClient }: HomeProps) {
 						>
 							Bem-vindo ao sistema acadêmico
 						</Heading>
-						<Text mt={2} fontSize='0.8125rem' lineHeight='1.25rem' color='#475569' maxW='lg'>
+						<Text mt={2} fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted' maxW='lg'>
 							Aqui você encontra os principais atalhos da sua rotina institucional, com acesso
 							rápido aos módulos que fazem parte do seu perfil.
 						</Text>
 					</Box>
 
 					<HStack gap={3} flexWrap='wrap'>
-						<Button variant='solid'>
+						<BaseButton variant='primary'>
 							<Bell />
 							Avisos
-						</Button>
-						<Button
-							variant='outline'
-							color='#475569'
-							borderColor='rgba(15, 23, 42, 0.08)'
+						</BaseButton>
+						<BaseButton
+							variant='secondary'
+							color='fg.muted'
+							borderColor='border.default'
 							_hover={{ bg: 'surface' }}
 						>
 							<ArrowRight />
 							Ver módulo principal
-						</Button>
+						</BaseButton>
 					</HStack>
 				</VStack>
 			</Flex>

@@ -1,7 +1,5 @@
 import type { SystemStyleObject } from '@chakra-ui/react';
 
-import { componentColors } from '../components/localStyles';
-
 const interactiveTransition =
 	'color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease';
 
@@ -21,13 +19,13 @@ export function hoverLift(): HoverRecipe {
 	return {
 		transition: interactiveTransition,
 		hover: {
-			bg: componentColors.light.surface,
-			borderColor: componentColors.light.borderHover,
+			bg: 'bg.surface',
+			borderColor: 'border.interactive',
 			transform: 'translateY(-1px)',
 		},
 		_hover: {
-			bg: componentColors.light.surface,
-			borderColor: componentColors.light.borderHover,
+			bg: 'bg.surface',
+			borderColor: 'border.interactive',
 			transform: 'translateY(-1px)',
 		},
 		active: {
@@ -37,12 +35,12 @@ export function hoverLift(): HoverRecipe {
 			transform: 'translateY(0)',
 		},
 		focusVisible: {
-			bg: componentColors.light.surface,
-			boxShadow: `0 0 0 3px ${componentColors.light.focusRing}`,
+			bg: 'bg.surface',
+			boxShadow: '0 0 0 3px token(colors.focus.ring)',
 		},
 		_focusVisible: {
-			bg: componentColors.light.surface,
-			boxShadow: `0 0 0 3px ${componentColors.light.focusRing}`,
+			bg: 'bg.surface',
+			boxShadow: '0 0 0 3px token(colors.focus.ring)',
 		},
 		disabled: {
 			opacity: 0.72,
@@ -61,13 +59,13 @@ export function hoverNav(): HoverRecipe {
 	return {
 		transition: interactiveTransition,
 		hover: {
-			bg: componentColors.light.surface,
-			color: componentColors.light.text,
+			bg: 'bg.surface',
+			color: 'fg.default',
 			transform: 'translateX(2px)',
 		},
 		_hover: {
-			bg: componentColors.light.surface,
-			color: componentColors.light.text,
+			bg: 'bg.surface',
+			color: 'fg.default',
 			transform: 'translateX(2px)',
 		},
 		active: {
@@ -77,10 +75,10 @@ export function hoverNav(): HoverRecipe {
 			transform: 'translateX(1px)',
 		},
 		focusVisible: {
-			boxShadow: `0 0 0 3px ${componentColors.light.focusRing}`,
+			boxShadow: '0 0 0 3px token(colors.focus.ring)',
 		},
 		_focusVisible: {
-			boxShadow: `0 0 0 3px ${componentColors.light.focusRing}`,
+			boxShadow: '0 0 0 3px token(colors.focus.ring)',
 		},
 	};
 }
@@ -89,24 +87,24 @@ export function hoverSubtle(): HoverRecipe {
 	return {
 		transition: interactiveTransition,
 		hover: {
-			bg: componentColors.light.surface,
-			color: componentColors.light.text,
+			bg: 'bg.surface',
+			color: 'fg.default',
 		},
 		_hover: {
-			bg: componentColors.light.surface,
-			color: componentColors.light.text,
+			bg: 'bg.surface',
+			color: 'fg.default',
 		},
 		active: {
-			bg: componentColors.light.surface,
+			bg: 'bg.surface',
 		},
 		_active: {
-			bg: componentColors.light.surface,
+			bg: 'bg.surface',
 		},
 		focusVisible: {
-			boxShadow: `0 0 0 3px ${componentColors.light.focusRing}`,
+			boxShadow: '0 0 0 3px token(colors.focus.ring)',
 		},
 		_focusVisible: {
-			boxShadow: `0 0 0 3px ${componentColors.light.focusRing}`,
+			boxShadow: '0 0 0 3px token(colors.focus.ring)',
 		},
 	};
 }
