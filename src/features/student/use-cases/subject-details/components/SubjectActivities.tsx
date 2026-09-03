@@ -52,6 +52,15 @@ export function SubjectActivities({
 								<NavLink
 									to={`/student/subjects/${enrollmentId}/activities/${activity.id}`}
 									aria-label={`Ver detalhes de ${activity.title}`}
+									style={{
+										display: 'flex',
+										width: '100%',
+										alignItems: 'flex-start',
+										justifyContent: 'space-between',
+										gap: '1rem',
+										color: 'inherit',
+										textDecoration: 'none',
+									}}
 								>
 									<Box minW={0}>
 										<Text fontWeight='semibold' fontSize='sm'>

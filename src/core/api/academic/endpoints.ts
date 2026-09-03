@@ -10,6 +10,7 @@ import type {
 	CreateProfessorProfileBody,
 	CreateStaffProfileBody,
 	CreateStudentActivitySubmissionBody,
+	CreateStudentActivitySubmissionCommentBody,
 	CreateStudentActivitySubmissionUploadBody,
 	CreateStudentActivitySubmissionUploadResponse,
 	CreateStudentProfileBody,
@@ -251,6 +252,21 @@ const createStudentActivitySubmission = createMutationEndpoint<
 		}),
 });
 
+const createStudentActivitySubmissionComment = createMutationEndpoint<
+	CreateStudentActivitySubmissionCommentBody,
+	import('./types').StudentSubmissionComment
+>({
+	fn: ({ submissionId, ...body }) =>
+		createHTTPRequest<
+			import('./types').StudentSubmissionComment,
+			Omit<CreateStudentActivitySubmissionCommentBody, 'submissionId'>
+		>({
+			method: 'POST',
+			path: `/activities/submissions/${submissionId}/comments/me`,
+			body,
+		}),
+});
+
 export const academic = {
 	getMyStudentProfile,
 	getMyStudentDashboard,
@@ -275,4 +291,5 @@ export const academic = {
 	createAcademicActivityAttachmentUploadUrl,
 	createStudentActivitySubmissionUploadUrl,
 	createStudentActivitySubmission,
+	createStudentActivitySubmissionComment,
 };

@@ -13,6 +13,9 @@ import { StudentCard, StudentCardHeader } from './StudentCard';
 type StudentActivitiesCardProps = {
 	enrollments: StudentEnrollment[];
 	submissions: StudentDashboardSubmission[];
+	limit?: number | null;
+	title?: string;
+	showAllAction?: boolean;
 };
 
 function getActivityStatus(
@@ -123,7 +126,13 @@ function isPendingActivity(
 	return !submissions.some((item) => item.activityId === activity.id);
 }
 
-export function StudentActivitiesCard({ enrollments, submissions }: StudentActivitiesCardProps) {
+export function StudentActivitiesCard({
+	enrollments,
+	submissions,
+	limit = 4,
+	title = 'Minhas atividades',
+	showAllAction = true,
+}: StudentActivitiesCardProps) {
 	const dateFormatter = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit' });
 	const timeFormatter = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit' });
 	const dateTimeFormatter = new Intl.DateTimeFormat('pt-BR', {
@@ -146,17 +155,19 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 			const right = b.dueAt ? new Date(b.dueAt).getTime() : Number.POSITIVE_INFINITY;
 			return left - right;
 		})
-		.slice(0, 4);
+		.slice(0, limit ?? Number.MAX_SAFE_INTEGER);
 
 	return (
 		<StudentCard>
 			<StudentCardHeader
 				icon={<CalendarDays size={18} />}
-				title='Minhas atividades'
+				title={title}
 				action={
-					<BaseButton size='sm' variant='secondary' color='fg.muted'>
-						Ver todas as atividades
-					</BaseButton>
+					showAllAction ? (
+						<BaseButton asChild size='sm' variant='secondary' color='fg.muted'>
+							<NavLink to='/student/activities'>Ver todas as atividades</NavLink>
+						</BaseButton>
+					) : undefined
 				}
 			/>
 
@@ -197,6 +208,15 @@ export function StudentActivitiesCard({ enrollments, submissions }: StudentActiv
 									<NavLink
 										to={`/student/subjects/${activity.enrollmentId}/activities/${activity.id}`}
 										aria-label={`Ver detalhes de ${activity.title}`}
+										style={{
+											display: 'flex',
+											width: '100%',
+											alignItems: 'flex-start',
+											justifyContent: 'space-between',
+											gap: '0.75rem',
+											color: 'inherit',
+											textDecoration: 'none',
+										}}
 									>
 										<HStack align='start' gap={3} flex='1' minW={0} w='full'>
 											<Box minW={0}>

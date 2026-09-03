@@ -94,6 +94,17 @@ export type StudentDashboardSubmission = {
 	grade: string | null;
 	feedback: string | null;
 	attachments?: StudentSubmissionAttachment[];
+	comments?: StudentSubmissionComment[];
+};
+
+export type StudentSubmissionComment = {
+	id: number;
+	submissionId: number;
+	authorUserId: number;
+	authorName: string;
+	body: string;
+	createdAt: string;
+	updatedAt: string;
 };
 
 export type StudentSubmissionAttachment = {
@@ -139,4 +150,8 @@ export type CreateStudentActivitySubmissionBody = {
 		contentType?: string;
 		fileSize?: number;
 	}>;
+};
+export type CreateStudentActivitySubmissionCommentBody = {
+	submissionId: number;
+	body: string;
 };

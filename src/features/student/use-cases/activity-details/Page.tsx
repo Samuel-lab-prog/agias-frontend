@@ -1,9 +1,10 @@
+/* eslint-disable max-lines, max-lines-per-function -- this route intentionally composes the complete student activity workflow. */
 import { academic } from '@Api/academic/endpoints';
 import { BaseButton, EmptyStateCard, ErrorStateCard, Surface } from '@BaseComponents';
-import { Badge, Box, Grid, Heading, HStack, Image, Text, VStack } from '@chakra-ui/react';
+import { Badge, Box, Grid, Heading, HStack, Image, Text, Textarea, VStack } from '@chakra-ui/react';
 import { NavigationPageShell } from '@core/components/navigation';
 import { ArrowLeft, ClipboardList, FileText, Plus, X } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { studentNavigationPreset } from '../../utils/navigation-routes';
@@ -25,17 +26,19 @@ function formatFileSize(bytes: number) {
 function SelectedFilePreview({ file }: { file: File }) {
 	const isImage = file.type.startsWith('image/');
 	const isAudio = file.type.startsWith('audio/');
-	const previewUrl = useMemo(
-		() => (isImage || isAudio ? URL.createObjectURL(file) : null),
-		[file, isAudio, isImage],
-	);
+	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-	useEffect(
-		() => () => {
-			if (previewUrl) URL.revokeObjectURL(previewUrl);
-		},
-		[previewUrl],
-	);
+	useEffect(() => {
+		if (!isImage && !isAudio) {
+			setPreviewUrl(null);
+			return;
+		}
+		const nextPreviewUrl = URL.createObjectURL(file);
+		setPreviewUrl(nextPreviewUrl);
+		return () => {
+			URL.revokeObjectURL(nextPreviewUrl);
+		};
+	}, [file, isAudio, isImage]);
 
 	if (!previewUrl) return null;
 	if (isImage) {
@@ -71,9 +74,38 @@ export function StudentActivityDetailsPage() {
 	const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [submitError, setSubmitError] = useState<string | null>(null);
+	const [comment, setComment] = useState('');
+	const [commentError, setCommentError] = useState<string | null>(null);
+	const [isCommenting, setIsCommenting] = useState(false);
+
+	async function submitComment() {
+		if (!details?.submission || !comment.trim()) return;
+		setIsCommenting(true);
+		setCommentError(null);
+		try {
+			await academic.createStudentActivitySubmissionComment.mutate({
+				submissionId: details.submission.id,
+				body: comment.trim(),
+			});
+			setComment('');
+			await refetch();
+		} catch (error) {
+			setCommentError(
+				error instanceof Error ? error.message : 'Não foi possível enviar o comentário.',
+			);
+		} finally {
+			setIsCommenting(false);
+		}
+	}
 
 	async function submitActivity() {
-		if (!details || !dashboard || selectedFiles.length === 0) return;
+		if (
+			!details ||
+			!dashboard ||
+			selectedFiles.length === 0 ||
+			(details.status === 'overdue' && !details.allowLateSubmissions)
+		)
+			return;
 		setIsSubmitting(true);
 		setSubmitError(null);
 		try {
@@ -89,7 +121,12 @@ export function StudentActivityDetailsPage() {
 					Object.entries(upload.fields).forEach(([key, value]) => formData.append(key, value));
 					formData.append('file', file);
 					const response = await fetch(upload.uploadUrl, { method: 'POST', body: formData });
-					if (!response.ok) throw new Error('Falha ao enviar um dos arquivos.');
+					if (!response.ok) {
+						const responseMessage = (await response.text()).trim();
+						throw new Error(
+							`Falha ao enviar um dos arquivos (HTTP ${response.status})${responseMessage ? `: ${responseMessage.slice(0, 160)}` : '.'}`,
+						);
+					}
 					return {
 						fileName: file.name,
 						fileUrl: upload.fileUrl,
@@ -118,6 +155,8 @@ export function StudentActivityDetailsPage() {
 			setIsSubmitting(false);
 		}
 	}
+
+	const canSubmit = details ? details.status !== 'overdue' || details.allowLateSubmissions : false;
 
 	return (
 		<NavigationPageShell preset={studentNavigationPreset}>
@@ -197,10 +236,32 @@ export function StudentActivityDetailsPage() {
 							</Heading>
 							<VStack align='stretch' gap={3}>
 								<Box>
-									<Text color='fg.muted' fontSize='sm'>
-										Prazo
-									</Text>
-									<Text fontWeight='medium'>{details.dueLabel}</Text>
+									<HStack align='end' justify='space-between' gap={4} flexWrap='wrap'>
+										<Box>
+											<Text color='fg.muted' fontSize='sm'>
+												Prazo
+											</Text>
+											<Text fontWeight='medium'>{details.dueLabel}</Text>
+										</Box>
+										{details.submission ? (
+											<Box>
+												<Text color='fg.muted' fontSize='sm'>
+													Enviada em
+												</Text>
+												<Text fontWeight='medium'>{details.submission.submittedLabel}</Text>
+											</Box>
+										) : null}
+									</HStack>
+									{details.submissionTiming ? (
+										<Text
+											color={`status.${details.submissionTiming.tone}`}
+											fontSize='sm'
+											fontWeight='medium'
+											mt={1}
+										>
+											{details.submissionTiming.label}
+										</Text>
+									) : null}
 									{details.overdueLabel ? (
 										<Text color='status.error' fontSize='sm' fontWeight='medium'>
 											{details.overdueLabel}
@@ -216,9 +277,11 @@ export function StudentActivityDetailsPage() {
 									<>
 										<Box>
 											<Text color='fg.muted' fontSize='sm'>
-												Enviada em
+												Avaliação
 											</Text>
-											<Text fontWeight='medium'>{details.submission.submittedLabel}</Text>
+											<Text fontWeight='medium'>
+												{details.submission.grade ? 'Avaliada' : 'Aguardando avaliação'}
+											</Text>
 										</Box>
 										{details.submission.grade ? (
 											<Box>
@@ -236,12 +299,92 @@ export function StudentActivityDetailsPage() {
 												<Text whiteSpace='pre-wrap'>{details.submission.feedback}</Text>
 											</Box>
 										) : null}
+										{details.submission.attachments.length ? (
+											<Box>
+												<Text color='fg.muted' fontSize='sm' mb={1}>
+													Arquivos entregues
+												</Text>
+												<VStack align='stretch' gap={1}>
+													{details.submission.attachments.map((attachment) => (
+														<a
+															key={attachment.fileUrl}
+															href={attachment.fileUrl}
+															target='_blank'
+															rel='noreferrer'
+														>
+															<Text color='action.primary' fontSize='sm'>
+																{attachment.fileName}
+															</Text>
+														</a>
+													))}
+												</VStack>
+											</Box>
+										) : null}
+										<Box>
+											<Text color='fg.muted' fontSize='sm' mb={1}>
+												Comentários
+											</Text>
+											{details.submission.comments.length ? (
+												details.submission.comments.map((item) => (
+													<Box
+														key={item.id}
+														p={2}
+														borderWidth='1px'
+														borderColor='border.muted'
+														borderRadius='md'
+														mb={2}
+													>
+														<Text color='fg.muted' fontSize='xs' fontWeight='semibold'>
+															{item.authorName}
+														</Text>
+														<Text fontSize='sm'>{item.body}</Text>
+														<Text color='fg.muted' fontSize='xs'>
+															{new Intl.DateTimeFormat('pt-BR', {
+																dateStyle: 'short',
+																timeStyle: 'short',
+															}).format(new Date(item.createdAt))}
+														</Text>
+													</Box>
+												))
+											) : (
+												<Text color='fg.muted' fontSize='sm'>
+													Nenhum comentário enviado.
+												</Text>
+											)}
+											<Textarea
+												value={comment}
+												onChange={(event) => setComment(event.target.value)}
+												placeholder='Escreva uma mensagem para o professor'
+												mt={2}
+											/>
+											<BaseButton
+												type='button'
+												variant='secondary'
+												size='sm'
+												disabled={!comment.trim()}
+												loading={isCommenting}
+												onClick={() => void submitComment()}
+												mt={2}
+											>
+												Enviar comentário
+											</BaseButton>
+											{commentError ? (
+												<Text color='status.error' fontSize='sm' mt={1}>
+													{commentError}
+												</Text>
+											) : null}
+										</Box>
 									</>
 								) : (
 									<>
 										<Text color='fg.muted' fontSize='sm'>
 											Selecione os arquivos que deseja enviar.
 										</Text>
+										{!canSubmit ? (
+											<Text color='status.error' fontSize='sm'>
+												Os envios estão encerrados para esta atividade.
+											</Text>
+										) : null}
 										{selectedFiles.length ? (
 											<Text fontSize='sm' fontWeight='medium'>
 												{selectedFiles.length} arquivo(s) selecionado(s)
@@ -252,6 +395,7 @@ export function StudentActivityDetailsPage() {
 											type='file'
 											multiple
 											hidden
+											disabled={!canSubmit}
 											onChange={(event) => {
 												const incomingFiles = Array.from(event.target.files ?? []);
 												setSelectedFiles((current) => {
@@ -274,8 +418,9 @@ export function StudentActivityDetailsPage() {
 											variant='secondary'
 											size='sm'
 											onClick={() => inputRef.current?.click()}
+											disabled={!canSubmit}
 										>
-											{selectedFiles.length ? (
+											{selectedFiles.length && canSubmit ? (
 												<>
 													<Plus size={15} /> Adicionar outro arquivo
 												</>
@@ -338,6 +483,7 @@ export function StudentActivityDetailsPage() {
 												variant='primary'
 												size='sm'
 												loading={isSubmitting}
+												disabled={!canSubmit}
 												onClick={() => void submitActivity()}
 											>
 												Enviar atividade

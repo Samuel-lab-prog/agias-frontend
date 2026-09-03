@@ -49,6 +49,29 @@ export function mapStudentActivityDetails(
 		hour: '2-digit',
 		minute: '2-digit',
 	});
+	const submissionTiming =
+		activity.dueAt && submission?.submittedAt
+			? (() => {
+					const differenceMs =
+						Date.parse(activity.dueAt) - new Date(submission.submittedAt).getTime();
+					const totalMinutes = Math.max(1, Math.ceil(Math.abs(differenceMs) / (1000 * 60)));
+					if (differenceMs === 0) {
+						return { label: 'Entregue no prazo', tone: 'success' as const };
+					}
+					const days = Math.floor(totalMinutes / (60 * 24));
+					const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+					const minutes = totalMinutes % 60;
+					const parts = [
+						days > 0 ? `${days}d` : null,
+						hours > 0 ? `${hours}h` : null,
+						minutes > 0 ? `${minutes}m` : null,
+					].filter((part): part is string => part !== null);
+					const duration = parts.join(' ');
+					return differenceMs >= 0
+						? { label: `Entregue ${duration} antes do prazo`, tone: 'success' as const }
+						: { label: `Entregue ${duration} após o prazo`, tone: 'error' as const };
+				})()
+			: null;
 
 	return {
 		activityId: activity.id,
@@ -61,18 +84,33 @@ export function mapStudentActivityDetails(
 		dueLabel: activity.dueAt
 			? dateTimeFormatter.format(new Date(activity.dueAt))
 			: 'Sem prazo definido',
+		dueAt: activity.dueAt,
 		overdueLabel,
 		allowLateSubmissions: activity.allowLateSubmissions !== false,
+		submissionTiming,
 		status,
 		statusLabel,
 		submission: submission
 			? {
+					id: submission.id,
 					submittedLabel: submission.submittedAt
 						? dateTimeFormatter.format(new Date(submission.submittedAt))
 						: 'Data não informada',
 					grade: submission.grade,
 					feedback: submission.feedback,
-					attachments: submission.attachments ?? [],
+					attachments: (submission.attachments ?? []).map((attachment) => ({
+						fileName: attachment.fileName,
+						fileUrl: attachment.fileUrl,
+						fileSize: attachment.fileSize,
+						contentType: attachment.contentType,
+					})),
+					comments: (submission.comments ?? []).map((comment) => ({
+						id: comment.id,
+						body: comment.body,
+						createdAt: comment.createdAt,
+						authorUserId: comment.authorUserId,
+						authorName: comment.authorName,
+					})),
 				}
 			: null,
 	};
