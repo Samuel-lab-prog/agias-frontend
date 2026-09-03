@@ -13,6 +13,7 @@ export const userKeys = createQueryKeys({
 		deleted?: boolean;
 	}) => ['users', 'search', params] as const,
 	profile: (id: string) => ['users', 'profile', id] as const,
+	myProfile: () => ['users', 'profile', 'me'] as const,
 	checkNickname: (nickname: string) => ['users', 'check-nickname', nickname] as const,
 	checkEmail: (email: string) => ['users', 'check-email', email] as const,
 	anyProfile: () => ['users', 'profile'] as const,

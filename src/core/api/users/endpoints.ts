@@ -3,7 +3,7 @@ import type {
 	AvatarUploadUrlResponse,
 	CreateStudentRegistrationBody,
 	CreateUserBody,
-	UpdateUserBody,
+	UpdateCurrentUserBody,
 	UserProfile,
 	UsersPage,
 	UsersSearchParams,
@@ -70,6 +70,11 @@ const getProfile = createQueryEndpoint<[string], UserProfile>({
 		}),
 });
 
+const getMyProfile = createQueryEndpoint<[], UserProfile>({
+	key: userKeys.myProfile,
+	fn: () => createHTTPRequest<UserProfile>({ method: 'GET', path: '/users/me' }),
+});
+
 const createUser = createMutationEndpoint<CreateUserBody, UserProfile>({
 	fn: (data) =>
 		createHTTPRequest<UserProfile, CreateUserBody>({
@@ -106,21 +111,13 @@ const createStudentRegistration = createMutationEndpoint<
 	invalidate: [userKeys.all],
 });
 
-const updateUser = createMutationEndpoint<UpdateUserBody, UserProfile>({
+const updateUser = createMutationEndpoint<UpdateCurrentUserBody, UserProfile>({
 	fn: (data) =>
-		createHTTPRequest<UserProfile, Omit<UpdateUserBody, 'id'>>({
+		createHTTPRequest<UserProfile, UpdateCurrentUserBody>({
 			method: 'PUT',
 			path: `/users/me`,
 			body: {
-				name: data.name,
-				nickname: data.nickname,
 				email: data.email,
-				rg: data.rg,
-				cpf: data.cpf,
-				role: data.role,
-				status: data.status,
-				bio: data.bio,
-				avatarUrl: data.avatarUrl,
 			},
 		}),
 
@@ -183,6 +180,7 @@ export const users = {
 	getUsersPreview,
 	getPublicUsers,
 	getProfile,
+	getMyProfile,
 	createUser,
 	createStudentRegistration,
 	createProfessorRequest,

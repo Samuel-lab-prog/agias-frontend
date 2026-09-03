@@ -58,25 +58,19 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 			</Box>
 
 			<VStack align='stretch' gap={0} p={0}>
-				<HStack
-					px={4}
-					py={3}
-					justify='space-between'
-					cursor='pointer'
-					transition='all 0.2s ease'
-					_hover={{ bg: 'bg.muted', transform: 'translateX(2px)' }}
-				>
+				<HStack px={4} py={3} justify='space-between' color='fg.muted'>
 					<HStack gap={2}>
 						<MessageSquare size={16} />
 						<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
 							Mensagens
 						</Text>
 					</HStack>
-					<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
+					<Text fontSize='0.8125rem' lineHeight='1.25rem'>
 						Dado não disponível
 					</Text>
 				</HStack>
 				<HStack
+					asChild
 					px={4}
 					py={3}
 					gap={2}
@@ -84,12 +78,15 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 					transition='all 0.2s ease'
 					_hover={{ bg: 'bg.muted', transform: 'translateX(2px)' }}
 				>
-					<FileText size={16} />
-					<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
-						Atualizar Foto e Perfil
-					</Text>
+					<NavLink to='/student/profile#profile-settings' aria-label='Atualizar foto e perfil'>
+						<FileText size={16} />
+						<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
+							Atualizar Foto e Perfil
+						</Text>
+					</NavLink>
 				</HStack>
 				<HStack
+					asChild
 					px={4}
 					py={3}
 					gap={2}
@@ -97,10 +94,12 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 					transition='all 0.2s ease'
 					_hover={{ bg: 'bg.muted', transform: 'translateX(2px)' }}
 				>
-					<GraduationCap size={16} />
-					<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
-						Meus Dados Pessoais
-					</Text>
+					<NavLink to='/student/profile#personal-data' aria-label='Ver meus dados pessoais'>
+						<GraduationCap size={16} />
+						<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold'>
+							Meus Dados Pessoais
+						</Text>
+					</NavLink>
 				</HStack>
 				<Box px={4} py={3}>
 					<BaseButton asChild w='full' variant='secondary' size='sm'>

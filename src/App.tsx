@@ -52,6 +52,14 @@ const StudentActivitiesPage = lazyPage(
 	() => import('./features/student/use-cases/activities/Page'),
 	(module) => module.StudentActivitiesPage,
 );
+const StudentProfilePage = lazyPage(
+	() => import('./features/student/use-cases/profile/Page'),
+	(module) => module.StudentProfilePage,
+);
+const StudentAnnouncementsPage = lazyPage(
+	() => import('./features/student/use-cases/announcements/Page'),
+	(module) => module.StudentAnnouncementsPage,
+);
 const StudentSubjectDetailsPage = lazyPage(
 	() => import('./features/student/use-cases/subject-details/Page'),
 	(module) => module.StudentSubjectDetailsPage,
@@ -110,7 +118,21 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/student/activities',
-		element: <RoleGate allowedRoles={['student']}>{renderLazyPage(StudentActivitiesPage)}</RoleGate>,
+		element: (
+			<RoleGate allowedRoles={['student']}>{renderLazyPage(StudentActivitiesPage)}</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/student/profile',
+		element: <RoleGate allowedRoles={['student']}>{renderLazyPage(StudentProfilePage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/student/announcements',
+		element: (
+			<RoleGate allowedRoles={['student']}>{renderLazyPage(StudentAnnouncementsPage)}</RoleGate>
+		),
 		errorElement: <ErrorPage />,
 	},
 	{

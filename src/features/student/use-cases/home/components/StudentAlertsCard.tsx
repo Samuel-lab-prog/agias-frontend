@@ -6,10 +6,19 @@ import { translateBackendAudience } from '@core/utils/backend-labels';
 import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
 import { useQuery } from '@tanstack/react-query';
 import { Bell, Pin } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 
 import { StudentCard, StudentCardHeader } from './StudentCard';
 
-export function StudentAlertsCard() {
+export function StudentAlertsCard({
+	limit = 3,
+	showAllAction = true,
+	title,
+}: {
+	limit?: number | null;
+	showAllAction?: boolean;
+	title?: string;
+}) {
 	const clientId = useAuthClientStore((state) => state.authClient?.id ?? null);
 
 	const query = useQuery({
@@ -20,7 +29,14 @@ export function StudentAlertsCard() {
 	});
 
 	const announcements = query.data ?? [];
-	const visibleAnnouncements = announcements.slice(0, 3);
+	const publicationDateTimeFormatter = new Intl.DateTimeFormat('pt-BR', {
+		day: '2-digit',
+		month: '2-digit',
+		year: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+	});
+	const visibleAnnouncements = announcements.slice(0, limit ?? Number.MAX_SAFE_INTEGER);
 	const remainingAnnouncements = Math.max(0, announcements.length - visibleAnnouncements.length);
 
 	return (
@@ -28,16 +44,15 @@ export function StudentAlertsCard() {
 			<StudentCardHeader
 				icon={<Bell size={18} />}
 				title={
-					<>
-						{visibleAnnouncements.length > 0
-							? 'Comunicados recentes'
-							: 'Nenhum comunicado publicado'}
-					</>
+					title ??
+					(visibleAnnouncements.length > 0 ? 'Comunicados recentes' : 'Nenhum comunicado publicado')
 				}
 				action={
-					<BaseButton size='sm' variant='secondary' color='fg.muted'>
-						Ver todas as notícias
-					</BaseButton>
+					showAllAction ? (
+						<BaseButton asChild size='sm' variant='secondary' color='fg.muted'>
+							<NavLink to='/student/announcements'>Ver todas as notícias</NavLink>
+						</BaseButton>
+					) : undefined
 				}
 			/>
 
@@ -123,10 +138,7 @@ export function StudentAlertsCard() {
 										_dark={{ color: 'fg.muted' }}
 									>
 										{announcement.publishedAt
-											? `Publicado em ${new Intl.DateTimeFormat('pt-BR', {
-													day: '2-digit',
-													month: '2-digit',
-												}).format(new Date(announcement.publishedAt))}`
+											? `Publicado em ${publicationDateTimeFormatter.format(new Date(announcement.publishedAt))}`
 											: 'Sem data de publicação'}
 									</Text>
 								</Box>

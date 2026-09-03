@@ -86,6 +86,7 @@ export type UpdateUserBody = {
 	bio?: string;
 	avatarUrl?: string | null;
 };
+export type UpdateCurrentUserBody = Pick<UpdateUserBody, 'email'>;
 
 export type AvatarUploadUrlRequest = {
 	contentType: string;
