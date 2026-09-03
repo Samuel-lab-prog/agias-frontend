@@ -1,9 +1,8 @@
 import { Surface } from '@BaseComponents';
 import { Box, ClientOnly, HStack, Icon, Link, Switch, Text, VStack } from '@chakra-ui/react';
 import { ChevronRight } from 'lucide-react';
-import { useState } from 'react';
 import { LuMoon } from 'react-icons/lu';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import { hoverNav } from '../../utils/interaction';
 import { useColorMode } from '../ui/color-mode';
@@ -11,7 +10,6 @@ import type { NavigationLink } from './types';
 
 type NavigationSidebarProps = {
 	links: NavigationLink[];
-	initialActive?: string;
 	onLinkClick?: () => void;
 	showThemeControl?: boolean;
 };
@@ -67,12 +65,10 @@ function SidebarThemeControl() {
 
 export function NavigationSidebar({
 	links,
-	initialActive,
 	onLinkClick,
 	showThemeControl = false,
 }: NavigationSidebarProps) {
-	const firstVisible = links.find((link) => !link.hidden)?.label ?? '';
-	const [activeItem, setActiveItem] = useState(initialActive ?? firstVisible);
+	const { pathname } = useLocation();
 	const navMotion = hoverNav();
 	const { colorMode } = useColorMode();
 	const isDark = colorMode === 'dark';
@@ -82,6 +78,12 @@ export function NavigationSidebar({
 	const hoverBg = isDark ? 'bg.muted' : 'bg.surface';
 	const hoverColor = isDark ? 'fg.default' : 'fg.default';
 	const hoverBorder = isDark ? 'border.interactive' : 'border.interactive';
+	const visibleLinks = links.filter((link) => !link.hidden);
+	const matchesPath = (link: NavigationLink) =>
+		link.to === '/student'
+			? pathname === link.to
+			: pathname === link.to || pathname.startsWith(`${link.to}/`);
+	const activeLink = visibleLinks.find(matchesPath);
 
 	return (
 		<Surface
@@ -93,10 +95,9 @@ export function NavigationSidebar({
 			borderTop='0'
 		>
 			<VStack align='stretch' gap={1} h='full' p={0}>
-				{links
-					.filter((link) => !link.hidden)
-					.map(({ label, to, icon }) => {
-						const isActive = activeItem === label;
+				{visibleLinks.map((link) => {
+						const { label, to, icon } = link;
+						const isActive = activeLink === link;
 
 						return (
 							<Link
@@ -110,10 +111,7 @@ export function NavigationSidebar({
 							>
 								<NavLink
 									to={to}
-									onClick={() => {
-										setActiveItem(label);
-										onLinkClick?.();
-									}}
+									onClick={() => onLinkClick?.()}
 									style={{
 										display: 'block',
 										textDecoration: 'none',

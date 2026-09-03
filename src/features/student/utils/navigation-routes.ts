@@ -7,8 +7,8 @@ export const studentNavigationPreset: NavigationPreset = {
 	links: [
 		{ label: 'Início', to: '/student', icon: Home },
 		{ label: 'Meu perfil', to: '/student/profile', icon: UserRound },
-		{ label: 'Agenda de aulas', to: '/student', icon: CalendarDays },
-		{ label: 'Atividades', to: '/student', icon: ClipboardList },
+		{ label: 'Agenda de aulas', to: '/student/schedule', icon: CalendarDays },
+		{ label: 'Atividades', to: '/student/activities', icon: ClipboardList },
 		{ label: 'Materiais', to: '/student', icon: BookOpen },
 	],
 };

@@ -97,6 +97,18 @@ export type StudentDashboardSubmission = {
 	comments?: StudentSubmissionComment[];
 };
 
+export type AcademicCalendarEvent = {
+	id: number;
+	academicPeriodId: number;
+	type: 'holiday' | 'academic_event' | 'instructional_saturday' | 'exam' | 'break';
+	title: string;
+	description: string | null;
+	startsAt: string;
+	endsAt: string | null;
+	allDay: boolean;
+	isInstructionalDay: boolean;
+};
+
 export type StudentSubmissionComment = {
 	id: number;
 	submissionId: number;

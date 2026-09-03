@@ -5,6 +5,7 @@ import { academicKeys } from './keys';
 import type {
 	AcademicActivity,
 	AcademicActivitySubmission,
+	AcademicCalendarEvent,
 	CreateAcademicActivityAttachmentUploadUrlBody,
 	CreateAcademicActivityAttachmentUploadUrlResponse,
 	CreateProfessorProfileBody,
@@ -39,6 +40,15 @@ const getMyStudentDashboard = createQueryEndpoint<[], StudentDashboard>({
 		createHTTPRequest<StudentDashboard>({
 			method: 'GET',
 			path: '/academic/students/dashboard/me',
+		}),
+});
+
+const getMyAcademicCalendarEvents = createQueryEndpoint<[string, string], AcademicCalendarEvent[]>({
+	key: academicKeys.myAcademicCalendarEvents,
+	fn: (from, to) =>
+		createHTTPRequest<AcademicCalendarEvent[]>({
+			method: 'GET',
+			path: `/academic-calendar/students/me/events?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`,
 		}),
 });
 
@@ -270,6 +280,7 @@ const createStudentActivitySubmissionComment = createMutationEndpoint<
 export const academic = {
 	getMyStudentProfile,
 	getMyStudentDashboard,
+	getMyAcademicCalendarEvents,
 	getMyProfessorProfile,
 	getMyStaffProfile,
 	getStudentProfileByUserId,
