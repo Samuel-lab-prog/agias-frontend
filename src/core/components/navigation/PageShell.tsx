@@ -84,7 +84,10 @@ export function NavigationPageShell({
 				gap={0}
 				minH={{ xl: `calc(100dvh - ${topBarHeight})` }}
 			>
-				<Box display={{ base: 'none', xl: 'block' }} w={sidebarWidth}>
+				<Box
+					display={{ base: 'none', xl: 'block' }}
+					w={sidebarWidth}
+				>
 					<Box
 						position='fixed'
 						top={topBarHeight}

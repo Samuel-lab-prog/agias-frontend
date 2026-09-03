@@ -124,3 +124,17 @@ generated from `documentedColorTokens`.
 - The public API does not expose implementation details.
 - Loading, empty, error, disabled, focus, and responsive states have been reviewed.
 - The gallery covers every new primitive or variant.
+
+## Student subject details
+
+The subject-details flow lives in `src/features/student/use-cases/subject-details` and is available
+at `/student/subjects/:enrollmentId`.
+
+- The page reuses the authenticated student dashboard query instead of duplicating a request.
+- `useSubjectDetails` owns route and query state.
+- `mapSubjectDetails` converts API entities into presentation-ready data and derived statuses.
+- View components consume only the view model and existing semantic tokens.
+- Fields absent from the backend, such as professor and subject-specific attendance, are not
+  fabricated.
+- Loading, request failure, invalid identifiers, missing enrollment, empty sessions, and empty
+  activities have explicit states.

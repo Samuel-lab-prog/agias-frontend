@@ -3,6 +3,7 @@ import { BaseButton, Surface } from '@BaseComponents';
 import { Badge, Box, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import { useColorModeValue } from '@core/components/ui/color-mode';
 import { BookOpen } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 
 import { StudentCard, StudentCardHeader } from './StudentCard';
 
@@ -23,6 +24,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 
 		return {
 			key: enrollment.id,
+			href: `/student/subjects/${enrollment.id}`,
 			title: enrollment.classOffering.title,
 			location: enrollment.classOffering.code,
 			time: sessionTime,
@@ -60,6 +62,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 				<VStack gap={2} align='stretch'>
 					{rows.map((item, index) => (
 						<SimpleGrid
+							asChild
 							key={item.key}
 							columns={{ base: 1, md: 3 }}
 							gap={{ base: 1.5, md: 4 }}
@@ -77,73 +80,75 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 								transform: 'translateX(2px)',
 							}}
 						>
-							<Box minW={0} display='flex' flexDirection='column' gap={0.5}>
-								<Text
-									fontWeight='700'
-									textTransform='uppercase'
-									fontSize={{ base: '11px', md: 'xs' }}
-									letterSpacing='0.03em'
-									lineHeight='1.2'
-								>
-									{item.title}
-								</Text>
-								<Box
-									display={{ base: 'flex', md: 'none' }}
-									alignItems='center'
-									justifyContent='space-between'
-									gap={2}
-								>
+							<NavLink to={item.href} aria-label={`Ver detalhes de ${item.title}`}>
+								<Box minW={0} display='flex' flexDirection='column' gap={0.5}>
 									<Text
-										fontSize='xs'
-										color='fg.muted'
+										fontWeight='700'
+										textTransform='uppercase'
+										fontSize={{ base: '11px', md: 'xs' }}
+										letterSpacing='0.03em'
 										lineHeight='1.2'
+									>
+										{item.title}
+									</Text>
+									<Box
+										display={{ base: 'flex', md: 'none' }}
+										alignItems='center'
+										justifyContent='space-between'
+										gap={2}
+									>
+										<Text
+											fontSize='xs'
+											color='fg.muted'
+											lineHeight='1.2'
+											whiteSpace='nowrap'
+											overflow='hidden'
+											textOverflow='ellipsis'
+										>
+											{item.location}
+										</Text>
+										<Badge
+											px={2.5}
+											py={1}
+											borderRadius='full'
+											bg='action.primarySubtle'
+											color='action.primary'
+											fontSize='xs'
+											fontWeight='700'
+											flexShrink={0}
+										>
+											{item.time}
+										</Badge>
+									</Box>
+								</Box>
+
+								<Box display={{ base: 'none', md: 'block' }} minW={0}>
+									<Text
+										fontSize='sm'
+										color='fg.muted'
 										whiteSpace='nowrap'
 										overflow='hidden'
 										textOverflow='ellipsis'
 									>
 										{item.location}
 									</Text>
+								</Box>
+
+								<Box display={{ base: 'none', md: 'block' }}>
 									<Badge
-										px={2.5}
-										py={1}
+										px={3}
+										py={1.5}
 										borderRadius='full'
 										bg='action.primarySubtle'
 										color='action.primary'
-										fontSize='xs'
+										fontSize='sm'
 										fontWeight='700'
-										flexShrink={0}
+										minW='fit-content'
 									>
 										{item.time}
 									</Badge>
 								</Box>
-							</Box>
-
-							<Box display={{ base: 'none', md: 'block' }} minW={0}>
-								<Text
-									fontSize='sm'
-									color='fg.muted'
-									whiteSpace='nowrap'
-									overflow='hidden'
-									textOverflow='ellipsis'
-								>
-									{item.location}
-								</Text>
-							</Box>
-
-							<Box display={{ base: 'none', md: 'block' }}>
-								<Badge
-									px={3}
-									py={1.5}
-									borderRadius='full'
-									bg='action.primarySubtle'
-									color='action.primary'
-									fontSize='sm'
-									fontWeight='700'
-									minW='fit-content'
-								>
-									{item.time}
-								</Badge>
-							</Box>
+							</NavLink>
 						</SimpleGrid>
 					))}
 				</VStack>
