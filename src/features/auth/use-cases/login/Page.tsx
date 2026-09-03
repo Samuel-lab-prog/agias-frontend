@@ -5,24 +5,24 @@ import { LoginForm } from './components/LoginForm';
 
 function HeaderCard() {
 	return (
-		<Surface variant='elevated' p={{ base: 4, md: 6 }}>
+		<Surface variant='gradient' p={{ base: 4, md: 5 }}>
 			<VStack align='stretch' gap={3}>
 				<Box>
 					<Text
-						fontSize='0.875rem'
-						lineHeight='1.4rem'
+						fontSize='sm'
+						lineHeight='1.25rem'
 						color='action.primary'
 						fontWeight='semibold'
-						letterSpacing='0.08em'
+						letterSpacing='normal'
 						_dark={{ color: 'action.primary' }}
 					>
 						AGIAS - Aplicação de Gestão Integrada Acadêmica e de Serviços
 					</Text>
 					<Heading
 						as='h1'
-						fontSize={{ base: '1.5rem', md: 'clamp(1.8rem, 3.5vw, 3rem)' }}
-						lineHeight={{ base: '1.14', md: '1.08' }}
-						fontWeight='800'
+						fontSize={{ base: '2rem', md: '2.5rem' }}
+						lineHeight='1.1'
+						fontWeight='700'
 						color='action.primary'
 						mt={1}
 						_dark={{ color: 'action.primary' }}
@@ -31,7 +31,7 @@ function HeaderCard() {
 					</Heading>
 					<Text
 						mt={2}
-						fontSize='0.875rem'
+						fontSize='sm'
 						lineHeight='1.4rem'
 						color='fg.muted'
 						_dark={{ color: 'fg.muted' }}
@@ -46,20 +46,11 @@ function HeaderCard() {
 
 function LoginPanel() {
 	return (
-		<Surface
-			variant='elevated'
-			p={{ base: 4, md: 6 }}
-			w='full'
-			display='flex'
-			flexDirection='column'
-			alignItems='center'
-			justifyContent='center'
-		>
-			<VStack align='stretch' gap={4} w='full' alignItems='center' justifyContent='center'>
+		<VStack align='stretch' gap={4} w='full' alignItems='center' justifyContent='center'>
 				<Box>
 					<Heading
 						as='h2'
-						fontSize='clamp(1.25rem, 2vw, 1.65rem)'
+						fontSize='xl'
 						lineHeight='1.2'
 						fontWeight='700'
 						textAlign='center'
@@ -68,7 +59,7 @@ function LoginPanel() {
 					</Heading>
 					<Text
 						mt={1}
-						fontSize='0.875rem'
+						fontSize='sm'
 						lineHeight='1.4rem'
 						color='fg.muted'
 						textAlign='center'
@@ -80,7 +71,6 @@ function LoginPanel() {
 
 				<LoginForm />
 			</VStack>
-		</Surface>
 	);
 }
 
@@ -90,20 +80,20 @@ export function LoginPage() {
 			as='main'
 			bg='bg.canvas'
 			color='fg.default'
-			flex='1'
-			minH='100%'
+			minH='100dvh'
 			direction='column'
 			align='center'
+			justify='center'
 			overflowY='auto'
 			scrollbarGutter='stable'
 			px={{ base: 4, md: 6 }}
-			py={{ base: 6, md: 10 }}
+			py={{ base: 6, md: 8 }}
 			_dark={{
 				bg: 'bg.canvas',
 				color: 'fg.default',
 			}}
 		>
-			<Flex as='section' direction='column' align='stretch' gap={5} w='full' maxW='2xl' mx='auto'>
+			<Flex as='section' direction='column' align='stretch' gap={5} w='full' maxW='md' mx='auto'>
 				<HeaderCard />
 				<LoginPanel />
 			</Flex>
