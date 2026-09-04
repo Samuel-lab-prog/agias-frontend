@@ -1,4 +1,4 @@
-/* eslint-disable max-lines-per-function -- schedule page composes filters, calendar navigation, and event rendering. */
+/* eslint-disable max-lines, max-lines-per-function -- schedule page composes filters, calendar navigation, and event rendering. */
 import { BaseButton, EmptyStateCard, ErrorStateCard, Surface } from '@BaseComponents';
 import { Box, Flex, Heading, HStack, NativeSelect, Text, VStack } from '@chakra-ui/react';
 import { NavigationPageShell } from '@core/components/navigation';
@@ -32,6 +32,20 @@ function addMonths(date: Date, amount: number) {
 	return new Date(date.getFullYear(), date.getMonth() + amount, 1);
 }
 
+function startOfCalendarGrid(date: Date) {
+	const firstDay = startOfMonth(date);
+	const mondayOffset = (firstDay.getDay() + 6) % 7;
+	return addDays(firstDay, -mondayOffset);
+}
+
+function getAcademicEventColors(type: string) {
+	if (type === 'holiday' || type === 'break')
+		return { bg: 'status.errorSubtle', marker: 'status.error' };
+	if (type === 'instructional_saturday' || type === 'exam')
+		return { bg: 'status.warning', marker: 'status.warning' };
+	return { bg: 'action.primarySubtle', marker: 'action.primary' };
+}
+
 export function StudentSchedulePage() {
 	const { dashboard, isLoading, isError, refetch } = useMyStudentDashboard();
 	const enrollments = useMemo(() => dashboard?.enrollments ?? [], [dashboard?.enrollments]);
@@ -45,8 +59,11 @@ export function StudentSchedulePage() {
 	const monthStart = addMonths(startOfMonth(today), periodOffset);
 	const rangeStart = view === 'week' ? weekStart : monthStart;
 	const rangeEnd = view === 'week' ? addDays(weekStart, 7) : addMonths(monthStart, 1);
-	const { events: academicEvents, isLoading: isLoadingAcademicEvents, isError: isAcademicEventsError } =
-		useMyAcademicCalendarEvents(rangeStart, rangeEnd);
+	const {
+		events: academicEvents,
+		isLoading: isLoadingAcademicEvents,
+		isError: isAcademicEventsError,
+	} = useMyAcademicCalendarEvents(rangeStart, rangeEnd);
 	const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
 		weekday: 'long',
 		day: '2-digit',
@@ -113,7 +130,14 @@ export function StudentSchedulePage() {
 		[academicEvents, filter],
 	);
 	const grouped = useMemo(() => {
-		const groups = new Map<string, { sessions: typeof sessions; activities: typeof activities; academicEvents: typeof academicEvents }>();
+		const groups = new Map<
+			string,
+			{
+				sessions: typeof sessions;
+				activities: typeof activities;
+				academicEvents: typeof academicEvents;
+			}
+		>();
 		for (const session of visibleSessions) {
 			const key = new Date(session.startsAt).toISOString().slice(0, 10);
 			groups.set(key, {
@@ -137,6 +161,11 @@ export function StudentSchedulePage() {
 		}
 		return [...groups.entries()].sort(([left], [right]) => left.localeCompare(right));
 	}, [visibleAcademicEvents, visibleActivities, visibleSessions]);
+	const groupedByDate = useMemo(() => new Map(grouped), [grouped]);
+	const monthDays = useMemo(
+		() => Array.from({ length: 42 }, (_, index) => addDays(startOfCalendarGrid(monthStart), index)),
+		[monthStart],
+	);
 
 	return (
 		<NavigationPageShell preset={studentNavigationPreset}>
@@ -255,7 +284,9 @@ export function StudentSchedulePage() {
 					</HStack>
 				</Flex>
 				{isLoading ? <Text color='fg.muted'>Carregando agenda...</Text> : null}
-				{isLoadingAcademicEvents ? <Text color='fg.muted'>Carregando eventos acadêmicos...</Text> : null}
+				{isLoadingAcademicEvents ? (
+					<Text color='fg.muted'>Carregando eventos acadêmicos...</Text>
+				) : null}
 				{isError || isAcademicEventsError ? (
 					<ErrorStateCard
 						eyebrow='AGENDA'
@@ -277,12 +308,165 @@ export function StudentSchedulePage() {
 									? 'Nenhuma aula neste período'
 									: filter === 'academicEvents'
 										? 'Nenhum evento acadêmico neste período'
-									: 'Nenhum evento neste período'
+										: 'Nenhum evento neste período'
 						}
 						description='Escolha outro período ou altere o filtro.'
 					/>
 				) : null}
-				{grouped.length ? (
+				{view === 'month' ? (
+					<Flex align='start' gap={4} direction={{ base: 'column', xl: 'row' }}>
+						<Box flex='1' minW={0} w='full'>
+							<Box>
+								<Box display='grid' gridTemplateColumns='repeat(7, minmax(0, 1fr))' gap={1} mb={1}>
+									{['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'].map((label) => (
+										<Text
+											key={label}
+											textAlign='center'
+											fontSize='xs'
+											fontWeight='semibold'
+											color='fg.muted'
+											py={2}
+										>
+											{label}
+										</Text>
+									))}
+								</Box>
+								<HStack gap={3} flexWrap='wrap' mb={2} px={1}>
+									{[
+										{ label: 'Aulas', color: 'fg.muted' },
+										{ label: 'Atividades', color: 'action.primary' },
+										{ label: 'Datas importantes', color: 'status.warning' },
+									].map((item) => (
+										<HStack key={item.label} gap={1.5}>
+											<Box w='6px' h='6px' borderRadius='full' bg={item.color} />
+											<Text fontSize='xs' color='fg.muted'>
+												{item.label}
+											</Text>
+										</HStack>
+									))}
+								</HStack>
+								<Box display='grid' gridTemplateColumns='repeat(7, minmax(0, 1fr))' gap={1}>
+									{monthDays.map((day) => {
+										const key = day.toISOString().slice(0, 10);
+										const group = groupedByDate.get(key);
+										const isCurrentMonth = day.getMonth() === monthStart.getMonth();
+										const items = [
+											...(group?.academicEvents ?? []).map((event) => ({
+												label: event.title,
+												...getAcademicEventColors(event.type),
+											})),
+											...(group?.activities ?? []).map((activity) => ({
+												label: activity.title,
+												bg: 'action.primarySubtle',
+												marker: 'action.primary',
+											})),
+											...(group?.sessions ?? []).map((session) => ({
+												label: session.classTitle,
+												bg: 'bg.muted',
+												marker: 'fg.muted',
+											})),
+										];
+										return (
+											<Box
+												key={key}
+												minH={{ base: '64px', md: '112px' }}
+												p={{ base: 1, md: 2 }}
+												borderWidth='1px'
+												borderColor={key === todayKey ? 'action.primary' : 'border.default'}
+												borderRadius='md'
+												bg={key === todayKey ? 'action.primarySubtle' : 'bg.surface'}
+												opacity={isCurrentMonth ? 1 : 0.45}
+											>
+												<Text
+													fontSize='sm'
+													fontWeight={key === todayKey ? 'bold' : 'medium'}
+													mb={1}
+												>
+													{day.getDate()}
+												</Text>
+												<VStack align='stretch' gap={1}>
+													{items.slice(0, 3).map((item, index) => (
+														<Box
+															key={`${key}-${item.label}-${index}`}
+															fontSize='xs'
+															px={{ base: 0, md: 1 }}
+															py={{ base: 0, md: 0.5 }}
+															borderRadius='sm'
+															bg={{ base: 'transparent', md: item.bg }}
+															title={item.label}
+														>
+															<Box
+																display={{ base: 'block', md: 'none' }}
+																w='6px'
+																h='6px'
+																borderRadius='full'
+																bg={item.marker}
+															/>
+															<Text display={{ base: 'none', md: 'block' }} truncate>
+																{item.label}
+															</Text>
+														</Box>
+													))}
+													{items.length > 3 ? (
+														<Text
+															display={{ base: 'none', md: 'block' }}
+															fontSize='10px'
+															color='fg.muted'
+														>
+															+{items.length - 3} mais
+														</Text>
+													) : null}
+												</VStack>
+											</Box>
+										);
+									})}
+								</Box>
+							</Box>
+						</Box>
+						<Surface
+							variant='panel'
+							p={4}
+							mt={{ base: 0, xl: '2.25rem' }}
+							w={{ base: 'full', xl: '280px' }}
+							flexShrink={0}
+						>
+							<Heading as='h3' fontSize='md' mb={3}>
+								Datas importantes
+							</Heading>
+							{academicEvents.length ? (
+								<VStack align='stretch' gap={3}>
+									{academicEvents.map((event) => (
+										<Box
+											key={`important-${event.id}`}
+											borderLeftWidth='3px'
+											borderColor='action.primary'
+											pl={3}
+										>
+											<Text fontSize='xs' color='fg.muted'>
+												{new Intl.DateTimeFormat('pt-BR', {
+													day: '2-digit',
+													month: 'short',
+												}).format(new Date(event.startsAt))}
+											</Text>
+											<Text fontSize='sm' fontWeight='semibold'>
+												{event.title}
+											</Text>
+											{event.description ? (
+												<Text fontSize='xs' color='fg.muted'>
+													{event.description}
+												</Text>
+											) : null}
+										</Box>
+									))}
+								</VStack>
+							) : (
+								<Text fontSize='sm' color='fg.muted'>
+									Nenhuma data importante neste mês.
+								</Text>
+							)}
+						</Surface>
+					</Flex>
+				) : grouped.length ? (
 					<VStack align='stretch' gap={4}>
 						{grouped.map(([key, day]) => (
 							<Box
@@ -324,34 +508,40 @@ export function StudentSchedulePage() {
 													? ` – ${timeFormatter.format(new Date(session.endsAt))}`
 													: ''}
 											</Text>
-													</Flex>
-												))}
-												{day.academicEvents.map((event) => (
-													<Flex
-														key={`academic-event-${event.id}`}
-														align='start'
-														justify='space-between'
-														gap={4}
-														p={3}
-														borderRadius='lg'
-														bg={event.type === 'holiday' || event.type === 'break' ? 'bg.muted' : 'action.primarySubtle'}
-														wrap='wrap'
-													>
-														<HStack align='start' gap={3}>
-															<Flag size={17} />
-															<Box>
-																<Text fontWeight='semibold'>{event.title}</Text>
-																<Text color='fg.muted' fontSize='sm'>
-																	{event.description ?? 'Evento acadêmico'}
-																</Text>
-															</Box>
-														</HStack>
-														<Text fontSize='sm' fontWeight='medium' whiteSpace='nowrap'>
-															{event.allDay ? 'Dia inteiro' : timeFormatter.format(new Date(event.startsAt))}
-														</Text>
-													</Flex>
-												))}
-											{day.activities.map((activity) => (
+										</Flex>
+									))}
+									{day.academicEvents.map((event) => (
+										<Flex
+											key={`academic-event-${event.id}`}
+											align='start'
+											justify='space-between'
+											gap={4}
+											p={3}
+											borderRadius='lg'
+											bg={
+												event.type === 'holiday' || event.type === 'break'
+													? 'bg.muted'
+													: 'action.primarySubtle'
+											}
+											wrap='wrap'
+										>
+											<HStack align='start' gap={3}>
+												<Flag size={17} />
+												<Box>
+													<Text fontWeight='semibold'>{event.title}</Text>
+													<Text color='fg.muted' fontSize='sm'>
+														{event.description ?? 'Evento acadêmico'}
+													</Text>
+												</Box>
+											</HStack>
+											<Text fontSize='sm' fontWeight='medium' whiteSpace='nowrap'>
+												{event.allDay
+													? 'Dia inteiro'
+													: timeFormatter.format(new Date(event.startsAt))}
+											</Text>
+										</Flex>
+									))}
+									{day.activities.map((activity) => (
 										<Flex
 											asChild
 											key={`activity-${activity.id}`}
