@@ -80,7 +80,7 @@ export function NavigationSidebar({
 	const hoverBorder = isDark ? 'border.interactive' : 'border.interactive';
 	const visibleLinks = links.filter((link) => !link.hidden);
 	const matchesPath = (link: NavigationLink) =>
-		link.to === '/student'
+		link.to === '/student' || link.to === '/staff'
 			? pathname === link.to
 			: pathname === link.to || pathname.startsWith(`${link.to}/`);
 	const activeLink = visibleLinks.find(matchesPath);
@@ -96,70 +96,70 @@ export function NavigationSidebar({
 		>
 			<VStack align='stretch' gap={1} h='full' p={0}>
 				{visibleLinks.map((link) => {
-						const { label, to, icon } = link;
-						const isActive = activeLink === link;
+					const { label, to, icon } = link;
+					const isActive = activeLink === link;
 
-						return (
-							<Link
-								asChild
-								key={label}
-								display='block'
-								px={0}
-								py={0}
-								borderRadius={0}
-								_hover={{ textDecoration: 'none' }}
+					return (
+						<Link
+							asChild
+							key={label}
+							display='block'
+							px={0}
+							py={0}
+							borderRadius={0}
+							_hover={{ textDecoration: 'none' }}
+						>
+							<NavLink
+								to={to}
+								onClick={() => onLinkClick?.()}
+								style={{
+									display: 'block',
+									textDecoration: 'none',
+								}}
 							>
-								<NavLink
-									to={to}
-									onClick={() => onLinkClick?.()}
-									style={{
-										display: 'block',
-										textDecoration: 'none',
+								<HStack
+									justify='space-between'
+									align='center'
+									px='1.25rem'
+									py='1rem'
+									minH='56px'
+									borderRadius='md'
+									bg={isActive ? activeBg : 'transparent'}
+									border='1px solid'
+									borderColor={isActive ? activeBorder : 'transparent'}
+									color={isActive ? activeColor : isDark ? 'fg.muted' : 'fg.muted'}
+									cursor='pointer'
+									transition={navMotion.transition}
+									transform='translateX(0)'
+									_hover={{
+										bg: hoverBg,
+										borderColor: hoverBorder,
+										color: hoverColor,
+										transform: navMotion.hover.transform,
+									}}
+									_active={navMotion.active}
+									_focusVisible={{
+										...navMotion.focusVisible,
+										color: hoverColor,
 									}}
 								>
-									<HStack
-										justify='space-between'
-										align='center'
-										px='1.25rem'
-										py='1rem'
-										minH='56px'
-										borderRadius='md'
-										bg={isActive ? activeBg : 'transparent'}
-										border='1px solid'
-										borderColor={isActive ? activeBorder : 'transparent'}
-										color={isActive ? activeColor : isDark ? 'fg.muted' : 'fg.muted'}
-										cursor='pointer'
-										transition={navMotion.transition}
-										transform='translateX(0)'
-										_hover={{
-											bg: hoverBg,
-											borderColor: hoverBorder,
-											color: hoverColor,
-											transform: navMotion.hover.transform,
-										}}
-										_active={navMotion.active}
-										_focusVisible={{
-											...navMotion.focusVisible,
-											color: hoverColor,
-										}}
-									>
-										<HStack gap={2}>
-											{icon ? <Icon as={icon} boxSize={5} opacity={0.85} /> : null}
-											<Text
-												fontSize='0.875rem'
-												lineHeight='1.4rem'
-												fontWeight={isActive ? 'medium' : 'normal'}
-												color='inherit'
-											>
-												{label}
-											</Text>
-										</HStack>
-										<Box as={ChevronRight} boxSize={3} opacity={0.55} color='inherit' />
+									<HStack gap={2}>
+										{icon ? <Icon as={icon} boxSize={5} opacity={0.85} /> : null}
+										<Text
+											fontSize='0.875rem'
+											lineHeight='1.4rem'
+											fontWeight={isActive ? 'medium' : 'normal'}
+											color='inherit'
+										>
+											{label}
+										</Text>
 									</HStack>
-								</NavLink>
-							</Link>
-						);
-					})}
+									<Box as={ChevronRight} boxSize={3} opacity={0.55} color='inherit' />
+								</HStack>
+							</NavLink>
+						</Link>
+					);
+				})}
 				{showThemeControl ? (
 					<ClientOnly>
 						<SidebarThemeControl />

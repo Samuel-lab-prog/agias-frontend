@@ -64,10 +64,11 @@ export type CreateUserBody = {
 	name: string;
 	nickname: string;
 	email: string;
-	password: string;
+	password?: string;
 	rg: string;
 	cpf: string;
 	avatarUrl: string | null;
+	role?: UserRole;
 };
 
 export type CreateStudentRegistrationBody = CreateUserBody & {

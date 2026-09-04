@@ -88,6 +88,14 @@ const StaffHomePage = lazyPage(
 	() => import('./features/staff/use-cases/home/Page'),
 	(module) => module.StaffHomePage,
 );
+const StaffAcademicCalendarPage = lazyPage(
+	() => import('./features/staff/use-cases/academic-calendar/Page'),
+	(module) => module.StaffAcademicCalendarPage,
+);
+const StaffStudentsPage = lazyPage(
+	() => import('./features/staff/use-cases/students/Page'),
+	(module) => module.StaffStudentsPage,
+);
 const DevComponentsPage = lazyPage(
 	() => import('./features/dev/use-cases/components-gallery/Page'),
 	(module) => module.DevComponentsPage,
@@ -177,6 +185,22 @@ const router = createBrowserRouter([
 		path: '/staff/my-profile',
 		element: (
 			<RoleGate allowedRoles={['staff', 'admin']}>{renderLazyPage(StaffMyProfilePage)}</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/staff/academic-calendar',
+		element: (
+			<RoleGate allowedRoles={['staff', 'admin']}>
+				{renderLazyPage(StaffAcademicCalendarPage)}
+			</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/staff/students',
+		element: (
+			<RoleGate allowedRoles={['staff', 'admin']}>{renderLazyPage(StaffStudentsPage)}</RoleGate>
 		),
 		errorElement: <ErrorPage />,
 	},

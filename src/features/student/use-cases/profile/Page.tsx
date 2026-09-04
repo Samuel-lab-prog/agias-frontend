@@ -4,7 +4,7 @@ import type { StudentProfile } from '@Api/academic/types';
 import { users } from '@Api/users/endpoints';
 import { userKeys } from '@Api/users/keys';
 import type { UserProfile } from '@Api/users/types';
-import { BaseButton, ErrorStateCard, FormButton, FormField, Surface } from '@BaseComponents';
+import { BaseButton, DynamicForm, ErrorStateCard, type Field,Surface } from '@BaseComponents';
 import { Box, Grid, Heading, HStack, Image, Text } from '@chakra-ui/react';
 import { NavigationPageShell } from '@core/components/navigation';
 import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
@@ -18,6 +18,21 @@ import { studentNavigationPreset } from '../../utils/navigation-routes';
 
 type ProfileForm = { email: string };
 type PasswordForm = { currentPassword: string; newPassword: string; confirmPassword: string };
+
+const profileFields: Field<ProfileForm>[] = [
+	{ name: 'email', label: 'E-mail de contato', required: true, type: 'text' },
+];
+const passwordFields: Field<PasswordForm>[] = [
+	{ name: 'currentPassword', label: 'Senha atual', type: 'password', required: true },
+	{ name: 'newPassword', label: 'Nova senha', type: 'password', required: true, minLength: 8 },
+	{
+		name: 'confirmPassword',
+		label: 'Confirmar nova senha',
+		type: 'password',
+		required: true,
+		minLength: 8,
+	},
+];
 
 function formatStatus(status: string | undefined) {
 	if (status === 'active') return 'Ativo';
@@ -256,75 +271,58 @@ export function StudentProfilePage() {
 							Dados institucionais são mantidos pela instituição e não podem ser alterados aqui.
 							Apenas o e-mail pode ser atualizado.
 						</Text>
-						<form onSubmit={profileForm.handleSubmit((data) => updateMutation.mutate(data))}>
-							<FormField
-								control={profileForm.control}
-								name='email'
-								label='E-mail de contato'
-								required
-								disabled={userQuery.isLoading}
-							/>
-							<FormButton
-								isValid={profileForm.formState.isValid}
-								loading={updateMutation.isPending}
-							>
-								Salvar alterações
-							</FormButton>
-							{updateMutation.isError ? (
-								<p className='profile-error'>Não foi possível salvar as alterações.</p>
-							) : null}
-							{updateMutation.isSuccess ? (
-								<p className='profile-success'>Perfil atualizado com sucesso.</p>
-							) : null}
-						</form>
+						<DynamicForm
+							fields={profileFields.map((field) => ({ ...field, disabled: userQuery.isLoading }))}
+							control={profileForm.control}
+							errors={profileForm.formState.errors}
+							isValid={profileForm.formState.isValid}
+							loading={updateMutation.isPending}
+							onSubmit={(data) => updateMutation.mutate(data)}
+							handleSubmitFn={profileForm.handleSubmit}
+							buttonLabel='Salvar alterações'
+							cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
+							extraContent={
+								<>
+									{updateMutation.isError ? (
+										<p className='profile-error'>Não foi possível salvar as alterações.</p>
+									) : null}
+									{updateMutation.isSuccess ? (
+										<p className='profile-success'>Perfil atualizado com sucesso.</p>
+									) : null}
+								</>
+							}
+						/>
 					</Surface>
 					<Box id='academic-data'>
 						<AcademicSummary profile={academicQuery.data} />
 					</Box>
 					<Surface variant='panel' id='security'>
 						<HeadingRow icon={<LockKeyhole size={18} />} title='Segurança' />
-						<form onSubmit={passwordForm.handleSubmit((data) => passwordMutation.mutate(data))}>
-							<Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={3}>
-								<FormField
-									control={passwordForm.control}
-									name='currentPassword'
-									label='Senha atual'
-									type='password'
-									required
-								/>
-								<FormField
-									control={passwordForm.control}
-									name='newPassword'
-									label='Nova senha'
-									type='password'
-									required
-									minLength={8}
-								/>
-								<FormField
-									control={passwordForm.control}
-									name='confirmPassword'
-									label='Confirmar nova senha'
-									type='password'
-									required
-									minLength={8}
-								/>
-							</Grid>
-							<FormButton
-								isValid={
-									passwordForm.formState.isValid &&
-									passwordForm.watch('newPassword') === passwordForm.watch('confirmPassword')
-								}
-								loading={passwordMutation.isPending}
-							>
-								Alterar senha
-							</FormButton>
-							{passwordMutation.isError ? (
-								<p className='profile-error'>Não foi possível alterar a senha.</p>
-							) : null}
-							{passwordMutation.isSuccess ? (
-								<p className='profile-success'>Senha alterada com sucesso.</p>
-							) : null}
-						</form>
+						<DynamicForm
+							fields={passwordFields}
+							control={passwordForm.control}
+							errors={passwordForm.formState.errors}
+							isValid={
+								passwordForm.formState.isValid &&
+								passwordForm.watch('newPassword') === passwordForm.watch('confirmPassword')
+							}
+							loading={passwordMutation.isPending}
+							onSubmit={(data) => passwordMutation.mutate(data)}
+							handleSubmitFn={passwordForm.handleSubmit}
+							buttonLabel='Alterar senha'
+							columns={2}
+							cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
+							extraContent={
+								<>
+									{passwordMutation.isError ? (
+										<p className='profile-error'>Não foi possível alterar a senha.</p>
+									) : null}
+									{passwordMutation.isSuccess ? (
+										<p className='profile-success'>Senha alterada com sucesso.</p>
+									) : null}
+								</>
+							}
+						/>
 					</Surface>
 				</Grid>
 			)}

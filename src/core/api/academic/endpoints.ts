@@ -51,6 +51,14 @@ const getMyAcademicCalendarEvents = createQueryEndpoint<[string, string], Academ
 			path: `/academic-calendar/students/me/events?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`,
 		}),
 });
+const getAcademicCalendarEvents = createQueryEndpoint<[], AcademicCalendarEvent[]>({
+	key: academicKeys.academicCalendarEvents,
+	fn: () =>
+		createHTTPRequest<AcademicCalendarEvent[]>({
+			method: 'GET',
+			path: '/academic-calendar/events',
+		}),
+});
 
 const getMyProfessorProfile = createQueryEndpoint<[], ProfessorProfile>({
 	key: academicKeys.myProfessorProfile,
@@ -281,6 +289,7 @@ export const academic = {
 	getMyStudentProfile,
 	getMyStudentDashboard,
 	getMyAcademicCalendarEvents,
+	getAcademicCalendarEvents,
 	getMyProfessorProfile,
 	getMyStaffProfile,
 	getStudentProfileByUserId,

@@ -8,7 +8,7 @@ export const adminNavigationPreset: NavigationPreset = {
 	links: [
 		{ label: 'Início', to: '/admin', icon: Home },
 		{ label: 'Gerenciar staff', to: '/staff', icon: UserRoundCog },
-		{ label: 'Cadastrar aluno', to: '/student', icon: UserRound },
+		{ label: 'Cadastrar aluno', to: '/staff/students', icon: UserRound },
 		{ label: 'Criar turma', to: '/staff', icon: CalendarDays },
 		{ label: 'Ver permissões', to: '/admin', icon: ShieldCheck },
 	],

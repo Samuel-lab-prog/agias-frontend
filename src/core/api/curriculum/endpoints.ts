@@ -15,6 +15,11 @@ const getCurriculum = createQueryEndpoint<[], never>({
 		throw new Error('Curriculum read endpoints are not exposed by the backend yet.');
 	},
 });
+const getAcademicPeriods = createQueryEndpoint<[], AcademicPeriod[]>({
+	key: curriculumKeys.academicPeriods,
+	fn: () =>
+		createHTTPRequest<AcademicPeriod[]>({ method: 'GET', path: '/curriculum/academic-periods' }),
+});
 
 const createAcademicPeriod = createMutationEndpoint<CreateAcademicPeriodBody, AcademicPeriod>({
 	fn: (data) =>
@@ -36,6 +41,7 @@ const createClassOffering = createMutationEndpoint<CreateClassOfferingBody, Clas
 
 export const curriculum = {
 	getCurriculum,
+	getAcademicPeriods,
 	createAcademicPeriod,
 	createClassOffering,
 };

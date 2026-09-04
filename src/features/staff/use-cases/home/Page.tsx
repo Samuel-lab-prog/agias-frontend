@@ -1,27 +1,62 @@
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { curriculum } from '@Api/curriculum/endpoints';
+import { curriculumKeys } from '@Api/curriculum/keys';
+import { BaseButton, Surface } from '@BaseComponents';
+import { Box, Heading, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import { NavigationPageShell } from '@core/components/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { NavLink } from 'react-router-dom';
 
 import { staffNavigationPreset } from './navigation';
 
 export function StaffHomePage() {
+	const periods = useQuery({
+		queryKey: curriculumKeys.academicPeriods(),
+		queryFn: () => curriculum.getAcademicPeriods.query().queryFn(),
+	});
 	return (
 		<NavigationPageShell preset={staffNavigationPreset}>
-			<Box
-				display='flex'
-				flexDirection='column'
-				alignItems='center'
-				justifyContent='center'
-				minH='40vh'
-				textAlign='center'
-				gap={3}
-			>
-				<Heading as='h2' fontSize='clamp(1.25rem, 2vw, 1.65rem)' lineHeight='1.2' fontWeight='700'>
-					Você fez login como staff
-				</Heading>
-				<Text fontSize='1rem' lineHeight='1.7rem' color='fg.muted' _dark={{ color: 'fg.muted' }}>
-					Esta página está vazia por enquanto.
-				</Text>
-			</Box>
+			<VStack align='stretch' gap={5}>
+				<Box>
+					<Heading as='h1' fontSize='2xl'>
+						Central do staff
+					</Heading>
+					<Text color='fg.muted' mt={1}>
+						Acesse rapidamente as principais rotinas administrativas.
+					</Text>
+				</Box>
+				<SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
+					<Surface variant='panel'>
+						<Text color='fg.muted' fontSize='sm'>
+							Períodos acadêmicos
+						</Text>
+						<Text fontSize='3xl' fontWeight='bold'>
+							{periods.data?.length ?? '—'}
+						</Text>
+					</Surface>
+					<Surface variant='panel'>
+						<Text color='fg.muted' fontSize='sm'>
+							Calendário
+						</Text>
+						<Text fontWeight='semibold' mt={2}>
+							Eventos institucionais
+						</Text>
+						<BaseButton asChild size='sm' mt={3}>
+							<NavLink to='/staff/academic-calendar'>Gerenciar</NavLink>
+						</BaseButton>
+					</Surface>
+					<Surface variant='panel'>
+						<Text color='fg.muted' fontSize='sm'>
+							Perfil
+						</Text>
+						<Text fontWeight='semibold' mt={2}>
+							Dados da equipe
+						</Text>
+						<BaseButton asChild size='sm' variant='secondary' mt={3}>
+							<NavLink to='/staff/my-profile'>Ver perfil</NavLink>
+						</BaseButton>
+					</Surface>
+				</SimpleGrid>
+			</VStack>
 		</NavigationPageShell>
 	);
 }

@@ -5,6 +5,7 @@ export const academicKeys = createQueryKeys({
 	myStudentDashboard: () => ['academic', 'students', 'dashboard', 'me'] as const,
 	myAcademicCalendarEvents: (from: string, to: string) =>
 		['academic-calendar', 'students', 'me', 'events', from, to] as const,
+	academicCalendarEvents: () => ['academic-calendar', 'events'] as const,
 	myProfessorProfile: () => ['academic', 'professors', 'profile', 'me'] as const,
 	myStaffProfile: () => ['academic', 'staff', 'profile', 'me'] as const,
 	studentProfileByUserId: (userId: string) => ['academic', 'students', 'profile', userId] as const,
