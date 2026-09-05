@@ -68,7 +68,12 @@ export function EmptyStateCard({
 					>
 						{title}
 					</Heading>
-					<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted' _dark={{ color: 'fg.muted' }}>
+					<Text
+						fontSize='0.8125rem'
+						lineHeight='1.25rem'
+						color='fg.muted'
+						_dark={{ color: 'fg.muted' }}
+					>
 						{description}
 					</Text>
 				</VStack>

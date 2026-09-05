@@ -141,9 +141,9 @@ at `/student/subjects/:enrollmentId`.
 
 ## Student activity details
 
-Individual activities are available at `/student/subjects/:enrollmentId/activities/:activityId`.
-The route is protected by the student role gate and is linked from both subject activity rows and
-the dashboard activity list.
+Individual activities are available at `/student/subjects/:enrollmentId/activities/:activityId`. The
+route is protected by the student role gate and is linked from both subject activity rows and the
+dashboard activity list.
 
 - `useStudentActivityDetails` reads the existing `useMyStudentDashboard` query and selects the
   requested enrollment/activity pair.

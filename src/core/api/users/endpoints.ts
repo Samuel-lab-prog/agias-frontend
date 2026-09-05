@@ -118,6 +118,7 @@ const updateUser = createMutationEndpoint<UpdateCurrentUserBody, UserProfile>({
 			path: `/users/me`,
 			body: {
 				email: data.email,
+				currentPassword: data.currentPassword,
 			},
 		}),
 

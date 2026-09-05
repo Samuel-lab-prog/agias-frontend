@@ -47,30 +47,24 @@ function HeaderCard() {
 function LoginPanel() {
 	return (
 		<VStack align='stretch' gap={4} w='full' alignItems='center' justifyContent='center'>
-				<Box>
-					<Heading
-						as='h2'
-						fontSize='xl'
-						lineHeight='1.2'
-						fontWeight='700'
-						textAlign='center'
-					>
-						Entrar no sistema
-					</Heading>
-					<Text
-						mt={1}
-						fontSize='sm'
-						lineHeight='1.4rem'
-						color='fg.muted'
-						textAlign='center'
-						_dark={{ color: 'fg.muted' }}
-					>
-						Digite seu usuário e senha para continuar.
-					</Text>
-				</Box>
+			<Box>
+				<Heading as='h2' fontSize='xl' lineHeight='1.2' fontWeight='700' textAlign='center'>
+					Entrar no sistema
+				</Heading>
+				<Text
+					mt={1}
+					fontSize='sm'
+					lineHeight='1.4rem'
+					color='fg.muted'
+					textAlign='center'
+					_dark={{ color: 'fg.muted' }}
+				>
+					Digite seu usuário e senha para continuar.
+				</Text>
+			</Box>
 
-				<LoginForm />
-			</VStack>
+			<LoginForm />
+		</VStack>
 	);
 }
 

@@ -52,7 +52,12 @@ export function ErrorStateCard({
 				>
 					{title}
 				</Text>
-				<Text fontSize='0.875rem' lineHeight='1.4rem' color='fg.muted' _dark={{ color: 'fg.muted' }}>
+				<Text
+					fontSize='0.875rem'
+					lineHeight='1.4rem'
+					color='fg.muted'
+					_dark={{ color: 'fg.muted' }}
+				>
 					{description}
 				</Text>
 				{renderedAction ? (

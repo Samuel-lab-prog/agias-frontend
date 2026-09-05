@@ -12,7 +12,15 @@ export function useMyAcademicCalendarEvents(from: Date, to: Date) {
 		queryKey: academicKeys.myAcademicCalendarEvents(fromIso, toIso),
 		enabled: !!clientId,
 		staleTime: 60_000,
-		queryFn: () => academic.getMyAcademicCalendarEvents.query(fromIso, toIso).queryFn() as Promise<AcademicCalendarEvent[]>,
+		queryFn: () =>
+			academic.getMyAcademicCalendarEvents.query(fromIso, toIso).queryFn() as Promise<
+				AcademicCalendarEvent[]
+			>,
 	});
-	return { events: query.data ?? [], isLoading: query.isLoading, isError: query.isError, refetch: query.refetch };
+	return {
+		events: query.data ?? [],
+		isLoading: query.isLoading,
+		isError: query.isError,
+		refetch: query.refetch,
+	};
 }

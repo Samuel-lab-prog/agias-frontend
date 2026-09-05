@@ -1,10 +1,11 @@
+/* eslint-disable max-lines, max-lines-per-function -- profile composes the complete student registration workflow. */
 import { academic } from '@Api/academic/endpoints';
 import { academicKeys } from '@Api/academic/keys';
 import type { StudentProfile } from '@Api/academic/types';
 import { users } from '@Api/users/endpoints';
 import { userKeys } from '@Api/users/keys';
 import type { UserProfile } from '@Api/users/types';
-import { BaseButton, DynamicForm, ErrorStateCard, type Field,Surface } from '@BaseComponents';
+import { BaseButton, DynamicForm, ErrorStateCard, type Field, Surface } from '@BaseComponents';
 import { Box, Grid, Heading, HStack, Image, Text } from '@chakra-ui/react';
 import { NavigationPageShell } from '@core/components/navigation';
 import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
@@ -16,11 +17,44 @@ import { NavLink } from 'react-router-dom';
 
 import { studentNavigationPreset } from '../../utils/navigation-routes';
 
-type ProfileForm = { email: string };
+type ProfileForm = { email: string; currentPassword: string };
 type PasswordForm = { currentPassword: string; newPassword: string; confirmPassword: string };
+type StudentDetailsForm = {
+	currentPassword: string;
+	birthDate: string;
+	gender: string;
+	genderIdentity: string;
+	sexualOrientation: string;
+	race: string;
+	nationality: string;
+	birthplace: string;
+	birthCountry: string;
+	maritalStatus: string;
+	bloodType: string;
+	disability: string;
+	fatherName: string;
+	motherName: string;
+	postalCode: string;
+	street: string;
+	addressNumber: string;
+	addressComplement: string;
+	neighborhood: string;
+	state: string;
+	city: string;
+	phone: string;
+	mobilePhone: string;
+	familyIncome: string;
+	socioeconomicStatus: string;
+};
 
 const profileFields: Field<ProfileForm>[] = [
 	{ name: 'email', label: 'E-mail de contato', required: true, type: 'text' },
+	{
+		name: 'currentPassword',
+		label: 'Senha atual para confirmar',
+		required: true,
+		type: 'password',
+	},
 ];
 const passwordFields: Field<PasswordForm>[] = [
 	{ name: 'currentPassword', label: 'Senha atual', type: 'password', required: true },
@@ -31,6 +65,117 @@ const passwordFields: Field<PasswordForm>[] = [
 		type: 'password',
 		required: true,
 		minLength: 8,
+	},
+];
+const studentDetailsFields: Field<StudentDetailsForm>[] = [
+	{ name: 'birthDate', label: 'Data de nascimento', type: 'datetime-local', disabled: true },
+	{
+		kind: 'select',
+		name: 'gender',
+		label: 'Sexo atribuído ao nascer',
+		disabled: true,
+		options: [
+			{ value: 'Masculino', label: 'Masculino' },
+			{ value: 'Feminino', label: 'Feminino' },
+			{ value: 'Não informado', label: 'Não informado' },
+		],
+	},
+	{
+		kind: 'select',
+		name: 'genderIdentity',
+		label: 'Identidade de gênero',
+		options: [
+			{ value: 'Mulher cisgênero', label: 'Mulher cisgênero' },
+			{ value: 'Homem cisgênero', label: 'Homem cisgênero' },
+			{ value: 'Mulher trans', label: 'Mulher trans' },
+			{ value: 'Homem trans', label: 'Homem trans' },
+			{ value: 'Pessoa não binária', label: 'Pessoa não binária' },
+			{ value: 'Pessoa agênero', label: 'Pessoa agênero' },
+			{ value: 'Gênero fluido', label: 'Gênero fluido' },
+			{ value: 'Bigênero', label: 'Bigênero' },
+			{ value: 'Outra', label: 'Outra' },
+			{ value: 'Prefiro não informar', label: 'Prefiro não informar' },
+		],
+	},
+	{
+		kind: 'select',
+		name: 'sexualOrientation',
+		label: 'Orientação sexual',
+		options: [
+			{ value: 'Heterossexual', label: 'Heterossexual' },
+			{ value: 'Homossexual', label: 'Homossexual' },
+			{ value: 'Bissexual', label: 'Bissexual' },
+			{ value: 'Pansexual', label: 'Pansexual' },
+			{ value: 'Assexual', label: 'Assexual' },
+			{ value: 'Demissexual', label: 'Demissexual' },
+			{ value: 'Queer', label: 'Queer' },
+			{ value: 'Outra', label: 'Outra' },
+			{ value: 'Prefiro não informar', label: 'Prefiro não informar' },
+		],
+	},
+	{
+		kind: 'select',
+		name: 'race',
+		label: 'Raça/cor',
+		disabled: true,
+		options: [
+			{ value: 'Branca', label: 'Branca' },
+			{ value: 'Preta', label: 'Preta' },
+			{ value: 'Parda', label: 'Parda' },
+			{ value: 'Amarela', label: 'Amarela' },
+			{ value: 'Indígena', label: 'Indígena' },
+			{ value: 'Não informado', label: 'Não informado' },
+		],
+	},
+	{ name: 'nationality', label: 'Nacionalidade', type: 'text', disabled: true },
+	{ name: 'birthplace', label: 'Naturalidade', type: 'text', disabled: true },
+	{ name: 'birthCountry', label: 'País de nascimento', type: 'text', disabled: true },
+	{
+		kind: 'select',
+		name: 'maritalStatus',
+		label: 'Estado civil',
+		disabled: true,
+		options: [
+			{ value: 'Solteiro', label: 'Solteiro' },
+			{ value: 'Casado', label: 'Casado' },
+			{ value: 'Divorciado', label: 'Divorciado' },
+			{ value: 'Viúvo', label: 'Viúvo' },
+		],
+	},
+	{
+		kind: 'select',
+		name: 'bloodType',
+		label: 'Tipo sanguíneo',
+		disabled: true,
+		options: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((value) => ({
+			value,
+			label: value,
+		})),
+	},
+	{
+		name: 'disability',
+		label: 'Deficiência ou necessidade especial',
+		type: 'text',
+		disabled: true,
+	},
+	{ name: 'fatherName', label: 'Nome do pai', type: 'text', disabled: true },
+	{ name: 'motherName', label: 'Nome da mãe', type: 'text', disabled: true },
+	{ name: 'postalCode', label: 'CEP', type: 'text' },
+	{ name: 'street', label: 'Logradouro', type: 'text' },
+	{ name: 'addressNumber', label: 'Número', type: 'text' },
+	{ name: 'addressComplement', label: 'Complemento', type: 'text' },
+	{ name: 'neighborhood', label: 'Bairro', type: 'text' },
+	{ name: 'state', label: 'UF', type: 'text' },
+	{ name: 'city', label: 'Município', type: 'text' },
+	{ name: 'phone', label: 'Telefone', type: 'text' },
+	{ name: 'mobilePhone', label: 'Celular', type: 'text' },
+	{ name: 'familyIncome', label: 'Renda familiar', type: 'text' },
+	{ name: 'socioeconomicStatus', label: 'Situação socioeconômica', type: 'text' },
+	{
+		name: 'currentPassword',
+		label: 'Senha atual para confirmar',
+		type: 'password',
+		required: true,
 	},
 ];
 
@@ -82,7 +227,15 @@ function AcademicSummary({ profile }: { profile?: StudentProfile }) {
 	);
 }
 
-function SummaryItem({ label, value, valueColor }: { label: string; value: string; valueColor?: string }) {
+function SummaryItem({
+	label,
+	value,
+	valueColor,
+}: {
+	label: string;
+	value: string;
+	valueColor?: string;
+}) {
 	return (
 		<Box>
 			<Text as='dt' fontSize='sm' color='fg.muted'>
@@ -121,10 +274,21 @@ export function StudentProfilePage() {
 	});
 	const profileForm = useForm<ProfileForm>({ mode: 'onChange' });
 	const passwordForm = useForm<PasswordForm>({ mode: 'onChange' });
+	const studentDetailsForm = useForm<StudentDetailsForm>({ mode: 'onChange' });
 	const newPassword = passwordForm.watch('newPassword');
 	const confirmPassword = passwordForm.watch('confirmPassword');
 	const avatarInputRef = useRef<HTMLInputElement>(null);
 	const [avatarError, setAvatarError] = useState('');
+	const studentDetailsMutation = useMutation({
+		mutationFn: (data: StudentDetailsForm) =>
+			academic.updateStudentProfile.mutate({
+				...data,
+				currentPassword: data.currentPassword,
+				birthDate: data.birthDate ? new Date(data.birthDate).toISOString() : null,
+				familyIncome: data.familyIncome ? Number(data.familyIncome) : null,
+			}) as Promise<StudentProfile>,
+		onSuccess: (profile) => queryClient.setQueryData(academicKeys.myStudentProfile(), profile),
+	});
 
 	useEffect(() => {
 		if (!confirmPassword) {
@@ -145,14 +309,38 @@ export function StudentProfilePage() {
 		if (!userQuery.data) return;
 		profileForm.reset({
 			email: userQuery.data.email ?? '',
+			currentPassword: '',
 		});
 	}, [profileForm, userQuery.data]);
+	useEffect(() => {
+		const profile = academicQuery.data;
+		if (!profile) return;
+		studentDetailsForm.reset(
+			Object.fromEntries(
+				studentDetailsFields
+					.filter((field) => field.kind !== 'custom')
+					.map((field) => {
+						const value = profile[field.name as keyof StudentProfile];
+						return [
+							field.name,
+							field.name === 'currentPassword'
+								? ''
+								: field.name === 'birthDate' && value
+									? String(value).slice(0, 16)
+									: value === null || value === undefined
+										? ''
+										: String(value),
+						];
+					}),
+			) as StudentDetailsForm,
+		);
+	}, [academicQuery.data, studentDetailsForm]);
 
 	const updateMutation = useMutation({
 		mutationFn: (data: ProfileForm) => users.updateUser.mutate(data) as Promise<UserProfile>,
 		onSuccess: (profile) => {
 			queryClient.setQueryData(userKeys.myProfile(), profile);
-			profileForm.reset({ email: profile.email ?? '' });
+			profileForm.reset({ email: profile.email ?? '', currentPassword: '' });
 		},
 	});
 	const passwordMutation = useMutation({
@@ -209,175 +397,213 @@ export function StudentProfilePage() {
 					}}
 				/>
 			) : (
-				<Grid templateColumns={{ base: '1fr', lg: 'minmax(0, 1.1fr) minmax(0, 0.9fr)' }} gap={4}>
-					<Surface
-						variant='panel'
-						gridColumn={{ base: 'auto', lg: '1 / -1' }}
-						id='profile-settings'
-					>
-						<HeadingRow icon={<UserRound size={18} />} title='Foto e perfil' />
-						<HStack align='center' gap={4} wrap='wrap'>
-							{userQuery.data?.avatarUrl ? (
-								<Image
-									src={userQuery.data.avatarUrl}
-									alt='Foto do perfil'
-									boxSize={20}
-									borderRadius='full'
-									objectFit='cover'
-								/>
-							) : (
-								<Box
-									boxSize={20}
-									borderRadius='full'
-									bg='action.primary'
-									color='fg.inverted'
-									display='grid'
-									placeItems='center'
-									fontSize='xl'
-									fontWeight='bold'
-								>
-									{userQuery.data?.name
-										?.split(/\s+/)
-										.map((part) => part[0])
-										.slice(0, 2)
-										.join('')
-										.toUpperCase() ?? '?'}
-								</Box>
-							)}
-							<Box>
-								<Text fontWeight='semibold'>Atualizar foto do perfil</Text>
-								<Text color='fg.muted' fontSize='sm' mt={1}>
-									Use uma imagem JPG, PNG ou WEBP.
-								</Text>
-								<input
-									ref={avatarInputRef}
-									type='file'
-									accept='image/jpeg,image/png,image/webp'
-									hidden
-									onChange={(event) => {
-										const file = event.target.files?.[0];
-										event.target.value = '';
-										if (file) avatarMutation.mutate(file);
-									}}
-								/>
-								<BaseButton
-									type='button'
-									variant='secondary'
-									size='sm'
-									mt={3}
-									loading={avatarMutation.isPending}
-									onClick={() => avatarInputRef.current?.click()}
-								>
-									Escolher foto
-								</BaseButton>
-								{avatarError ? (
-									<Text color='status.error' fontSize='sm' mt={2}>
-										{avatarError}
+				<>
+					<Grid templateColumns={{ base: '1fr', lg: 'minmax(0, 1.1fr) minmax(0, 0.9fr)' }} gap={4}>
+						<Surface
+							variant='panel'
+							gridColumn={{ base: 'auto', lg: '1 / -1' }}
+							id='profile-settings'
+						>
+							<HeadingRow icon={<UserRound size={18} />} title='Foto e perfil' />
+							<HStack align='center' gap={4} wrap='wrap'>
+								{userQuery.data?.avatarUrl ? (
+									<Image
+										src={userQuery.data.avatarUrl}
+										alt='Foto do perfil'
+										boxSize={20}
+										borderRadius='full'
+										objectFit='cover'
+									/>
+								) : (
+									<Box
+										boxSize={20}
+										borderRadius='full'
+										bg='action.primary'
+										color='fg.inverted'
+										display='grid'
+										placeItems='center'
+										fontSize='xl'
+										fontWeight='bold'
+									>
+										{userQuery.data?.name
+											?.split(/\s+/)
+											.map((part) => part[0])
+											.slice(0, 2)
+											.join('')
+											.toUpperCase() ?? '?'}
+									</Box>
+								)}
+								<Box>
+									<Text fontWeight='semibold'>Atualizar foto do perfil</Text>
+									<Text color='fg.muted' fontSize='sm' mt={1}>
+										Use uma imagem JPG, PNG ou WEBP.
 									</Text>
-								) : null}
-							</Box>
-						</HStack>
-					</Surface>
-					<Surface variant='panel' id='personal-data'>
-						<HeadingRow icon={<UserRound size={18} />} title='Informações pessoais' />
-						<Grid templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)' }} gap={4} mb={5}>
-							<SummaryItem label='Nome completo' value={userQuery.data?.name ?? 'Não informado'} />
-							<SummaryItem
-								label='Nome de usuário'
-								value={userQuery.data?.nickname ?? 'Não informado'}
-							/>
-							<SummaryItem label='CPF' value={userQuery.data?.cpf ?? 'Não informado'} />
-							<SummaryItem label='RG' value={userQuery.data?.rg ?? 'Não informado'} />
-							<SummaryItem label='Perfil' value={formatRole(userQuery.data?.role)} />
-							<SummaryItem label='Conta' value={formatStatus(userQuery.data?.status)} />
-							<SummaryItem
-								label='Cadastro'
-								value={
-									userQuery.data?.createdAt
-										? new Intl.DateTimeFormat('pt-BR').format(new Date(userQuery.data.createdAt))
-										: 'Não informado'
-								}
-							/>
-			<SummaryItem
-				label='E-mail verificado'
-				value={userQuery.data?.emailVerifiedAt ? 'Sim' : 'Pendente'}
-				valueColor={userQuery.data?.emailVerifiedAt ? 'status.success' : 'status.warning'}
-			/>
-							<SummaryItem
-								label='E-mail institucional'
-								value={
-									academicQuery.data?.academicId
-										? `${academicQuery.data.academicId}@aluno.osorio.ifrs.edu.br`
-										: 'Não informado'
-								}
-							/>
-						</Grid>
-						<Text fontSize='sm' color='fg.muted' mb={4}>
-							Dados institucionais são mantidos pela instituição e não podem ser alterados aqui.
-							O e-mail institucional é gerado pela matrícula e não pode ser alterado.
-							Apenas o e-mail pessoal de contato pode ser atualizado.
-						</Text>
-						<DynamicForm
-							fields={profileFields.map((field) => ({ ...field, disabled: userQuery.isLoading }))}
-							control={profileForm.control}
-							errors={profileForm.formState.errors}
-							isValid={profileForm.formState.isValid}
-							loading={updateMutation.isPending}
-							onSubmit={(data) => updateMutation.mutate(data)}
-							handleSubmitFn={profileForm.handleSubmit}
-							buttonLabel='Salvar alterações'
-							cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
-							extraContent={
-								<>
-									{updateMutation.isError ? (
-										<Text color='status.error' role='alert'>Não foi possível salvar as alterações.</Text>
-									) : null}
-									{updateMutation.isSuccess ? (
-										<Text color='status.success' role='status'>Perfil atualizado com sucesso.</Text>
-									) : null}
-								</>
-							}
-						/>
-					</Surface>
-					<Box id='academic-data'>
-						<AcademicSummary profile={academicQuery.data} />
-					</Box>
-					<Surface variant='panel' id='security'>
-						<HeadingRow icon={<LockKeyhole size={18} />} title='Segurança' />
-						<DynamicForm
-							fields={passwordFields}
-							control={passwordForm.control}
-							errors={passwordForm.formState.errors}
-							isValid={
-								passwordForm.formState.isValid &&
-									!passwordForm.formState.errors.confirmPassword && newPassword === confirmPassword
-							}
-							loading={passwordMutation.isPending}
-							onSubmit={(data) => {
-								passwordForm.clearErrors('currentPassword');
-								passwordMutation.mutate(data);
-							}}
-							handleSubmitFn={passwordForm.handleSubmit}
-							setError={passwordForm.setError}
-							clearErrors={passwordForm.clearErrors}
-							buttonLabel='Alterar senha'
-							columns={2}
-							cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
-							extraContent={
-								<>
-									{confirmPassword && newPassword !== confirmPassword ? (
-										<Text color='status.error' role='alert' fontSize='sm'>
-											As senhas não correspondem.
+									<input
+										ref={avatarInputRef}
+										type='file'
+										accept='image/jpeg,image/png,image/webp'
+										hidden
+										onChange={(event) => {
+											const file = event.target.files?.[0];
+											event.target.value = '';
+											if (file) avatarMutation.mutate(file);
+										}}
+									/>
+									<BaseButton
+										type='button'
+										variant='secondary'
+										size='sm'
+										mt={3}
+										loading={avatarMutation.isPending}
+										onClick={() => avatarInputRef.current?.click()}
+									>
+										Escolher foto
+									</BaseButton>
+									{avatarError ? (
+										<Text color='status.error' fontSize='sm' mt={2}>
+											{avatarError}
 										</Text>
 									) : null}
-									{passwordMutation.isSuccess ? (
-										<Text color='status.success' role='status'>Senha alterada com sucesso.</Text>
-									) : null}
-								</>
-							}
-						/>
-					</Surface>
-				</Grid>
+								</Box>
+							</HStack>
+						</Surface>
+						<Surface variant='panel' id='personal-data'>
+							<HeadingRow icon={<UserRound size={18} />} title='Informações pessoais' />
+							<Grid templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)' }} gap={4} mb={5}>
+								<SummaryItem
+									label='Nome completo'
+									value={userQuery.data?.name ?? 'Não informado'}
+								/>
+								<SummaryItem
+									label='Nome de usuário'
+									value={userQuery.data?.nickname ?? 'Não informado'}
+								/>
+								<SummaryItem label='CPF' value={userQuery.data?.cpf ?? 'Não informado'} />
+								<SummaryItem label='RG' value={userQuery.data?.rg ?? 'Não informado'} />
+								<SummaryItem label='Perfil' value={formatRole(userQuery.data?.role)} />
+								<SummaryItem label='Conta' value={formatStatus(userQuery.data?.status)} />
+								<SummaryItem
+									label='Cadastro'
+									value={
+										userQuery.data?.createdAt
+											? new Intl.DateTimeFormat('pt-BR').format(new Date(userQuery.data.createdAt))
+											: 'Não informado'
+									}
+								/>
+								<SummaryItem
+									label='E-mail verificado'
+									value={userQuery.data?.emailVerifiedAt ? 'Sim' : 'Pendente'}
+									valueColor={userQuery.data?.emailVerifiedAt ? 'status.success' : 'status.warning'}
+								/>
+								<SummaryItem
+									label='E-mail institucional'
+									value={
+										academicQuery.data?.academicId
+											? `${academicQuery.data.academicId}@aluno.osorio.ifrs.edu.br`
+											: 'Não informado'
+									}
+								/>
+							</Grid>
+							<Text fontSize='sm' color='fg.muted' mb={4}>
+								Dados institucionais são mantidos pela instituição e não podem ser alterados aqui. O
+								e-mail institucional é gerado pela matrícula e não pode ser alterado. Apenas o
+								e-mail pessoal de contato pode ser atualizado.
+							</Text>
+							<DynamicForm
+								fields={profileFields.map((field) => ({ ...field, disabled: userQuery.isLoading }))}
+								control={profileForm.control}
+								errors={profileForm.formState.errors}
+								isValid={profileForm.formState.isValid}
+								loading={updateMutation.isPending}
+								onSubmit={(data) => updateMutation.mutate(data)}
+								handleSubmitFn={profileForm.handleSubmit}
+								buttonLabel='Salvar alterações'
+								cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
+								extraContent={
+									<>
+										{updateMutation.isError ? (
+											<Text color='status.error' role='alert'>
+												Não foi possível salvar as alterações.
+											</Text>
+										) : null}
+										{updateMutation.isSuccess ? (
+											<Text color='status.success' role='status'>
+												Perfil atualizado com sucesso.
+											</Text>
+										) : null}
+									</>
+								}
+							/>
+						</Surface>
+						<Box id='academic-data'>
+							<AcademicSummary profile={academicQuery.data} />
+						</Box>
+						<Surface variant='panel' gridColumn={{ base: 'auto', lg: '1 / -1' }}>
+							<HeadingRow icon={<UserRound size={18} />} title='Dados cadastrais' />
+							<Text fontSize='sm' color='fg.muted' mb={4}>
+								Atualize seus dados pessoais, endereço e contatos. Dados acadêmicos e documentos
+								oficiais são mantidos pela instituição.
+							</Text>
+							<DynamicForm
+								fields={studentDetailsFields}
+								control={studentDetailsForm.control}
+								errors={studentDetailsForm.formState.errors}
+								isValid={studentDetailsForm.formState.isValid}
+								loading={studentDetailsMutation.isPending}
+								onSubmit={(data) => studentDetailsMutation.mutate(data)}
+								handleSubmitFn={studentDetailsForm.handleSubmit}
+								buttonLabel='Salvar dados cadastrais'
+								columns={2}
+								cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
+								extraContent={
+									studentDetailsMutation.isSuccess ? (
+										<Text color='status.success'>Dados cadastrais atualizados com sucesso.</Text>
+									) : studentDetailsMutation.isError ? (
+										<Text color='status.error'>Não foi possível salvar os dados cadastrais.</Text>
+									) : null
+								}
+							/>
+						</Surface>
+						<Surface variant='panel' id='security'>
+							<HeadingRow icon={<LockKeyhole size={18} />} title='Segurança' />
+							<DynamicForm
+								fields={passwordFields}
+								control={passwordForm.control}
+								errors={passwordForm.formState.errors}
+								isValid={
+									passwordForm.formState.isValid &&
+									!passwordForm.formState.errors.confirmPassword &&
+									newPassword === confirmPassword
+								}
+								loading={passwordMutation.isPending}
+								onSubmit={(data) => {
+									passwordForm.clearErrors('currentPassword');
+									passwordMutation.mutate(data);
+								}}
+								handleSubmitFn={passwordForm.handleSubmit}
+								setError={passwordForm.setError}
+								clearErrors={passwordForm.clearErrors}
+								buttonLabel='Alterar senha'
+								columns={2}
+								cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
+								extraContent={
+									<>
+										{confirmPassword && newPassword !== confirmPassword ? (
+											<Text color='status.error' role='alert' fontSize='sm'>
+												As senhas não correspondem.
+											</Text>
+										) : null}
+										{passwordMutation.isSuccess ? (
+											<Text color='status.success' role='status'>
+												Senha alterada com sucesso.
+											</Text>
+										) : null}
+									</>
+								}
+							/>
+						</Surface>
+					</Grid>
+				</>
 			)}
 		</NavigationPageShell>
 	);

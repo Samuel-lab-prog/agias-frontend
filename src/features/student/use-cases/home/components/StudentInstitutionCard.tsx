@@ -37,7 +37,12 @@ export function StudentInstitutionCard({
 			<VStack align='stretch' gap={2}>
 				{institutionData.map(([label, value]) => (
 					<Flex key={label} justify='space-between' gap={3}>
-						<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted' _dark={{ color: 'fg.muted' }}>
+						<Text
+							fontSize='0.8125rem'
+							lineHeight='1.25rem'
+							color='fg.muted'
+							_dark={{ color: 'fg.muted' }}
+						>
 							{label}
 						</Text>
 						<Text fontSize='0.8125rem' lineHeight='1.25rem' fontWeight='semibold' textAlign='right'>

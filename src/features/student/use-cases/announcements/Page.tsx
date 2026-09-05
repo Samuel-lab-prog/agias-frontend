@@ -15,7 +15,12 @@ export function StudentAnnouncementsPage() {
 					Voltar ao início
 				</NavLink>
 			</BaseButton>
-			<StudentAlertsCard limit={null} showAllAction={false} searchable title='Todos os comunicados' />
+			<StudentAlertsCard
+				limit={null}
+				showAllAction={false}
+				searchable
+				title='Todos os comunicados'
+			/>
 		</NavigationPageShell>
 	);
 }

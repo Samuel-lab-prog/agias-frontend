@@ -62,7 +62,12 @@ export function DynamicForm<T extends FieldValues>({
 						flexShrink={0}
 						_dark={{ bg: 'bg.surface' }}
 					>
-						<Icon as={CircleAlert} boxSize={4} color='status.error' _dark={{ color: 'status.error' }} />
+						<Icon
+							as={CircleAlert}
+							boxSize={4}
+							color='status.error'
+							_dark={{ color: 'status.error' }}
+						/>
 					</Flex>
 					<Text
 						fontSize='0.8125rem'

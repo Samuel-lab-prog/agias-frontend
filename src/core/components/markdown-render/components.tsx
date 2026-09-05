@@ -96,7 +96,13 @@ export const components: Components = {
 	),
 
 	mark: ({ children }) => (
-		<Mark as='mark' bg='action.primarySubtle' color='fg.default' fontSize='1rem' lineHeight='1.7rem'>
+		<Mark
+			as='mark'
+			bg='action.primarySubtle'
+			color='fg.default'
+			fontSize='1rem'
+			lineHeight='1.7rem'
+		>
 			{children}
 		</Mark>
 	),
