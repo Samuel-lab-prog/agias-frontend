@@ -47,6 +47,28 @@ type StudentDetailsForm = {
 	socioeconomicStatus: string;
 };
 
+const formatCurrency = (value: string | number) => {
+	const numeric = typeof value === 'number' ? value : Number(value.replace(/\D/g, '')) / 100;
+	return Number.isFinite(numeric)
+		? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(numeric)
+		: '';
+};
+
+const formatPhone = (value: string) => {
+	const digits = value.replace(/\D/g, '').slice(0, 11);
+	if (digits.length <= 2) return digits ? `(${digits}` : '';
+	const area = `(${digits.slice(0, 2)}) `;
+	const body = digits.slice(2);
+	if (body.length <= 4) return area + body;
+	if (digits.length <= 10) return `${area}${body.slice(0, 4)}-${body.slice(4)}`;
+	return `${area}${body.slice(0, 5)}-${body.slice(5)}`;
+};
+
+const formatPostalCode = (value: string) => {
+	const digits = value.replace(/\D/g, '').slice(0, 8);
+	return digits.length > 5 ? `${digits.slice(0, 5)}-${digits.slice(5)}` : digits;
+};
+
 const profileFields: Field<ProfileForm>[] = [
 	{ name: 'email', label: 'E-mail de contato', required: true, type: 'text' },
 	{
@@ -160,16 +182,19 @@ const studentDetailsFields: Field<StudentDetailsForm>[] = [
 	},
 	{ name: 'fatherName', label: 'Nome do pai', type: 'text', disabled: true },
 	{ name: 'motherName', label: 'Nome da mãe', type: 'text', disabled: true },
-	{ name: 'postalCode', label: 'CEP', type: 'text' },
+	{ name: 'postalCode', label: 'CEP', type: 'text', transformValue: formatPostalCode },
 	{ name: 'street', label: 'Logradouro', type: 'text' },
 	{ name: 'addressNumber', label: 'Número', type: 'text' },
 	{ name: 'addressComplement', label: 'Complemento', type: 'text' },
 	{ name: 'neighborhood', label: 'Bairro', type: 'text' },
-	{ name: 'state', label: 'UF', type: 'text' },
+	{
+		kind: 'select', name: 'state', label: 'UF',
+		options: ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'].map((value) => ({ value, label: value })),
+	},
 	{ name: 'city', label: 'Município', type: 'text' },
-	{ name: 'phone', label: 'Telefone', type: 'text' },
-	{ name: 'mobilePhone', label: 'Celular', type: 'text' },
-	{ name: 'familyIncome', label: 'Renda familiar', type: 'text' },
+	{ name: 'phone', label: 'Telefone', type: 'text', transformValue: formatPhone },
+	{ name: 'mobilePhone', label: 'Celular', type: 'text', transformValue: formatPhone },
+	{ name: 'familyIncome', label: 'Renda familiar', type: 'text', transformValue: formatCurrency },
 	{ name: 'socioeconomicStatus', label: 'Situação socioeconômica', type: 'text' },
 	{
 		name: 'currentPassword',
@@ -279,13 +304,14 @@ export function StudentProfilePage() {
 	const confirmPassword = passwordForm.watch('confirmPassword');
 	const avatarInputRef = useRef<HTMLInputElement>(null);
 	const [avatarError, setAvatarError] = useState('');
+	const [postalCodeError, setPostalCodeError] = useState('');
 	const studentDetailsMutation = useMutation({
 		mutationFn: (data: StudentDetailsForm) =>
 			academic.updateStudentProfile.mutate({
 				...data,
 				currentPassword: data.currentPassword,
 				birthDate: data.birthDate ? new Date(data.birthDate).toISOString() : null,
-				familyIncome: data.familyIncome ? Number(data.familyIncome) : null,
+				familyIncome: data.familyIncome ? Number(data.familyIncome.replace(/\D/g, '')) / 100 : null,
 			}) as Promise<StudentProfile>,
 		onSuccess: (profile) => queryClient.setQueryData(academicKeys.myStudentProfile(), profile),
 	});
@@ -325,6 +351,8 @@ export function StudentProfilePage() {
 							field.name,
 							field.name === 'currentPassword'
 								? ''
+								: field.name === 'familyIncome' && value
+									? formatCurrency(Number(value))
 								: field.name === 'birthDate' && value
 									? String(value).slice(0, 16)
 									: value === null || value === undefined
@@ -335,6 +363,33 @@ export function StudentProfilePage() {
 			) as StudentDetailsForm,
 		);
 	}, [academicQuery.data, studentDetailsForm]);
+	const postalCode = studentDetailsForm.watch('postalCode');
+	useEffect(() => {
+		const digits = postalCode?.replace(/\D/g, '') ?? '';
+		if (digits.length !== 8) {
+			setPostalCodeError('');
+			return;
+		}
+		let cancelled = false;
+		void fetch(`https://viacep.com.br/ws/${digits}/json/`)
+			.then((response) => response.ok ? response.json() : null)
+			.then((data: { erro?: boolean; logradouro?: string; bairro?: string; uf?: string; localidade?: string } | null) => {
+				if (cancelled) return;
+				if (!data || data.erro) {
+					setPostalCodeError('CEP não encontrado.');
+					return;
+				}
+				studentDetailsForm.setValue('street', data.logradouro ?? '');
+				studentDetailsForm.setValue('neighborhood', data.bairro ?? '');
+				studentDetailsForm.setValue('state', data.uf ?? '');
+				studentDetailsForm.setValue('city', data.localidade ?? '');
+				setPostalCodeError('');
+			})
+			.catch(() => {
+				if (!cancelled) setPostalCodeError('Não foi possível consultar o CEP.');
+			});
+		return () => { cancelled = true; };
+	}, [postalCode, studentDetailsForm]);
 
 	const updateMutation = useMutation({
 		mutationFn: (data: ProfileForm) => users.updateUser.mutate(data) as Promise<UserProfile>,
@@ -556,7 +611,9 @@ export function StudentProfilePage() {
 								columns={2}
 								cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
 								extraContent={
-									studentDetailsMutation.isSuccess ? (
+									postalCodeError ? (
+										<Text color='status.error'>{postalCodeError}</Text>
+									) : studentDetailsMutation.isSuccess ? (
 										<Text color='status.success'>Dados cadastrais atualizados com sucesso.</Text>
 									) : studentDetailsMutation.isError ? (
 										<Text color='status.error'>Não foi possível salvar os dados cadastrais.</Text>
