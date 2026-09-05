@@ -5,6 +5,7 @@ import { Box, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import { translateBackendAudience } from '@core/utils/backend-labels';
 import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
 import { useQuery } from '@tanstack/react-query';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Bell, Pin } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -24,6 +25,14 @@ export function StudentAlertsCard({
 }) {
 	const clientId = useAuthClientStore((state) => state.authClient?.id ?? null);
 	const [search, setSearch] = useState('');
+	const reducedMotion = useReducedMotion();
+	const resultMotion = {
+		initial: { opacity: 0, height: 0 },
+		animate: { opacity: 1, height: 'auto' },
+		exit: { opacity: 0, height: 0 },
+		transition: { duration: reducedMotion || !searchable ? 0 : 0.2 },
+		style: { overflow: 'hidden' as const },
+	};
 
 	const query = useQuery({
 		queryKey: communicationsKeys.myAnnouncements(),
@@ -78,7 +87,9 @@ export function StudentAlertsCard({
 			) : null}
 
 			<VStack align='stretch' gap={0}>
+				<AnimatePresence initial={false}>
 				{visibleAnnouncements.length === 0 ? (
+					<motion.div key='empty' {...resultMotion}>
 					<Box px={2} py={3}>
 						<Text
 							fontSize='0.8125rem'
@@ -91,10 +102,11 @@ export function StudentAlertsCard({
 								: 'Os comunicados publicados pela staff aparecerão aqui.'}
 						</Text>
 					</Box>
+					</motion.div>
 				) : (
 					visibleAnnouncements.map((announcement, index) => (
+						<motion.div key={announcement.id} {...resultMotion}>
 						<Flex
-							key={announcement.id}
 							pl={2}
 							pr={2}
 							py={3}
@@ -177,8 +189,10 @@ export function StudentAlertsCard({
 								{translateBackendAudience(announcement.audience)}
 							</Text>
 						</Flex>
+						</motion.div>
 					))
 				)}
+				</AnimatePresence>
 			</VStack>
 		</StudentCard>
 	);
