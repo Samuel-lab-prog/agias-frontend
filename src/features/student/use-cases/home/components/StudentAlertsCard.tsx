@@ -1,11 +1,12 @@
 import { communications } from '@Api/communications/endpoints';
 import { communicationsKeys } from '@Api/communications/keys';
-import { BaseButton } from '@BaseComponents';
+import { BaseButton, SearchInput } from '@BaseComponents';
 import { Box, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import { translateBackendAudience } from '@core/utils/backend-labels';
 import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
 import { useQuery } from '@tanstack/react-query';
 import { Bell, Pin } from 'lucide-react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { StudentCard, StudentCardHeader } from './StudentCard';
@@ -13,13 +14,16 @@ import { StudentCard, StudentCardHeader } from './StudentCard';
 export function StudentAlertsCard({
 	limit = 3,
 	showAllAction = true,
+	searchable = false,
 	title,
 }: {
 	limit?: number | null;
 	showAllAction?: boolean;
+	searchable?: boolean;
 	title?: string;
 }) {
 	const clientId = useAuthClientStore((state) => state.authClient?.id ?? null);
+	const [search, setSearch] = useState('');
 
 	const query = useQuery({
 		queryKey: communicationsKeys.myAnnouncements(),
@@ -36,8 +40,14 @@ export function StudentAlertsCard({
 		hour: '2-digit',
 		minute: '2-digit',
 	});
-	const visibleAnnouncements = announcements.slice(0, limit ?? Number.MAX_SAFE_INTEGER);
-	const remainingAnnouncements = Math.max(0, announcements.length - visibleAnnouncements.length);
+	const normalizeSearch = (value: string) =>
+		value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR');
+	const searchTerms = searchable ? normalizeSearch(search).trim().split(/\s+/).filter(Boolean) : [];
+	const filteredAnnouncements = announcements.filter((announcement) => {
+		const content = normalizeSearch(`${announcement.title} ${announcement.body}`);
+		return searchTerms.every((term) => content.includes(term));
+	});
+	const visibleAnnouncements = filteredAnnouncements.slice(0, limit ?? Number.MAX_SAFE_INTEGER);
 
 	return (
 		<StudentCard>
@@ -50,11 +60,22 @@ export function StudentAlertsCard({
 				action={
 					showAllAction ? (
 						<BaseButton asChild size='sm' variant='secondary' color='fg.muted'>
-							<NavLink to='/student/announcements'>Ver todas as notícias</NavLink>
+							<NavLink to='/student/announcements'>Ver todos os comunicados</NavLink>
 						</BaseButton>
 					) : undefined
 				}
 			/>
+
+			{searchable ? (
+				<Box mb={4}>
+					<SearchInput
+						label='Buscar comunicados'
+						placeholder='Pesquise por título ou conteúdo'
+						value={search}
+						onValueChange={setSearch}
+					/>
+				</Box>
+			) : null}
 
 			<VStack align='stretch' gap={0}>
 				{visibleAnnouncements.length === 0 ? (
@@ -65,7 +86,9 @@ export function StudentAlertsCard({
 							color='fg.muted'
 							_dark={{ color: 'fg.muted' }}
 						>
-							Os comunicados publicados pela staff aparecerão aqui.
+							{searchTerms.length > 0
+								? 'Nenhum comunicado encontrado. Tente buscar por outras palavras.'
+								: 'Os comunicados publicados pela staff aparecerão aqui.'}
 						</Text>
 					</Box>
 				) : (
@@ -157,18 +180,6 @@ export function StudentAlertsCard({
 					))
 				)}
 			</VStack>
-
-			{remainingAnnouncements > 0 ? (
-				<Text
-					fontSize='0.8125rem'
-					lineHeight='1.25rem'
-					color='fg.muted'
-					mt={3}
-					_dark={{ color: 'fg.muted' }}
-				>
-					Mais {remainingAnnouncements} comunicado{remainingAnnouncements > 1 ? 's' : ''}.
-				</Text>
-			) : null}
 		</StudentCard>
 	);
 }

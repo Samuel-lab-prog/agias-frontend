@@ -80,10 +80,6 @@ export function HomeMainColumn() {
 	});
 
 	const visibleAnnouncements = (query.data ?? []).slice(0, 3);
-	const remainingAnnouncements = Math.max(
-		0,
-		(query.data?.length ?? 0) - visibleAnnouncements.length,
-	);
 
 	return (
 		<VStack align='stretch' gap={4}>
@@ -114,15 +110,10 @@ export function HomeMainColumn() {
 									Os comunicados publicados pela staff aparecerão aqui.
 								</Text>
 							) : null}
-							{remainingAnnouncements > 0 ? (
-								<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
-									Mais {remainingAnnouncements} comunicado{remainingAnnouncements > 1 ? 's' : ''}.
-								</Text>
-							) : null}
 						</VStack>
 					</Box>
 					<BaseButton size='sm' variant='secondary' color='fg.muted'>
-						Ver todas as notícias
+						Ver todos os comunicados
 					</BaseButton>
 				</Flex>
 			</Surface>
