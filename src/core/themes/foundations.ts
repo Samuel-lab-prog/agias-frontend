@@ -49,6 +49,7 @@ export const semanticValues = {
 	accentSoft: { light: 'rgba(37, 99, 235, 0.08)', dark: 'rgba(96, 165, 250, 0.14)' },
 	error: { light: foundations.colors.rose[600], dark: foundations.colors.rose[400] },
 	errorSoft: { light: 'rgba(225, 29, 72, 0.08)', dark: 'rgba(251, 113, 133, 0.12)' },
+	success: { light: foundations.colors.green[600], dark: foundations.colors.green[400] },
 	warning: { light: foundations.colors.amber[700], dark: foundations.colors.amber[400] },
 	focus: { light: 'rgba(37, 99, 235, 0.18)', dark: 'rgba(96, 165, 250, 0.28)' },
 } as const;

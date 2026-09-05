@@ -35,6 +35,7 @@ export const semanticTokens = defineSemanticTokens({
 		status: {
 			error: adaptive(semanticValues.error.light, semanticValues.error.dark),
 			errorSubtle: adaptive(semanticValues.errorSoft.light, semanticValues.errorSoft.dark),
+			success: adaptive(semanticValues.success.light, semanticValues.success.dark),
 			warning: adaptive(semanticValues.warning.light, semanticValues.warning.dark),
 		},
 		focus: { ring: adaptive(semanticValues.focus.light, semanticValues.focus.dark) },
@@ -64,6 +65,7 @@ export const documentedColorTokens = [
 	['action.primary', semanticValues.accent, 'Ação principal e links'],
 	['action.primarySubtle', semanticValues.accentSoft, 'Destaque de baixa ênfase'],
 	['status.error', semanticValues.error, 'Erro e ação destrutiva'],
+	['status.success', semanticValues.success, 'Sucesso e confirmação'],
 	['status.warning', semanticValues.warning, 'Avisos'],
 	['focus.ring', semanticValues.focus, 'Foco por teclado'],
 ] as const;

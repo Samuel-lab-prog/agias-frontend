@@ -49,6 +49,19 @@ function formatRole(role: string | undefined) {
 	return role ?? 'Não informado';
 }
 
+function getPasswordErrorMessage(error: unknown) {
+	const message =
+		error instanceof Error
+			? error.message
+			: typeof error === 'object' && error !== null && 'message' in error
+				? String(error.message)
+				: '';
+	if (message.toLowerCase().includes('current password does not match')) {
+		return 'A senha atual está incorreta.';
+	}
+	return message || 'Não foi possível alterar a senha. Tente novamente.';
+}
+
 function AcademicSummary({ profile }: { profile?: StudentProfile }) {
 	return (
 		<Surface variant='panel'>
@@ -69,13 +82,13 @@ function AcademicSummary({ profile }: { profile?: StudentProfile }) {
 	);
 }
 
-function SummaryItem({ label, value }: { label: string; value: string }) {
+function SummaryItem({ label, value, valueColor }: { label: string; value: string; valueColor?: string }) {
 	return (
 		<Box>
 			<Text as='dt' fontSize='sm' color='fg.muted'>
 				{label}
 			</Text>
-			<Text as='dd' fontWeight='medium' mt={1}>
+			<Text as='dd' fontWeight='medium' mt={1} color={valueColor}>
 				{value}
 			</Text>
 		</Box>
@@ -108,8 +121,25 @@ export function StudentProfilePage() {
 	});
 	const profileForm = useForm<ProfileForm>({ mode: 'onChange' });
 	const passwordForm = useForm<PasswordForm>({ mode: 'onChange' });
+	const newPassword = passwordForm.watch('newPassword');
+	const confirmPassword = passwordForm.watch('confirmPassword');
 	const avatarInputRef = useRef<HTMLInputElement>(null);
 	const [avatarError, setAvatarError] = useState('');
+
+	useEffect(() => {
+		if (!confirmPassword) {
+			passwordForm.clearErrors('confirmPassword');
+			return;
+		}
+		if (newPassword !== confirmPassword) {
+			passwordForm.setError('confirmPassword', {
+				type: 'validate',
+				message: 'As senhas não correspondem.',
+			});
+		} else {
+			passwordForm.clearErrors('confirmPassword');
+		}
+	}, [confirmPassword, newPassword, passwordForm]);
 
 	useEffect(() => {
 		if (!userQuery.data) return;
@@ -126,6 +156,12 @@ export function StudentProfilePage() {
 		},
 	});
 	const passwordMutation = useMutation({
+		onError: (error) => {
+			passwordForm.setError('currentPassword', {
+				type: 'server',
+				message: getPasswordErrorMessage(error),
+			});
+		},
 		mutationFn: (data: PasswordForm) =>
 			users.changePassword.mutate({
 				currentPassword: data.currentPassword,
@@ -262,14 +298,24 @@ export function StudentProfilePage() {
 										: 'Não informado'
 								}
 							/>
+			<SummaryItem
+				label='E-mail verificado'
+				value={userQuery.data?.emailVerifiedAt ? 'Sim' : 'Pendente'}
+				valueColor={userQuery.data?.emailVerifiedAt ? 'status.success' : 'status.warning'}
+			/>
 							<SummaryItem
-								label='E-mail verificado'
-								value={userQuery.data?.emailVerifiedAt ? 'Sim' : 'Pendente'}
+								label='E-mail institucional'
+								value={
+									academicQuery.data?.academicId
+										? `${academicQuery.data.academicId}@aluno.osorio.ifrs.edu.br`
+										: 'Não informado'
+								}
 							/>
 						</Grid>
 						<Text fontSize='sm' color='fg.muted' mb={4}>
 							Dados institucionais são mantidos pela instituição e não podem ser alterados aqui.
-							Apenas o e-mail pode ser atualizado.
+							O e-mail institucional é gerado pela matrícula e não pode ser alterado.
+							Apenas o e-mail pessoal de contato pode ser atualizado.
 						</Text>
 						<DynamicForm
 							fields={profileFields.map((field) => ({ ...field, disabled: userQuery.isLoading }))}
@@ -284,10 +330,10 @@ export function StudentProfilePage() {
 							extraContent={
 								<>
 									{updateMutation.isError ? (
-										<p className='profile-error'>Não foi possível salvar as alterações.</p>
+										<Text color='status.error' role='alert'>Não foi possível salvar as alterações.</Text>
 									) : null}
 									{updateMutation.isSuccess ? (
-										<p className='profile-success'>Perfil atualizado com sucesso.</p>
+										<Text color='status.success' role='status'>Perfil atualizado com sucesso.</Text>
 									) : null}
 								</>
 							}
@@ -304,21 +350,28 @@ export function StudentProfilePage() {
 							errors={passwordForm.formState.errors}
 							isValid={
 								passwordForm.formState.isValid &&
-								passwordForm.watch('newPassword') === passwordForm.watch('confirmPassword')
+									!passwordForm.formState.errors.confirmPassword && newPassword === confirmPassword
 							}
 							loading={passwordMutation.isPending}
-							onSubmit={(data) => passwordMutation.mutate(data)}
+							onSubmit={(data) => {
+								passwordForm.clearErrors('currentPassword');
+								passwordMutation.mutate(data);
+							}}
 							handleSubmitFn={passwordForm.handleSubmit}
+							setError={passwordForm.setError}
+							clearErrors={passwordForm.clearErrors}
 							buttonLabel='Alterar senha'
 							columns={2}
 							cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
 							extraContent={
 								<>
-									{passwordMutation.isError ? (
-										<p className='profile-error'>Não foi possível alterar a senha.</p>
+									{confirmPassword && newPassword !== confirmPassword ? (
+										<Text color='status.error' role='alert' fontSize='sm'>
+											As senhas não correspondem.
+										</Text>
 									) : null}
 									{passwordMutation.isSuccess ? (
-										<p className='profile-success'>Senha alterada com sucesso.</p>
+										<Text color='status.success' role='status'>Senha alterada com sucesso.</Text>
 									) : null}
 								</>
 							}

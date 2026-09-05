@@ -61,14 +61,14 @@ export function FormField<T extends FieldValues>({
 			name={name}
 			control={control}
 			rules={{
-				required: required ? 'This field is required.' : false,
+				required: required ? 'Este campo é obrigatório.' : false,
 				minLength:
 					typeof minLength === 'number'
-						? { value: minLength, message: `Minimum length is ${minLength} characters.` }
+						? { value: minLength, message: `Mínimo de ${minLength} caracteres.` }
 						: undefined,
 				maxLength:
 					typeof maxLength === 'number'
-						? { value: maxLength, message: `Maximum length is ${maxLength} characters.` }
+						? { value: maxLength, message: `Máximo de ${maxLength} caracteres.` }
 						: undefined,
 			}}
 			render={({ field, fieldState }) => {
