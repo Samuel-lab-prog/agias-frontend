@@ -12,7 +12,7 @@ import type {
 import type { BaseButtonVariant } from '../../Button';
 import { FormCard } from '../styles/FormCardSurface';
 
-export type FieldType = 'text' | 'password' | 'textarea' | 'datetime-local';
+export type FieldType = 'text' | 'password' | 'textarea' | 'datetime-local' | 'date';
 
 type BaseField = {
 	delay?: number;

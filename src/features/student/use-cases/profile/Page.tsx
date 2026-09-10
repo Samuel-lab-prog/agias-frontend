@@ -17,9 +17,9 @@ import { NavLink } from 'react-router-dom';
 
 import { studentNavigationPreset } from '../../utils/navigation-routes';
 
-type ProfileForm = { email: string; currentPassword: string };
 type PasswordForm = { currentPassword: string; newPassword: string; confirmPassword: string };
 type StudentDetailsForm = {
+	email: string;
 	currentPassword: string;
 	birthDate: string;
 	gender: string;
@@ -69,17 +69,13 @@ const formatPostalCode = (value: string) => {
 	return digits.length > 5 ? `${digits.slice(0, 5)}-${digits.slice(5)}` : digits;
 };
 
-const profileFields: Field<ProfileForm>[] = [
-	{ name: 'email', label: 'E-mail de contato', required: true, type: 'text', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Informe um e-mail válido.' } },
+const passwordFields: Field<PasswordForm>[] = [
 	{
 		name: 'currentPassword',
 		label: 'Senha atual para confirmar',
-		required: true,
 		type: 'password',
+		required: true,
 	},
-];
-const passwordFields: Field<PasswordForm>[] = [
-	{ name: 'currentPassword', label: 'Senha atual', type: 'password', required: true },
 	{ name: 'newPassword', label: 'Nova senha', type: 'password', required: true, minLength: 8 },
 	{
 		name: 'confirmPassword',
@@ -90,6 +86,13 @@ const passwordFields: Field<PasswordForm>[] = [
 	},
 ];
 const studentDetailsFields: Field<StudentDetailsForm>[] = [
+	{
+		name: 'email',
+		label: 'E-mail de contato',
+		required: true,
+		type: 'text',
+		pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Informe um e-mail válido.' },
+	},
 	{ name: 'birthDate', label: 'Data de nascimento', type: 'date', disabled: true },
 	{
 		kind: 'select',
@@ -149,7 +152,13 @@ const studentDetailsFields: Field<StudentDetailsForm>[] = [
 		],
 	},
 	{ name: 'nationality', label: 'Nacionalidade', type: 'text', disabled: true },
-	{ name: 'birthplace', label: 'Naturalidade', type: 'text', disabled: true, pattern: { value: /^[^/]+$/, message: 'Informe apenas o nome da cidade.' } },
+	{
+		name: 'birthplace',
+		label: 'Naturalidade',
+		type: 'text',
+		disabled: true,
+		pattern: { value: /^[^/]+$/, message: 'Informe apenas o nome da cidade.' },
+	},
 	{ name: 'birthCountry', label: 'País de nascimento', type: 'text', disabled: true },
 	{
 		kind: 'select',
@@ -178,14 +187,52 @@ const studentDetailsFields: Field<StudentDetailsForm>[] = [
 	},
 	{ name: 'fatherName', label: 'Nome do pai', type: 'text', disabled: true },
 	{ name: 'motherName', label: 'Nome da mãe', type: 'text', disabled: true },
-	{ name: 'postalCode', label: 'CEP', type: 'text', maxLength: 9, pattern: { value: /^\d{5}-?\d{3}$/, message: 'Informe um CEP válido.' }, transformValue: formatPostalCode },
-	{ name: 'street', label: 'Logradouro', type: 'text', disabled: true },
+	{
+		name: 'postalCode',
+		label: 'CEP',
+		type: 'text',
+		maxLength: 9,
+		pattern: { value: /^\d{5}-?\d{3}$/, message: 'Informe um CEP válido.' },
+		transformValue: formatPostalCode,
+	},
+	{ name: 'street', label: 'Logradouro', type: 'text' },
 	{ name: 'addressNumber', label: 'Número', type: 'text' },
 	{ name: 'addressComplement', label: 'Complemento', type: 'text' },
-	{ name: 'neighborhood', label: 'Bairro', type: 'text', disabled: true },
+	{ name: 'neighborhood', label: 'Bairro', type: 'text' },
 	{
-		kind: 'select', name: 'state', label: 'UF', disabled: true,
-		options: ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'].map((value) => ({ value, label: value })),
+		kind: 'select',
+		name: 'state',
+		label: 'UF',
+		disabled: true,
+		options: [
+			'AC',
+			'AL',
+			'AP',
+			'AM',
+			'BA',
+			'CE',
+			'DF',
+			'ES',
+			'GO',
+			'MA',
+			'MT',
+			'MS',
+			'MG',
+			'PA',
+			'PB',
+			'PR',
+			'PE',
+			'PI',
+			'RJ',
+			'RN',
+			'RS',
+			'RO',
+			'RR',
+			'SC',
+			'SP',
+			'SE',
+			'TO',
+		].map((value) => ({ value, label: value })),
 	},
 	{ name: 'city', label: 'Município', type: 'text', disabled: true },
 	{ name: 'phone', label: 'Telefone', type: 'text', transformValue: formatPhone },
@@ -308,7 +355,6 @@ export function StudentProfilePage() {
 		enabled: clientId !== null,
 		queryFn: () => academic.getMyStudentProfile.query().queryFn() as Promise<StudentProfile>,
 	});
-	const profileForm = useForm<ProfileForm>({ mode: 'onChange' });
 	const passwordForm = useForm<PasswordForm>({ mode: 'onChange' });
 	const studentDetailsForm = useForm<StudentDetailsForm>({ mode: 'onChange' });
 	const newPassword = passwordForm.watch('newPassword');
@@ -317,28 +363,57 @@ export function StudentProfilePage() {
 	const [avatarError, setAvatarError] = useState('');
 	const [postalCodeError, setPostalCodeError] = useState('');
 	const studentDetailsMutation = useMutation({
-		mutationFn: (data: StudentDetailsForm) =>
-			academic.updateStudentProfile.mutate({
-				...data,
+		mutationFn: async (data: StudentDetailsForm) => {
+			const profile = (await academic.updateStudentProfile.mutate({
+				...Object.fromEntries(
+					Object.entries(data)
+						.filter(
+							([key]) =>
+								key !== 'email' &&
+								!nonEditableStudentDetailsFields.has(key as keyof StudentDetailsForm),
+						)
+						.map(([key, value]) => [key, value === '' ? null : value]),
+				),
 				currentPassword: data.currentPassword,
-				birthDate: data.birthDate ? new Date(data.birthDate).toISOString() : null,
+				state: data.state || undefined,
 				familyIncome: data.familyIncome ? Number(data.familyIncome.replace(/\D/g, '')) / 100 : null,
-			}) as Promise<StudentProfile>,
+			})) as StudentProfile;
+			queryClient.setQueryData(academicKeys.myStudentProfile(), profile);
+			if (data.email !== userQuery.data?.email) {
+				try {
+					const user = (await users.updateUser.mutate({
+						email: data.email,
+						currentPassword: data.currentPassword,
+					})) as UserProfile;
+					queryClient.setQueryData(userKeys.myProfile(), user);
+				} catch {
+					throw new Error(
+						'Os dados cadastrais foram salvos, mas não foi possível atualizar o e-mail de contato. Confira o e-mail e tente novamente.',
+					);
+				}
+			}
+			return profile;
+		},
 		onSuccess: (profile) => {
 			queryClient.setQueryData(academicKeys.myStudentProfile(), profile);
 			void queryClient.invalidateQueries({ queryKey: academicKeys.myStudentProfile() });
 		},
 		onError: (error) => {
 			const message = (error as { message?: string })?.message;
-			studentDetailsForm.setError('currentPassword', {
-				type: 'server',
-				message:
-					message === 'Current password does not match'
-						? 'A senha atual não confere.'
-						: message === 'Birth date cannot be in the future'
-							? 'A data de nascimento não pode ser futura.'
-						: (message ?? 'Não foi possível confirmar a senha atual.'),
-			});
+			studentDetailsForm.setError(
+				message === 'Current password does not match' ? 'currentPassword' : 'root.server',
+				{
+					type: 'server',
+					message:
+						message === 'Current password does not match'
+							? 'A senha atual não confere.'
+							: message === 'Birth date cannot be in the future'
+								? 'A data de nascimento não pode ser futura.'
+								: message === 'Validation failed'
+									? 'Há dados inválidos no cadastro. Verifique os campos e tente novamente.'
+									: (message ?? 'Não foi possível salvar os dados cadastrais.'),
+				},
+			);
 		},
 	});
 
@@ -358,21 +433,17 @@ export function StudentProfilePage() {
 	}, [confirmPassword, newPassword, passwordForm]);
 
 	useEffect(() => {
-		if (!userQuery.data) return;
-		profileForm.reset({
-			email: userQuery.data.email ?? '',
-			currentPassword: '',
-		});
-	}, [profileForm, userQuery.data]);
-	useEffect(() => {
 		const profile = academicQuery.data;
-		if (!profile) return;
+		if (!profile || !userQuery.data) return;
 		studentDetailsForm.reset(
 			Object.fromEntries(
 				studentDetailsFields
 					.filter((field) => field.kind !== 'custom')
 					.map((field) => {
-						const value = profile[field.name as keyof StudentProfile];
+						const value =
+							field.name === 'email'
+								? userQuery.data.email
+								: profile[field.name as keyof StudentProfile];
 						return [
 							field.name,
 							field.name === 'currentPassword'
@@ -381,14 +452,14 @@ export function StudentProfilePage() {
 									? formatCurrency(Number(value))
 									: field.name === 'birthDate' && value
 										? String(value).slice(0, 10)
-									: value === null || value === undefined
-										? ''
-										: String(value),
+										: value === null || value === undefined
+											? ''
+											: String(value),
 						];
 					}),
 			) as StudentDetailsForm,
 		);
-	}, [academicQuery.data, studentDetailsForm]);
+	}, [academicQuery.data, studentDetailsForm, userQuery.data]);
 	const postalCode = studentDetailsForm.watch('postalCode');
 	useEffect(() => {
 		const digits = postalCode?.replace(/\D/g, '') ?? '';
@@ -398,32 +469,41 @@ export function StudentProfilePage() {
 		}
 		let cancelled = false;
 		void fetch(`https://viacep.com.br/ws/${digits}/json/`)
-			.then((response) => response.ok ? response.json() : null)
-			.then((data: { erro?: boolean; logradouro?: string; bairro?: string; uf?: string; localidade?: string } | null) => {
-				if (cancelled) return;
-				if (!data || data.erro) {
-					setPostalCodeError('CEP não encontrado.');
-					return;
-				}
-				studentDetailsForm.setValue('street', data.logradouro ?? '');
-				studentDetailsForm.setValue('neighborhood', data.bairro ?? '');
-				studentDetailsForm.setValue('state', data.uf ?? '');
-				studentDetailsForm.setValue('city', data.localidade ?? '');
-				setPostalCodeError('');
-			})
+			.then((response) => (response.ok ? response.json() : null))
+			.then(
+				(
+					data: {
+						erro?: boolean;
+						logradouro?: string;
+						bairro?: string;
+						uf?: string;
+						localidade?: string;
+					} | null,
+				) => {
+					if (cancelled) return;
+					if (!data || data.erro) {
+						setPostalCodeError('CEP não encontrado.');
+						return;
+					}
+					if (data.logradouro && !studentDetailsForm.getValues('street')) {
+						studentDetailsForm.setValue('street', data.logradouro);
+					}
+					if (data.bairro && !studentDetailsForm.getValues('neighborhood')) {
+						studentDetailsForm.setValue('neighborhood', data.bairro);
+					}
+					studentDetailsForm.setValue('state', data.uf ?? '');
+					studentDetailsForm.setValue('city', data.localidade ?? '');
+					setPostalCodeError('');
+				},
+			)
 			.catch(() => {
 				if (!cancelled) setPostalCodeError('Não foi possível consultar o CEP.');
 			});
-		return () => { cancelled = true; };
+		return () => {
+			cancelled = true;
+		};
 	}, [postalCode, studentDetailsForm]);
 
-	const updateMutation = useMutation({
-		mutationFn: (data: ProfileForm) => users.updateUser.mutate(data) as Promise<UserProfile>,
-		onSuccess: (profile) => {
-			queryClient.setQueryData(userKeys.myProfile(), profile);
-			profileForm.reset({ email: profile.email ?? '', currentPassword: '' });
-		},
-	});
 	const passwordMutation = useMutation({
 		onError: (error) => {
 			passwordForm.setError('currentPassword', {
@@ -585,36 +665,6 @@ export function StudentProfilePage() {
 									}
 								/>
 							</Grid>
-							<Text fontSize='sm' color='fg.muted' mb={4}>
-								Dados institucionais são mantidos pela instituição e não podem ser alterados aqui. O
-								e-mail institucional é gerado pela matrícula e não pode ser alterado. Apenas o
-								e-mail pessoal de contato pode ser atualizado.
-							</Text>
-							<DynamicForm
-								fields={profileFields.map((field) => ({ ...field, disabled: userQuery.isLoading }))}
-								control={profileForm.control}
-								errors={profileForm.formState.errors}
-								isValid={profileForm.formState.isValid}
-								loading={updateMutation.isPending}
-								onSubmit={(data) => updateMutation.mutate(data)}
-								handleSubmitFn={profileForm.handleSubmit}
-								buttonLabel='Salvar alterações'
-								cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
-								extraContent={
-									<>
-										{updateMutation.isError ? (
-											<Text color='status.error' role='alert'>
-												Não foi possível salvar as alterações.
-											</Text>
-										) : null}
-										{updateMutation.isSuccess ? (
-											<Text color='status.success' role='status'>
-												Perfil atualizado com sucesso.
-											</Text>
-										) : null}
-									</>
-								}
-							/>
 						</Surface>
 						<Box id='academic-data'>
 							<AcademicSummary profile={academicQuery.data} />
@@ -627,13 +677,23 @@ export function StudentProfilePage() {
 							</Text>
 							<Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={3} mb={5}>
 								{studentDetailsFields
-									.filter((field) => field.kind !== 'custom' && nonEditableStudentDetailsFields.has(field.name))
+					.filter(
+						(field): field is Exclude<Field<StudentDetailsForm>, { kind: 'custom' } | { kind: 'dedication' }> =>
+							field.kind !== 'custom' && field.kind !== 'dedication' && nonEditableStudentDetailsFields.has(field.name),
+					)
 									.map((field) => (
 										<Box key={field.name}>
-											<Text fontSize='xs' color='fg.muted'>{field.label}</Text>
-											<Text>{field.name === 'birthDate' && academicQuery.data?.birthDate
-												? new Date(academicQuery.data.birthDate).toLocaleDateString('pt-BR')
-												: String(academicQuery.data?.[field.name as keyof StudentProfile] ?? 'Não informado')}</Text>
+											<Text fontSize='xs' color='fg.muted'>
+												{field.label}
+											</Text>
+											<Text>
+												{field.name === 'birthDate' && academicQuery.data?.birthDate
+													? new Date(academicQuery.data.birthDate).toLocaleDateString('pt-BR')
+													: String(
+															academicQuery.data?.[field.name as keyof StudentProfile] ??
+																'Não informado',
+														)}
+											</Text>
 										</Box>
 									))}
 							</Grid>
@@ -649,7 +709,11 @@ export function StudentProfilePage() {
 								columns={2}
 								cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
 								extraContent={
-									postalCodeError ? (
+									studentDetailsForm.formState.errors.root?.server ? (
+										<Text color='status.error' role='alert'>
+											{studentDetailsForm.formState.errors.root.server.message}
+										</Text>
+									) : postalCodeError ? (
 										<Text color='status.error'>{postalCodeError}</Text>
 									) : studentDetailsMutation.isSuccess ? (
 										<Text color='status.success'>Dados cadastrais atualizados com sucesso.</Text>

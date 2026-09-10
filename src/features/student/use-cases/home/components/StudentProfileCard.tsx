@@ -12,6 +12,16 @@ type StudentProfileCardProps = {
 	userName?: string;
 };
 
+const statusColors: Record<string, string> = {
+	active: 'green',
+	approved: 'green',
+	pending: 'yellow',
+	suspended: 'orange',
+	blocked: 'red',
+	banned: 'red',
+	rejected: 'red',
+};
+
 export function StudentProfileCard({ profile, userName }: StudentProfileCardProps) {
 	const initials = userName
 		?.split(/\s+/)
@@ -52,7 +62,9 @@ export function StudentProfileCard({ profile, userName }: StudentProfileCardProp
 						<Text fontSize='0.8125rem' lineHeight='1.25rem' color='fg.muted'>
 							{courseId ? `Curso ${courseId}` : 'Curso não vinculado'}
 						</Text>
-						<Badge variant='subtle'>{status}</Badge>
+						<Badge variant='subtle' colorPalette={statusColors[profile?.status ?? ''] ?? 'gray'}>
+							{status}
+						</Badge>
 					</VStack>
 				</HStack>
 			</Box>

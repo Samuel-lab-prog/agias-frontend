@@ -77,6 +77,10 @@ export function SelectField<T extends FieldValues>({
 						animationTimingFunction='ease-out'
 					>
 						<NativeSelect.Field
+							css={{
+								'& option': { bg: 'bg.surface', color: 'fg.default' },
+								'& option:disabled': { color: 'fg.muted' },
+							}}
 							fontSize='0.8125rem'
 							lineHeight='1.25rem'
 							bg='bg.canvas'
@@ -126,20 +130,13 @@ export function SelectField<T extends FieldValues>({
 							onBlur={() => setIsFocused(false)}
 						>
 							{placeholder && (
-								<option value='' disabled style={{ color: 'fg.muted' }}>
+								<option value='' disabled>
 									{placeholder}
 								</option>
 							)}
 
 							{options.map((option) => (
-								<option
-									key={option.value}
-									value={option.value}
-									style={{
-										backgroundColor: 'bg.canvas',
-										color: 'fg.default',
-									}}
-								>
+								<option key={option.value} value={option.value}>
 									{option.label}
 								</option>
 							))}
