@@ -18,6 +18,7 @@ export interface FormFieldProps<T extends FieldValues> {
 	rows?: number;
 	minLength?: number;
 	maxLength?: number;
+	pattern?: { value: RegExp; message: string };
 	showCharacterCount?: boolean;
 	disabled?: boolean;
 	type?: string;

@@ -28,6 +28,7 @@ export type InputField<T extends FieldValues> = BaseField & {
 	rows?: number;
 	minLength?: number;
 	maxLength?: number;
+	pattern?: { value: RegExp; message: string };
 	transformValue?: (value: string) => unknown;
 	showCharacterCount?: boolean;
 	disabled?: boolean;

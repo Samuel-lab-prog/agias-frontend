@@ -23,6 +23,7 @@ export function FormField<T extends FieldValues>({
 	rows,
 	minLength,
 	maxLength,
+	pattern,
 	showCharacterCount = false,
 	type,
 	transformValue,
@@ -70,6 +71,7 @@ export function FormField<T extends FieldValues>({
 					typeof maxLength === 'number'
 						? { value: maxLength, message: `Máximo de ${maxLength} caracteres.` }
 						: undefined,
+				pattern,
 			}}
 			render={({ field, fieldState }) => {
 				const resolvedError = fieldState.error ?? error;

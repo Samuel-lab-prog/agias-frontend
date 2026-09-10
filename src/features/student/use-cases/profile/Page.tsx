@@ -70,7 +70,7 @@ const formatPostalCode = (value: string) => {
 };
 
 const profileFields: Field<ProfileForm>[] = [
-	{ name: 'email', label: 'E-mail de contato', required: true, type: 'text' },
+	{ name: 'email', label: 'E-mail de contato', required: true, type: 'text', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Informe um e-mail válido.' } },
 	{
 		name: 'currentPassword',
 		label: 'Senha atual para confirmar',
@@ -90,7 +90,7 @@ const passwordFields: Field<PasswordForm>[] = [
 	},
 ];
 const studentDetailsFields: Field<StudentDetailsForm>[] = [
-	{ name: 'birthDate', label: 'Data de nascimento', type: 'datetime-local', disabled: true },
+	{ name: 'birthDate', label: 'Data de nascimento', type: 'date', disabled: true },
 	{
 		kind: 'select',
 		name: 'gender',
@@ -139,7 +139,6 @@ const studentDetailsFields: Field<StudentDetailsForm>[] = [
 		kind: 'select',
 		name: 'race',
 		label: 'Raça/cor',
-		disabled: true,
 		options: [
 			{ value: 'Branca', label: 'Branca' },
 			{ value: 'Preta', label: 'Preta' },
@@ -150,25 +149,23 @@ const studentDetailsFields: Field<StudentDetailsForm>[] = [
 		],
 	},
 	{ name: 'nationality', label: 'Nacionalidade', type: 'text', disabled: true },
-	{ name: 'birthplace', label: 'Naturalidade', type: 'text', disabled: true },
+	{ name: 'birthplace', label: 'Naturalidade', type: 'text', disabled: true, pattern: { value: /^[^/]+$/, message: 'Informe apenas o nome da cidade.' } },
 	{ name: 'birthCountry', label: 'País de nascimento', type: 'text', disabled: true },
 	{
 		kind: 'select',
 		name: 'maritalStatus',
 		label: 'Estado civil',
-		disabled: true,
 		options: [
-			{ value: 'Solteiro', label: 'Solteiro' },
-			{ value: 'Casado', label: 'Casado' },
-			{ value: 'Divorciado', label: 'Divorciado' },
-			{ value: 'Viúvo', label: 'Viúvo' },
+			{ value: 'Solteiro', label: 'Solteiro(a)' },
+			{ value: 'Casado', label: 'Casado(a)' },
+			{ value: 'Divorciado', label: 'Divorciado(a)' },
+			{ value: 'Viúvo', label: 'Viúvo(a)' },
 		],
 	},
 	{
 		kind: 'select',
 		name: 'bloodType',
 		label: 'Tipo sanguíneo',
-		disabled: true,
 		options: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map((value) => ({
 			value,
 			label: value,
@@ -178,20 +175,19 @@ const studentDetailsFields: Field<StudentDetailsForm>[] = [
 		name: 'disability',
 		label: 'Deficiência ou necessidade especial',
 		type: 'text',
-		disabled: true,
 	},
 	{ name: 'fatherName', label: 'Nome do pai', type: 'text', disabled: true },
 	{ name: 'motherName', label: 'Nome da mãe', type: 'text', disabled: true },
-	{ name: 'postalCode', label: 'CEP', type: 'text', transformValue: formatPostalCode },
-	{ name: 'street', label: 'Logradouro', type: 'text' },
+	{ name: 'postalCode', label: 'CEP', type: 'text', maxLength: 9, pattern: { value: /^\d{5}-?\d{3}$/, message: 'Informe um CEP válido.' }, transformValue: formatPostalCode },
+	{ name: 'street', label: 'Logradouro', type: 'text', disabled: true },
 	{ name: 'addressNumber', label: 'Número', type: 'text' },
 	{ name: 'addressComplement', label: 'Complemento', type: 'text' },
-	{ name: 'neighborhood', label: 'Bairro', type: 'text' },
+	{ name: 'neighborhood', label: 'Bairro', type: 'text', disabled: true },
 	{
-		kind: 'select', name: 'state', label: 'UF',
+		kind: 'select', name: 'state', label: 'UF', disabled: true,
 		options: ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'].map((value) => ({ value, label: value })),
 	},
-	{ name: 'city', label: 'Município', type: 'text' },
+	{ name: 'city', label: 'Município', type: 'text', disabled: true },
 	{ name: 'phone', label: 'Telefone', type: 'text', transformValue: formatPhone },
 	{ name: 'mobilePhone', label: 'Celular', type: 'text', transformValue: formatPhone },
 	{ name: 'familyIncome', label: 'Renda familiar', type: 'text', transformValue: formatCurrency },
@@ -203,6 +199,21 @@ const studentDetailsFields: Field<StudentDetailsForm>[] = [
 		required: true,
 	},
 ];
+
+const nonEditableStudentDetailsFields = new Set<keyof StudentDetailsForm>([
+	'birthDate',
+	'gender',
+	'birthCountry',
+	'fatherName',
+	'motherName',
+	'nationality',
+	'birthplace',
+	'state',
+]);
+
+const editableStudentDetailsFields = studentDetailsFields.filter(
+	(field) => field.kind === 'custom' || !nonEditableStudentDetailsFields.has(field.name),
+);
 
 function formatStatus(status: string | undefined) {
 	if (status === 'active') return 'Ativo';
@@ -313,7 +324,22 @@ export function StudentProfilePage() {
 				birthDate: data.birthDate ? new Date(data.birthDate).toISOString() : null,
 				familyIncome: data.familyIncome ? Number(data.familyIncome.replace(/\D/g, '')) / 100 : null,
 			}) as Promise<StudentProfile>,
-		onSuccess: (profile) => queryClient.setQueryData(academicKeys.myStudentProfile(), profile),
+		onSuccess: (profile) => {
+			queryClient.setQueryData(academicKeys.myStudentProfile(), profile);
+			void queryClient.invalidateQueries({ queryKey: academicKeys.myStudentProfile() });
+		},
+		onError: (error) => {
+			const message = (error as { message?: string })?.message;
+			studentDetailsForm.setError('currentPassword', {
+				type: 'server',
+				message:
+					message === 'Current password does not match'
+						? 'A senha atual não confere.'
+						: message === 'Birth date cannot be in the future'
+							? 'A data de nascimento não pode ser futura.'
+						: (message ?? 'Não foi possível confirmar a senha atual.'),
+			});
+		},
 	});
 
 	useEffect(() => {
@@ -353,8 +379,8 @@ export function StudentProfilePage() {
 								? ''
 								: field.name === 'familyIncome' && value
 									? formatCurrency(Number(value))
-								: field.name === 'birthDate' && value
-									? String(value).slice(0, 16)
+									: field.name === 'birthDate' && value
+										? String(value).slice(0, 10)
 									: value === null || value === undefined
 										? ''
 										: String(value),
@@ -599,8 +625,20 @@ export function StudentProfilePage() {
 								Atualize seus dados pessoais, endereço e contatos. Dados acadêmicos e documentos
 								oficiais são mantidos pela instituição.
 							</Text>
+							<Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={3} mb={5}>
+								{studentDetailsFields
+									.filter((field) => field.kind !== 'custom' && nonEditableStudentDetailsFields.has(field.name))
+									.map((field) => (
+										<Box key={field.name}>
+											<Text fontSize='xs' color='fg.muted'>{field.label}</Text>
+											<Text>{field.name === 'birthDate' && academicQuery.data?.birthDate
+												? new Date(academicQuery.data.birthDate).toLocaleDateString('pt-BR')
+												: String(academicQuery.data?.[field.name as keyof StudentProfile] ?? 'Não informado')}</Text>
+										</Box>
+									))}
+							</Grid>
 							<DynamicForm
-								fields={studentDetailsFields}
+								fields={editableStudentDetailsFields}
 								control={studentDetailsForm.control}
 								errors={studentDetailsForm.formState.errors}
 								isValid={studentDetailsForm.formState.isValid}
@@ -615,8 +653,6 @@ export function StudentProfilePage() {
 										<Text color='status.error'>{postalCodeError}</Text>
 									) : studentDetailsMutation.isSuccess ? (
 										<Text color='status.success'>Dados cadastrais atualizados com sucesso.</Text>
-									) : studentDetailsMutation.isError ? (
-										<Text color='status.error'>Não foi possível salvar os dados cadastrais.</Text>
 									) : null
 								}
 							/>

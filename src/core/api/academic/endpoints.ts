@@ -161,6 +161,7 @@ const updateStudentProfile = createMutationEndpoint<UpdateStudentProfileBody, St
 			path: '/academic/students/profile/me',
 			body: data,
 		}),
+	invalidate: [academicKeys.myStudentDashboard],
 });
 
 const updateProfessorProfile = createMutationEndpoint<UpdateProfessorProfileBody, ProfessorProfile>(
