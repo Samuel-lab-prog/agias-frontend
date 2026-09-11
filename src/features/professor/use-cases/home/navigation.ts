@@ -1,5 +1,5 @@
 import type { NavigationPreset } from '@core/components/navigation';
-import { BookOpen, CalendarDays, ClipboardList, Home, School } from 'lucide-react';
+import { BookOpen, CalendarDays, ClipboardList, Home, School, UserRound } from 'lucide-react';
 
 export const professorNavigationPreset: NavigationPreset = {
 	title: 'AGIAS',
@@ -7,9 +7,10 @@ export const professorNavigationPreset: NavigationPreset = {
 	action: { label: 'Sair', to: '/login' },
 	links: [
 		{ label: 'Início', to: '/professor', icon: Home },
-		{ label: 'Minhas turmas', to: '/professor', icon: School },
-		{ label: 'Atividades', to: '/professor', icon: ClipboardList },
-		{ label: 'Calendário', to: '/professor', icon: CalendarDays },
-		{ label: 'Materiais', to: '/professor', icon: BookOpen },
+		{ label: 'Minhas turmas', to: '/professor/classes', icon: School },
+		{ label: 'Atividades', to: '/professor/activities', icon: ClipboardList },
+		{ label: 'Calendário', to: '/professor/calendar', icon: CalendarDays },
+		{ label: 'Materiais', to: '/professor/materials', icon: BookOpen },
+		{ label: 'Meu perfil', to: '/professor/profile', icon: UserRound },
 	],
 };

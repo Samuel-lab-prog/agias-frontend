@@ -214,6 +214,36 @@ const router = createBrowserRouter([
 		errorElement: <ErrorPage />,
 	},
 	{
+		path: '/professor/classes',
+		element: <RoleGate allowedRoles={['professor']}>{renderLazyPage(ProfessorHomePage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/professor/classes/:classId',
+		element: <RoleGate allowedRoles={['professor']}>{renderLazyPage(ProfessorHomePage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/professor/activities',
+		element: <RoleGate allowedRoles={['professor']}>{renderLazyPage(ProfessorHomePage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/professor/calendar',
+		element: <RoleGate allowedRoles={['professor']}>{renderLazyPage(ProfessorHomePage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/professor/materials',
+		element: <RoleGate allowedRoles={['professor']}>{renderLazyPage(ProfessorHomePage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/professor/profile',
+		element: <RoleGate allowedRoles={['professor']}>{renderLazyPage(ProfessorHomePage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
 		path: '/admin',
 		element: <RoleGate allowedRoles={['admin']}>{renderLazyPage(AdminHomePage)}</RoleGate>,
 		errorElement: <ErrorPage />,
