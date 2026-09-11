@@ -104,6 +104,18 @@ const StaffStudentsPage = lazyPage(
 	() => import('./features/staff/use-cases/students/Page'),
 	(module) => module.StaffStudentsPage,
 );
+const StaffClassesPage = lazyPage(
+	() => import('./features/staff/use-cases/classes/Page'),
+	(module) => module.StaffClassesPage,
+);
+const StaffNewClassPage = lazyPage(
+	() => import('./features/staff/use-cases/classes/NewPage'),
+	(module) => module.StaffNewClassPage,
+);
+const StaffClassDetailsPage = lazyPage(
+	() => import('./features/staff/use-cases/classes/DetailsPage'),
+	(module) => module.StaffClassDetailsPage,
+);
 const DevComponentsPage = lazyPage(
 	() => import('./features/dev/use-cases/components-gallery/Page'),
 	(module) => module.DevComponentsPage,
@@ -231,6 +243,27 @@ const router = createBrowserRouter([
 		path: '/staff/students',
 		element: (
 			<RoleGate allowedRoles={['staff', 'admin']}>{renderLazyPage(StaffStudentsPage)}</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/staff/classes',
+		element: (
+			<RoleGate allowedRoles={['staff', 'admin']}>{renderLazyPage(StaffClassesPage)}</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/staff/classes/new',
+		element: (
+			<RoleGate allowedRoles={['staff', 'admin']}>{renderLazyPage(StaffNewClassPage)}</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/staff/classes/:classId',
+		element: (
+			<RoleGate allowedRoles={['staff', 'admin']}>{renderLazyPage(StaffClassDetailsPage)}</RoleGate>
 		),
 		errorElement: <ErrorPage />,
 	},

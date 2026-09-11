@@ -51,7 +51,7 @@ export function StudentSubjectDetailsPage() {
 				/>
 			) : details ? (
 				<VStack align='stretch' gap={4}>
-					<SubjectHeader details={details} />
+					<SubjectHeader details={details} period={period} />
 					<HStack as='nav' aria-label='Seções da disciplina' flexWrap='wrap' gap={2}>
 						{[
 							['overview', '', 'Visão geral'],

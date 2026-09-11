@@ -7,6 +7,7 @@ import {
 } from '../src/features/student/fixtures/scenarios';
 
 async function setup(page: Page, scenario: Parameters<typeof studentScenario>[0] = 'complete') {
+	await page.route('**/communications/announcements/me', (route) => route.fulfill({ json: [] }));
 	await page.clock.setFixedTime(new Date(fixtureNow));
 	await page.addInitScript(() =>
 		localStorage.setItem(
@@ -139,6 +140,7 @@ test('mobile calendar supports keyboard selection without horizontal overflow', 
 		true,
 	);
 	await page.screenshot({
+		animations: 'disabled',
 		path: testInfo.outputPath('student-schedule-mobile.png'),
 		fullPage: true,
 	});
@@ -147,7 +149,11 @@ test('mobile calendar supports keyboard selection without horizontal overflow', 
 	expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
 		true,
 	);
-	await page.screenshot({ path: testInfo.outputPath('student-plan-mobile.png'), fullPage: true });
+	await page.screenshot({
+		animations: 'disabled',
+		path: testInfo.outputPath('student-plan-mobile.png'),
+		fullPage: true,
+	});
 });
 
 test('desktop overview and materials are usable', async ({ page }, testInfo) => {
@@ -156,9 +162,154 @@ test('desktop overview and materials are usable', async ({ page }, testInfo) => 
 	await page.goto('/student/classes/11');
 	await expect(page.getByText('Estrutura semântica e formulários', { exact: false })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Guia HTML (abre em nova aba)' })).toBeVisible();
-	await page.screenshot({ path: testInfo.outputPath('student-class-desktop.png'), fullPage: true });
+	await page.screenshot({
+		animations: 'disabled',
+		path: testInfo.outputPath('student-class-desktop.png'),
+		fullPage: true,
+	});
 	await page.goto('/student/materials');
 	await expect(
 		page.getByRole('link', { name: 'Referência do projeto (abre em nova aba)' }),
 	).toBeVisible();
+});
+
+test('home summary excludes cancelled lessons and keeps assessments separate from pending work', async ({
+	page,
+}) => {
+	await setup(page);
+	await page.goto('/student');
+	await expect(page.getByText('Nenhuma aula prevista para hoje.', { exact: true })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Banco de dados', exact: true })).toBeVisible();
+	await expect(page.getByText('2 atividades aguardando entrega', { exact: true })).toBeVisible();
+	await expect(page.getByText('Estrutura semântica e formulários', { exact: true })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Ver detalhes de Avaliação parcial' })).toHaveCount(
+		0,
+	);
+});
+
+test('subject search combines with periods and can be cleared', async ({ page }, testInfo) => {
+	await page.setViewportSize({ width: 1440, height: 1000 });
+	await setup(page, 'semester');
+	await page.goto('/student/classes');
+	const search = page.getByRole('searchbox', { name: 'Buscar disciplina' });
+	await search.fill('programacao');
+	await expect(page.getByRole('link', { name: 'Ver detalhes de Programação web' })).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Ver detalhes de Banco de dados' })).toHaveCount(0);
+	await search.fill('Helena');
+	await expect(page.getByRole('link', { name: 'Ver detalhes de Programação web' })).toBeVisible();
+	await search.fill('programacao');
+	await page.getByRole('combobox', { name: 'Filtrar por período letivo' }).selectOption('2026.1');
+	await expect(page.getByText('Nenhuma disciplina encontrada', { exact: true })).toBeVisible();
+	await page.getByRole('button', { name: 'Limpar filtros' }).click();
+	await expect(search).toHaveValue('');
+	await expect(page.locator('[data-interactive="card"]')).toHaveCount(3);
+	await page.screenshot({
+		animations: 'disabled',
+		path: testInfo.outputPath('student-subjects-desktop.png'),
+		fullPage: true,
+	});
+	await page.getByRole('link', { name: 'Ver detalhes de Programação web' }).click();
+	await page.getByRole('link', { name: 'Minhas disciplinas', exact: true }).click();
+	await expect(page.getByRole('combobox', { name: 'Filtrar por período letivo' })).toHaveValue(
+		'all',
+	);
+});
+
+test('interactive cards respect reduced motion and show keyboard focus', async ({
+	page,
+}, testInfo) => {
+	await page.setViewportSize({ width: 1440, height: 1000 });
+	await page.emulateMedia({ reducedMotion: 'no-preference', colorScheme: 'light' });
+	await setup(page);
+	await page.goto('/student/classes');
+	const card = page.getByRole('link', { name: 'Ver detalhes de Programação web' });
+	await card.hover();
+	await expect
+		.poll(() => card.evaluate((element) => getComputedStyle(element).transform))
+		.toBe('matrix(1, 0, 0, 1, 0, -3)');
+	await page.screenshot({
+		animations: 'disabled',
+		path: testInfo.outputPath('student-card-hover.png'),
+		fullPage: true,
+	});
+	await page.emulateMedia({ reducedMotion: 'reduce' });
+	await expect
+		.poll(() => card.evaluate((element) => getComputedStyle(element).transform))
+		.toBe('none');
+	await expect
+		.poll(() =>
+			page.locator('#page-content').evaluate((element) => getComputedStyle(element).animationName),
+		)
+		.toBe('none');
+	await page.getByRole('searchbox').focus();
+	await page.keyboard.press('Tab');
+	await expect(card).toBeFocused();
+	await expect(card).toHaveCSS('outline-style', 'solid');
+	await page.getByRole('checkbox', { name: 'Tema escuro' }).focus();
+	await page.keyboard.press('Space');
+	await expect(page.locator('html')).toHaveClass(/dark/);
+	await page.screenshot({
+		animations: 'disabled',
+		path: testInfo.outputPath('student-subjects-dark.png'),
+		fullPage: true,
+	});
+});
+
+test('mobile navigation announces state, closes with Escape and has one active destination', async ({
+	page,
+}, testInfo) => {
+	await page.setViewportSize({ width: 390, height: 844 });
+	await setup(page);
+	await page.goto('/student/classes');
+	const menu = page.getByRole('button', { name: 'Abrir navegação' });
+	await expect(menu).toHaveAttribute('aria-expanded', 'false');
+	await menu.click();
+	await expect(page.getByRole('button', { name: 'Fechar navegação' })).toHaveAttribute(
+		'aria-expanded',
+		'true',
+	);
+	const nav = page.getByRole('navigation', { name: 'Navegação principal' });
+	await expect(nav.locator('[aria-current="page"]')).toHaveCount(1);
+	await page.screenshot({
+		animations: 'disabled',
+		path: testInfo.outputPath('student-navigation-mobile.png'),
+		fullPage: true,
+	});
+	await page.keyboard.press('Escape');
+	await expect(menu).toBeFocused();
+	await expect(nav).toHaveCount(0);
+	await page.screenshot({
+		animations: 'disabled',
+		path: testInfo.outputPath('student-subjects-mobile.png'),
+		fullPage: true,
+	});
+	expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
+		true,
+	);
+});
+
+test('today preserves calendar filters and clear restores all events', async ({ page }) => {
+	await setup(page);
+	await page.goto('/student/schedule');
+	const period = page.getByRole('combobox', { name: 'Filtrar por período letivo' });
+	const subject = page.getByRole('combobox', { name: 'Filtrar por disciplina' });
+	await period.selectOption('2026.2');
+	await subject.selectOption('12');
+	await page.getByRole('button', { name: 'Aulas', exact: true }).click();
+	await page.getByRole('button', { name: 'Próximo período' }).click();
+	await page.getByRole('button', { name: 'Hoje', exact: true }).click();
+	await expect(period).toHaveValue('2026.2');
+	await expect(subject).toHaveValue('12');
+	await expect(page.getByRole('button', { name: 'Aulas', exact: true })).toHaveAttribute(
+		'aria-pressed',
+		'true',
+	);
+	await expect(page.getByRole('heading', { name: 'setembro de 2026' })).toBeVisible();
+	await page.getByRole('button', { name: 'Limpar filtros' }).click();
+	await expect(period).toHaveValue('all');
+	await expect(subject).toHaveValue('all');
+	await expect(page.getByRole('button', { name: 'Tudo', exact: true })).toHaveAttribute(
+		'aria-pressed',
+		'true',
+	);
 });

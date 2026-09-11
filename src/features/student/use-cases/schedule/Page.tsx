@@ -1,8 +1,10 @@
+import type { StudentEnrollment } from '@Api/academic/types';
 import { BaseButton, EmptyStateCard, ErrorStateCard, Surface } from '@BaseComponents';
 import { Box, Flex, Heading, HStack, NativeSelect, Text, VStack } from '@chakra-ui/react';
 import { NavigationPageShell } from '@core/components/navigation';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { contentEntry, interactiveStyles } from '@core/themes/motion';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { useMemo, useState } from 'react';
 
 import { AcademicPeriodSelector } from '../../components/AcademicPeriodSelector';
 import { dateKey, formatAcademicDate, periodLabel } from '../../utils/academic-planning';
@@ -16,9 +18,10 @@ import {
 	type CalendarKind,
 	calendarRange,
 	dayDate,
-	entriesForDay,
+	indexEntriesByDay,
 } from './calendar';
 import { CalendarEntryCard } from './CalendarEntryCard';
+import { CalendarMonth } from './CalendarMonth';
 
 const kinds: Array<[CalendarKind, string]> = [
 	['all', 'Tudo'],
@@ -27,9 +30,10 @@ const kinds: Array<[CalendarKind, string]> = [
 	['assessments', 'Avaliações'],
 	['academicEvents', 'Eventos'],
 ];
+const emptyEnrollments: StudentEnrollment[] = [];
 export function StudentSchedulePage() {
 	const dashboardQuery = useMyStudentDashboard();
-	const enrollments = dashboardQuery.dashboard?.enrollments ?? [];
+	const enrollments = dashboardQuery.dashboard?.enrollments ?? emptyEnrollments;
 	const { periods, selectedPeriod, setSelectedPeriod, academicPeriods } =
 		useStudentPeriods(enrollments);
 	const [view, setView] = useState<'week' | 'month'>('month');
@@ -37,26 +41,36 @@ export function StudentSchedulePage() {
 	const [classId, setClassId] = useState('all');
 	const [kind, setKind] = useState<CalendarKind>('all');
 	const [selectedDay, setSelectedDay] = useState<string | null>(null);
+	const [showToday, setShowToday] = useState(false);
 	const now = new Date();
 	const period =
 		academicPeriods.find((item) => item.code === selectedPeriod) ??
 		enrollments.find((item) => periodLabel(item) === selectedPeriod)?.classOffering.academicPeriod;
 	const anchor =
-		period && (now < new Date(period.startsAt) || now > new Date(period.endsAt))
+		!showToday && period && (now < new Date(period.startsAt) || now > new Date(period.endsAt))
 			? new Date(period.startsAt)
 			: now;
-	const { headingDate, days } = calendarRange(anchor, offset, view);
+	const anchorKey = dateKey(anchor);
+	const { headingDate, days } = useMemo(
+		() => calendarRange(dayDate(anchorKey), offset, view),
+		[anchorKey, offset, view],
+	);
 	const from = new Date(`${dateKey(days[0]!)}T00:00:00-03:00`);
 	const to = new Date(`${dateKey(addDays(days.at(-1)!, 1))}T00:00:00-03:00`);
 	const calendarQuery = useMyAcademicCalendarEvents(from, to);
-	const entries = buildCalendarEntries(enrollments, calendarQuery.events, {
-		period: selectedPeriod,
-		classId,
-		kind,
-	});
+	const entries = useMemo(
+		() =>
+			buildCalendarEntries(enrollments, calendarQuery.events, {
+				period: selectedPeriod,
+				classId,
+				kind,
+			}),
+		[enrollments, calendarQuery.events, selectedPeriod, classId, kind],
+	);
+	const entriesByDay = useMemo(() => indexEntriesByDay(entries, days), [entries, days]);
 	const visibleDays = days.filter(
 		(day) =>
-			(!selectedDay || dateKey(day) === selectedDay) && entriesForDay(entries, dateKey(day)).length,
+			(!selectedDay || dateKey(day) === selectedDay) && entriesByDay.get(dateKey(day))?.length,
 	);
 	const loading = dashboardQuery.isLoading || calendarQuery.isLoading;
 	const error = dashboardQuery.isError || calendarQuery.isError;
@@ -65,6 +79,7 @@ export function StudentSchedulePage() {
 		setSelectedDay(null);
 	};
 	const choosePeriod = (value: string) => {
+		setShowToday(false);
 		setSelectedPeriod(value);
 		setClassId('all');
 		setOffset(0);
@@ -88,25 +103,48 @@ export function StudentSchedulePage() {
 						value={selectedPeriod}
 						onChange={choosePeriod}
 					/>
-					<NativeSelect.Root size='sm' width={{ base: 'full', sm: '240px' }}>
-						<NativeSelect.Field
-							aria-label='Filtrar por disciplina'
-							value={classId}
-							onChange={(event) => {
-								setClassId(event.target.value);
-								setSelectedDay(null);
+					<Box as='label' width={{ base: 'full', sm: '240px' }}>
+						<Text fontSize='xs' fontWeight='bold' mb={1}>
+							Disciplina
+						</Text>
+						<NativeSelect.Root>
+							<NativeSelect.Field
+								{...interactiveStyles.field}
+								minH='44px'
+								aria-label='Filtrar por disciplina'
+								value={classId}
+								onChange={(event) => {
+									setClassId(event.target.value);
+									setSelectedDay(null);
+								}}
+							>
+								<option value='all'>Todas as disciplinas</option>
+								{enrollments
+									.filter(
+										(item) => selectedPeriod === 'all' || periodLabel(item) === selectedPeriod,
+									)
+									.map((item) => (
+										<option key={item.id} value={item.classOffering.id}>
+											{item.classOffering.title} · {periodLabel(item)}
+										</option>
+									))}
+							</NativeSelect.Field>
+							<NativeSelect.Indicator />
+						</NativeSelect.Root>
+					</Box>
+					{kind !== 'all' || classId !== 'all' || selectedPeriod !== 'all' ? (
+						<BaseButton
+							variant='subtle'
+							size='sm'
+							onClick={() => {
+								choosePeriod('all');
+								setKind('all');
 							}}
 						>
-							<option value='all'>Todas as disciplinas</option>
-							{enrollments
-								.filter((item) => selectedPeriod === 'all' || periodLabel(item) === selectedPeriod)
-								.map((item) => (
-									<option key={item.id} value={item.classOffering.id}>
-										{item.classOffering.title} · {periodLabel(item)}
-									</option>
-								))}
-						</NativeSelect.Field>
-					</NativeSelect.Root>
+							<X size={14} />
+							Limpar filtros
+						</BaseButton>
+					) : null}
 				</Flex>
 				<HStack gap={2} flexWrap='wrap' aria-label='Tipos de evento'>
 					{kinds.map(([value, label]) => (
@@ -162,7 +200,15 @@ export function StudentSchedulePage() {
 								>
 									<ChevronLeft size={16} />
 								</BaseButton>
-								<BaseButton size='sm' variant='secondary' onClick={() => choosePeriod('all')}>
+								<BaseButton
+									size='sm'
+									variant='secondary'
+									onClick={() => {
+										setShowToday(true);
+										setOffset(0);
+										setSelectedDay(null);
+									}}
+								>
 									Hoje
 								</BaseButton>
 								<BaseButton
@@ -192,76 +238,14 @@ export function StudentSchedulePage() {
 					) : (
 						<>
 							{view === 'month' ? (
-								<Box mb={5}>
-									<Box display='grid' gridTemplateColumns='repeat(7, minmax(0, 1fr))' gap={1}>
-										{['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'].map((day) => (
-											<Text key={day} textAlign='center' fontSize='xs' py={2} aria-hidden='true'>
-												{day}
-											</Text>
-										))}
-									</Box>
-									<Box display='grid' gridTemplateColumns='repeat(7, minmax(0, 1fr))' gap={1}>
-										{days.map((day) => {
-											const key = dateKey(day);
-											const items = entriesForDay(entries, key);
-											return (
-												<Box
-													asChild
-													key={key}
-													minH={{ base: '64px', md: '104px' }}
-													p={{ base: 1, md: 2 }}
-													borderWidth='1px'
-													borderColor={
-														key === dateKey(now) || key === selectedDay
-															? 'action.primary'
-															: 'border.default'
-													}
-													bg={key === selectedDay ? 'action.primarySubtle' : 'bg.surface'}
-													borderRadius='md'
-													opacity={day.getUTCMonth() === headingDate.getUTCMonth() ? 1 : 0.5}
-													cursor='pointer'
-													textAlign='left'
-													_focusVisible={{ outline: '2px solid', outlineColor: 'action.primary' }}
-												>
-													<button
-														type='button'
-														aria-pressed={key === selectedDay}
-														aria-label={`${formatAcademicDate(day, { month: 'long', year: 'numeric' })}: ${items.length} eventos`}
-														onClick={() => setSelectedDay(key === selectedDay ? null : key)}
-													>
-														<Text fontSize='sm'>{day.getUTCDate()}</Text>
-														{items.slice(0, 2).map((item) => (
-															<Text
-																key={item.id}
-																fontSize='xs'
-																truncate
-																color={
-																	item.session?.status === 'cancelled' ? 'status.error' : 'fg.muted'
-																}
-																display={{ base: 'none', md: 'block' }}
-															>
-																{item.session?.status === 'cancelled'
-																	? 'Cancelada: '
-																	: item.session?.replacesSessionId
-																		? 'Reposição: '
-																		: ''}
-																{item.title}
-															</Text>
-														))}
-														{items.length ? (
-															<Text fontSize='xs' color='action.primary'>
-																{items.length}{' '}
-																<Box as='span' display={{ base: 'none', md: 'inline' }}>
-																	evento{items.length === 1 ? '' : 's'}
-																</Box>
-															</Text>
-														) : null}
-													</button>
-												</Box>
-											);
-										})}
-									</Box>
-								</Box>
+								<CalendarMonth
+									key={dateKey(headingDate)}
+									days={days}
+									headingDate={headingDate}
+									entriesByDay={entriesByDay}
+									selectedDay={selectedDay}
+									setSelectedDay={setSelectedDay}
+								/>
 							) : null}
 							{selectedDay ? (
 								<HStack mb={3} justify='space-between'>
@@ -280,14 +264,19 @@ export function StudentSchedulePage() {
 									description='Selecione outro período, dia ou disciplina para consultar a agenda.'
 								/>
 							) : (
-								<VStack align='stretch' gap={5}>
+								<VStack
+									key={`${selectedDay}-${kind}-${classId}-${offset}`}
+									align='stretch'
+									gap={5}
+									css={contentEntry}
+								>
 									{visibleDays.map((day) => (
 										<Box key={dateKey(day)}>
 											<Heading as='h3' fontSize='sm' mb={2}>
 												{formatAcademicDate(day, { weekday: 'long', month: 'long' })}
 											</Heading>
 											<VStack align='stretch' gap={2}>
-												{entriesForDay(entries, dateKey(day)).map((entry) => (
+												{entriesByDay.get(dateKey(day))?.map((entry) => (
 													<CalendarEntryCard key={entry.id} entry={entry} />
 												))}
 											</VStack>

@@ -2,11 +2,11 @@ import type { StudentEnrollment } from '@Api/academic/types';
 import { BaseButton, Surface } from '@BaseComponents';
 import { Badge, Box, SimpleGrid, Text, VStack } from '@chakra-ui/react';
 import { useColorModeValue } from '@core/components/ui/color-mode';
+import { interactiveStyles } from '@core/themes/motion';
 import { BookOpen } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 import { dateKey, formatAcademicDate } from '../../../utils/academic-planning';
-
 import { StudentCard, StudentCardHeader } from './StudentCard';
 
 type StudentClassesCardProps = {
@@ -17,16 +17,29 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 	const rowStripeBg = useColorModeValue('bg.canvas', 'bg.surface');
 
 	const today = dateKey(new Date());
-	const rows = enrollments.flatMap((enrollment) => enrollment.sessions
-		.filter((session) => dateKey(session.startsAt) === today && !['cancelled', 'rescheduled', 'missed'].includes(session.status ?? 'scheduled'))
-		.map((session) => ({
-			key: session.id,
-			href: `/student/classes/${enrollment.classOffering.id}`,
-			title: enrollment.classOffering.title,
-			location: session.room ?? 'Sala não informada',
-			startsAt: session.startsAt,
-			time: formatAcademicDate(session.startsAt, { day: undefined, month: undefined, hour: '2-digit', minute: '2-digit' }),
-		}))).sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt));
+	const rows = enrollments
+		.flatMap((enrollment) =>
+			enrollment.sessions
+				.filter(
+					(session) =>
+						dateKey(session.startsAt) === today &&
+						!['cancelled', 'rescheduled', 'missed'].includes(session.status ?? 'scheduled'),
+				)
+				.map((session) => ({
+					key: session.id,
+					href: `/student/classes/${enrollment.classOffering.id}`,
+					title: enrollment.classOffering.title,
+					location: session.room ?? 'Sala não informada',
+					startsAt: session.startsAt,
+					time: formatAcademicDate(session.startsAt, {
+						day: undefined,
+						month: undefined,
+						hour: '2-digit',
+						minute: '2-digit',
+					}),
+				})),
+		)
+		.sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt));
 
 	return (
 		<StudentCard>
@@ -57,7 +70,11 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 				</SimpleGrid>
 
 				<VStack gap={2} align='stretch'>
-					{!rows.length ? <Text fontSize='sm' color='fg.muted'>Nenhuma aula prevista para hoje.</Text> : null}
+					{!rows.length ? (
+						<Text fontSize='sm' color='fg.muted'>
+							Nenhuma aula prevista para hoje.
+						</Text>
+					) : null}
 					{rows.map((item, index) => (
 						<SimpleGrid
 							asChild
@@ -72,11 +89,7 @@ export function StudentClassesCard({ enrollments }: StudentClassesCardProps) {
 							color='fg.default'
 							textAlign={{ base: 'left', md: 'center' }}
 							cursor='pointer'
-							transition='background-color 0.18s ease, transform 0.18s ease'
-							_hover={{
-								bg: 'action.primarySubtle',
-								transform: 'translateX(2px)',
-							}}
+							css={interactiveStyles.row}
 						>
 							<NavLink to={item.href} aria-label={`Ver detalhes de ${item.title}`}>
 								<Box minW={0} display='flex' flexDirection='column' gap={0.5}>

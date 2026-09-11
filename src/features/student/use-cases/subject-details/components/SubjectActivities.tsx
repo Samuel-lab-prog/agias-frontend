@@ -1,5 +1,6 @@
 import { Surface } from '@BaseComponents';
 import { Badge, Box, Heading, HStack, Text, VStack } from '@chakra-ui/react';
+import { interactiveStyles } from '@core/themes/motion';
 import { ClipboardList } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
@@ -46,8 +47,7 @@ export function SubjectActivities({
 								borderRadius='lg'
 								bg='bg.muted'
 								cursor='pointer'
-								transition='background-color 0.18s ease, transform 0.18s ease'
-								_hover={{ bg: 'action.primarySubtle', transform: 'translateX(2px)' }}
+								css={interactiveStyles.row}
 							>
 								<NavLink
 									to={`/student/subjects/${enrollmentId}/activities/${activity.id}`}

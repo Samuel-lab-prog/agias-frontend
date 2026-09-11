@@ -1,7 +1,27 @@
 import type { StudentEnrollment } from '@Api/academic/types';
-import { EmptyStateCard, ErrorStateCard, Surface } from '@BaseComponents';
-import { Badge, Box, Heading, HStack, SimpleGrid, Text, VStack } from '@chakra-ui/react';
+import {
+	BaseButton,
+	EmptyStateCard,
+	ErrorStateCard,
+	getStaggeredEntryAnimationStyle,
+	Surface,
+} from '@BaseComponents';
+import {
+	Badge,
+	Box,
+	Heading,
+	HStack,
+	Input,
+	InputGroup,
+	Progress,
+	SimpleGrid,
+	Text,
+	VStack,
+} from '@chakra-ui/react';
 import { NavigationPageShell } from '@core/components/navigation';
+import { interactiveStyles } from '@core/themes/motion';
+import { ArrowUpRight, Search, X } from 'lucide-react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { AcademicPeriodSelector } from '../../components/AcademicPeriodSelector';
@@ -18,25 +38,21 @@ import { useStudentPeriods } from '../hooks/useStudentPeriods';
 function ClassOfferingCard({
 	enrollment,
 	period,
+	index,
 }: {
 	enrollment: StudentEnrollment;
 	period: string;
+	index: number;
 }) {
 	const subject = enrollment.classOffering;
 	const progress = planProgress(enrollment);
 	return (
-		<Surface
-			asChild
-			variant='soft'
-			p={5}
-			_hover={{ shadow: 'md' }}
-			_focusVisible={{ outline: '2px solid', outlineColor: 'action.primary', outlineOffset: '3px' }}
-		>
+		<Surface asChild variant='soft' p={5} interactive {...getStaggeredEntryAnimationStyle(index)}>
 			<NavLink
 				to={`/student/classes/${subject.id}?period=${encodeURIComponent(period)}`}
 				aria-label={`Ver detalhes de ${subject.title}`}
 			>
-				<VStack align='stretch' gap={3}>
+				<VStack align='stretch' gap={3} h='full'>
 					<Box>
 						<Text fontSize='xs' color='fg.muted'>
 							{subject.code} · {periodLabel(enrollment)}
@@ -60,6 +76,29 @@ function ClassOfferingCard({
 							? `${progress.completed} de ${progress.total} tópicos realizados · ${progress.progress}%`
 							: 'Planejamento ainda não publicado'}
 					</Text>
+					{progress ? (
+						<Progress.Root
+							value={progress.progress}
+							size='xs'
+							colorPalette='blue'
+							aria-label={`Progresso em ${subject.title}`}
+						>
+							<Progress.Track borderRadius='full'>
+								<Progress.Range />
+							</Progress.Track>
+						</Progress.Root>
+					) : null}
+					<HStack
+						justify='space-between'
+						color='action.primary'
+						fontSize='sm'
+						fontWeight='semibold'
+						mt='auto'
+						pt={1}
+					>
+						<Text>Ver disciplina</Text>
+						<ArrowUpRight size={18} aria-hidden='true' />
+					</HStack>
 				</VStack>
 			</NavLink>
 		</Surface>
@@ -70,8 +109,23 @@ export function StudentSubjectsPage() {
 	const { dashboard, isLoading, isError, refetch } = useMyStudentDashboard();
 	const all = dashboard?.enrollments ?? [];
 	const { periods, selectedPeriod, setSelectedPeriod } = useStudentPeriods(all);
+	const [search, setSearch] = useState('');
+	const normalize = (value: string) =>
+		value
+			.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, '')
+			.toLocaleLowerCase('pt-BR');
+	const query = normalize(search.trim());
 	const enrollments = all.filter(
-		(item) => selectedPeriod === 'all' || periodLabel(item) === selectedPeriod,
+		(item) =>
+			(selectedPeriod === 'all' || periodLabel(item) === selectedPeriod) &&
+			normalize(
+				[
+					item.classOffering.title,
+					item.classOffering.code,
+					...(item.classOffering.professors?.map((professor) => professor.name) ?? []),
+				].join(' '),
+			).includes(query),
 	);
 	return (
 		<NavigationPageShell preset={studentNavigationPreset}>
@@ -91,6 +145,42 @@ export function StudentSubjectsPage() {
 						onChange={setSelectedPeriod}
 					/>
 				</Box>
+				<Box>
+					<Text asChild display='block' fontSize='xs' fontWeight='bold' mb={1}>
+						<label htmlFor='subject-search'>Buscar disciplina</label>
+					</Text>
+					<InputGroup startElement={<Search size={18} aria-hidden='true' />}>
+						<Input
+							id='subject-search'
+							{...interactiveStyles.field}
+							minH='44px'
+							type='search'
+							value={search}
+							onChange={(event) => setSearch(event.target.value)}
+							placeholder='Nome, código ou professor'
+						/>
+					</InputGroup>
+					<HStack justify='space-between' mt={2} minH='36px'>
+						<Text color='fg.muted' fontSize='sm' role='status'>
+							{!isLoading && !isError
+								? `${enrollments.length} disciplina${enrollments.length === 1 ? '' : 's'}`
+								: ''}
+						</Text>
+						{search || selectedPeriod !== 'all' ? (
+							<BaseButton
+								size='sm'
+								variant='subtle'
+								onClick={() => {
+									setSearch('');
+									setSelectedPeriod('all');
+								}}
+							>
+								<X size={14} />
+								Limpar filtros
+							</BaseButton>
+						) : null}
+					</HStack>
+				</Box>
 				{isLoading ? (
 					<Text role='status'>Carregando disciplinas…</Text>
 				) : isError ? (
@@ -103,15 +193,24 @@ export function StudentSubjectsPage() {
 					/>
 				) : enrollments.length ? (
 					<SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
-						{enrollments.map((item) => (
-							<ClassOfferingCard key={item.id} enrollment={item} period={selectedPeriod} />
+						{enrollments.map((item, index) => (
+							<ClassOfferingCard
+								key={item.id}
+								enrollment={item}
+								period={selectedPeriod}
+								index={index}
+							/>
 						))}
 					</SimpleGrid>
 				) : (
 					<EmptyStateCard
 						eyebrow='DISCIPLINAS'
-						title='Nenhuma disciplina neste período'
-						description='Quando houver matrículas disponíveis, elas aparecerão aqui. Você também pode selecionar outro período.'
+						title={query ? 'Nenhuma disciplina encontrada' : 'Nenhuma disciplina neste período'}
+						description={
+							query
+								? 'Tente outro nome, código ou professor, ou limpe os filtros para ver todas as disciplinas.'
+								: 'Quando houver matrículas disponíveis, elas aparecerão aqui. Você também pode selecionar outro período.'
+						}
 					/>
 				)}
 			</VStack>

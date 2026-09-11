@@ -1,4 +1,5 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box, NativeSelect, Text } from '@chakra-ui/react';
+import { interactiveStyles } from '@core/themes/motion';
 
 type AcademicPeriodSelectorProps = {
 	periods: string[];
@@ -8,23 +9,27 @@ type AcademicPeriodSelectorProps = {
 
 export function AcademicPeriodSelector({ periods, value, onChange }: AcademicPeriodSelectorProps) {
 	return (
-		<Box as='label' minW='190px'>
+		<Box as='label' minW='190px' width={{ base: 'full', sm: 'auto' }}>
 			<Text fontSize='xs' fontWeight='700' mb={1}>
 				Período letivo
 			</Text>
-			<select
-				value={value}
-				onChange={(event) => onChange(event.target.value)}
-				aria-label='Filtrar por período letivo'
-				style={{ width: '100%', padding: '8px 10px', borderRadius: 8, background: 'transparent' }}
-			>
-				<option value='all'>Todos os períodos</option>
-				{periods.map((period) => (
-					<option key={period} value={period}>
-						{period}
-					</option>
-				))}
-			</select>
+			<NativeSelect.Root>
+				<NativeSelect.Field
+					{...interactiveStyles.field}
+					minH='44px'
+					value={value}
+					onChange={(event) => onChange(event.target.value)}
+					aria-label='Filtrar por período letivo'
+				>
+					<option value='all'>Todos os períodos</option>
+					{periods.map((period) => (
+						<option key={period} value={period}>
+							{period}
+						</option>
+					))}
+				</NativeSelect.Field>
+				<NativeSelect.Indicator />
+			</NativeSelect.Root>
 		</Box>
 	);
 }

@@ -23,6 +23,7 @@
 		"test": "vitest",
 		"test:run": "vitest run",
 		"test:e2e": "playwright test",
+		"test:e2e:staff": "playwright test e2e/staff-classes.spec.ts",
 		"test:e2e:access": "playwright test e2e/access-control/logged-out.spec.ts",
 		"test:e2e:auth": "playwright test e2e/auth/logged-out.spec.ts e2e/auth/sign-out.spec.ts e2e/auth/session-expiration.spec.ts e2e/auth/banned-session.spec.ts",
 		"test:e2e:authors": "playwright test e2e/authors/logged-out.spec.ts",

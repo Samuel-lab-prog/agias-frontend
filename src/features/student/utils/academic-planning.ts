@@ -6,6 +6,13 @@ import type {
 } from '@Api/academic/types';
 
 export const ACADEMIC_TIME_ZONE = 'America/Sao_Paulo';
+const dayKeyFormatter = new Intl.DateTimeFormat('en-CA', {
+	timeZone: ACADEMIC_TIME_ZONE,
+	year: 'numeric',
+	month: '2-digit',
+	day: '2-digit',
+});
+const dateFormatters = new Map<string, Intl.DateTimeFormat>();
 export const shiftLabels = {
 	morning: 'Matutino',
 	afternoon: 'Vespertino',
@@ -26,20 +33,24 @@ export function periodLabel(enrollment: StudentEnrollment) {
 	);
 }
 export function dateKey(value: string | Date) {
-	return new Intl.DateTimeFormat('en-CA', {
-		timeZone: ACADEMIC_TIME_ZONE,
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-	}).format(new Date(value));
+	return dayKeyFormatter.format(new Date(value));
 }
 export function formatAcademicDate(value: string | Date, options: Intl.DateTimeFormatOptions = {}) {
-	return new Intl.DateTimeFormat('pt-BR', {
+	const formatOptions: Intl.DateTimeFormatOptions = {
 		timeZone: ACADEMIC_TIME_ZONE,
 		day: '2-digit',
 		month: 'short',
 		...options,
-	}).format(new Date(value));
+	};
+	const key = JSON.stringify(formatOptions);
+	let formatter = dateFormatters.get(key);
+	if (!formatter) {
+		formatter = new Intl.DateTimeFormat('pt-BR', formatOptions);
+		// Bound the cache even when callers supply dynamic formatting options.
+		if (dateFormatters.size >= 32) dateFormatters.clear();
+		dateFormatters.set(key, formatter);
+	}
+	return formatter.format(new Date(value));
 }
 export function lessonState(session: StudentDashboardSession, now = new Date()) {
 	const labels = {

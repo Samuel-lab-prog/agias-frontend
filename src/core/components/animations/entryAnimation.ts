@@ -1,3 +1,5 @@
+import { motionTokens } from '../../themes/motion';
+
 type EntryAnimationOptions = {
 	baseDelayMs?: number;
 	delayStepMs?: number;
@@ -8,13 +10,14 @@ export function getStaggeredEntryAnimationStyle(
 	index: number,
 	options: EntryAnimationOptions = {},
 ) {
-	const { baseDelayMs = 30, delayStepMs = 30, durationMs = 320 } = options;
+	const { baseDelayMs = 0, delayStepMs = motionTokens.staggerMs, durationMs = 320 } = options;
 
 	return {
-		animationName: 'slide-from-bottom, fade-in',
+		animationName: 'agias-enter',
 		animationDuration: `${durationMs}ms`,
-		animationTimingFunction: 'ease-out',
+		animationTimingFunction: motionTokens.easing,
 		animationFillMode: 'backwards',
-		animationDelay: `${baseDelayMs + index * delayStepMs}ms`,
+		animationDelay: `${Math.min(motionTokens.maxStaggerMs, baseDelayMs + Math.max(0, index) * delayStepMs)}ms`,
+		_motionReduce: { animation: 'none' },
 	} as const;
 }

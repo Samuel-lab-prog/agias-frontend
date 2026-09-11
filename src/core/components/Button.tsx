@@ -47,8 +47,8 @@ const localButtonVariants = {
 		},
 		_hover: {
 			...subtleMotion.hover,
-			bg: 'bg.surface',
-			color: 'fg.default',
+			bg: 'action.primarySubtle',
+			color: 'action.primaryStrong',
 			borderColor: 'border.interactive',
 		},
 		_active: {
@@ -64,8 +64,8 @@ const localButtonVariants = {
 				bg: 'transparent',
 			},
 			_hover: {
-				bg: 'bg.surface',
-				color: 'fg.default',
+				bg: 'action.primarySubtle',
+				color: 'action.primaryStrong',
 				borderColor: 'border.interactive',
 			},
 			_active: {
@@ -84,8 +84,8 @@ const localButtonVariants = {
 		},
 		_hover: {
 			...subtleMotion.hover,
-			bg: 'bg.surface',
-			color: 'fg.default',
+			bg: 'action.primarySubtle',
+			color: 'action.primaryStrong',
 			borderColor: 'border.default',
 		},
 		_active: {
@@ -100,8 +100,8 @@ const localButtonVariants = {
 				borderColor: 'transparent',
 			},
 			_hover: {
-				bg: 'bg.surface',
-				color: 'fg.default',
+				bg: 'action.primarySubtle',
+				color: 'action.primaryStrong',
 				borderColor: 'border.default',
 			},
 			_active: {
@@ -116,6 +116,8 @@ const localButtonVariants = {
 		boxShadow: 'floating',
 		_hover: {
 			...liftMotion.hover,
+			bg: 'action.destructive',
+			borderColor: 'action.destructive',
 			filter: 'brightness(1.08)',
 			boxShadow: 'floating',
 		},
@@ -147,12 +149,13 @@ export const BaseButton = forwardRef<HTMLButtonElement, BaseButtonProps>(
 				alignItems='center'
 				justifyContent='center'
 				gap='0.5rem'
+				css={{ '@media (pointer: coarse)': { minHeight: '44px', minWidth: '44px' } }}
 				fontWeight='semibold'
 				borderRadius='md'
 				border='1px solid transparent'
 				userSelect='none'
 				transform='translateY(0)'
-				willChange='transform, box-shadow, filter'
+				_motionReduce={{ transition: 'none', transform: 'none' }}
 				transition={liftMotion.transition}
 				_focusVisible={liftMotion.focusVisible}
 				_disabled={{

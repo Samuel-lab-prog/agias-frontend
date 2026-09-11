@@ -4,7 +4,7 @@ import { ChevronRight } from 'lucide-react';
 import { LuMoon } from 'react-icons/lu';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { hoverNav } from '../../utils/interaction';
+import { focusRing, interactiveStyles } from '../../themes/motion';
 import { useColorMode } from '../ui/color-mode';
 import type { NavigationLink } from './types';
 
@@ -45,6 +45,7 @@ function SidebarThemeControl() {
 				</HStack>
 				<HStack gap={3}>
 					<Switch.Root
+						aria-label='Tema escuro'
 						checked={isDark}
 						onCheckedChange={(details) => {
 							if (details.checked !== isDark) {
@@ -69,18 +70,9 @@ export function NavigationSidebar({
 	showThemeControl = false,
 }: NavigationSidebarProps) {
 	const { pathname } = useLocation();
-	const navMotion = hoverNav();
-	const { colorMode } = useColorMode();
-	const isDark = colorMode === 'dark';
-	const activeBg = isDark ? 'action.primarySubtle' : 'action.primarySubtle';
-	const activeBorder = isDark ? 'border.interactive' : 'border.interactive';
-	const activeColor = isDark ? 'action.primary' : 'action.primaryStrong';
-	const hoverBg = isDark ? 'bg.muted' : 'bg.surface';
-	const hoverColor = isDark ? 'fg.default' : 'fg.default';
-	const hoverBorder = isDark ? 'border.interactive' : 'border.interactive';
 	const visibleLinks = links.filter((link) => !link.hidden);
 	const matchesPath = (link: NavigationLink) =>
-		link.to === '/student' || link.to === '/staff'
+		['/student', '/staff', '/professor', '/admin'].includes(link.to)
 			? pathname === link.to
 			: pathname === link.to || pathname.startsWith(`${link.to}/`);
 	const activeLink = visibleLinks.find(matchesPath);
@@ -88,6 +80,8 @@ export function NavigationSidebar({
 	return (
 		<Surface
 			variant='sidebar'
+			as='nav'
+			aria-label='Navegação principal'
 			h={{ base: 'auto', xl: 'full' }}
 			overflowX='hidden'
 			overflowY='auto'
@@ -107,10 +101,18 @@ export function NavigationSidebar({
 							px={0}
 							py={0}
 							borderRadius={0}
+							_focusVisible={{ ...focusRing, outlineOffset: '-2px' }}
+							css={{
+								'&:focus-visible > div': {
+									bg: 'action.primarySubtle',
+									color: 'action.primaryStrong',
+								},
+							}}
 							_hover={{ textDecoration: 'none' }}
 						>
 							<NavLink
 								to={to}
+								end={['/student', '/staff', '/professor', '/admin'].includes(to)}
 								onClick={() => onLinkClick?.()}
 								style={{
 									display: 'block',
@@ -118,30 +120,18 @@ export function NavigationSidebar({
 								}}
 							>
 								<HStack
+									css={interactiveStyles.row}
 									justify='space-between'
 									align='center'
 									px='1.25rem'
 									py='1rem'
 									minH='56px'
 									borderRadius='md'
-									bg={isActive ? activeBg : 'transparent'}
+									bg={isActive ? 'action.primarySubtle' : 'transparent'}
 									border='1px solid'
-									borderColor={isActive ? activeBorder : 'transparent'}
-									color={isActive ? activeColor : isDark ? 'fg.muted' : 'fg.muted'}
-									cursor='pointer'
-									transition={navMotion.transition}
-									transform='translateX(0)'
-									_hover={{
-										bg: hoverBg,
-										borderColor: hoverBorder,
-										color: hoverColor,
-										transform: navMotion.hover.transform,
-									}}
-									_active={navMotion.active}
-									_focusVisible={{
-										...navMotion.focusVisible,
-										color: hoverColor,
-									}}
+									borderColor={isActive ? 'border.interactive' : 'transparent'}
+									color={isActive ? 'action.primaryStrong' : 'fg.muted'}
+									_hover={{ ...interactiveStyles.row._hover, borderColor: 'border.interactive' }}
 								>
 									<HStack gap={2}>
 										{icon ? <Icon as={icon} boxSize={5} opacity={0.85} /> : null}

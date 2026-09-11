@@ -1,4 +1,6 @@
 import { Badge, Box, Link, Text } from '@chakra-ui/react';
+import { focusRing, interactionTransition } from '@core/themes/motion';
+import { ArrowUpRight } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 import { LessonStatusBadge } from '../../components/LessonStatusBadge';
@@ -13,7 +15,14 @@ const labels = {
 };
 export function CalendarEntryCard({ entry }: { entry: CalendarEntry }) {
 	return (
-		<Box borderWidth='1px' borderColor='border.default' borderRadius='lg' p={3}>
+		<Box
+			borderWidth='1px'
+			borderColor='border.default'
+			borderRadius='lg'
+			p={3}
+			transition={interactionTransition}
+			_focusWithin={{ borderColor: 'action.primary', bg: 'action.primarySubtle' }}
+		>
 			<Badge
 				colorPalette={
 					entry.kind === 'assessments'
@@ -27,8 +36,21 @@ export function CalendarEntryCard({ entry }: { entry: CalendarEntry }) {
 				{labels[entry.kind]}
 			</Badge>
 			{entry.href ? (
-				<Link asChild display='block' color='action.primary' fontWeight='semibold'>
-					<NavLink to={entry.href}>{entry.title}</NavLink>
+				<Link
+					asChild
+					display='flex'
+					width='fit-content'
+					gap={2}
+					minH='36px'
+					color='action.primary'
+					fontWeight='semibold'
+					_focusVisible={focusRing}
+					_hover={{ color: 'action.primaryStrong', textDecoration: 'underline' }}
+				>
+					<NavLink to={entry.href}>
+						{entry.title}
+						<ArrowUpRight size={16} aria-hidden='true' style={{ flexShrink: 0 }} />
+					</NavLink>
 				</Link>
 			) : (
 				<Text fontWeight='semibold'>{entry.title}</Text>

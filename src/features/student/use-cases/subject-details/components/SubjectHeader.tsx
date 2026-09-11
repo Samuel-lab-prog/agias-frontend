@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 import type { SubjectDetails } from '../types';
 
-export function SubjectHeader({ details }: { details: SubjectDetails }) {
+export function SubjectHeader({ details, period }: { details: SubjectDetails; period: string }) {
 	return (
 		<Surface variant='panel'>
 			<VStack align='stretch' gap={5}>
@@ -24,8 +24,8 @@ export function SubjectHeader({ details }: { details: SubjectDetails }) {
 						</Box>
 					</HStack>
 					<BaseButton asChild variant='secondary' size='sm'>
-						<NavLink to={`/student/classes?period=${encodeURIComponent(details.period)}`}>
-							<ArrowLeft size={16} /> Voltar
+						<NavLink to={`/student/classes?period=${encodeURIComponent(period)}`}>
+							<ArrowLeft size={16} /> Minhas disciplinas
 						</NavLink>
 					</BaseButton>
 				</HStack>

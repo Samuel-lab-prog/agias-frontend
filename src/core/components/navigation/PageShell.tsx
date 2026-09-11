@@ -1,7 +1,9 @@
 import { Box, Flex, Grid } from '@chakra-ui/react';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { foundations } from '../../themes/foundations';
+import { interactionTransition, pageEntry } from '../../themes/motion';
 import { NavigationSidebar } from './Sidebar';
 import { NavigationTopBar } from './TopBar';
 import type { NavigationPreset } from './types';
@@ -23,6 +25,40 @@ export function NavigationPageShell({
 	const [mobileNavHeight, setMobileNavHeight] = useState(0);
 	const mobileNavRef = useRef<HTMLDivElement | null>(null);
 	const topBarHeight = foundations.sizes.topBar;
+	const { pathname } = useLocation();
+	const previousPath = useRef(pathname);
+	const contentRef = useRef<HTMLDivElement | null>(null);
+
+	useEffect(() => {
+		if (previousPath.current === pathname) return;
+		previousPath.current = pathname;
+		window.scrollTo({ top: 0, behavior: 'instant' });
+		contentRef.current?.focus({ preventScroll: true });
+	}, [pathname]);
+
+	useEffect(() => {
+		if (!mobileNavOpen) return;
+		const onKey = (event: KeyboardEvent) => {
+			if (event.key === 'Escape') {
+				setMobileNavOpen(false);
+				document.getElementById('navigation-toggle')?.focus();
+			}
+		};
+		const onPointer = (event: PointerEvent) => {
+			if (
+				event.target instanceof Node &&
+				!mobileNavRef.current?.contains(event.target) &&
+				!document.getElementById('navigation-toggle')?.contains(event.target)
+			)
+				setMobileNavOpen(false);
+		};
+		document.addEventListener('keydown', onKey);
+		document.addEventListener('pointerdown', onPointer);
+		return () => {
+			document.removeEventListener('keydown', onKey);
+			document.removeEventListener('pointerdown', onPointer);
+		};
+	}, [mobileNavOpen]);
 
 	useEffect(() => {
 		if (!mobileNavRef.current) return;
@@ -42,6 +78,21 @@ export function NavigationPageShell({
 			px={{ base: 0, md: 0, xl: 0 }}
 			pb={{ base: 'calc(24px + env(safe-area-inset-bottom, 0px))', md: 10 }}
 		>
+			<Box
+				asChild
+				position='fixed'
+				top='-60px'
+				left={4}
+				zIndex={100}
+				bg='action.primary'
+				color='fg.inverted'
+				px={4}
+				py={3}
+				borderRadius='md'
+				_focus={{ top: 3 }}
+			>
+				<a href='#page-content'>Pular para o conteúdo</a>
+			</Box>
 			<Flex
 				position='sticky'
 				top={0}
@@ -55,10 +106,12 @@ export function NavigationPageShell({
 					subtitle={preset.subtitle}
 					rightContent={rightContent}
 					onMenuClick={() => setMobileNavOpen((value) => !value)}
+					menuOpen={mobileNavOpen}
 				/>
 			</Flex>
 
 			<Box
+				id='mobile-navigation'
 				display={{ xl: 'none' }}
 				position='fixed'
 				top={topBarHeight}
@@ -67,11 +120,15 @@ export function NavigationPageShell({
 				zIndex={19}
 				px={{ base: 3, md: 4, xl: 0 }}
 				pt={3}
-				overflow='hidden'
-				maxH={mobileNavOpen ? `${mobileNavHeight}px` : '0px'}
+				pb={mobileNavOpen ? 3 : 0}
+				overflowY='auto'
+				maxH={
+					mobileNavOpen ? `min(${mobileNavHeight + 24}px, calc(100dvh - ${topBarHeight}))` : '0px'
+				}
 				opacity={mobileNavOpen ? 1 : 0}
 				transform={mobileNavOpen ? 'translateY(0)' : 'translateY(-8px)'}
-				transition='max-height 0.28s ease, opacity 0.2s ease, transform 0.2s ease'
+				transition={interactionTransition}
+				_motionReduce={{ transform: 'none', transition: 'none' }}
 				pointerEvents={mobileNavOpen ? 'auto' : 'none'}
 				inert={!mobileNavOpen}
 				aria-hidden={!mobileNavOpen}
@@ -114,6 +171,12 @@ export function NavigationPageShell({
 
 				<Flex minW={0} w='full' justify='center' pl={0} pt={{ xl: 0 }}>
 					<Flex
+						key={pathname}
+						ref={contentRef}
+						id='page-content'
+						tabIndex={-1}
+						css={pageEntry}
+						_focus={{ outline: 'none' }}
 						w='full'
 						maxW={{ base: '100%', xl: foundations.sizes.content }}
 						boxSizing='border-box'

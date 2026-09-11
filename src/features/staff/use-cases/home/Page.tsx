@@ -26,6 +26,17 @@ export function StaffHomePage() {
 				</Box>
 				<SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
 					<Surface variant='panel'>
+						<Heading as='h2' fontSize='lg'>
+							Turmas e matrículas
+						</Heading>
+						<Text color='fg.muted' mt={2}>
+							Crie turmas, vincule professores e acompanhe os alunos matriculados.
+						</Text>
+						<BaseButton asChild mt={3}>
+							<NavLink to='/staff/classes'>Gerenciar turmas</NavLink>
+						</BaseButton>
+					</Surface>
+					<Surface variant='panel'>
 						<Text color='fg.muted' fontSize='sm'>
 							Períodos acadêmicos
 						</Text>

@@ -1,9 +1,30 @@
 import { describe, expect, it } from 'vitest';
 
 import { studentScenario } from '../fixtures/scenarios';
-import { activityState, dateKey, lessonState, planProgress } from './academic-planning';
+import {
+	activityState,
+	dateKey,
+	formatAcademicDate,
+	lessonState,
+	planProgress,
+} from './academic-planning';
 
 describe('student planning semantics', () => {
+	it('keeps cached formats distinct when callers omit the day or change the time zone', () => {
+		const value = '2026-09-09T02:59:00Z';
+		expect(formatAcademicDate(value, { month: 'long', year: 'numeric' })).toBe(
+			'08 de setembro de 2026',
+		);
+		expect(formatAcademicDate(value, { day: undefined, month: 'long', year: 'numeric' })).toBe(
+			'setembro de 2026',
+		);
+		expect(formatAcademicDate(value, { month: 'long', year: 'numeric', timeZone: 'UTC' })).toBe(
+			'09 de setembro de 2026',
+		);
+		expect(formatAcademicDate(value, { month: 'long', year: 'numeric' })).toBe(
+			'08 de setembro de 2026',
+		);
+	});
 	it('counts unique delivered topics and excludes future/cancelled lessons', () => {
 		const enrollment = studentScenario().enrollments[0]!;
 		expect(planProgress(enrollment)?.progress).toBe(50);

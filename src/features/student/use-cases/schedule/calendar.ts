@@ -94,14 +94,31 @@ export function buildCalendarEntries(
 		.filter((item) => kind === 'all' || item.kind === kind)
 		.sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt));
 }
+function entryDateRange(entry: CalendarEntry) {
+	const start = entry.allDay ? entry.startsAt.slice(0, 10) : dateKey(entry.startsAt);
+	const end = entry.endsAt
+		? entry.allDay
+			? entry.endsAt.slice(0, 10)
+			: dateKey(entry.endsAt)
+		: start;
+	return { start, end };
+}
+
+/** Convert each event's dates once and share the visible-day index across the calendar and list. */
+export function indexEntriesByDay(entries: CalendarEntry[], days: Date[]) {
+	const index = new Map(days.map((day) => [dateKey(day), [] as CalendarEntry[]]));
+	for (const entry of entries) {
+		const { start, end } = entryDateRange(entry);
+		for (const [key, items] of index) {
+			if (start <= key && end >= key) items.push(entry);
+		}
+	}
+	return index;
+}
+
 export function entriesForDay(entries: CalendarEntry[], key: string) {
 	return entries.filter((entry) => {
-		const start = entry.allDay ? entry.startsAt.slice(0, 10) : dateKey(entry.startsAt);
-		const end = entry.endsAt
-			? entry.allDay
-				? entry.endsAt.slice(0, 10)
-				: dateKey(entry.endsAt)
-			: start;
+		const { start, end } = entryDateRange(entry);
 		return start <= key && end >= key;
 	});
 }

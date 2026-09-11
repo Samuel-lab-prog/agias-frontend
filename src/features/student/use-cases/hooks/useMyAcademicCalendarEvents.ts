@@ -4,6 +4,8 @@ import type { AcademicCalendarEvent } from '@Api/academic/types';
 import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
 import { useQuery } from '@tanstack/react-query';
 
+const emptyEvents: AcademicCalendarEvent[] = [];
+
 export function useMyAcademicCalendarEvents(from: Date, to: Date) {
 	const clientId = useAuthClientStore((state) => state.authClient?.id ?? null);
 	const fromIso = from.toISOString();
@@ -18,7 +20,7 @@ export function useMyAcademicCalendarEvents(from: Date, to: Date) {
 			>,
 	});
 	return {
-		events: query.data ?? [],
+		events: query.data ?? emptyEvents,
 		isLoading: query.isLoading,
 		isError: query.isError,
 		refetch: query.refetch,

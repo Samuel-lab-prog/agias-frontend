@@ -1,9 +1,72 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { academicEvents, studentScenario } from '../../fixtures/scenarios';
-import { buildCalendarEntries, calendarRange, entriesForDay } from './calendar';
+import { dateKey } from '../../utils/academic-planning';
+import {
+	buildCalendarEntries,
+	type CalendarEntry,
+	calendarRange,
+	entriesForDay,
+	indexEntriesByDay,
+} from './calendar';
 
 describe('student calendar', () => {
+	it('indexes local dates and inclusive multi-day events only inside the visible range', () => {
+		const entries: CalendarEntry[] = [
+			{ id: 'deadline', kind: 'activities', title: 'Prazo', startsAt: '2026-09-09T02:59:00Z' },
+			{
+				id: 'overnight',
+				kind: 'classes',
+				title: 'Aula',
+				startsAt: '2026-09-09T02:00:00Z',
+				endsAt: '2026-09-09T04:00:00Z',
+			},
+			{
+				id: 'holiday',
+				kind: 'academicEvents',
+				title: 'Evento',
+				allDay: true,
+				startsAt: '2026-09-07T00:00:00Z',
+				endsAt: '2026-09-09T00:00:00Z',
+			},
+			{ id: 'outside', kind: 'classes', title: 'Futuro', startsAt: '2027-01-01T12:00:00Z' },
+		];
+		const { days } = calendarRange(new Date('2026-09-08T12:00:00Z'), 0, 'week');
+		const index = indexEntriesByDay(entries, days);
+		expect(index.size).toBe(7);
+		expect(index.get('2026-09-08')?.map((entry) => entry.id)).toEqual([
+			'deadline',
+			'overnight',
+			'holiday',
+		]);
+		expect(index.get('2026-09-09')?.map((entry) => entry.id)).toEqual(['overnight', 'holiday']);
+		expect(index.get('2026-09-10')).toEqual([]);
+		expect(index.has('2027-01-01')).toBe(false);
+		for (const day of days)
+			expect(index.get(dateKey(day))).toEqual(entriesForDay(entries, dateKey(day)));
+	});
+	it('formats event boundaries once per index instead of once per calendar cell', () => {
+		const { days } = calendarRange(new Date('2026-09-08T12:00:00Z'), 0, 'month');
+		const entries: CalendarEntry[] = Array.from({ length: 1000 }, (_, id) => ({
+			id: String(id),
+			kind: 'classes',
+			title: 'Aula',
+			startsAt: '2026-09-08T10:00:00Z',
+			endsAt: '2026-09-08T12:00:00Z',
+		}));
+		const format = vi.spyOn(
+			Intl.DateTimeFormat.prototype as { readonly format: unknown },
+			'format',
+			'get',
+		);
+		try {
+			const index = indexEntriesByDay(entries, days);
+			expect(index.get('2026-09-08')).toHaveLength(1000);
+			expect(format.mock.calls.length).toBeLessThanOrEqual(entries.length * 2 + days.length);
+		} finally {
+			format.mockRestore();
+		}
+	});
 	it('filters periods, disciplines and assessments independently', () => {
 		const data = studentScenario('semester');
 		expect(

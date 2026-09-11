@@ -5,11 +5,11 @@ import type {
 } from '@Api/academic/types';
 import { BaseButton } from '@BaseComponents';
 import { Badge, Box, Flex, HStack, Text, VStack } from '@chakra-ui/react';
+import { interactiveStyles } from '@core/themes/motion';
 import { CalendarDays } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 import { activityState } from '../../../utils/academic-planning';
-
 import { StudentCard, StudentCardHeader } from './StudentCard';
 
 type StudentActivitiesCardProps = {
@@ -25,10 +25,10 @@ function getActivityStatus(
 	submissions: StudentDashboardSubmission[],
 ) {
 	const submission = submissions.find((item) => item.activityId === activity.id);
-	const dueDate = activity.dueAt ? new Date(activity.dueAt).getTime() : null;
-	const isOverdue = Boolean(!submission && dueDate !== null && dueDate < Date.now());
+	const state = activityState(activity, submissions);
+	const isOverdue = state.status === 'overdue';
 
-	if (!submission) {
+	if (state.status === 'pending' || state.status === 'overdue') {
 		if (isOverdue) {
 			return {
 				label: 'Atrasada',
@@ -46,12 +46,12 @@ function getActivityStatus(
 		};
 	}
 
-	if (submission.grade !== null) {
+	if (state.status === 'graded') {
 		return {
 			label: 'Avaliada',
 			bg: 'action.primarySubtle',
 			color: 'action.primary',
-			subtitle: submission.submittedAt,
+			subtitle: submission?.submittedAt,
 			description: '',
 		};
 	}
@@ -60,7 +60,7 @@ function getActivityStatus(
 		label: 'Entregue',
 		bg: 'action.primarySubtle',
 		color: 'action.primaryStrong',
-		subtitle: submission.submittedAt,
+		subtitle: submission?.submittedAt,
 		description: '',
 	};
 }
@@ -145,12 +145,14 @@ export function StudentActivitiesCard({
 	});
 	const activities = enrollments
 		.flatMap((enrollment) =>
-			enrollment.activities.filter((activity) => activity.kind !== 'assessment').map((activity) => ({
-				...activity,
-				classTitle: enrollment.classOffering.title,
-				classOfferingId: enrollment.classOffering.id,
-				enrollmentId: enrollment.id,
-			})),
+			enrollment.activities
+				.filter((activity) => activity.kind !== 'assessment')
+				.map((activity) => ({
+					...activity,
+					classTitle: enrollment.classOffering.title,
+					classOfferingId: enrollment.classOffering.id,
+					enrollmentId: enrollment.id,
+				})),
 		)
 		.sort((a, b) => {
 			const left = a.dueAt ? new Date(a.dueAt).getTime() : Number.POSITIVE_INFINITY;
@@ -203,9 +205,8 @@ export function StudentActivitiesCard({
 									direction={{ base: 'column', md: 'row' }}
 									borderRadius='lg'
 									bg={index % 2 === 0 ? 'bg.muted' : 'transparent'}
-									transition='background-color 0.18s ease, transform 0.18s ease'
+									css={interactiveStyles.row}
 									cursor='pointer'
-									_hover={{ bg: 'action.primarySubtle', transform: 'translateX(2px)' }}
 								>
 									<NavLink
 										to={`/student/subjects/${activity.enrollmentId}/activities/${activity.id}`}

@@ -9,7 +9,7 @@ export const adminNavigationPreset: NavigationPreset = {
 		{ label: 'Início', to: '/admin', icon: Home },
 		{ label: 'Gerenciar staff', to: '/staff', icon: UserRoundCog },
 		{ label: 'Cadastrar aluno', to: '/staff/students', icon: UserRound },
-		{ label: 'Criar turma', to: '/staff', icon: CalendarDays },
+		{ label: 'Turmas e matrículas', to: '/staff/classes', icon: CalendarDays },
 		{ label: 'Ver permissões', to: '/admin', icon: ShieldCheck },
 	],
 };
