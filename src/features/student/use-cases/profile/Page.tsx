@@ -43,15 +43,7 @@ type StudentDetailsForm = {
 	city: string;
 	phone: string;
 	mobilePhone: string;
-	familyIncome: string;
-	socioeconomicStatus: string;
-};
-
-const formatCurrency = (value: string | number) => {
-	const numeric = typeof value === 'number' ? value : Number(value.replace(/\D/g, '')) / 100;
-	return Number.isFinite(numeric)
-		? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(numeric)
-		: '';
+	familyIncomeRange: string;
 };
 
 const formatPhone = (value: string) => {
@@ -237,8 +229,21 @@ const studentDetailsFields: Field<StudentDetailsForm>[] = [
 	{ name: 'city', label: 'Município', type: 'text', disabled: true },
 	{ name: 'phone', label: 'Telefone', type: 'text', transformValue: formatPhone },
 	{ name: 'mobilePhone', label: 'Celular', type: 'text', transformValue: formatPhone },
-	{ name: 'familyIncome', label: 'Renda familiar', type: 'text', transformValue: formatCurrency },
-	{ name: 'socioeconomicStatus', label: 'Situação socioeconômica', type: 'text' },
+	{
+		kind: 'select',
+		name: 'familyIncomeRange',
+		label: 'Renda familiar per capita (em salários mínimos)',
+		options: [
+			['ATE_0_5_SM', 'Até ½ salário mínimo'],
+			['DE_0_5_A_1_SM', 'Mais de ½ até 1 salário mínimo'],
+			['DE_1_A_2_SM', 'Mais de 1 até 2 salários mínimos'],
+			['DE_2_A_3_SM', 'Mais de 2 até 3 salários mínimos'],
+			['DE_3_A_5_SM', 'Mais de 3 até 5 salários mínimos'],
+			['ACIMA_DE_5_SM', 'Acima de 5 salários mínimos'],
+			['NAO_DECLARADA', 'Não declarada'],
+			['PREFIRO_NAO_INFORMAR', 'Prefiro não informar'],
+		].map(([value, label]) => ({ value, label })),
+	},
 	{
 		name: 'currentPassword',
 		label: 'Senha atual para confirmar',
@@ -376,7 +381,7 @@ export function StudentProfilePage() {
 				),
 				currentPassword: data.currentPassword,
 				state: data.state || undefined,
-				familyIncome: data.familyIncome ? Number(data.familyIncome.replace(/\D/g, '')) / 100 : null,
+				familyIncomeRange: data.familyIncomeRange || null,
 			})) as StudentProfile;
 			queryClient.setQueryData(academicKeys.myStudentProfile(), profile);
 			if (data.email !== userQuery.data?.email) {
@@ -446,10 +451,8 @@ export function StudentProfilePage() {
 								: profile[field.name as keyof StudentProfile];
 						return [
 							field.name,
-							field.name === 'currentPassword'
-								? ''
-								: field.name === 'familyIncome' && value
-									? formatCurrency(Number(value))
+				field.name === 'currentPassword'
+					? ''
 									: field.name === 'birthDate' && value
 										? String(value).slice(0, 10)
 										: value === null || value === undefined

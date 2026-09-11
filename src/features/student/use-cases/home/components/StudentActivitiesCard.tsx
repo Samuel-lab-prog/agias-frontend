@@ -8,6 +8,8 @@ import { Badge, Box, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import { CalendarDays } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
+import { activityState } from '../../../utils/academic-planning';
+
 import { StudentCard, StudentCardHeader } from './StudentCard';
 
 type StudentActivitiesCardProps = {
@@ -123,7 +125,7 @@ function isPendingActivity(
 	activity: StudentDashboardActivity & { classOfferingId: number },
 	submissions: StudentDashboardSubmission[],
 ) {
-	return !submissions.some((item) => item.activityId === activity.id);
+	return ['pending', 'overdue'].includes(activityState(activity, submissions).status);
 }
 
 export function StudentActivitiesCard({
@@ -143,7 +145,7 @@ export function StudentActivitiesCard({
 	});
 	const activities = enrollments
 		.flatMap((enrollment) =>
-			enrollment.activities.map((activity) => ({
+			enrollment.activities.filter((activity) => activity.kind !== 'assessment').map((activity) => ({
 				...activity,
 				classTitle: enrollment.classOffering.title,
 				classOfferingId: enrollment.classOffering.id,

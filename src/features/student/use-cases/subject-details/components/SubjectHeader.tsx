@@ -24,7 +24,7 @@ export function SubjectHeader({ details }: { details: SubjectDetails }) {
 						</Box>
 					</HStack>
 					<BaseButton asChild variant='secondary' size='sm'>
-						<NavLink to='/student'>
+						<NavLink to={`/student/classes?period=${encodeURIComponent(details.period)}`}>
 							<ArrowLeft size={16} /> Voltar
 						</NavLink>
 					</BaseButton>
@@ -43,6 +43,7 @@ export function SubjectHeader({ details }: { details: SubjectDetails }) {
 						{details.status}
 					</Badge>
 				</SimpleGrid>
+				<Text fontSize='sm'>{details.professors}</Text>
 			</VStack>
 		</Surface>
 	);

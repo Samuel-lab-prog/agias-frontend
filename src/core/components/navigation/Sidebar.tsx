@@ -88,7 +88,7 @@ export function NavigationSidebar({
 	return (
 		<Surface
 			variant='sidebar'
-			h='full'
+			h={{ base: 'auto', xl: 'full' }}
 			overflowX='hidden'
 			overflowY='auto'
 			borderRadius={0}

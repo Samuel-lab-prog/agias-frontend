@@ -1,6 +1,7 @@
 import { Box, Grid, Link, Text, VStack } from '@chakra-ui/react';
 import { NavigationPageShell } from '@core/components/navigation';
 
+import { StudentProgressSummary } from '../../components/StudentProgressSummary';
 import { studentNavigationPreset } from '../../utils/navigation-routes';
 import { useMyStudentDashboard } from '../hooks/useMyStudentDashboard';
 import {
@@ -73,9 +74,10 @@ export function StudentHomePage() {
 			>
 				<VStack align='stretch' gap={4}>
 					<StudentAlertsCard />
+					{dashboard ? <StudentProgressSummary dashboard={dashboard} /> : null}
 					<StudentClassesCard enrollments={dashboard?.enrollments ?? []} />
 					<StudentActivitiesCard
-						enrollments={dashboard?.enrollments ?? []}
+						enrollments={(dashboard?.enrollments ?? []).filter((item) => item.status === 'active')}
 						submissions={dashboard?.submissions ?? []}
 					/>
 				</VStack>

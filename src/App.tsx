@@ -68,6 +68,14 @@ const StudentSubjectDetailsPage = lazyPage(
 	() => import('./features/student/use-cases/subject-details/Page'),
 	(module) => module.StudentSubjectDetailsPage,
 );
+const StudentSubjectsPage = lazyPage(
+	() => import('./features/student/use-cases/subjects/Page'),
+	(module) => module.StudentSubjectsPage,
+);
+const StudentMaterialsPage = lazyPage(
+	() => import('./features/student/use-cases/materials/Page'),
+	(module) => module.StudentMaterialsPage,
+);
 const StudentActivityDetailsPage = lazyPage(
 	() => import('./features/student/use-cases/activity-details/Page'),
 	(module) => module.StudentActivityDetailsPage,
@@ -152,6 +160,28 @@ const router = createBrowserRouter([
 		element: <RoleGate allowedRoles={['student']}>{renderLazyPage(StudentSchedulePage)}</RoleGate>,
 		errorElement: <ErrorPage />,
 	},
+	{
+		path: '/student/subjects',
+		element: <RoleGate allowedRoles={['student']}>{renderLazyPage(StudentSubjectsPage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/student/classes',
+		element: <RoleGate allowedRoles={['student']}>{renderLazyPage(StudentSubjectsPage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/student/materials',
+		element: <RoleGate allowedRoles={['student']}>{renderLazyPage(StudentMaterialsPage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	...['', '/plan', '/activities', '/assessments'].map((section) => ({
+		path: `/student/classes/:classOfferingId${section}`,
+		element: (
+			<RoleGate allowedRoles={['student']}>{renderLazyPage(StudentSubjectDetailsPage)}</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	})),
 	{
 		path: '/student/subjects/:enrollmentId',
 		element: (

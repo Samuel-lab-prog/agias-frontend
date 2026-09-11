@@ -15,7 +15,31 @@ const enrollment: StudentEnrollment = {
 		shift: 'evening',
 		courseId: 3,
 	},
-	sessions: [{ id: 1, startsAt: '2026-09-03T22:00:00.000Z', endsAt: null, topic: null }],
+	sessions: [
+		{
+			id: 1,
+			coursePlanTopicId: null,
+			startsAt: '2026-09-03T22:00:00.000Z',
+			endsAt: null,
+			topic: null,
+		},
+	],
+	plan: {
+		id: 1,
+		syllabus: 'Fundamentos e prática.',
+		status: 'published',
+		units: [
+			{
+				id: 1,
+				title: 'Fundamentos',
+				description: null,
+				position: 1,
+				topics: [
+					{ id: 1, title: 'Conceitos essenciais', description: null, position: 1, type: 'content' },
+				],
+			},
+		],
+	},
 	activities: [
 		{
 			id: 4,
@@ -54,5 +78,33 @@ describe('mapSubjectDetails', () => {
 		);
 
 		expect(result.activities[0]).toMatchObject({ status: 'graded', grade: '9.5' });
+	});
+
+	it('derives planning progress and completed topics from delivered sessions', () => {
+		const result = mapSubjectDetails(
+			{
+				...enrollment,
+				sessions: [
+					{
+						id: 1,
+						status: 'completed',
+						coursePlanTopicId: 1,
+						startsAt: '2026-09-03T22:00:00.000Z',
+						endsAt: null,
+						topic: 'Conceitos essenciais',
+					},
+				],
+			},
+			[],
+		);
+
+		expect(result.plan?.progress).toBe(100);
+		expect(result.plan?.units[0]?.topics[0]?.completed).toBe(true);
+	});
+
+	it('supports enrollments without a published plan', () => {
+		const result = mapSubjectDetails({ ...enrollment, plan: null }, []);
+
+		expect(result.plan).toBeNull();
 	});
 });

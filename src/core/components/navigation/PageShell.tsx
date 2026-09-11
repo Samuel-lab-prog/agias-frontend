@@ -35,6 +35,7 @@ export function NavigationPageShell({
 			as='main'
 			bg='bg.canvas'
 			color='fg.default'
+			position='relative'
 			minH='100dvh'
 			direction='column'
 			overflowX='clip'
@@ -59,6 +60,11 @@ export function NavigationPageShell({
 
 			<Box
 				display={{ xl: 'none' }}
+				position='fixed'
+				top={topBarHeight}
+				left={0}
+				right={0}
+				zIndex={19}
 				px={{ base: 3, md: 4, xl: 0 }}
 				pt={3}
 				overflow='hidden'
@@ -67,6 +73,8 @@ export function NavigationPageShell({
 				transform={mobileNavOpen ? 'translateY(0)' : 'translateY(-8px)'}
 				transition='max-height 0.28s ease, opacity 0.2s ease, transform 0.2s ease'
 				pointerEvents={mobileNavOpen ? 'auto' : 'none'}
+				inert={!mobileNavOpen}
+				aria-hidden={!mobileNavOpen}
 			>
 				<Box ref={mobileNavRef}>
 					<NavigationSidebar

@@ -6,9 +6,10 @@ export const studentNavigationPreset: NavigationPreset = {
 	action: { label: 'Sair', to: '/login' },
 	links: [
 		{ label: 'Início', to: '/student', icon: Home },
+		{ label: 'Disciplinas', to: '/student/classes', icon: BookOpen },
 		{ label: 'Meu perfil', to: '/student/profile', icon: UserRound },
 		{ label: 'Agenda de aulas', to: '/student/schedule', icon: CalendarDays },
 		{ label: 'Atividades', to: '/student/activities', icon: ClipboardList },
-		{ label: 'Materiais', to: '/student', icon: BookOpen },
+		{ label: 'Materiais', to: '/student/materials', icon: BookOpen },
 	],
 };
