@@ -3,7 +3,7 @@ import { BookOpen, CalendarDays, ClipboardList, Home, School, UserRound } from '
 
 export const professorNavigationPreset: NavigationPreset = {
 	title: 'AGIAS',
-	subtitle: 'Home professor',
+	subtitle: 'Espaço docente',
 	action: { label: 'Sair', to: '/login' },
 	links: [
 		{ label: 'Início', to: '/professor', icon: Home },
