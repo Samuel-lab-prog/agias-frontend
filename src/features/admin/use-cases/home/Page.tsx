@@ -1,27 +1,29 @@
-import { Box, Heading, Text } from '@chakra-ui/react';
 import { NavigationPageShell } from '@core/components/navigation';
+import { useLocation } from 'react-router-dom';
 
+import { PermissionsPage } from '../permissions/Page';
+import { UserDetailsPage } from '../users/DetailsPage';
+import { UsersPage } from '../users/Page';
+import { Dashboard } from './Dashboard';
 import { adminNavigationPreset } from './navigation';
-
+import { PendingClasses } from './PendingClasses';
 export function AdminHomePage() {
-	return (
-		<NavigationPageShell preset={adminNavigationPreset}>
-			<Box
-				display='flex'
-				flexDirection='column'
-				alignItems='center'
-				justifyContent='center'
-				minH='40vh'
-				textAlign='center'
-				gap={3}
-			>
-				<Heading as='h2' fontSize='clamp(1.25rem, 2vw, 1.65rem)' lineHeight='1.2' fontWeight='700'>
-					Você fez login como admin
-				</Heading>
-				<Text fontSize='1rem' lineHeight='1.7rem' color='fg.muted' _dark={{ color: 'fg.muted' }}>
-					Esta página está vazia por enquanto.
-				</Text>
-			</Box>
-		</NavigationPageShell>
-	);
+	const { pathname } = useLocation();
+	const content =
+		pathname === '/admin/team/new' ? (
+			<UserDetailsPage create />
+		) : /^\/admin\/users\/\d+$/.test(pathname) ? (
+			<UserDetailsPage />
+		) : pathname === '/admin/team' ? (
+			<UsersPage team />
+		) : pathname === '/admin/users' ? (
+			<UsersPage />
+		) : pathname === '/admin/permissions' ? (
+			<PermissionsPage />
+		) : pathname === '/admin/pending-classes' ? (
+			<PendingClasses />
+		) : (
+			<Dashboard />
+		);
+	return <NavigationPageShell preset={adminNavigationPreset}>{content}</NavigationPageShell>;
 }

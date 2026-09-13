@@ -18,6 +18,9 @@ export const semanticTokens = defineSemanticTokens({
 			inverted: { value: foundations.colors.white },
 		},
 		border: {
+			// Chakra's built-in input recipes resolve `border` to this default token.
+			// Keep it aligned with the application's semantic control border in both themes.
+			DEFAULT: adaptive(semanticValues.border.light, semanticValues.border.dark),
 			default: adaptive(semanticValues.border.light, semanticValues.border.dark),
 			surface: adaptive(semanticValues.surfaceBorder.light, semanticValues.surfaceBorder.dark),
 			muted: adaptive(semanticValues.borderMuted.light, semanticValues.borderMuted.dark),

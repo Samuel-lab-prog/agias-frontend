@@ -28,6 +28,9 @@ const offering: StaffClass = {
 };
 
 async function setup(page: Page, initial = true, role = 'staff') {
+	await page.route('**/institution/context', route => route.fulfill({ json: {
+		id: 100, role, name: 'Pessoa de teste', campus: { name: 'Campus inicial', institution: { configured: false } },
+	} }));
 	let classes = initial ? [structuredClone(offering)] : [];
 	let roster: StaffEnrollment[] = [];
 	await page.addInitScript(

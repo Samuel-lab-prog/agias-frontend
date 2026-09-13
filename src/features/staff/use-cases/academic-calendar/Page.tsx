@@ -18,7 +18,7 @@ import {
 	Textarea,
 	VStack,
 } from '@chakra-ui/react';
-import { NavigationPageShell } from '@core/components/navigation';
+import { StaffPageShell as NavigationPageShell } from '@features/staff/public/components/StaffPageShell';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createHTTPRequest } from '@Utils';
 import { CalendarPlus, Pencil, Trash2 } from 'lucide-react';

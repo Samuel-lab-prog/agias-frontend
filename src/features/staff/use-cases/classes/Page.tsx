@@ -10,8 +10,8 @@ import {
 	Text,
 	VStack,
 } from '@chakra-ui/react';
-import { NavigationPageShell } from '@core/components/navigation';
 import { interactiveStyles } from '@core/themes/motion';
+import { StaffPageShell as NavigationPageShell } from '@features/staff/public/components/StaffPageShell';
 import { Plus, Users } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';

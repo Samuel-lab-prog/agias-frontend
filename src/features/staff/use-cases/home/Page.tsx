@@ -2,7 +2,7 @@ import { curriculum } from '@Api/curriculum/endpoints';
 import { curriculumKeys } from '@Api/curriculum/keys';
 import { BaseButton, Surface } from '@BaseComponents';
 import { Box, Heading, SimpleGrid, Text, VStack } from '@chakra-ui/react';
-import { NavigationPageShell } from '@core/components/navigation';
+import { StaffPageShell as NavigationPageShell } from '@features/staff/public/components/StaffPageShell';
 import { useQuery } from '@tanstack/react-query';
 import { NavLink } from 'react-router-dom';
 
@@ -18,7 +18,7 @@ export function StaffHomePage() {
 			<VStack align='stretch' gap={5}>
 				<Box>
 					<Heading as='h1' fontSize='2xl'>
-						Central do staff
+						Secretaria acadêmica
 					</Heading>
 					<Text color='fg.muted' mt={1}>
 						Acesse rapidamente as principais rotinas administrativas.
@@ -60,7 +60,7 @@ export function StaffHomePage() {
 							Perfil
 						</Text>
 						<Text fontWeight='semibold' mt={2}>
-							Dados da equipe
+							Minha identificação e vínculo
 						</Text>
 						<BaseButton asChild size='sm' variant='secondary' mt={3}>
 							<NavLink to='/staff/my-profile'>Ver perfil</NavLink>

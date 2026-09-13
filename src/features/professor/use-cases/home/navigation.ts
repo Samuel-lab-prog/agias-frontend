@@ -1,11 +1,22 @@
 import type { NavigationPreset } from '@core/components/navigation';
-import { BookOpen, CalendarDays, ClipboardList, Home, School, UserRound } from 'lucide-react';
+import {
+	BookOpen,
+	CalendarDays,
+	ClipboardList,
+	FileText,
+	FlaskConical,
+	Home,
+	School,
+	UserRound,
+} from 'lucide-react';
 
 export const professorNavigationPreset: NavigationPreset = {
 	title: 'AGIAS',
 	subtitle: 'Espaço docente',
 	action: { label: 'Sair', to: '/login' },
 	links: [
+		{ label: 'Projetos', to: '/projects', icon: FlaskConical },
+		{ label: 'Documentos', to: '/documents', icon: FileText },
 		{ label: 'Início', to: '/professor', icon: Home },
 		{ label: 'Minhas turmas', to: '/professor/classes', icon: School },
 		{ label: 'Atividades', to: '/professor/activities', icon: ClipboardList },

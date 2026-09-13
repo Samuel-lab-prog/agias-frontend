@@ -2,7 +2,7 @@ import { staffCurriculum } from '@Api/curriculum/staff';
 import type { CreateClassOfferingBody } from '@Api/curriculum/types';
 import { BaseButton, Surface } from '@BaseComponents';
 import { Box, Heading, HStack, Text, VStack } from '@chakra-ui/react';
-import { NavigationPageShell } from '@core/components/navigation';
+import { StaffPageShell as NavigationPageShell } from '@features/staff/public/components/StaffPageShell';
 import { useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 

@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 import { foundations } from '../../themes/foundations';
 import { interactionTransition, pageEntry } from '../../themes/motion';
+import { AccountIdentity } from './AccountIdentity';
 import { NavigationSidebar } from './Sidebar';
 import { NavigationTopBar } from './TopBar';
 import type { NavigationPreset } from './types';
@@ -104,7 +105,7 @@ export function NavigationPageShell({
 				<NavigationTopBar
 					title={preset.title}
 					subtitle={preset.subtitle}
-					rightContent={rightContent}
+					rightContent={rightContent ?? <AccountIdentity />}
 					onMenuClick={() => setMobileNavOpen((value) => !value)}
 					menuOpen={mobileNavOpen}
 				/>
@@ -182,7 +183,7 @@ export function NavigationPageShell({
 						boxSizing='border-box'
 						direction='column'
 						gap={{ base: 3, md: 4 }}
-						mt={4}
+						mt={{ base: 6, md: 8 }}
 						px={{ base: 4, md: 6, xl: 6 }}
 						align='stretch'
 					>

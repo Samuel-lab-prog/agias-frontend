@@ -116,6 +116,26 @@ const StaffClassDetailsPage = lazyPage(
 	() => import('./features/staff/use-cases/classes/DetailsPage'),
 	(module) => module.StaffClassDetailsPage,
 );
+const ProjectsPage = lazyPage(
+	() => import('./features/services/use-cases/projects/Page'),
+	(m) => m.ProjectsPage,
+);
+const ProjectDetailsPage = lazyPage(
+	() => import('./features/services/use-cases/projects/DetailsPage'),
+	(m) => m.ProjectDetailsPage,
+);
+const DocumentsPage = lazyPage(
+	() => import('./features/services/use-cases/documents/Page'),
+	(m) => m.DocumentsPage,
+);
+const VerifyDocumentPage = lazyPage(
+	() => import('./features/services/use-cases/documents/VerifyPage'),
+	(m) => m.VerifyDocumentPage,
+);
+const InstitutionPage = lazyPage(
+	() => import('./features/services/use-cases/institution/Page'),
+	(m) => m.InstitutionPage,
+);
 const DevComponentsPage = lazyPage(
 	() => import('./features/dev/use-cases/components-gallery/Page'),
 	(module) => module.DevComponentsPage,
@@ -138,6 +158,64 @@ const DevAnimationsPage = lazyPage(
 );
 
 const router = createBrowserRouter([
+	...[
+		'/admin/team',
+		'/admin/team/new',
+		'/admin/users',
+		'/admin/users/:userId',
+		'/admin/permissions',
+		'/admin/pending-classes',
+	].map((path) => ({
+		path,
+		element: <RoleGate allowedRoles={['admin']}>{renderLazyPage(AdminHomePage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	})),
+	{
+		path: '/admin/institution',
+		element: <RoleGate allowedRoles={['admin']}>{renderLazyPage(InstitutionPage)}</RoleGate>,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/projects',
+		element: (
+			<RoleGate allowedRoles={['admin', 'staff', 'professor', 'student']}>
+				{renderLazyPage(ProjectsPage)}
+			</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/projects/new',
+		element: (
+			<RoleGate allowedRoles={['admin', 'staff', 'professor']}>
+				{renderLazyPage(ProjectsPage)}
+			</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/projects/:id',
+		element: (
+			<RoleGate allowedRoles={['admin', 'staff', 'professor', 'student']}>
+				{renderLazyPage(ProjectDetailsPage)}
+			</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/documents/verify',
+		element: renderLazyPage(VerifyDocumentPage),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/documents',
+		element: (
+			<RoleGate allowedRoles={['admin', 'staff', 'professor', 'student']}>
+				{renderLazyPage(DocumentsPage)}
+			</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
 	{
 		path: '/',
 		element: <Navigate to='/login' replace />,
@@ -299,7 +377,7 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/staff',
-		element: <RoleGate allowedRoles={['staff']}>{renderLazyPage(StaffHomePage)}</RoleGate>,
+		element: <RoleGate allowedRoles={['staff', 'admin']}>{renderLazyPage(StaffHomePage)}</RoleGate>,
 		errorElement: <ErrorPage />,
 	},
 	{

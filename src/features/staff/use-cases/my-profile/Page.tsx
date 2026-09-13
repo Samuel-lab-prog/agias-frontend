@@ -1,104 +1,100 @@
-import { ErrorStateCard } from '@BaseComponents';
-import { Badge, Box, Flex, Grid, Text } from '@chakra-ui/react';
-import { useEnsureRole } from '@features/auth/public';
-import { StaffProfileAccessGate } from '@features/staff/public/components/StaffProfileAccessGate';
-import { useMyStaffProfile } from '@features/staff/public/hooks/useMyStaffProfile';
-import { BadgeInfo, Building2, ShieldCheck } from 'lucide-react';
+import { institution } from '@Api/institution/endpoints';
+import { BaseButton,Surface } from '@BaseComponents';
+import { Box, Heading, HStack, Image, SimpleGrid, Text, VStack } from '@chakra-ui/react';
+import { NavigationPageShell } from '@core/components/navigation';
+import { useAuthClientStore } from '@features/auth/public/stores/useAuthClientStore';
+import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 
+import { adminNavigationPreset } from '../../../admin/use-cases/home/navigation';
+import { ServiceState } from '../../../services/components/UI';
+import { staffNavigationPreset } from '../home/navigation';
 export function StaffMyProfilePage() {
-	const isStaff = useEnsureRole(['staff', 'admin']);
-	const { profile, isLoading, isError, error, isMissingClient, refetch } = useMyStaffProfile();
-
-	if (isMissingClient || !isStaff) {
-		return <StaffProfileAccessGate />;
-	}
-
+	const account = useAuthClientStore((s) => s.authClient);
+	const query = useQuery({
+		queryKey: ['institution-context', account?.id],
+		queryFn: institution.context,
+	});
+	const data = query.data;
 	return (
-		<Flex
-			as='main'
-			bg='bg.canvas'
-			color='fg.default'
-			direction='column'
-			gap={6}
-			maxW='4xl'
-			mx='auto'
-			w='full'
+		<NavigationPageShell
+			preset={account?.role === 'admin' ? adminNavigationPreset : staffNavigationPreset}
 		>
-			<Box p={6} borderRadius='xl' border='1px solid' borderColor='border.default' bg='bg.surface'>
-				<Box mb={4}>
-					<Badge bg='action.primarySubtle' color='action.primary' mb={3}>
-						Feature staff
-					</Badge>
-					<Text fontSize={{ base: '2xl', md: '3xl' }} fontWeight='bold'>
-						Perfil de staff
-					</Text>
-					<Text fontSize='0.875rem' lineHeight='1.4rem' color='fg.muted' mt={2}>
-						Base inicial para páginas e ações de staff.
+			<VStack align='stretch' gap={6}>
+				<Box>
+					<Heading as='h1' fontSize='3xl'>
+						Meu perfil
+					</Heading>
+					<Text color='fg.muted' mt={2}>
+						Sua identificação e seu vínculo com a instituição.
 					</Text>
 				</Box>
-
-				{isError ? (
-					<ErrorStateCard
-						eyebrow='STAFF PROFILE'
-						title='Não foi possível carregar o perfil de staff.'
-						description={error instanceof Error ? error.message : 'Tente novamente em instantes.'}
-						actionLabel='Tentar novamente'
-						onAction={() => {
-							void refetch();
-						}}
-					/>
-				) : (
-					<Grid templateColumns={{ base: '1fr', md: 'repeat(3, minmax(0, 1fr))' }} gap={4}>
-						<Box
-							p={4}
-							borderRadius='xl'
-							border='1px solid'
-							borderColor='border.default'
-							bg='bg.muted'
-						>
-							<BadgeInfo size={18} />
-							<Text fontSize='0.875rem' lineHeight='1.4rem' mt={2} color='fg.muted'>
-								ID do perfil
+				<ServiceState query={query}>
+					{data && (
+						<>
+							<Surface variant='gradient'>
+								<HStack gap={5} flexWrap='wrap'>
+									<Box
+										boxSize={20}
+										borderRadius='full'
+										bg='action.primarySubtle'
+										display='grid'
+										placeItems='center'
+										fontSize='3xl'
+										color='action.primary'
+										overflow='hidden'
+									>
+										{data.avatarUrl ? (
+											<Image src={data.avatarUrl} alt='' boxSize='full' objectFit='cover' />
+										) : (
+											data.name.slice(0, 1)
+										)}
+									</Box>
+									<Box>
+										<Text color='action.primary' fontSize='sm'>
+											{data.role === 'admin' ? 'Administração' : 'Secretaria'}
+										</Text>
+										<Heading as='h2' fontSize='2xl'>
+											{data.name}
+										</Heading>
+										<Text mt={1}>{data.email}</Text>
+									</Box>
+								</HStack>
+							</Surface>
+							<SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
+								{[
+									[
+										'Instituição',
+										data.campus.institution.configured
+											? data.campus.institution.name
+											: 'Identificação institucional pendente',
+									],
+									['Campus', data.campus.name],
+									['Departamento', data.staffProfile?.department?.name ?? 'Não vinculado'],
+									['Situação da conta', 'Ativa'],
+								].map(([label, value]) => (
+									<Surface variant='panel' key={label}>
+										<Text fontSize='sm' color='fg.muted'>
+											{label}
+										</Text>
+										<Text mt={2} fontWeight='semibold'>
+											{value}
+										</Text>
+									</Surface>
+								))}
+							</SimpleGrid>
+							<Text color='fg.muted' fontSize='sm'>
+								A administração mantém os dados de identificação e os vínculos profissionais.
 							</Text>
-							<Text fontSize='2xl' fontWeight='bold'>
-								{isLoading ? '...' : (profile?.id ?? '-')}
-							</Text>
-						</Box>
-
-						<Box
-							p={4}
-							borderRadius='xl'
-							border='1px solid'
-							borderColor='border.default'
-							bg='bg.muted'
-						>
-							<ShieldCheck size={18} />
-							<Text fontSize='0.875rem' lineHeight='1.4rem' mt={2} color='fg.muted'>
-								ID do usuário
-							</Text>
-							<Text fontSize='2xl' fontWeight='bold'>
-								{isLoading ? '...' : (profile?.userId ?? '-')}
-							</Text>
-						</Box>
-
-						<Box
-							p={4}
-							borderRadius='xl'
-							border='1px solid'
-							borderColor='border.default'
-							bg='bg.muted'
-						>
-							<Building2 size={18} />
-							<Text fontSize='0.875rem' lineHeight='1.4rem' mt={2} color='fg.muted'>
-								Departamento
-							</Text>
-							<Text fontSize='2xl' fontWeight='bold'>
-								{isLoading ? '...' : (profile?.departmentId ?? 'Não vinculado')}
-							</Text>
-						</Box>
-					</Grid>
-				)}
-			</Box>
-		</Flex>
+							{data.role === 'admin' && (
+								<BaseButton asChild variant='secondary' w='fit-content'>
+									<Link to={'/admin/users/' + data.id}>Atualizar cadastro</Link>
+								</BaseButton>
+							)}
+						</>
+					)}
+				</ServiceState>
+			</VStack>
+		</NavigationPageShell>
 	);
 }

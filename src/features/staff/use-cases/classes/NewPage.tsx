@@ -1,7 +1,7 @@
 import { staffCurriculum } from '@Api/curriculum/staff';
 import { Surface } from '@BaseComponents';
 import { Heading, Text, VStack } from '@chakra-ui/react';
-import { NavigationPageShell } from '@core/components/navigation';
+import { StaffPageShell as NavigationPageShell } from '@features/staff/public/components/StaffPageShell';
 import { useNavigate } from 'react-router-dom';
 
 import { staffNavigationPreset } from '../home/navigation';
