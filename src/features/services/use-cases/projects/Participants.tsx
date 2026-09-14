@@ -1,6 +1,7 @@
-import { type ProjectDetail,projects } from '@Api/projects/endpoints';
+import { type ProjectDetail, projects } from '@Api/projects/endpoints';
 import { BaseButton, Surface } from '@BaseComponents';
 import {
+	Badge,
 	Box,
 	Heading,
 	HStack,
@@ -50,29 +51,52 @@ export function Participants({
 	});
 	return (
 		<VStack align='stretch' gap={4}>
-			<Heading as='h2' fontSize='xl'>
-				Participantes e planos de trabalho
-			</Heading>
+			<HStack gap={3} flexWrap='wrap'>
+				<Heading as='h2' fontSize='xl'>
+					Participantes e planos de trabalho
+				</Heading>
+				<Badge variant='subtle' colorPalette='gray'>
+					{project.participants.length}
+				</Badge>
+			</HStack>
 			{project.participants.length === 0 && (
-				<Text color='fg.muted'>Nenhum participante cadastrado.</Text>
+				<Surface variant='panel'>
+					<Text color='fg.muted'>Nenhum participante cadastrado.</Text>
+				</Surface>
 			)}
 			{project.participants.map((p) => (
 				<Surface key={p.id} variant='panel'>
 					<VStack align='stretch' gap={3}>
-						<Box>
-							<Heading as='h3' fontSize='lg'>
-								{p.user.name}
-							</Heading>
-							<Text color='fg.muted' fontSize='sm'>
-								{p.role} · {dateLabel(p.startsAt)} a {dateLabel(p.endsAt)}
+						<HStack justify='space-between' align='start' flexWrap='wrap' gap={3}>
+							<Box minW={0}>
+								<Heading as='h3' fontSize='lg' overflowWrap='anywhere'>
+									{p.user.name}
+								</Heading>
+								<Text color='fg.muted' fontSize='sm' mt={1} overflowWrap='anywhere'>
+									{p.role}
+								</Text>
+							</Box>
+							<Badge
+								colorPalette={p.approvedHours === null ? 'yellow' : 'green'}
+								variant='subtle'
+								whiteSpace='normal'
+							>
+								{p.approvedHours === null
+									? 'Horas aguardando validação'
+									: p.approvedHours + ' horas validadas'}
+							</Badge>
+						</HStack>
+						<Text color='fg.muted' fontSize='sm'>
+							Período de participação: {dateLabel(p.startsAt)} a {dateLabel(p.endsAt)}
+						</Text>
+						<Box borderTopWidth='1px' borderColor='border.default' pt={4} mt={1}>
+							<Text fontSize='xs' color='fg.muted' fontWeight='medium' mb={2}>
+								Plano de trabalho
+							</Text>
+							<Text whiteSpace='pre-wrap' lineHeight='1.8' overflowWrap='anywhere' maxW='90ch'>
+								{p.workPlan}
 							</Text>
 						</Box>
-						<Text whiteSpace='pre-wrap'>{p.workPlan}</Text>
-						<Text fontWeight='semibold'>
-							{p.approvedHours === null
-								? 'Carga horária aguardando validação'
-								: p.approvedHours + ' horas validadas'}
-						</Text>
 						{manager && project.status === 'active' && p.userId !== userId && (
 							<form
 								onSubmit={(e) => {
@@ -83,7 +107,7 @@ export function Participants({
 									});
 								}}
 							>
-								<HStack align='end'>
+								<HStack align='end' flexWrap='wrap'>
 									<FormField label='Horas realizadas'>
 										<Input
 											name='hours'
@@ -203,4 +227,3 @@ export function Participants({
 		</VStack>
 	);
 }
-

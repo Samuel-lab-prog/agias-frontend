@@ -103,6 +103,11 @@ export const projects = {
 			path: base + '/candidates',
 			query: { q },
 		}),
+	researchers: (q: string, scope: string) =>
+		createHTTPRequest<{ id: number; name: string }[]>({
+			path: base + '/researchers',
+			query: { q, scope },
+		}),
 	participant: (
 		id: number,
 		body: { userId: number; role: string; workPlan: string; startsAt: string; endsAt: string },

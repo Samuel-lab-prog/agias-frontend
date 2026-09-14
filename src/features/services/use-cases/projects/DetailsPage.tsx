@@ -1,7 +1,7 @@
-import { catalogFields, catalogLabels } from '@Api/projects/catalogs';
 import { type ProjectDetail, projects, type ProjectStatus } from '@Api/projects/endpoints';
 import { BaseButton, Surface } from '@BaseComponents';
 import {
+	Badge,
 	Box,
 	Heading,
 	HStack,
@@ -17,10 +17,11 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ServicesShell } from '../../components/Shell';
-import { Feedback, FormField, ServiceHeader, ServiceLink, ServiceState } from '../../components/UI';
-import { dateLabel, finalReportLabels, kindLabels, originLabels, statusLabels } from '../../utils';
+import { Feedback, FormField, ServiceState } from '../../components/UI';
+import { dateLabel, statusLabels } from '../../utils';
 import { ClassificationEditor } from './ClassificationEditor';
 import { Participants } from './Participants';
+import { ProjectOverview } from './ProjectOverview';
 function ProjectContent({ project }: { project: ProjectDetail }) {
 	const user = useAuthClientStore((s) => s.authClient),
 		client = useQueryClient();
@@ -74,43 +75,21 @@ function ProjectContent({ project }: { project: ProjectDetail }) {
 					: [];
 	return (
 		<VStack align='stretch' gap={6}>
-			<ServiceHeader
-				title={project.title}
-				description={kindLabels[project.kind] + ' · ' + statusLabels[project.status]}
-				action={<ServiceLink to='/projects'>Voltar à lista</ServiceLink>}
-			/>
-			<Surface variant='panel'>
-				<VStack align='stretch' gap={3}>
-					<Text fontWeight='semibold'>Coordenação: {project.coordinator.name}</Text>
-					<Text color='fg.muted'>
-						Código {project.code} · {originLabels[project.origin]} · Ano {project.year}
-					</Text>
-					<Text color='fg.muted'>
-						{dateLabel(project.startsAt)} a {dateLabel(project.endsAt)} · Relatório final:{' '}
-						{finalReportLabels[project.finalReportStatus]}
-					</Text>
-					{project.department && <Text color='fg.muted'>Unidade: {project.department.name}</Text>}
-					{catalogFields.map(
-						(field) =>
-							project[field] && (
-								<Text key={field} color='fg.muted'>
-									{catalogLabels[field]}: {project[field]?.name}
-									{project[field]?.active === false ? ' (inativa)' : ''}
-								</Text>
-							),
-					)}
-					{editable && !editingClassification && (
+			<ProjectOverview
+				project={project}
+				editAction={
+					editable &&
+					!editingClassification && (
 						<BaseButton
 							variant='secondary'
-							w='fit-content'
+							size='sm'
 							onClick={() => setEditingClassification(true)}
 						>
 							Editar classificação
 						</BaseButton>
-					)}
-					<Text whiteSpace='pre-wrap'>{project.objectives}</Text>
-				</VStack>
-			</Surface>
+					)
+				}
+			/>
 			{editable && editingClassification && (
 				<ClassificationEditor
 					key={project.version}
@@ -162,24 +141,35 @@ function ProjectContent({ project }: { project: ProjectDetail }) {
 				</Surface>
 			)}
 			<Participants project={project} editable={editable} manager={manager} userId={user?.id} />
-			<Heading as='h2' fontSize='xl'>
-				Relatórios
-			</Heading>
-			{project.reports.length === 0 && <Text color='fg.muted'>Nenhum relatório enviado.</Text>}
+			<HStack gap={3}>
+				<Heading as='h2' fontSize='xl'>
+					Relatórios
+				</Heading>
+				<Badge variant='subtle' colorPalette='gray'>
+					{project.reports.length}
+				</Badge>
+			</HStack>
+			{project.reports.length === 0 && (
+				<Surface variant='panel'>
+					<Text color='fg.muted'>Nenhum relatório enviado.</Text>
+				</Surface>
+			)}
 			{project.reports.map((r) => (
 				<Surface variant='panel' key={r.id}>
 					<VStack align='stretch' gap={3}>
 						<HStack justify='space-between' flexWrap='wrap'>
-							<Heading as='h3' fontSize='lg'>
+							<Heading as='h3' fontSize='lg' overflowWrap='anywhere'>
 								{r.title}
 							</Heading>
-							<Text color={r.approved ? 'status.success' : 'fg.muted'}>
+							<Badge colorPalette={r.approved ? 'green' : 'yellow'} variant='subtle'>
 								{r.approved ? 'Aprovado' : 'Aguardando avaliação'}
-							</Text>
+							</Badge>
 						</HStack>
-						<Text whiteSpace='pre-wrap'>{r.body}</Text>
+						<Text whiteSpace='pre-wrap' lineHeight='1.8' overflowWrap='anywhere' maxW='90ch'>
+							{r.body}
+						</Text>
 						<Text color='fg.muted' fontSize='sm'>
-							{dateLabel(r.createdAt)}
+							Enviado em {dateLabel(r.createdAt)}
 						</Text>
 						{manager && project.status === 'active' && !r.approved && r.authorId !== user?.id && (
 							<BaseButton
@@ -225,21 +215,26 @@ function ProjectContent({ project }: { project: ProjectDetail }) {
 					</form>
 				</Surface>
 			)}
-			<Box>
+			<Surface variant='panel'>
 				<Heading as='h2' fontSize='xl' mb={4}>
 					Registro de acompanhamento
 				</Heading>
 				<VStack align='stretch' gap={3}>
+					{project.events.length === 0 && (
+						<Text color='fg.muted'>Nenhum registro de acompanhamento.</Text>
+					)}
 					{project.events.map((event) => (
 						<Box borderLeftWidth='2px' borderColor='border.default' pl={4} key={event.id}>
-							<Text fontSize='sm'>{event.note}</Text>
-							<Text fontSize='xs' color='fg.muted'>
+							<Text fontSize='xs' color='fg.muted' mb={1}>
 								{dateLabel(event.createdAt)}
+							</Text>
+							<Text fontSize='sm' whiteSpace='pre-wrap' lineHeight='1.7' overflowWrap='anywhere'>
+								{event.note}
 							</Text>
 						</Box>
 					))}
 				</VStack>
-			</Box>
+			</Surface>
 		</VStack>
 	);
 }

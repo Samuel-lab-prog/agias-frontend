@@ -8,6 +8,8 @@ import { useState } from 'react';
 import { FormField, ServiceState } from '../../components/UI';
 import { finalReportLabels, kindLabels, originLabels, statusLabels } from '../../utils';
 import { ClassificationFields } from './ClassificationFields';
+import { ProjectCombobox } from './ProjectCombobox';
+import { ResearcherCombobox } from './ResearcherCombobox';
 import { classificationFromParams } from './search-params';
 import { SearchSelect } from './SearchSelect';
 
@@ -63,20 +65,24 @@ export function SearchFilters({
 			>
 				<VStack align='stretch' gap={5}>
 					<SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
-						{[
-							['q', 'Buscar projeto', 'Título, objetivos ou código'],
-							['code', 'Código', 'Código do projeto'],
-							['researcher', 'Pesquisador', 'Nome do pesquisador'],
-						].map(([key, label, placeholder]) => (
-							<FormField key={key} label={label}>
-								<Input
-									value={draft[key] || ''}
-									onChange={(event) => change(key, event.target.value)}
-									maxLength={key === 'code' ? 50 : 100}
-									placeholder={placeholder}
-								/>
-							</FormField>
-						))}
+						<ProjectCombobox
+							value={draft.q || ''}
+							onChange={(value) => change('q', value)}
+							scope={scope}
+						/>
+						<FormField label='Código'>
+							<Input
+								value={draft.code || ''}
+								onChange={(event) => change('code', event.target.value)}
+								maxLength={50}
+								placeholder='Código do projeto'
+							/>
+						</FormField>
+						<ResearcherCombobox
+							value={draft.researcher || ''}
+							onChange={(value) => change('researcher', value)}
+							scope={scope}
+						/>
 						{(
 							[
 								['kind', 'Modalidade', kindLabels],
@@ -107,12 +113,15 @@ export function SearchFilters({
 						))}
 						<FormField label='Ano'>
 							<Input
-								type='number'
-								min={2000}
-								max={2200}
-								step={1}
+								type='text'
+								inputMode='numeric'
+								maxLength={4}
+								pattern='(20[0-9]{2}|21[0-9]{2}|2200)'
+								title='Informe um ano entre 2000 e 2200.'
 								value={draft.year || ''}
-								onChange={(event) => change('year', event.target.value)}
+								onChange={(event) =>
+									change('year', event.target.value.replace(/\D/g, '').slice(0, 4))
+								}
 								placeholder='Ano do projeto'
 							/>
 						</FormField>
@@ -122,7 +131,7 @@ export function SearchFilters({
 								value={departmentId}
 								onChange={setDepartmentId}
 								options={departments.data ?? []}
-								placeholder='Todas as unidades'
+								placeholder='Digite o nome ou código da unidade'
 							/>
 						</ServiceState>
 						{manager && (

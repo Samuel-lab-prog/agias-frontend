@@ -27,27 +27,30 @@ export function SearchSelect({
 	const collection = useMemo(
 		() =>
 			createListCollection({
-				items: options.filter(
-					(item) => item.id === value || normalize(optionLabel(item)).includes(normalize(search)),
+				items: options.filter((item) =>
+					normalize(optionLabel(item)).includes(normalize(search.trim())),
 				),
 				itemToString: optionLabel,
 				itemToValue: (item) => String(item.id),
 			}),
-		[options, search, value],
+		[options, search],
 	);
 	return (
 		<Combobox.Root
 			collection={collection}
 			value={value ? [String(value)] : []}
 			onValueChange={(details) => onChange(details.value[0] ? Number(details.value[0]) : null)}
-			onInputValueChange={(details) => setSearch(details.inputValue)}
+			onInputValueChange={(details) =>
+				setSearch(details.reason === 'input-change' ? details.inputValue : '')
+			}
 			onOpenChange={(details) => {
-				if (details.open) setSearch('');
+				if (details.open && details.reason !== 'input-change') setSearch('');
 			}}
 			disabled={disabled}
 			openOnClick
 			closeOnSelect
 			selectionBehavior='replace'
+			positioning={{ sameWidth: true }}
 			position='relative'
 			w='full'
 		>
@@ -57,6 +60,7 @@ export function SearchSelect({
 			<Combobox.Control position='relative' w='full'>
 				<Combobox.Input
 					placeholder={placeholder}
+					autoComplete='off'
 					w='full'
 					minH='44px'
 					bg='bg.canvas'
@@ -109,7 +113,7 @@ export function SearchSelect({
 					<Combobox.Content
 						maxH='280px'
 						w='full'
-						p={1}
+						p={1.5}
 						bg='bg.surface'
 						color='fg.default'
 						border='1px solid'
@@ -117,6 +121,8 @@ export function SearchSelect({
 						borderRadius='lg'
 						boxShadow='floating'
 						overflowY='auto'
+						overflowX='hidden'
+						css={{ scrollbarGutter: 'stable' }}
 					>
 						<Combobox.Empty px={3} py={3} color='fg.muted' fontSize='sm'>
 							Nenhuma opção encontrada.
@@ -125,26 +131,54 @@ export function SearchSelect({
 							<Combobox.Item
 								key={item.id}
 								item={item}
-								display='flex'
+								style={{ height: '40px', minHeight: '40px', maxHeight: '40px' }}
+								display='grid'
+								gridTemplateColumns='minmax(0, 1fr) auto'
 								alignItems='flex-start'
 								justifyContent='space-between'
-								gap={3}
+								gap={2}
+								h='40px'
 								minH='40px'
+								maxH='40px'
 								px={3}
-								py={2}
+								py={2.5}
+								pe={2}
 								borderRadius='md'
 								color='fg.default'
 								fontSize='sm'
-								lineHeight='1.4'
+								lineHeight='1.5'
 								textAlign='left'
-								whiteSpace='normal'
-								wordBreak='break-word'
+								whiteSpace='nowrap'
+								overflow='hidden'
 								cursor='pointer'
+								css={{
+									height: 'auto !important',
+									maxHeight: 'none !important',
+									minHeight: '40px',
+								}}
 								transition='background-color 180ms ease, color 180ms ease'
 								_hover={{ bg: 'action.primarySubtle', color: 'action.primaryStrong' }}
 								_highlighted={{ bg: 'action.primarySubtle', color: 'action.primaryStrong' }}
 							>
-								<Combobox.ItemText flex='1' minW={0} whiteSpace='normal'>
+								<Combobox.ItemText
+									style={{ height: '1.5em', minHeight: '1.5em', maxHeight: '1.5em' }}
+									display='block'
+									flex='1'
+									minW={0}
+									h='1.5em'
+									lineHeight='1.5'
+									whiteSpace='nowrap'
+									overflow='hidden'
+									textOverflow='ellipsis'
+									css={{
+										height: 'auto !important',
+										minHeight: '1.5em',
+										maxHeight: 'none !important',
+										display: 'block !important',
+										whiteSpace: 'normal !important',
+										overflow: 'visible !important',
+									}}
+								>
 									{optionLabel(item)}
 								</Combobox.ItemText>
 								<Combobox.ItemIndicator color='action.primary' flexShrink={0} />
