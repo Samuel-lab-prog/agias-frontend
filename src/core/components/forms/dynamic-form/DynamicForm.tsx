@@ -83,7 +83,7 @@ export function DynamicForm<T extends FieldValues>({
 				</Flex>
 			)}
 
-			<SimpleGrid w='full' columns={columns} gap={4}>
+			<SimpleGrid w='full' columns={columns} gap={{ base: 4, md: 6 }}>
 				{fields.map((field, index) =>
 					renderDynamicField({
 						field,

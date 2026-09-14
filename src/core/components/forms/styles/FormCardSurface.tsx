@@ -9,8 +9,8 @@ export function FormCard(props: FlexProps) {
 		<Flex
 			direction='column'
 			align='center'
-			gap={1}
-			p='0.5rem'
+			gap={5}
+			p='1rem'
 			w='full'
 			maxW='md'
 			border='1px solid'
@@ -24,23 +24,12 @@ export function FormCard(props: FlexProps) {
 				borderColor: 'border.interactive',
 				bg: 'bg.surface',
 			}}
-			_focusWithin={{
-				...liftMotion.focusVisible,
-				borderColor: 'border.interactive',
-				bg: 'bg.surface',
-				boxShadow: 'floating',
-			}}
 			_dark={{
 				borderColor: 'border.surface',
 				bg: 'bg.surface',
 				_hover: {
 					borderColor: 'border.interactive',
 					bg: 'bg.surface',
-				},
-				_focusWithin: {
-					borderColor: 'border.interactive',
-					bg: 'bg.surface',
-					boxShadow: 'floating',
 				},
 			}}
 			animationName='fade-in'

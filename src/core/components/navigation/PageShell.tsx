@@ -1,4 +1,4 @@
-import { Box, Flex, Grid } from '@chakra-ui/react';
+import { Box, Flex, Grid, HStack } from '@chakra-ui/react';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -105,8 +105,13 @@ export function NavigationPageShell({
 				<NavigationTopBar
 					title={preset.title}
 					subtitle={preset.subtitle}
-					rightContent={rightContent ?? <AccountIdentity />}
-					onMenuClick={() => setMobileNavOpen((value) => !value)}
+					rightContent={
+					<HStack gap={2}>
+						<AccountIdentity />
+						{rightContent}
+					</HStack>
+				}
+				 onMenuClick={() => setMobileNavOpen((value) => !value)}
 					menuOpen={mobileNavOpen}
 				/>
 			</Flex>

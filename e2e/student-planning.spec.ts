@@ -178,6 +178,7 @@ test('home summary excludes cancelled lessons and keeps assessments separate fro
 }) => {
 	await setup(page);
 	await page.goto('/student');
+	await expect(page.getByRole('link', { name: 'Abrir meu perfil' })).toBeVisible();
 	await expect(page.getByText('Nenhuma aula prevista para hoje.', { exact: true })).toBeVisible();
 	await expect(page.getByRole('link', { name: 'Banco de dados', exact: true })).toBeVisible();
 	await expect(page.getByText('2 atividades aguardando entrega', { exact: true })).toBeVisible();

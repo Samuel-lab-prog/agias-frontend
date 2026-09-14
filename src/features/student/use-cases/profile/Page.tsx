@@ -710,7 +710,12 @@ export function StudentProfilePage() {
 								handleSubmitFn={studentDetailsForm.handleSubmit}
 								buttonLabel='Salvar dados cadastrais'
 								columns={2}
-								cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
+								cardProps={{
+									maxW: 'full',
+									p: { base: 0, md: 1 },
+									border: 'none',
+									bg: 'transparent',
+								}}
 								extraContent={
 									studentDetailsForm.formState.errors.root?.server ? (
 										<Text color='status.error' role='alert'>
@@ -745,7 +750,12 @@ export function StudentProfilePage() {
 								clearErrors={passwordForm.clearErrors}
 								buttonLabel='Alterar senha'
 								columns={2}
-								cardProps={{ maxW: 'full', p: 0, border: 'none', bg: 'transparent' }}
+								cardProps={{
+									maxW: 'full',
+									p: { base: 0, md: 1 },
+									border: 'none',
+									bg: 'transparent',
+								}}
 								extraContent={
 									<>
 										{confirmPassword && newPassword !== confirmPassword ? (

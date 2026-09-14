@@ -13,9 +13,9 @@ export const studentNavigationPreset: NavigationPreset = {
 	title: 'AGIAS',
 	action: { label: 'Sair', to: '/login' },
 	links: [
+		{ label: 'Início', to: '/student', icon: Home },
 		{ label: 'Projetos', to: '/projects', icon: FlaskConical },
 		{ label: 'Documentos', to: '/documents', icon: FileText },
-		{ label: 'Início', to: '/student', icon: Home },
 		{ label: 'Disciplinas', to: '/student/classes', icon: BookOpen },
 		{ label: 'Meu perfil', to: '/student/profile', icon: UserRound },
 		{ label: 'Agenda de aulas', to: '/student/schedule', icon: CalendarDays },

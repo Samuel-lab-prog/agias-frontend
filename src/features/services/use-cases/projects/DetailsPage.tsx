@@ -1,3 +1,4 @@
+import { catalogFields, catalogLabels } from '@Api/projects/catalogs';
 import { type ProjectDetail, projects, type ProjectStatus } from '@Api/projects/endpoints';
 import { BaseButton, Surface } from '@BaseComponents';
 import {
@@ -18,6 +19,7 @@ import { useParams } from 'react-router-dom';
 import { ServicesShell } from '../../components/Shell';
 import { Feedback, FormField, ServiceHeader, ServiceLink, ServiceState } from '../../components/UI';
 import { dateLabel, finalReportLabels, kindLabels, originLabels, statusLabels } from '../../utils';
+import { ClassificationEditor } from './ClassificationEditor';
 import { Participants } from './Participants';
 function ProjectContent({ project }: { project: ProjectDetail }) {
 	const user = useAuthClientStore((s) => s.authClient),
@@ -27,6 +29,7 @@ function ProjectContent({ project }: { project: ProjectDetail }) {
 			!['completed', 'cancelled'].includes(project.status) &&
 			(manager || project.coordinatorId === user?.id);
 	const [target, setTarget] = useState<ProjectStatus | ''>('');
+	const [editingClassification, setEditingClassification] = useState(false);
 	const refresh = () =>
 		Promise.all([
 			client.invalidateQueries({ queryKey: ['project', project.id] }),
@@ -87,26 +90,34 @@ function ProjectContent({ project }: { project: ProjectDetail }) {
 						{finalReportLabels[project.finalReportStatus]}
 					</Text>
 					{project.department && <Text color='fg.muted'>Unidade: {project.department.name}</Text>}
-					{(project.researchLine || project.knowledgeArea || project.researchGroup) && (
-						<Text color='fg.muted'>
-							{[project.researchLine, project.knowledgeArea, project.researchGroup]
-								.filter(Boolean)
-								.join(' · ')}
-						</Text>
+					{catalogFields.map(
+						(field) =>
+							project[field] && (
+								<Text key={field} color='fg.muted'>
+									{catalogLabels[field]}: {project[field]?.name}
+									{project[field]?.active === false ? ' (inativa)' : ''}
+								</Text>
+							),
 					)}
-					{(project.fundingAgency ||
-						project.callName ||
-						project.nature ||
-						project.researchType) && (
-						<Text color='fg.muted'>
-							{[project.fundingAgency, project.callName, project.nature, project.researchType]
-								.filter(Boolean)
-								.join(' · ')}
-						</Text>
+					{editable && !editingClassification && (
+						<BaseButton
+							variant='secondary'
+							w='fit-content'
+							onClick={() => setEditingClassification(true)}
+						>
+							Editar classificação
+						</BaseButton>
 					)}
 					<Text whiteSpace='pre-wrap'>{project.objectives}</Text>
 				</VStack>
 			</Surface>
+			{editable && editingClassification && (
+				<ClassificationEditor
+					key={project.version}
+					project={project}
+					onClose={() => setEditingClassification(false)}
+				/>
+			)}
 			{editable && options.length > 0 && (
 				<Surface variant='panel'>
 					<form

@@ -25,15 +25,12 @@ export function FieldContainer({
 			borderRadius='md'
 			transition={subtleMotion.transition}
 			_focusWithin={{
-				...subtleMotion.focusVisible,
-				borderColor: hasError ? 'status.error' : 'border.interactive',
 				bg: 'bg.surface',
 			}}
 			_dark={{
 				borderColor: hasError ? 'status.error' : 'transparent',
 				bg: hasError ? 'bg.surface' : 'transparent',
 				_focusWithin: {
-					borderColor: hasError ? 'status.error' : 'border.interactive',
 					bg: 'bg.surface',
 				},
 			}}

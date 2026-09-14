@@ -116,6 +116,10 @@ const StaffClassDetailsPage = lazyPage(
 	() => import('./features/staff/use-cases/classes/DetailsPage'),
 	(module) => module.StaffClassDetailsPage,
 );
+const ProjectCatalogsPage = lazyPage(
+	() => import('./features/services/use-cases/projects/CatalogsPage'),
+	(m) => m.ProjectCatalogsPage,
+);
 const ProjectsPage = lazyPage(
 	() => import('./features/services/use-cases/projects/Page'),
 	(m) => m.ProjectsPage,
@@ -190,6 +194,13 @@ const router = createBrowserRouter([
 			<RoleGate allowedRoles={['admin', 'staff', 'professor']}>
 				{renderLazyPage(ProjectsPage)}
 			</RoleGate>
+		),
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/projects/catalogs',
+		element: (
+			<RoleGate allowedRoles={['admin', 'staff']}>{renderLazyPage(ProjectCatalogsPage)}</RoleGate>
 		),
 		errorElement: <ErrorPage />,
 	},

@@ -15,9 +15,9 @@ export const professorNavigationPreset: NavigationPreset = {
 	subtitle: 'Espaço docente',
 	action: { label: 'Sair', to: '/login' },
 	links: [
+		{ label: 'Início', to: '/professor', icon: Home },
 		{ label: 'Projetos', to: '/projects', icon: FlaskConical },
 		{ label: 'Documentos', to: '/documents', icon: FileText },
-		{ label: 'Início', to: '/professor', icon: Home },
 		{ label: 'Minhas turmas', to: '/professor/classes', icon: School },
 		{ label: 'Atividades', to: '/professor/activities', icon: ClipboardList },
 		{ label: 'Calendário', to: '/professor/calendar', icon: CalendarDays },

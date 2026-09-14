@@ -1,21 +1,17 @@
 import { createHTTPRequest } from '@Utils';
-export type ProjectKind = 'teaching' | 'research' | 'extension';
+
+import type { CatalogEntry, CatalogType, ClassificationIds } from './catalogs';
+import type { ProjectKind } from './types';
+export type { ProjectKind } from './types';
 export type ProjectStatus = 'draft' | 'submitted' | 'active' | 'completed' | 'cancelled';
 export type ProjectOrigin = 'internal' | 'external';
 export type FinalReportStatus = 'not_submitted' | 'submitted' | 'approved';
-export type ProjectBody = {
+export type ProjectBody = ClassificationIds & {
 	title: string;
 	objectives: string;
 	kind: ProjectKind;
 	origin?: ProjectOrigin;
 	departmentId?: number;
-	researchLine?: string;
-	knowledgeArea?: string;
-	researchGroup?: string;
-	fundingAgency?: string;
-	callName?: string;
-	nature?: string;
-	researchType?: string;
 	startsAt: string;
 	endsAt: string;
 };
@@ -29,7 +25,7 @@ export type Participant = {
 	approvedHours: number | null;
 	user: { id: number; name: string };
 };
-export type Project = Omit<ProjectBody, 'origin'> & {
+export type Project = Omit<ProjectBody, 'origin'> & { [K in CatalogType]: CatalogEntry | null } & {
 	id: number;
 	code: string;
 	year: number;
@@ -56,30 +52,27 @@ export type ProjectDetail = Project & {
 };
 const base = '/projects';
 export const projects = {
-	list: (query: {
-		page?: number;
-		q?: string;
-		code?: string;
-		year?: number;
-		researcher?: string;
-		departmentId?: number;
-		kind?: string;
-		origin?: string;
-		status?: string;
-		finalReport?: string;
-		scope?: string;
-		ownership?: string;
-		researchLine?: string;
-		knowledgeArea?: string;
-		researchGroup?: string;
-		fundingAgency?: string;
-		callName?: string;
-		nature?: string;
-		researchType?: string;
-	}) =>
+	list: (
+		query: ClassificationIds & {
+			page?: number;
+			q?: string;
+			code?: string;
+			year?: number;
+			researcher?: string;
+			departmentId?: number;
+			kind?: string;
+			origin?: string;
+			status?: string;
+			finalReport?: string;
+			scope?: string;
+			ownership?: string;
+		},
+	) =>
 		createHTTPRequest<{ items: Project[]; total: number; page: number; pageSize: number }>({
 			path: base + '/',
-			query,
+			query: Object.fromEntries(
+				Object.entries(query).map(([key, value]) => [key, value ?? undefined]),
+			),
 		}),
 	departments: (scope?: string) =>
 		createHTTPRequest<{ id: number; name: string; code: string }[]>({
@@ -88,8 +81,20 @@ export const projects = {
 		}),
 	reportUrl: (query: Record<string, string>) => {
 		const search = new URLSearchParams(query);
+		search.delete('view');
+		search.delete('searched');
+		search.delete('page');
 		return base + '/report?' + search.toString();
 	},
+	updateClassification: (
+		id: number,
+		body: ClassificationIds & { departmentId: number | null; version: number },
+	) =>
+		createHTTPRequest<{ id: number }, typeof body>({
+			path: `${base}/${id}/classification`,
+			method: 'PUT',
+			body,
+		}),
 	detail: (id: number) => createHTTPRequest<ProjectDetail>({ path: base + '/' + id }),
 	create: (body: ProjectBody) =>
 		createHTTPRequest<Project, ProjectBody>({ path: base + '/', method: 'POST', body }),
